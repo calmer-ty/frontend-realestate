@@ -4,10 +4,10 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
     <html lang="en">
-      <body>{children}11</body>
+      <body>{children}</body>
     </html>
   );
 }
