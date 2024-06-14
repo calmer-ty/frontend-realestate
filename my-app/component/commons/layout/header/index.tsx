@@ -1,3 +1,13 @@
+import LayoutNavigation from "../navigation";
+import * as S from "./styles";
+
 export default function LayoutHeader(): JSX.Element {
-  return <header>header</header>;
+  return (
+    <S.Header>
+      <S.Inner>
+        <S.Logo>logo</S.Logo>
+        <LayoutNavigation />
+      </S.Inner>
+    </S.Header>
+  );
 }
