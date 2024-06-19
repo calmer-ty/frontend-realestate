@@ -1,0 +1,23 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+}
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  width: 1024px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  max-height: 100%;
+  border: 1px solid blue;
+}
+.main-inner {
+  width: 1024px;
+  border: 1px solid green;
+}
