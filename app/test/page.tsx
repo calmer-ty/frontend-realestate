@@ -3,10 +3,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
 export default function TestPage(): JSX.Element {
   const [data, setData] = useState<any>(null);
-  // const naverMapsClientId = process.env.REACT_APP_NAVER_MAPS_Client_ID;
-  // console.log(naverMapsClientId);
+  const ncpClientId = process.env.REACT_APP_NCP_CLIENT_ID;
 
   useEffect(() => {
     // 데이터를 가져오는 함수
@@ -14,8 +19,8 @@ export default function TestPage(): JSX.Element {
       try {
         const response = await axios.get("/api/apartmentInfo");
         setData(response.data);
-        console.log(response.data);
-        console.log(response.data.response.body.items.item[0]);
+        // console.log(response.data);
+        // console.log(response.data.response.body.items.item[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -29,11 +34,11 @@ export default function TestPage(): JSX.Element {
     // 네이버 지도 API 스크립트 요소 생성
     const script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qy5xb3w0w6`;
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
     script.async = true;
 
     // 스크립트 로드 완료 후 처리할 함수
-    const initMap = () => {
+    const initMap = (): void => {
       // 네이버 지도 API가 로드된 후에 실행되어야 함
       const mapOptions = {
         center: new window.naver.maps.LatLng(37.3595704, 127.105399),
@@ -61,12 +66,12 @@ export default function TestPage(): JSX.Element {
       // 문서에서 스크립트 제거
       document.head.removeChild(script);
     };
-  }, []);
+  }, [ncpClientId]);
 
   return (
     <>
       {data !== null ? JSON.stringify(data) : "Loading..."}
-      <div id="map" style={{ width: "100%", height: "400px" }}>
+      <div id="map" style={{ width: "100%", height: "300px" }}>
         {/* 네이버 지도를 보여줄 영역 */}
       </div>
     </>

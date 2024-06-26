@@ -7,7 +7,6 @@ export default async function handler(
 ): Promise<void> {
   const apartmentInfoKey = process.env.REACT_APP_APARTMENT_INFO;
   const url = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=11110&DEAL_YMD=201512&serviceKey=${apartmentInfoKey}`;
-
   try {
     const response = await axios.get(url);
     res.status(200).json(response.data);
