@@ -46,6 +46,7 @@ export default function TestPage(): JSX.Element {
       };
 
       const map = new window.naver.maps.Map("map", mapOptions);
+      console.log(map);
 
       // 지도 클릭 이벤트 예시
       // window.naver.maps.Event.addListener(map, "click", (e) => {
