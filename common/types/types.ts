@@ -8,7 +8,10 @@ export interface IApartmentData {
   };
 }
 interface IApartmentItem {
+  법정동: string;
+  법정동본번코드: string;
   거래금액: string;
+  아파트: string;
 }
 
 export interface IReginCdData {
