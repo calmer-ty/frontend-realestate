@@ -5,8 +5,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  const apartmentInfoKey = process.env.NEXT_PUBLIC_APARTMENT_INFO;
-  const url = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=11110&DEAL_YMD=201512&serviceKey=${apartmentInfoKey}`;
+  const APIKey = process.env.NEXT_PUBLIC_STAN_REGIN_CD_KEY;
+  const url = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${APIKey}&type=json&pageNo=1&numOfRows=2&flag=Y&locatadd_nm=서울특별시`;
   try {
     const response = await axios.get(url);
     res.status(200).json(response.data);
