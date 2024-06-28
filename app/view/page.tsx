@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import type { IApartmentData } from "@/common/types/types";
+import type { IApartmentData } from "@/commons/types";
 
 declare global {
   interface Window {
