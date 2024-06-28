@@ -12,9 +12,8 @@ declare global {
 
 // 데이터의 타입 정의
 
-export default function TestPage(): JSX.Element {
+export default function ViewPage(): JSX.Element {
   const [apartment, setApartment] = useState<IApartmentData | null>(null);
-  // const [reginCd, setReginCd] = useState<IReginCdData | null>(null);
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
   console.log("apartment: ", apartment);
 
@@ -25,9 +24,6 @@ export default function TestPage(): JSX.Element {
       try {
         const apartmentData = await axios.get<IApartmentData>("/api/apartment");
         setApartment(apartmentData.data);
-
-        // const reginCdData = await axios.get<IReginCdData>("/api/reginCd");
-        // setReginCd(reginCdData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -61,47 +57,47 @@ export default function TestPage(): JSX.Element {
       };
 
       const map = new window.naver.maps.Map("map", mapOptions);
+      console.log(map);
 
       // 아파트 데이터가 있는 경우에만 마커를 생성하고 표시
-      if (apartment !== null) {
-        await Promise.all(
-          apartment.response.body.items.item.map(async (item) => {
-            try {
-              const { 법정동, 법정동본번코드, 아파트, 거래금액 } = item;
-              const address = `${법정동} ${법정동본번코드} ${아파트}`;
-              console.log(address);
+      // if (apartment !== null) {
+      //   await Promise.all(
+      //     apartment?.response?.body.items.item.map(async (item) => {
+      //       try {
+      //         const { 법정동, 법정동본번코드, 아파트, 거래금액 } = item;
+      //         const address = `서울특별시 ${법정동} ${법정동본번코드} ${아파트}`;
 
-              // 주소를 이용하여 좌표를 가져오는 함수 호출
-              const { data: coords } = await axios.get<{
-                latitude: number;
-                longitude: number;
-              }>(`/api/geocode?address=${encodeURIComponent(address)}`);
+      //         // 주소를 이용하여 좌표를 가져오는 함수 호출
+      //         const { data: coords } = await axios.get<{
+      //           latitude: number;
+      //           longitude: number;
+      //         }>(`/api/geocode?address=${encodeURIComponent(address)}`);
 
-              // 좌표를 이용하여 마커 생성
-              const markerOptions = {
-                position: new window.naver.maps.LatLng(
-                  coords.latitude,
-                  coords.longitude,
-                ),
-                map,
-                // title: 아파트,
-              };
-              const marker = new window.naver.maps.Marker(markerOptions);
+      //         // 좌표를 이용하여 마커 생성
+      //         const markerOptions = {
+      //           position: new window.naver.maps.LatLng(
+      //             coords.latitude,
+      //             coords.longitude,
+      //           ),
+      //           map,
+      //           // title: 아파트,
+      //         };
+      //         const marker = new window.naver.maps.Marker(markerOptions);
 
-              // 마커를 지도에 표시
-              const infoWindow = new window.naver.maps.InfoWindow({
-                content: address + 거래금액, // 인포 윈도우에 표시할 내용
-              });
+      //         // 마커를 지도에 표시
+      //         const infoWindow = new window.naver.maps.InfoWindow({
+      //           content: address + 거래금액, // 인포 윈도우에 표시할 내용
+      //         });
 
-              window.naver.maps.Event.addListener(marker, "click", () => {
-                infoWindow.open(map, marker);
-              });
-            } catch (error) {
-              console.error("Error fetching geocode:", error);
-            }
-          }),
-        );
-      }
+      //         window.naver.maps.Event.addListener(marker, "click", () => {
+      //           infoWindow.open(map, marker);
+      //         });
+      //       } catch (error) {
+      //         console.error("Error fetching geocode:", error);
+      //       }
+      //     }),
+      //   );
+      // }
 
       // const address = "충무로4가 306 남산센트럴자이";
       // try {
@@ -141,7 +137,7 @@ export default function TestPage(): JSX.Element {
   return (
     <>
       {/* {stanReginCd !== null ? JSON.stringify(stanReginCd) : "Loading..."} */}
-      <div id="map" style={{ width: "100%", height: "300px" }}></div>
+      <div id="map" style={{ width: "100%", height: "100%" }}></div>
     </>
   );
 }
