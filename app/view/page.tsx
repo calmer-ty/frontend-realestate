@@ -2,37 +2,22 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import type { IApartmentData } from "@/commons/types";
 
 declare global {
   interface Window {
     naver: any;
   }
 }
+interface GeocodeResult {
+  latitude: number;
+  longitude: number;
+}
 
 // 데이터의 타입 정의
 
 export default function ViewPage(): JSX.Element {
-  const [apartment, setApartment] = useState<IApartmentData | null>(null);
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
-  console.log("apartment: ", apartment);
 
-  // 공공 데이터 아파트 실거래가 조회
-  useEffect(() => {
-    // 데이터를 가져오는 함수
-    const fetchData = async (): Promise<void> => {
-      try {
-        const apartmentData = await axios.get<IApartmentData>("/api/apartment");
-        setApartment(apartmentData.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    // 페이지 로드 시 데이터 가져오기
-    void fetchData();
-  }, []);
-
-  // 네이버 지도
   useEffect(() => {
     // 환경 변수에서 클라이언트 ID 가져오기
     setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
@@ -53,87 +38,58 @@ export default function ViewPage(): JSX.Element {
     const initMap = async (): Promise<void> => {
       const mapOptions = {
         center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 16,
+        zoom: 10,
       };
 
       const map = new window.naver.maps.Map("map", mapOptions);
-      console.log(map);
 
-      // 아파트 데이터가 있는 경우에만 마커를 생성하고 표시
-      // if (apartment !== null) {
-      //   await Promise.all(
-      //     apartment?.response?.body.items.item.map(async (item) => {
-      //       try {
-      //         const { 법정동, 법정동본번코드, 아파트, 거래금액 } = item;
-      //         const address = `서울특별시 ${법정동} ${법정동본번코드} ${아파트}`;
+      // axios를 사용하여 지오코딩 데이터를 가져오는 부분을 별도의 useEffect로 분리
+      const fetchGeocode = async (): Promise<void> => {
+        try {
+          const addresses = ["충무로4가 306 남산센트럴자이", "중앙로 25길 21"];
+          const { data: coords } = await axios.post<GeocodeResult[]>(
+            "/api/geocode",
+            {
+              addresses,
+            },
+          );
+          console.log(coords); // 받은 좌표 데이터를 출력
 
-      //         // 주소를 이용하여 좌표를 가져오는 함수 호출
-      //         const { data: coords } = await axios.get<{
-      //           latitude: number;
-      //           longitude: number;
-      //         }>(`/api/geocode?address=${encodeURIComponent(address)}`);
+          coords.forEach((coord, index) => {
+            if (coord !== undefined && coord !== null) {
+              const { latitude, longitude } = coord;
 
-      //         // 좌표를 이용하여 마커 생성
-      //         const markerOptions = {
-      //           position: new window.naver.maps.LatLng(
-      //             coords.latitude,
-      //             coords.longitude,
-      //           ),
-      //           map,
-      //           // title: 아파트,
-      //         };
-      //         const marker = new window.naver.maps.Marker(markerOptions);
+              const markerOptions = {
+                position: new window.naver.maps.LatLng(latitude, longitude),
+                map,
+              };
+              const marker = new window.naver.maps.Marker(markerOptions);
 
-      //         // 마커를 지도에 표시
-      //         const infoWindow = new window.naver.maps.InfoWindow({
-      //           content: address + 거래금액, // 인포 윈도우에 표시할 내용
-      //         });
+              const infoWindow = new window.naver.maps.InfoWindow({
+                content: addresses[index], // 각 주소에 맞는 인포 윈도우 내용으로 변경
+              });
 
-      //         window.naver.maps.Event.addListener(marker, "click", () => {
-      //           infoWindow.open(map, marker);
-      //         });
-      //       } catch (error) {
-      //         console.error("Error fetching geocode:", error);
-      //       }
-      //     }),
-      //   );
-      // }
+              window.naver.maps.Event.addListener(marker, "click", () => {
+                infoWindow.open(map, marker);
+              });
+            }
+          });
+        } catch (error) {
+          console.error("Error fetching geocode:", error);
+        }
+      };
 
-      // const address = "충무로4가 306 남산센트럴자이";
-      // try {
-      //   const { data: coords } = await axios.get<{
-      //     latitude: number;
-      //     longitude: number;
-      //   }>(`/api/geocode?address=${encodeURIComponent(address)}`);
-      //   const markerOptions = {
-      //     position: new window.naver.maps.LatLng(
-      //       coords.latitude,
-      //       coords.longitude,
-      //     ),
-      //     map,
-      //   };
-      //   const marker = new window.naver.maps.Marker(markerOptions);
-
-      //   const infoWindow = new window.naver.maps.InfoWindow({
-      //     content: address, // 예시: 인포 윈도우에 표시할 내용
-      //   });
-
-      //   window.naver.maps.Event.addListener(marker, "click", () => {
-      //     infoWindow.open(map, marker);
-      //   });
-      // } catch (error) {
-      //   console.error("Error fetching geocode:", error);
-      // }
+      void fetchGeocode(); // fetchGeocode 함수 호출
     };
 
     // 클라이언트 ID가 로드된 후에 네이버 지도 API 스크립트 로드
-    if (ncpClientId !== undefined) {
+    if (ncpClientId !== undefined && ncpClientId !== null) {
       loadMapScript();
+      console.log(ncpClientId);
     } else {
       console.error("NEXT_PUBLIC_NCP_CLIENT_ID is not defined");
     }
-  }, [ncpClientId, apartment]);
-
+  }, [ncpClientId]); // ncpClientId가 변경될 때마다 useEffect가 재실행되도록 설정
   return (
     <>
       {/* {stanReginCd !== null ? JSON.stringify(stanReginCd) : "Loading..."} */}
