@@ -1,4 +1,4 @@
-import { add } from "@/app/test/page";
+import { add } from "@/app/test/jest/page";
 
 it("더하기 잘 되는지 테스트 해보기", () => {
   const result = add(3, 5);
