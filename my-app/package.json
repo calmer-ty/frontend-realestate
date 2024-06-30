@@ -26,6 +26,7 @@
     "react-hook-form": "^7.52.0"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^3.0.3",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^15.0.0",
     "@types/jest": "^29.5.12",
