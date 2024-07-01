@@ -1,3 +1,4 @@
+// 아파트
 export interface IApartmentData {
   response: {
     body: {
@@ -14,6 +15,15 @@ interface IApartmentItem {
   아파트: string;
 }
 
+// Geocode
+export interface IGeocodeCoord {
+  addresses: Array<{
+    x: string; // 경도
+    y: string; // 위도
+  }>;
+}
+
+// 법정동
 export interface IReginCdData {
   StanReginCd: Array<{
     row: Array<{
