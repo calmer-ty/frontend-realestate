@@ -19,6 +19,7 @@ export default function ViewPage(): JSX.Element {
   const [geocodeResults, setGeocodeResults] = useState<IGeocodeData[]>([]);
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
 
+  // 데이터 Fetch
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
@@ -31,8 +32,6 @@ export default function ViewPage(): JSX.Element {
     // 페이지 로드 시 데이터 가져오기
     void fetchData();
   }, []);
-
-  console.log(geocodeResults);
 
   useEffect(() => {
     setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
@@ -87,13 +86,12 @@ export default function ViewPage(): JSX.Element {
     };
 
     // 클라이언트 ID가 로드된 후에 네이버 지도 API 스크립트 로드
-    if (ncpClientId !== undefined && ncpClientId !== null) {
+    if (ncpClientId !== undefined) {
       loadMapScript();
-      console.log(ncpClientId);
     } else {
       console.error("NEXT_PUBLIC_NCP_CLIENT_ID is not defined");
     }
-  }, [ncpClientId, geocodeResults]); // ncpClientId가 변경될 때마다 useEffect가 재실행되도록 설정
+  }, [geocodeResults, ncpClientId]); // ncpClientId가 변경될 때마다 useEffect가 재실행되도록 설정
   return (
     <>
       {/* {stanReginCd !== null ? JSON.stringify(stanReginCd) : "Loading..."} */}
