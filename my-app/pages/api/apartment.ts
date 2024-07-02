@@ -2,6 +2,7 @@ import axios from "axios";
 import type { IApartmentData, IReginCdData } from "@/commons/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// 지역정보 API에서 조회할 도시 목록
 const city = [
   "서울특별시",
   "경기도",
@@ -19,49 +20,61 @@ const city = [
   "경상남도",
 ];
 
+// 지역 정보에서 지역 코드를 추출하는 함수
+const getRegionIds = (regionData: IReginCdData): string[] => {
+  // regionData에서 지역 코드만 추출하여 배열로 반환
+  const regionIds = regionData.StanReginCd[1].row.map((el) =>
+    el.region_cd.replace(/.{5}$/, "")
+  );
+  return Array.from(new Set(regionIds)); // 중복 제거 후 배열로 변환
+};
+
+// 지역정보 API를 호출하여 데이터를 가져오는 함수
 const fetchRegionData = async (): Promise<IReginCdData> => {
-  const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-  const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${city[0]}`;
   try {
+    const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
+    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${city[0]}`;
     const response = await axios.get(reginCdUrl);
-    return response.data;
+    return response.data; // 지역정보 데이터 반환
   } catch (error) {
     throw new Error("Failed to fetch region codes");
   }
 };
-void fetchRegionData();
 
-const fetchApartmentData = async (
-  regionData: IReginCdData
+// 특정 지역의 아파트 정보를 가져오는 함수
+const fetchApartmentDataForRegion = async (
+  regionId: string
 ): Promise<IApartmentData[]> => {
   try {
     const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-    const regionIds = regionData.StanReginCd[1].row.map((el) =>
-      el.region_cd.replace(/.{5}$/, "")
-    );
-    const uniqueRegionIds = new Set(regionIds);
-
-    const requests = Array.from(uniqueRegionIds).map(async (el) => {
-      const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?numOfRows=10&LAWD_CD=${11710}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
-      const response = await axios.get(apartmentUrl);
-      return response.data;
-    });
-
-    return await Promise.all(requests);
+    const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?numOfRows=10&LAWD_CD=${regionId}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
+    const response = await axios.get(apartmentUrl);
+    return response.data; // 각 지역의 아파트 정보 데이터 반환
   } catch (error) {
     throw new Error("Failed to fetch apartment data");
   }
 };
 
+// Next.js API 라우트 핸들러 함수 정의
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   try {
-    const regionData = await fetchRegionData(); // 각 도시별 지역 데이터 가져오기
-    const apartmentData = await fetchApartmentData(regionData);
-    res.status(200).json(apartmentData);
+    // 지역 정보 데이터 가져오기
+    const regionData = await fetchRegionData();
+
+    // 지역 코드 추출
+    const regionIds = getRegionIds(regionData);
+
+    // 병렬로 각 지역의 아파트 정보 데이터 가져오기
+    const requests = regionIds.map((regionId) =>
+      fetchApartmentDataForRegion(regionId)
+    );
+
+    const apartmentData = await Promise.all(requests);
+    res.status(200).json(apartmentData); // JSON 형태로 아파트 정보 데이터 전송
   } catch (error) {
-    res.status(500).json({ error: "Error fetching data" });
+    res.status(500).json({ error: "Error fetching data" }); // 오류 발생 시 500 상태 코드와 오류 메시지 응답
   }
 }

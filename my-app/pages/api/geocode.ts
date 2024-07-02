@@ -2,70 +2,88 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { IApartmentData, IGeocodeCoord } from "@/commons/types";
 
-// 예시: 아파트 정보를 가져오는 함수
+interface IGeocodeResult {
+  latitude: number;
+  longitude: number;
+  address: string;
+}
+
+// 아파트 정보를 가져오는 비동기 함수 정의
 const fetchApartmentData = async (): Promise<IApartmentData[]> => {
   try {
     const response = await axios.get<IApartmentData[]>(
       "http://localhost:3000/api/apartment"
     );
-    return response.data;
+    return response.data; // 아파트 데이터 반환
   } catch (error) {
     console.error("Error fetching apartment data:", error);
     throw error;
   }
 };
 
+// 주소를 받아와 지오코딩 정보를 반환하는 비동기 함수 정의
+const fetchGeocode = async (
+  address: string
+): Promise<IGeocodeResult | null> => {
+  const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(
+    address
+  )}`;
+  try {
+    const response = await axios.get<IGeocodeCoord>(apiUrl, {
+      headers: {
+        "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
+        "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
+      },
+    });
+    if (response.data.addresses.length > 0) {
+      const { x, y } = response.data.addresses[0];
+      return {
+        latitude: parseFloat(y),
+        longitude: parseFloat(x),
+        address,
+      }; // 지오코딩 결과 반환
+    } else {
+      return null; // 주소에 대한 지오코딩 결과 없음
+    }
+  } catch (error) {
+    console.error(`Error geocoding address ${address}:`, error);
+    return null; // 지오코딩 요청 실패
+  }
+};
+
+// Next.js API route 핸들러 정의
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   console.log("===== geocode handler =====");
-  const apartmentData = await fetchApartmentData();
-
-  const addressesSet = new Set<string>(); // 중복을 제거하기 위한 Set 객체 생성
-  apartmentData.forEach((el) => {
-    // geocode로 주소값 찾기
-    el.response.body.items.item.forEach((el) => {
-      console.log("apartmentData =>>>", el.거래금액);
-      const address = `${el.법정동} ${el.법정동본번코드.replace(/^0+/g, "")}`;
-      addressesSet.add(address);
-    });
-  });
-  const uniqueAddresses = Array.from(addressesSet);
-
   try {
-    // 지오코딩 API 호출
+    // 아파트 데이터 불러오기
+    const apartmentData = await fetchApartmentData();
+
+    const addressesSet = new Set<string>(); // 중복을 제거하기 위한 Set 객체 생성
+    // 아파트 데이터에서 주소 추출하여 중복 제거 후 배열로 변환
+    apartmentData.forEach((apartment) => {
+      apartment.response.body.items.item.forEach((item) => {
+        const address = `${item.법정동} ${item.법정동본번코드.replace(
+          /^0+/g,
+          ""
+        )}`;
+        addressesSet.add(address);
+      });
+    });
+
+    const uniqueAddresses = Array.from(addressesSet); // 중복 제거된 주소 배열 생성
+
+    // 주소 배열을 이용하여 지오코딩 API를 병렬로 호출하여 결과 수집
     const geocodeResults = await Promise.all(
-      uniqueAddresses.map(async (address: string) => {
-        try {
-          const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(
-            address
-          )}`;
-          const response = await axios.get<IGeocodeCoord>(apiUrl, {
-            headers: {
-              "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
-              "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
-            },
-          });
-          if (response.data.addresses.length > 0) {
-            const { x, y } = response.data.addresses[0];
-            return {
-              latitude: parseFloat(y),
-              longitude: parseFloat(x),
-              // 좌표값 이외의 값들
-              address,
-            };
-          } else {
-            return null;
-          }
-        } catch (error) {
-          console.error(`Error geocoding address ${address}:`, error);
-          return null; // Geocode 실패 시 null 반환
-        }
-      })
+      uniqueAddresses.map((address: string) => fetchGeocode(address))
     );
+
+    // null이 아닌 지오코딩 결과만 필터링
     const filteredResults = geocodeResults.filter((result) => result !== null);
 
+    // 클라이언트에 필터링된 지오코딩 결과 반환
     res.status(200).json(filteredResults);
   } catch (error) {
     console.error("Error processing request:", error);
