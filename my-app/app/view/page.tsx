@@ -58,7 +58,6 @@ export default function ViewPage(): JSX.Element {
       const fetchGeocode = async (): Promise<void> => {
         try {
           geocodeResults.forEach((coord, index) => {
-            console.log(coord); // 받은 좌표 데이터를 출력
             if (coord !== undefined && coord !== null) {
               const { latitude, longitude, address } = coord;
 

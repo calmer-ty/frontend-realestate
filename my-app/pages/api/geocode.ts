@@ -1,6 +1,10 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { IApartmentData, IGeocodeCoord } from "@/commons/types";
+import NodeCache from "node-cache";
+
+// 메모리 내 캐시 객체 생성
+const cache = new NodeCache({ stdTTL: 3600 }); // 1시간 TTL 설정
 
 interface IGeocodeResult {
   latitude: number;
@@ -29,6 +33,13 @@ const fetchGeocode = async (
     address
   )}`;
   try {
+    // 캐시에서 데이터 조회
+    const cachedData = cache.get(address);
+    if (cachedData !== undefined) {
+      console.log(`Cache hit for ${address}`);
+      return cachedData as IGeocodeResult;
+    }
+
     const response = await axios.get<IGeocodeCoord>(apiUrl, {
       headers: {
         "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
@@ -37,11 +48,16 @@ const fetchGeocode = async (
     });
     if (response.data.addresses.length > 0) {
       const { x, y } = response.data.addresses[0];
-      return {
+      const geocodeResult = {
         latitude: parseFloat(y),
         longitude: parseFloat(x),
         address,
-      }; // 지오코딩 결과 반환
+      };
+
+      // 데이터를 캐시에 저장 (예: 1시간 동안 유지)
+      cache.set(address, geocodeResult, 3600);
+
+      return geocodeResult;
     } else {
       return null; // 주소에 대한 지오코딩 결과 없음
     }

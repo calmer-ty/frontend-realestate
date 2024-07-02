@@ -2,6 +2,10 @@ import axios from "axios";
 import type { IApartmentData, IReginCdData } from "@/commons/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// 메모리 내 캐시 객체
+const regionDataCache: Record<string, IReginCdData> = {};
+const apartmentDataCache: Record<string, IApartmentData[]> = {};
+
 // 지역정보 API에서 조회할 도시 목록
 const city = [
   "서울특별시",
@@ -34,8 +38,14 @@ const fetchRegionData = async (): Promise<IReginCdData> => {
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
     const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${city[0]}`;
-    const response = await axios.get(reginCdUrl);
-    return response.data; // 지역정보 데이터 반환
+
+    // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
+    if (regionDataCache[reginCdUrl] === undefined) {
+      const response = await axios.get(reginCdUrl);
+      regionDataCache[reginCdUrl] = response.data;
+    }
+
+    return regionDataCache[reginCdUrl];
   } catch (error) {
     throw new Error("Failed to fetch region codes");
   }
@@ -48,8 +58,14 @@ const fetchApartmentDataForRegion = async (
   try {
     const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
     const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?numOfRows=10&LAWD_CD=${regionId}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
-    const response = await axios.get(apartmentUrl);
-    return response.data; // 각 지역의 아파트 정보 데이터 반환
+
+    // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
+    if (apartmentDataCache[apartmentUrl] === undefined) {
+      const response = await axios.get(apartmentUrl);
+      apartmentDataCache[apartmentUrl] = response.data;
+    }
+
+    return apartmentDataCache[apartmentUrl];
   } catch (error) {
     throw new Error("Failed to fetch apartment data");
   }
@@ -60,6 +76,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
+  console.log("regionDataCache:", regionDataCache);
+  console.log("apartmentDataCache:", apartmentDataCache);
   try {
     // 지역 정보 데이터 가져오기
     const regionData = await fetchRegionData();
