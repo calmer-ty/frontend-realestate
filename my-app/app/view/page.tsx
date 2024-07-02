@@ -2,17 +2,14 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import type { IGeocodeData } from "@/commons/types";
 
 declare global {
   interface Window {
     naver: any;
   }
 }
-interface IGeocodeData {
-  latitude: number;
-  longitude: number;
-  address: string;
-}
+
 // 데이터의 타입 정의
 
 export default function ViewPage(): JSX.Element {
@@ -59,7 +56,8 @@ export default function ViewPage(): JSX.Element {
         try {
           geocodeResults.forEach((coord, index) => {
             if (coord !== undefined && coord !== null) {
-              const { latitude, longitude, address } = coord;
+              const { latitude, longitude, address, amount, buildingName } =
+                coord;
 
               const markerOptions = {
                 position: new window.naver.maps.LatLng(latitude, longitude),
@@ -68,7 +66,7 @@ export default function ViewPage(): JSX.Element {
               const marker = new window.naver.maps.Marker(markerOptions);
 
               const infoWindow = new window.naver.maps.InfoWindow({
-                content: address, // 각 주소에 맞는 인포 윈도우 내용으로 변경
+                content: `${address} ${buildingName} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
               });
 
               window.naver.maps.Event.addListener(marker, "click", () => {

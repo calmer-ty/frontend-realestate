@@ -23,6 +23,14 @@ export interface IGeocodeCoord {
   }>;
 }
 
+export interface IGeocodeData {
+  latitude: number;
+  longitude: number;
+  amount: number;
+  address: string;
+  buildingName: string;
+}
+
 // 법정동
 export interface IReginCdData {
   StanReginCd: Array<{

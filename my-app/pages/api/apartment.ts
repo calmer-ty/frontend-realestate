@@ -7,7 +7,7 @@ const regionDataCache: Record<string, IReginCdData> = {};
 const apartmentDataCache: Record<string, IApartmentData[]> = {};
 
 // 지역정보 API에서 조회할 도시 목록
-const city = [
+const citys = [
   "서울특별시",
   "경기도",
   "부산광역시",
@@ -37,7 +37,7 @@ const getRegionIds = (regionData: IReginCdData): string[] => {
 const fetchRegionData = async (): Promise<IReginCdData> => {
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${city[0]}`;
+    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${citys[0]}`;
 
     // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
     if (regionDataCache[reginCdUrl] === undefined) {
@@ -57,12 +57,19 @@ const fetchApartmentDataForRegion = async (
 ): Promise<IApartmentData[]> => {
   try {
     const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-    const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?numOfRows=10&LAWD_CD=${regionId}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
+    const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?&LAWD_CD=${regionId}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
 
     // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
     if (apartmentDataCache[apartmentUrl] === undefined) {
       const response = await axios.get(apartmentUrl);
-      apartmentDataCache[apartmentUrl] = response.data;
+      const totalCount: number = response.data.response.body.totalCount;
+      const numOfRows = Math.min(totalCount, 20); // 최대 20개까지만 요청하도록 설정
+
+      // 새로운 URL에 numOfRows를 추가하여 다시 요청
+      const limitedUrl = `${apartmentUrl}&numOfRows=${numOfRows}`;
+      const limitedResponse = await axios.get(limitedUrl);
+
+      apartmentDataCache[apartmentUrl] = limitedResponse.data;
     }
 
     return apartmentDataCache[apartmentUrl];
@@ -76,8 +83,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  console.log("regionDataCache:", regionDataCache);
-  console.log("apartmentDataCache:", apartmentDataCache);
+  // console.log(
+  //   "regionDataCache for URL:",
+  //   regionDataCache[
+  //     "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=XwiqW1NWk0Xl59Z18HVGJeIBaHPWk1KvQFMLwAHgQ9pJnoUPYl2wBDUEz0x%2BebLbCdwVxSBgVA2iF9DgLDx3kw%3D%3D&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=서울특별시"
+  //   ]
+  // );
+  // console.log(
+  //   "apartmentDataCache for URL:",
+  //   apartmentDataCache[
+  //     "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?numOfRows=20&LAWD_CD=11710&DEAL_YMD=201512&serviceKey=XwiqW1NWk0Xl59Z18HVGJeIBaHPWk1KvQFMLwAHgQ9pJnoUPYl2wBDUEz0x%2BebLbCdwVxSBgVA2iF9DgLDx3kw%3D%3D"
+  //   ]
+  // );
   try {
     // 지역 정보 데이터 가져오기
     const regionData = await fetchRegionData();

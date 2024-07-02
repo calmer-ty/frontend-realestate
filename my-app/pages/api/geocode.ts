@@ -1,16 +1,14 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { IApartmentData, IGeocodeCoord } from "@/commons/types";
+import type {
+  IApartmentData,
+  IGeocodeCoord,
+  IGeocodeData,
+} from "@/commons/types";
 import NodeCache from "node-cache";
 
 // 메모리 내 캐시 객체 생성
 const cache = new NodeCache({ stdTTL: 3600 }); // 1시간 TTL 설정
-
-interface IGeocodeResult {
-  latitude: number;
-  longitude: number;
-  address: string;
-}
 
 // 아파트 정보를 가져오는 비동기 함수 정의
 const fetchApartmentData = async (): Promise<IApartmentData[]> => {
@@ -26,9 +24,7 @@ const fetchApartmentData = async (): Promise<IApartmentData[]> => {
 };
 
 // 주소를 받아와 지오코딩 정보를 반환하는 비동기 함수 정의
-const fetchGeocode = async (
-  address: string
-): Promise<IGeocodeResult | null> => {
+const fetchGeocode = async (address: string): Promise<IGeocodeData | null> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(
     address
   )}`;
@@ -37,7 +33,7 @@ const fetchGeocode = async (
     const cachedData = cache.get(address);
     if (cachedData !== undefined) {
       console.log(`Cache hit for ${address}`);
-      return cachedData as IGeocodeResult;
+      return cachedData as IGeocodeData;
     }
 
     const response = await axios.get<IGeocodeCoord>(apiUrl, {
@@ -48,14 +44,39 @@ const fetchGeocode = async (
     });
     if (response.data.addresses.length > 0) {
       const { x, y } = response.data.addresses[0];
+
+      // 거래금액 초기값 설정
+      let amount = 0;
+      let buildingName = "-";
+
+      // 아파트 데이터에서 거래금액 추출
+      const apartmentData = await fetchApartmentData();
+      apartmentData.forEach((apartment) => {
+        apartment.response.body.items.item.forEach((item) => {
+          const itemAddress = `${item.법정동} ${item.법정동본번코드.replace(
+            /^0+/g,
+            ""
+          )}`;
+
+          // 주소가 일치하는 경우 거래금액을 할당
+          if (itemAddress === address) {
+            amount = Number(item.거래금액.split(",").join("")) / 10000;
+            console.log("amount", amount);
+            buildingName = item.아파트;
+          }
+        });
+      });
+
       const geocodeResult = {
         latitude: parseFloat(y),
         longitude: parseFloat(x),
         address,
+        amount,
+        buildingName,
       };
 
       // 데이터를 캐시에 저장 (예: 1시간 동안 유지)
-      cache.set(address, geocodeResult, 3600);
+      cache.set(address, geocodeResult, 7200);
 
       return geocodeResult;
     } else {
@@ -98,6 +119,9 @@ export default async function handler(
 
     // null이 아닌 지오코딩 결과만 필터링
     const filteredResults = geocodeResults.filter((result) => result !== null);
+
+    // 콘솔에 filteredResults 출력
+    // console.log("Filtered results:", filteredResults);
 
     // 클라이언트에 필터링된 지오코딩 결과 반환
     res.status(200).json(filteredResults);
