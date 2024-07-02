@@ -1,5 +1,9 @@
 import axios from "axios";
-import type { IApartmentData, IReginCdData } from "@/commons/types";
+import type {
+  IApartmentData,
+  IApartmentItem,
+  IReginCdData,
+} from "@/commons/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // 메모리 내 캐시 객체
@@ -38,17 +42,26 @@ const getRegionIds = (regionData: IReginCdData): string[] => {
 const fetchRegionData = async (city: string): Promise<IReginCdData> => {
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-
     const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(
       city
     )}`;
 
-    // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
-    if (regionDataCache[reginCdUrl] === undefined) {
-      const response = await axios.get(reginCdUrl);
-      regionDataCache[reginCdUrl] = response.data;
+    const cacheKey = `region_${city}`;
+    if (regionDataCache[cacheKey] !== undefined) {
+      return regionDataCache[cacheKey];
     }
-    return regionDataCache[reginCdUrl];
+
+    // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
+    // if (regionDataCache[reginCdUrl] === undefined) {
+    //   const response = await axios.get(reginCdUrl);
+    //   regionDataCache[reginCdUrl] = response.data;
+    // }
+
+    const response = await axios.get(reginCdUrl);
+    const regionData: IReginCdData = response.data;
+    regionDataCache[cacheKey] = regionData;
+
+    return regionData;
   } catch (error) {
     console.error(`Failed to fetch region data for ${city}:`, error);
     throw new Error(`Failed to fetch region data for ${city}`);
@@ -56,28 +69,49 @@ const fetchRegionData = async (city: string): Promise<IReginCdData> => {
 };
 
 // 특정 지역의 아파트 정보를 가져오는 함수
-const fetchApartmentDataForRegion = async (
+const fetchApartmentData = async (
   regionId: string
 ): Promise<IApartmentData[]> => {
   try {
     const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-
     const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?&LAWD_CD=${regionId}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
 
-    // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
-    if (apartmentDataCache[apartmentUrl] === undefined) {
-      const response = await axios.get(apartmentUrl);
-      const totalCount: number = response.data.response.body.totalCount;
-      const numOfRows = Math.min(totalCount, 20); // 최대 20개까지만 요청하도록 설정
-
-      // 새로운 URL에 numOfRows를 추가하여 다시 요청
-      const limitedUrl = `${apartmentUrl}&numOfRows=${numOfRows}`;
-      const limitedResponse = await axios.get(limitedUrl);
-
-      apartmentDataCache[apartmentUrl] = limitedResponse.data;
+    const cacheKey = `apartment_${regionId}`;
+    if (apartmentDataCache[cacheKey] !== undefined) {
+      return apartmentDataCache[cacheKey];
     }
 
-    return apartmentDataCache[apartmentUrl];
+    // // 캐시에서 데이터를 찾고, 없으면 API 호출하여 데이터를 캐시에 저장
+    // if (apartmentDataCache[apartmentUrl] === undefined) {
+    //   const response = await axios.get(apartmentUrl);
+    //   const totalCount: number = response.data.response.body.totalCount;
+    //   const numOfRows = Math.min(totalCount, 20); // 최대 20개까지만 요청하도록 설정
+
+    //   // 새로운 URL에 numOfRows를 추가하여 다시 요청
+    //   const limitedUrl = `${apartmentUrl}&numOfRows=${numOfRows}`;
+    //   const limitedResponse = await axios.get(limitedUrl);
+
+    //   apartmentDataCache[apartmentUrl] = limitedResponse.data;
+    // }
+
+    const response = await axios.get(apartmentUrl);
+    const totalCount: number = response.data.response.body.totalCount;
+    const numOfRows = Math.min(totalCount, 20); // 최대 20개까지만 요청하도록 설정
+
+    const limitedUrl = `${apartmentUrl}&numOfRows=${numOfRows}`;
+    const limitedResponse = await axios.get(limitedUrl);
+
+    // const apartmentData: IApartmentData[] = limitedResponse.data;
+    // apartmentDataCache[cacheKey] = apartmentData;
+    const apartmentData: IApartmentData[] =
+      limitedResponse.data.response.body.items.item.map(
+        (item: IApartmentItem) => ({
+          ...item,
+        })
+      );
+    apartmentDataCache[cacheKey] = apartmentData;
+
+    return apartmentData;
   } catch (error) {
     throw new Error("Failed to fetch apartment data");
   }
@@ -94,18 +128,28 @@ export default async function handler(
     const regionDataArray = await Promise.all(regionRequests);
 
     // 각 도시의 지역 코드 추출 후 객체로 변환
+    // const regionIdsObject: Record<string, string[]> = {};
+    // cities.forEach((city, index) => {
+    //   const regionData = regionDataArray[index];
+    //   regionIdsObject[city] = getRegionIds(regionData);
+    // });
     const regionIdsObject: Record<string, string[]> = {};
-    cities.forEach((city, index) => {
-      const regionData = regionDataArray[index];
+    regionDataArray.forEach((regionData, index) => {
+      const city = cities[index];
       regionIdsObject[city] = getRegionIds(regionData);
     });
 
     // 병렬로 각 지역의 아파트 정보 데이터 가져오기
-    const apartmentRequests = Object.values(regionIdsObject)
-      .flat()
-      .map((regionId) => fetchApartmentDataForRegion(regionId));
+    // const apartmentRequests = Object.values(regionIdsObject)
+    //   .flat()
+    //   .map((regionId) => fetchApartmentDataForRegion(regionId));
 
-    const apartmentData = await Promise.all(apartmentRequests);
+    // const apartmentData = await Promise.all(apartmentRequests);
+    const apartmentRequests = cities.map((city) => {
+      const regionIds = regionIdsObject[city];
+      return regionIds.map((regionId) => fetchApartmentData(regionId));
+    });
+    const apartmentData = await Promise.all(apartmentRequests.flat());
     res.status(200).json({ regionIdsObject, apartmentData }); // JSON 형태로 아파트 정보 데이터 전송
   } catch (error) {
     res.status(500).json({ error: "Error fetching apartmentData" }); // 오류 발생 시 500 상태 코드와 오류 메시지 응답

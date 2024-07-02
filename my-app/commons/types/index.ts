@@ -8,7 +8,7 @@ export interface IApartmentData {
     };
   };
 }
-interface IApartmentItem {
+export interface IApartmentItem {
   법정동: string;
   법정동본번코드: string;
   거래금액: string;
