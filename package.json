@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://openapi.molit.go.kr",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
