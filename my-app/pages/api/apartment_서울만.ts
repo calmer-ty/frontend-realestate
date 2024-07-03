@@ -1,9 +1,9 @@
 import axios from "axios";
-import type { IApartmentData, IRegionData } from "@/commons/types";
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { IApartmentData, IReginData } from "@/commons/types";
 
 // 메모리 내 캐시 객체
-const regionDataCache: Record<string, IReginData> = {};
+const regionDataCache: Record<string, IRegionData> = {};
 const apartmentDataCache: Record<string, IApartmentData[]> = {};
 
 // 지역정보 API에서 조회할 도시 목록
@@ -25,7 +25,7 @@ const citys = [
 ];
 
 // 지역 정보에서 지역 코드를 추출하는 함수
-const getRegionIds = (regionData: IReginData): string[] => {
+const getRegionIds = (regionData: IRegionData): string[] => {
   // regionData에서 지역 코드만 추출하여 배열로 반환
   const regionIds: string[] = regionData.StanReginCd[1].row.map((el: any) =>
     el.region_cd.replace(/.{5}$/, "")
@@ -34,7 +34,7 @@ const getRegionIds = (regionData: IReginData): string[] => {
 };
 
 // 지역정보 API를 호출하여 데이터를 가져오는 함수
-const fetchRegionData = async (): Promise<IReginData> => {
+const fetchRegionData = async (): Promise<IRegionData> => {
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
     const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${citys[0]}`;
