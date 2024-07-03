@@ -47,7 +47,7 @@ export const regionData = async (city: string): Promise<IRegionData> => {
   }
 };
 
-export const regionAllData = async (): Promise<any> => {
+export const regionAllData = async (): Promise<IRegionData[]> => {
   try {
     const promises = cities.map((city) => regionData(city));
     const regionDatas = await Promise.all(promises);

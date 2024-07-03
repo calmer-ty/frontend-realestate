@@ -1,6 +1,6 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import { regionData } from "@/commons/lib/regionData";
+import { regionData } from "@/commons/libraries/regionData";
 
 jest.mock("axios");
 
@@ -80,6 +80,8 @@ describe("regionData", () => {
       },
       // 필요한 만큼 객체를 추가할 수 있습니다.
     ];
+    // 필요한 만큼 객체를 추가할 수 있습니다.
+
     cache.set(`region_${city}`, mockCachedData);
 
     const result = await regionData(city);
