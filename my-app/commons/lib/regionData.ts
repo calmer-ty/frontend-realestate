@@ -1,6 +1,6 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import type { IReginCdData } from "@/commons/types";
+import type { IRegionData } from "@/commons/types";
 
 const cities = [
   "서울특별시",
@@ -21,9 +21,9 @@ const cities = [
 
 const cache = new NodeCache({ stdTTL: 7200 });
 
-export const fetchRegionData = async (city: string): Promise<IReginCdData> => {
+export const regionData = async (city: string): Promise<IRegionData> => {
   const cacheKey = `region_${city}`;
-  const cachedData = cache.get<IReginCdData>(cacheKey);
+  const cachedData = cache.get<IRegionData>(cacheKey);
 
   if (cachedData !== undefined) {
     console.log(`Cache hit for region data of ${city}`);
@@ -37,7 +37,7 @@ export const fetchRegionData = async (city: string): Promise<IReginCdData> => {
     )}`;
 
     const response = await axios.get(reginCdUrl);
-    const regionData: IReginCdData = response.data;
+    const regionData: IRegionData = response.data;
     cache.set(cacheKey, regionData, 7200); // 캐시 만료 시간 설정 (여기서는 7200초, 즉 2시간)
 
     return regionData;
@@ -47,9 +47,9 @@ export const fetchRegionData = async (city: string): Promise<IReginCdData> => {
   }
 };
 
-export const fetchAllRegionData = async (): Promise<any> => {
+export const regionAllData = async (): Promise<any> => {
   try {
-    const promises = cities.map((city) => fetchRegionData(city));
+    const promises = cities.map((city) => regionData(city));
     const regionDatas = await Promise.all(promises);
     regionDatas.forEach((regionData, index) => {
       console.log(`Region data for ${cities[index]}:`, regionData);

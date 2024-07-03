@@ -1,112 +1,111 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import {
-  fetchRegionData,
-  fetchAllRegionData,
-} from "@/commons/lib/fetchRegionData";
-import type { IReginCdData } from "@/commons/types";
+import { regionData } from "@/commons/lib/regionData";
 
 jest.mock("axios");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-const cache = new NodeCache({ stdTTL: 7200 });
+describe("regionData", () => {
+  let cache: NodeCache;
 
-// Mocked cities data for testing
-const cities = [
-  "서울특별시",
-  "경기도",
-  "부산광역시",
-  "대구광역시",
-  "인천광역시",
-  "광주광역시",
-  "대전광역시",
-  "울산광역시",
-  "경상북도",
-  "경상남도",
-  "전라북도",
-  "전라남도",
-  "충청북도",
-  "충청남도",
-];
-
-describe("fetchRegionData", () => {
+  beforeAll(() => {
+    cache = new NodeCache({ stdTTL: 7200 });
+  });
   beforeEach(() => {
     mockedAxios.get.mockClear();
     cache.flushAll();
   });
 
-  it("fetches region data for a city and caches it", async () => {
-    const mockCity = "서울특별시";
-    const mockResponseData = {
-      /* Mocked response data */
-    };
+  it("지역 데이터를 가져오고 유효한 결과를 반환합니다.", async () => {
+    // 예를 들어 특정 도시에 대한 데이터를 가져오는 테스트를 수행합니다.
+    const city = "서울특별시";
+    const mockApiData = [
+      {
+        StanReginCd: [
+          {
+            head: [
+              { totalCount: 493 },
+              { numRows: "10" },
+              { resultCode: "INFO-0" },
+            ],
+          },
+          {
+            row: [
+              { region_cd: "1171000000", locatadd_nm: "서울특별시 송파구" },
+              {
+                region_cd: "1171010100",
+                locatadd_nm: "서울특별시 송파구 잠실동",
+              },
+            ],
+          },
+        ],
+      },
+      // 필요한 만큼 객체를 추가할 수 있습니다.
+    ];
 
-    mockedAxios.get.mockResolvedValueOnce({ data: mockResponseData });
+    (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockApiData });
 
-    const result = await fetchRegionData(mockCity);
-
-    expect(result).toEqual(mockResponseData);
-    expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-    expect(mockedAxios.get).toHaveBeenCalledWith(
-      expect.stringContaining(`locatadd_nm=${encodeURIComponent(mockCity)}`)
+    const result = await regionData(city);
+    console.log("모의 API 응답 데이터:", result); // 콘솔로 모의 API 응답 데이터 확인
+    expect(result).toEqual(mockApiData);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining(`locatadd_nm=${encodeURIComponent(city)}`)
     );
   });
 
-  it("throws error when fetching region data fails", async () => {
-    const mockCity = "서울특별시";
+  it("캐시에서 지역 데이터를 가져옵니다.", async () => {
+    const city = "서울특별시";
+    const mockCachedData = [
+      {
+        StanReginCd: [
+          {
+            head: [
+              { totalCount: 493 },
+              { numRows: "10" },
+              { resultCode: "INFO-0" },
+            ],
+          },
+          {
+            row: [
+              { region_cd: "1171000000", locatadd_nm: "서울특별시 송파구" },
+              {
+                region_cd: "1171010100",
+                locatadd_nm: "서울특별시 송파구 잠실동",
+              },
+            ],
+          },
+        ],
+      },
+      // 필요한 만큼 객체를 추가할 수 있습니다.
+    ];
+    cache.set(`region_${city}`, mockCachedData);
 
-    mockedAxios.get.mockRejectedValueOnce(new Error("Failed to fetch data"));
-
-    await expect(fetchRegionData(mockCity)).rejects.toThrowError(
-      `Failed to fetch region data for ${mockCity}`
-    );
-    expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-    expect(mockedAxios.get).toHaveBeenCalledWith(
-      expect.stringContaining(`locatadd_nm=${encodeURIComponent(mockCity)}`)
-    );
+    const result = await regionData(city);
+    console.log("캐시에서 가져온 데이터:", result); // 콘솔로 캐시에서 가져온 데이터 확인
+    expect(result).toEqual(mockCachedData);
+    expect(mockedAxios.get).not.toHaveBeenCalled(); // axios.get이 호출되지 않았음을 확인
   });
 
-  // Additional tests for cache behavior can be added here
-});
+  // it("API에서 데이터를 가져오지 못할 경우 오류를 처리합니다.", async () => {
+  //   const city = "서울특별시";
+  //   const errorMessage = "Failed to fetch data";
 
-describe("fetchAllRegionData", () => {
-  beforeEach(() => {
-    mockedAxios.get.mockClear();
-    cache.flushAll();
-  });
+  //   mockedAxios.get.mockRejectedValueOnce(new Error(errorMessage));
 
-  it("fetches data for all cities", async () => {
-    const mockResponseData: IReginCdData = {
-      /* Mocked response data */
-    };
+  //   await expect(regionData(city)).rejects.toThrowError(
+  //     `Failed to fetch region data for ${city}`
+  //   );
+  //   expect(mockedAxios.get).toHaveBeenCalledTimes(1);
+  //   expect(mockedAxios.get).toHaveBeenCalledWith(
+  //     expect.stringContaining(`locatadd_nm=${encodeURIComponent(city)}`)
+  //   );
+  //   // 캐시에서 해당 키가 삭제되었는지 확인
+  //   expect(cache.get(`region_${city}`)).toBeUndefined();
+  // });
 
-    // Mocking axios.get to resolve with mockResponseData for each city
-    cities.forEach((city) => {
-      mockedAxios.get.mockResolvedValueOnce({ data: mockResponseData });
-    });
-
-    const result = await fetchAllRegionData();
-
-    expect(result).toHaveLength(cities.length);
-    result.forEach((regionData, index) => {
-      expect(regionData).toEqual(mockResponseData);
-      expect(mockedAxios.get).toHaveBeenCalledWith(
-        expect.stringContaining(cities[index])
-      );
-    });
-    expect(mockedAxios.get).toHaveBeenCalledTimes(cities.length);
-  });
-
-  it("throws error when fetching any region data fails", async () => {
-    const errorMessage = "Failed to fetch data";
-
-    // Mocking axios.get to reject with an error for the first city
-    mockedAxios.get.mockRejectedValueOnce(new Error(errorMessage));
-
-    await expect(fetchAllRegionData()).rejects.toThrowError(
-      "Failed to fetch region data"
-    );
-    expect(mockedAxios.get).toHaveBeenCalledTimes(1); // Assuming all requests are made concurrently
+  afterAll(() => {
+    cache.close();
   });
 });

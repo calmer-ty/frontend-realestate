@@ -32,7 +32,7 @@ export interface IGeocodeData {
 }
 
 // 법정동
-export interface IReginCdData {
+export interface IRegionData {
   StanReginCd: Array<{
     row: Array<{
       region_cd: string;
