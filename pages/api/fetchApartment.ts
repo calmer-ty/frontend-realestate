@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { fetchAllRegionData } from "../../commons/lib/regionData";
+import { fetchAllRegionData } from "../../commons/libraries/apartmentData";
 
 export default async function handler(
   req: NextApiRequest,
