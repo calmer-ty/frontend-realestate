@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { IApartmentData, IReginData } from "@/commons/types";
+import type { IApartmentData, IRegionData } from "@/commons/types";
 
 // 메모리 내 캐시 객체
 const regionDataCache: Record<string, IRegionData> = {};
@@ -23,7 +23,6 @@ const citys = [
   "충청남도",
   "경상남도",
 ];
-
 // 지역 정보에서 지역 코드를 추출하는 함수
 const getRegionIds = (regionData: IRegionData): string[] => {
   // regionData에서 지역 코드만 추출하여 배열로 반환
