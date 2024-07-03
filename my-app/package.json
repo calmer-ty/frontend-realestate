@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://openapi.molit.go.kr",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -32,11 +33,13 @@
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^15.0.0",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20",
+    "@types/node": "^20.14.9",
+    "@types/node-cache": "^4.2.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-transition-group": "^4.4.10",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "axios-mock-adapter": "^1.22.0",
     "eslint": "^8.0.1",
     "eslint-config-next": "14.2.4",
     "eslint-config-prettier": "^9.1.0",
@@ -51,8 +54,9 @@
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "prettier": "2.8.8",
+    "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
-    "typescript": "*"
+    "typescript": "^5.5.3"
   },
   "resolutions": {
     "@types/react": "18"
