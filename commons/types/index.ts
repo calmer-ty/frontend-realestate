@@ -36,6 +36,7 @@ export interface IRegionData {
   StanReginCd: Array<{
     row: Array<{
       region_cd: string;
+      locatadd_nm: string;
     }>;
   }>;
 }
