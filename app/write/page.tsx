@@ -7,8 +7,8 @@ import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import InputRequired01 from "@/input/required/01";
-import InputReadOnly01 from "@/input/readOnly/01";
+import InputRequired01 from "@/components/input/required/01";
+import InputReadOnly01 from "@/components/input/readOnly/01";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData, IWritePageProps } from "./types";

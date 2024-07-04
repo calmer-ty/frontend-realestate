@@ -1,4 +1,4 @@
-// import type { Firestore } from "firebase/firestore";
+import type { Firestore } from "firebase/firestore";
 
 export interface IWriteFormData {
   title: string;
@@ -6,5 +6,5 @@ export interface IWriteFormData {
 }
 
 export interface IWritePageProps {
-  firestore: unknown;
+  firestore: Firestore;
 }
