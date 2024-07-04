@@ -1,7 +1,8 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import type { IRegionData } from "@/commons/types";
+import type { IRegionData } from "@/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
+// 지역 데이터를 가져올 도시 리스트
 const cities = [
   "서울특별시",
   "경기도",
@@ -19,44 +20,50 @@ const cities = [
   "충청남도",
 ];
 
+// 데이터를 캐시할 NodeCache 인스턴스를 TTL이 7200초(2시간)로 초기화합니다
 const cache = new NodeCache({ stdTTL: 7200 });
 
+// 특정 도시의 지역 데이터를 가져오는 함수
 export const regionData = async (city: string): Promise<IRegionData> => {
   const cacheKey = `region_${city}`;
-  const cachedData = cache.get<IRegionData>(cacheKey);
+  const cachedData = cache.get<IRegionData>(cacheKey); // 캐시에서 데이터를 가져옵니다
 
   if (cachedData !== undefined) {
-    console.log(`Cache hit for region data of ${city}`);
-    return cachedData;
+    console.log(`${city}의 지역 데이터 캐시 히트`);
+    return cachedData; // 캐시된 데이터가 있으면 반환합니다
   }
 
   try {
-    const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
+    const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA; // 환경 변수에서 API 키를 가져옵니다
     const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(
       city
     )}`;
 
-    const response = await axios.get(reginCdUrl);
-    const regionData: IRegionData = response.data;
-    cache.set(cacheKey, regionData, 7200); // 캐시 만료 시간 설정 (여기서는 7200초, 즉 2시간)
+    const response = await axios.get(reginCdUrl); // HTTP GET 요청을 보내 지역 데이터를 가져옵니다
+    const regionData: IRegionData = response.data; // 가져온 지역 데이터를 변수에 저장합니다
 
-    return regionData;
+    cache.set(cacheKey, regionData, 7200); // 가져온 데이터를 캐시에 저장하며 TTL을 7200초(2시간)로 설정합니다
+
+    return regionData; // 가져온 지역 데이터를 반환합니다
   } catch (error) {
-    console.error(`Failed to fetch region data for ${city}:`, error);
-    throw new Error(`Failed to fetch region data for ${city}`);
+    console.error(`${city}의 지역 데이터를 가져오지 못했습니다:`, error); // 데이터 가져오기 실패 시 에러를 로깅합니다
+    throw new Error(`${city}의 지역 데이터를 가져오는 데 실패했습니다`); // 에러를 throw하여 호출자에게 전달합니다
   }
 };
 
+// 모든 도시의 지역 데이터를 일괄적으로 가져오는 함수
 export const regionAllData = async (): Promise<IRegionData[]> => {
   try {
-    const promises = cities.map((city) => regionData(city));
-    const regionDatas = await Promise.all(promises);
+    const promises = cities.map((city) => regionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
+    const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
+
     regionDatas.forEach((regionData, index) => {
-      console.log(`Region data for ${cities[index]}:`, regionData);
+      console.log(`${cities[index]}의 지역 데이터:`, regionData); // 각 도시의 가져온 지역 데이터를 로깅합니다
     });
-    return regionDatas;
+
+    return regionDatas; // 모든 도시의 지역 데이터 배열을 반환합니다
   } catch (error) {
-    console.error("Error fetching region data:", error);
-    throw error; // 이 부분에서 예외를 다시 throw하여 호출자에게 전파할 수 있도록 합니다.
+    console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
+    throw error; // 에러를 throw하여 호출자에게 전달합니다
   }
 };
