@@ -1,3 +1,13 @@
+// 지역코드
+export interface IRegionData {
+  StanReginCd: Array<{
+    row: Array<{
+      region_cd: string;
+      locatadd_nm: string;
+    }>;
+  }>;
+}
+
 // 아파트
 export interface IApartmentData {
   response: {
@@ -28,15 +38,9 @@ export interface IGeocodeData {
   longitude: number;
   amount: number;
   address: string;
-  buildingName: string;
 }
 
-// 법정동
-export interface IRegionData {
-  StanReginCd: Array<{
-    row: Array<{
-      region_cd: string;
-      locatadd_nm: string;
-    }>;
-  }>;
+export interface NaverMapProps {
+  geocodeResults: IGeocodeData[];
+  ncpClientId: string | undefined;
 }

@@ -14,10 +14,13 @@ const cities = [
   "울산광역시",
   "경상북도",
   "경상남도",
-  "전라북도",
   "전라남도",
   "충청북도",
   "충청남도",
+  "세종특별자치시",
+  "전북특별자치도",
+  "제주특별자치도",
+  "강원특별자치도",
 ];
 
 // 데이터를 캐시할 NodeCache 인스턴스를 TTL이 7200초(2시간)로 초기화합니다
@@ -35,7 +38,7 @@ export const regionData = async (city: string): Promise<IRegionData> => {
 
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA; // 환경 변수에서 API 키를 가져옵니다
-    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(
+    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=4&flag=Y&locatadd_nm=${encodeURIComponent(
       city
     )}`;
 
