@@ -60,9 +60,9 @@ export const regionAllData = async (): Promise<IRegionData[]> => {
     const promises = cities.map((city) => regionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
-    regionDatas.forEach((regionData, index) => {
-      console.log(`${cities[index]}의 지역 데이터:`, regionData); // 각 도시의 가져온 지역 데이터를 로깅합니다
-    });
+    // regionDatas.forEach((regionData, index) => {
+    //   console.log(`${cities[index]}의 지역 데이터:`, regionData); // 각 도시의 가져온 지역 데이터를 로깅합니다
+    // });
 
     return regionDatas; // 모든 도시의 지역 데이터 배열을 반환합니다
   } catch (error) {

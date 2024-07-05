@@ -65,6 +65,5 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
   const geocodeResults = (await Promise.all(geocodePromises)).filter(
     (result): result is IGeocodeData => result !== null
   );
-  console.log("geocodeResult: ", geocodeResults);
   return geocodeResults;
 };
