@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import type { NaverMapProps } from "@/commons/types";
 
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
 export default function NaverMap({
   geocodeResults,
   ncpClientId,
@@ -23,10 +29,10 @@ export default function NaverMap({
 
       const map = new window.naver.maps.Map("map", mapOptions);
 
-      // fetchGeocode 불러오기
-
-      geocodeResults.forEach((coord) => {
-        if (coord !== undefined && coord !== null) {
+      const markers: any[] = geocodeResults
+        .filter((coord) => coord !== undefined && coord !== null)
+        .map((coord) => {
+          // if (coord !== undefined && coord !== null) {
           const { latitude, longitude, address, amount } = coord;
 
           const markerOptions = {
@@ -43,7 +49,38 @@ export default function NaverMap({
           window.naver.maps.Event.addListener(marker, "click", () => {
             infoWindow.open(map, marker);
           });
-        }
+          return marker;
+          // }
+          // return null;
+        })
+        .filter((marker) => marker !== null);
+
+      // 보이는 곳만 마커 불러오기
+      const updateMarkers = (map: any, markers: any): void => {
+        const mapBounds = map.getBounds();
+
+        markers.forEach((marker: any) => {
+          const position = marker.getPosition();
+          if (mapBounds.hasLatLng(position) === true) {
+            showMarker(map, marker);
+          } else {
+            hideMarker(marker);
+          }
+        });
+      };
+
+      const showMarker = (map: any, marker: any): void => {
+        if (marker.getMap() === true) return;
+        marker.setMap(map);
+      };
+
+      const hideMarker = (marker: any): void => {
+        if (marker.getMap() === false) return;
+        marker.setMap(null);
+      };
+
+      window.naver.maps.Event.addListener(map, "idle", function () {
+        updateMarkers(map, markers);
       });
     };
 
