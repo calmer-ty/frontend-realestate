@@ -20,7 +20,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         longitude: number;
       }>(cacheKey);
       if (cachedData !== undefined) {
-        console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
+        // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
         return {
           ...cachedData,
           address,
@@ -52,7 +52,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
           geocodeCache.set(cacheKey, geocodeResult);
           return geocodeResult;
         } else {
-          console.log(`주소 ${address}에 대한 지오코딩 결과 없음`);
+          // console.log(`주소 ${address}에 대한 지오코딩 결과 없음`);
           return null;
         }
       } catch (error) {

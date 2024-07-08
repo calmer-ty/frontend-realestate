@@ -5,6 +5,9 @@ export interface IRegionData {
       region_cd: string;
       locatadd_nm: string;
     }>;
+    head: Array<{
+      totalCount: number;
+    }>;
   }>;
 }
 

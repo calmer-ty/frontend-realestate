@@ -32,7 +32,7 @@ export const apartmentData = async (): Promise<IApartmentData[]> => {
       // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
       const cachedData = cache.get<IApartmentData[]>(cacheKey);
       if (cachedData !== undefined) {
-        console.log(`지역 코드 ${regionCd}에 대한 아파트 데이터 캐시 히트`);
+        // console.log(`지역 코드 ${regionCd}에 대한 아파트 데이터 캐시 히트`);
         return Promise.resolve(cachedData); // 캐시된 데이터가 있으면 즉시 반환합니다
       }
 
