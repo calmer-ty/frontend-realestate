@@ -38,7 +38,7 @@ export const regionData = async (city: string): Promise<IRegionData> => {
 
   try {
     const reginCdKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA; // 환경 변수에서 API 키를 가져옵니다
-    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=4&flag=Y&locatadd_nm=${encodeURIComponent(
+    const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${reginCdKey}&type=json&pageNo=1&numOfRows=300&flag=Y&locatadd_nm=${encodeURIComponent(
       city
     )}`;
 
@@ -46,6 +46,11 @@ export const regionData = async (city: string): Promise<IRegionData> => {
     const regionData: IRegionData = response.data; // 가져온 지역 데이터를 변수에 저장합니다
 
     cache.set(cacheKey, regionData, 7200); // 가져온 데이터를 캐시에 저장하며 TTL을 7200초(2시간)로 설정합니다
+
+    console.log(
+      "regionDataregionData",
+      regionData.StanReginCd[0].head[0].totalCount
+    );
 
     return regionData; // 가져온 지역 데이터를 반환합니다
   } catch (error) {
