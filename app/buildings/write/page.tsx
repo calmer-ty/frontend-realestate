@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react"; // React의 상태 관리 훅인 useState를 가져옵니다
-import { useForm } from "react-hook-form"; // react-hook-form을 사용하여 폼 관리 훅을 가져옵니다
-import { firebaseApp } from "@/pages/api/firebase"; // Firebase 애플리케이션을 초기화하는 firebaseApp을 가져옵니다
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { firebaseApp } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore"; // Firestore 관련 함수들을 가져옵니다
 
 import { Button } from "@mui/material"; // Material-UI의 Button 컴포넌트를 가져옵니다
 import DaumPostcodeEmbed from "react-daum-postcode"; // Daum 우편번호 서비스를 제공하는 react-daum-postcode를 가져옵니다
-import InputRequired01 from "@/components/input/required/01"; // 필수 입력 필드 컴포넌트를 가져옵니다
-import InputReadOnly01 from "@/components/input/readOnly/01"; // 읽기 전용 입력 필드 컴포넌트를 가져옵니다
+import InputRequired01 from "@/components/commons/input/required/01"; // 필수 입력 필드 컴포넌트를 가져옵니다
+import InputReadOnly01 from "@/components/commons/input/readOnly/01"; // 읽기 전용 입력 필드 컴포넌트를 가져옵니다
 
 import type { Address } from "react-daum-postcode"; // react-daum-postcode에서 사용되는 주소 타입을 가져옵니다
 import type { IWriteFormData, IWritePageProps } from "./types"; // 해당 파일에서 사용되는 폼 데이터 및 props 타입을 가져옵니다
