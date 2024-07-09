@@ -3,20 +3,20 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { firebaseApp } from "@/pages/api/firebase";
-import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore"; // Firestore 관련 함수들을 가져옵니다
+import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore";
 
-import { Button } from "@mui/material"; // Material-UI의 Button 컴포넌트를 가져옵니다
-import DaumPostcodeEmbed from "react-daum-postcode"; // Daum 우편번호 서비스를 제공하는 react-daum-postcode를 가져옵니다
-import InputRequired01 from "@/components/commons/input/required/01"; // 필수 입력 필드 컴포넌트를 가져옵니다
-import InputReadOnly01 from "@/components/commons/input/readOnly/01"; // 읽기 전용 입력 필드 컴포넌트를 가져옵니다
+import { Button } from "@mui/material";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import InputRequired01 from "@/components/commons/input/required/01";
+import InputReadOnly01 from "@/components/commons/input/readOnly/01";
 
-import type { Address } from "react-daum-postcode"; // react-daum-postcode에서 사용되는 주소 타입을 가져옵니다
-import type { IWriteFormData, IWritePageProps } from "./types"; // 해당 파일에서 사용되는 폼 데이터 및 props 타입을 가져옵니다
-import * as S from "./styles"; // 스타일을 가져옵니다
+import type { Address } from "react-daum-postcode";
+import type { IWriteFormData, IWritePageProps } from "./types";
+import * as S from "./styles";
 
 export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
-  const { register, handleSubmit, setValue } = useForm<IWriteFormData>(); // react-hook-form을 사용하여 폼 상태를 관리합니다
-  const [selectedAddress, setSelectedAddress] = useState<string>(""); // 주소 검색 결과를 관리하는 상태 변수입니다
+  const { register, handleSubmit, setValue } = useForm<IWriteFormData>();
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = (data: IWriteFormData): void => {
