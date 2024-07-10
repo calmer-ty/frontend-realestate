@@ -1,3 +1,10 @@
+/* 폰트 */
+@font-face {
+  font-family: "NotoSansKR-Regular";
+  src: url("/fonts/NotoSansKR-Regular.ttf");
+  font-weight: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +13,7 @@
 html,
 body {
   height: 100%;
+  font-family: "NotoSansKR-Regular", sans-serif;
 }
 ul,
 ol,
