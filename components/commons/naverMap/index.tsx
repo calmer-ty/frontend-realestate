@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { NaverMapProps } from "@/commons/types";
+import { markerStyle, mapStyle } from "./styles"; // markerStyles 파일에서 markerStyle 가져오기
 
 declare global {
   interface Window {
@@ -12,9 +13,6 @@ export default function NaverMap({
   geocodeResults,
   ncpClientId,
 }: NaverMapProps): JSX.Element {
-  const [loading, setLoading] = useState(true);
-  // CSS 스타일 객체 정의
-
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
     const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
@@ -29,12 +27,15 @@ export default function NaverMap({
     };
 
     const initMap = async (): Promise<void> => {
-      // if (!window.naver || !window.MarkerClustering) {
-      //   console.error(
-      //     "네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다."
-      //   );
-      //   return;
-      // }
+      if (
+        typeof window.naver === "undefined" ||
+        typeof window.MarkerClustering === "undefined"
+      ) {
+        console.error(
+          "네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다."
+        );
+        return;
+      }
 
       const mapOptions = {
         center: new window.naver.maps.LatLng(37.3595704, 127.105399),
@@ -52,51 +53,6 @@ export default function NaverMap({
         .filter((coord) => coord !== undefined && coord !== null)
         .map((coord) => {
           const { latitude, longitude, address, amount, area } = coord;
-
-          const markerStyle = {
-            container: `
-              position: relative;
-              min-width: 56px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              border: 1px solid #254336;
-              border-radius: 5px;
-              color: #FFF;
-            `,
-            top: `
-              width: 100%;
-              border-top-left-radius: inherit;
-              border-top-right-radius: inherit;
-              background-color: #6B8A7A;
-              text-align: center;
-            `,
-            bottom: `
-              width: 100%;
-              padding: 2px;
-              border-bottom-left-radius: inherit;
-              border-bottom-right-radius: inherit;
-              background-color: #FFF;
-              color: #000;
-              text-align: center;
-          `,
-            bottom_unit1: `
-              font-size: 12px;
-            `,
-            arrow: `
-              width: 14px;
-              height: 14px;
-              background-color: #FFF;
-              position: absolute;
-              bottom: -7px;
-              left: 50%;
-              transform: translateX(-50%) rotate(135deg);
-              border: 1px solid #254336;
-              /* border-right: none; */
-              /* border-bottom: none; */
-              clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
-            `,
-          };
 
           const markerOptions = {
             position: new window.naver.maps.LatLng(latitude, longitude),
@@ -152,14 +108,11 @@ export default function NaverMap({
         },
       });
 
-      // 클러스터링 완료 후 로딩 상태 업데이트
-      window.naver.maps.Event.addListener(
-        markerClustering,
-        "clusteringend",
-        () => {
-          setLoading(false);
-        }
-      );
+      const message =
+        geocodeResults.length === 0
+          ? "geocodeResults는 빈 배열입니다."
+          : "geocodeResults는 비어 있지 않은 배열입니다.";
+      console.log(message);
 
       // 보이는 곳만 마커 불러오기
       const updateMarkers = (map: any, markers: any): void => {
@@ -195,12 +148,15 @@ export default function NaverMap({
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, initMap);
     });
   }, [geocodeResults, ncpClientId]);
-  console.log("loading: ", loading);
 
   return (
     <>
-      {loading ? "로딩중" : "완료"}
-      <div id="map" style={{ width: "100%", height: "100%" }}></div>;
+      <div style={mapStyle.info}>
+        <p>
+          {geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}
+        </p>
+      </div>
+      <div id="map" style={mapStyle.container}></div>
     </>
   );
 }
