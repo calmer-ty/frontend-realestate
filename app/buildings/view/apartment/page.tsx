@@ -17,7 +17,6 @@ export default function ApartmentPage(): JSX.Element {
           "/api/fetchGeocode"
         );
         setGeocodeResults(geocodeResponse.data);
-        console.log(geocodeResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error); // 데이터 가져오기 실패 시 에러를 콘솔에 로깅합니다
       }

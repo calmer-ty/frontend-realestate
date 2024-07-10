@@ -55,6 +55,7 @@ export const apartmentData = async (): Promise<IApartmentData[]> => {
     });
 
     const results = await Promise.all(apartmentDataPromises);
+
     return results; // 최종 결과를 IApartmentData[] 타입으로 반환
   } catch (error) {
     console.error(`지역 데이터를 가져오는 중 에러 발생:`, error);
