@@ -26,6 +26,7 @@ export interface IApartmentItem {
   법정동본번코드: string;
   거래금액: string;
   아파트: string;
+  전용면적: number;
 }
 
 // Geocode
@@ -41,6 +42,7 @@ export interface IGeocodeData {
   longitude: number;
   amount: number;
   address: string;
+  area: number;
 }
 
 export interface NaverMapProps {

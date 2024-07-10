@@ -10,8 +10,10 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
   const geocodePromises = apartmentResults.flatMap((result) => {
     const items = result?.response?.body?.items?.item ?? [];
     return items.map(async (item) => {
+      const area = Math.round(item.전용면적 * 0.3025);
       const address = `${item.법정동} ${item.법정동본번코드} ${item.아파트}`;
-      const amount = Number(item.거래금액.replace(/,/g, "")) / 10000;
+      const amount =
+        Math.round((Number(item.거래금액.replace(/,/g, "")) / 10000) * 10) / 10;
       const cacheKey = `geocode_${address}`;
 
       // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
@@ -25,6 +27,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
           ...cachedData,
           address,
           amount,
+          area,
         };
       }
 
@@ -46,6 +49,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
             longitude: parseFloat(x),
             address,
             amount,
+            area,
           };
 
           // 데이터를 캐시에 저장합니다
@@ -65,5 +69,6 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
   const geocodeResults = (await Promise.all(geocodePromises)).filter(
     (result): result is IGeocodeData => result !== null
   );
+
   return geocodeResults;
 };
