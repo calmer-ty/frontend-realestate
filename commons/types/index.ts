@@ -49,3 +49,11 @@ export interface NaverMapProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
 }
+
+// marker
+// 타입 정의
+export interface IMarkerData {
+  address: string;
+  amount: number;
+  area: number;
+}

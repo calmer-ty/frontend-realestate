@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import type { NaverMapProps } from "@/commons/types";
+import { useEffect, useState } from "react";
+import type { NaverMapProps, IMarkerData } from "@/commons/types";
 import { markerStyle, mapStyle } from "./styles"; // markerStyles 파일에서 markerStyle 가져오기
 
 declare global {
@@ -9,10 +9,10 @@ declare global {
   }
 }
 
-export default function NaverMap({
-  geocodeResults,
-  ncpClientId,
-}: NaverMapProps): JSX.Element {
+export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps): JSX.Element {
+  //
+  const [visibleMarkerGroup, setVisibleMarkerGroup] = useState<IMarkerData[]>([]);
+
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
     const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
@@ -27,13 +27,8 @@ export default function NaverMap({
     };
 
     const initMap = async (): Promise<void> => {
-      if (
-        typeof window.naver === "undefined" ||
-        typeof window.MarkerClustering === "undefined"
-      ) {
-        console.error(
-          "네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다."
-        );
+      if (typeof window.naver === "undefined" || typeof window.MarkerClustering === "undefined") {
+        console.error("네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다.");
         return;
       }
 
@@ -49,10 +44,19 @@ export default function NaverMap({
 
       const map = new window.naver.maps.Map("map", mapOptions);
 
+      // 마커를 담을 Map 생성
+      const markerMap = new Map();
+
       const markers: any[] = geocodeResults
         .filter((coord) => coord !== undefined && coord !== null)
         .map((coord) => {
           const { latitude, longitude, address, amount, area } = coord;
+
+          // 이미 해당 주소의 마커가 있는지 확인
+          if (markerMap.has(address)) {
+            // 이미 있는 경우 기존 마커를 사용
+            return markerMap.get(address);
+          }
 
           const markerOptions = {
             position: new window.naver.maps.LatLng(latitude, longitude),
@@ -72,6 +76,9 @@ export default function NaverMap({
           marker.set("address", address);
           marker.set("amount", amount);
           marker.set("area", area);
+
+          // 마커를 Map에 추가
+          markerMap.set(address, marker);
 
           const infoWindow = new window.naver.maps.InfoWindow({
             content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
@@ -98,7 +105,7 @@ export default function NaverMap({
       };
 
       const markerClustering = new window.MarkerClustering({
-        minClusterSize: 3,
+        minClusterSize: 2,
         maxZoom: 13,
         map,
         markers,
@@ -107,47 +114,33 @@ export default function NaverMap({
         icons: createClusterMarkers(),
         indexGenerator: [10, 100, 200, 500, 1000],
         stylingFunction: (clusterMarker: any, count: any) => {
-          clusterMarker
-            .getElement()
-            .querySelector("div:first-child").innerText = count;
+          clusterMarker.getElement().querySelector("div:first-child").innerText = count;
         },
       });
 
       // 보이는 곳만 마커 불러오기
-      let visibleMarkers: any[] = [];
 
       const updateMarkers = (map: any, markers: any): void => {
         const mapBounds = map.getBounds();
-        visibleMarkers = []; // 기존 배열 초기화
+        const visibleMarkers: IMarkerData[] = [];
 
         markers.forEach((marker: any) => {
           const position = marker.getPosition();
           if (mapBounds.hasLatLng(position) === true) {
-            showMarker(map, marker);
-          } else {
-            hideMarker(marker);
+            const markerData: IMarkerData = {
+              address: marker.get("address"),
+              amount: marker.get("amount"),
+              area: marker.get("area"),
+            };
+            visibleMarkers.push(markerData);
           }
         });
-        console.log("Visible markers data array:", visibleMarkers); // 현재 보이는 마커 데이터 배열 출력
+
+        setVisibleMarkerGroup(visibleMarkers);
       };
 
-      const showMarker = (map: any, marker: any): void => {
-        if (marker.getMap() === true) return;
-        marker.setMap(map);
-
-        // 마커의 데이터를 콘솔에 출력
-        const markerData = {
-          address: marker.get("address"),
-          amount: marker.get("amount"),
-          area: marker.get("area"),
-        };
-        visibleMarkers.push(markerData);
-      };
-
-      const hideMarker = (marker: any): void => {
-        if (marker.getMap() === false) return;
-        marker.setMap(null);
-      };
+      // 보이는 곳만 마커 불러오기
+      updateMarkers(map, markers);
 
       window.naver.maps.Event.addListener(map, "idle", function () {
         markerClustering.setMap(map);
@@ -160,17 +153,25 @@ export default function NaverMap({
     });
   }, [geocodeResults, ncpClientId]);
 
+  console.log("visibleMarkerGroup: ", visibleMarkerGroup);
+
   return (
     <>
       <div id="map" style={mapStyle.container}>
         <div style={mapStyle.info}>
-          <p style={mapStyle.info.message}>
-            {geocodeResults.length === 0
-              ? "지도 정보를 불러오는 중입니다."
-              : ""}
-          </p>
+          <p style={mapStyle.info.message}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
         </div>
-        <div style={mapStyle.list}>list</div>
+        <ul style={mapStyle.list}>
+          {visibleMarkerGroup.map((el, index) => {
+            return (
+              <li key={`${el.address}_${index}`}>
+                <p>Address: {el.address}</p>
+                <p>Amount: {el.amount}</p>
+                <p>Area: {el.area}</p>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </>
   );
