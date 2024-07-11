@@ -4,8 +4,30 @@ export const mapStyle = {
     height: "100%",
   },
   info: {
-    position: "absolute",
+    position: "relative",
+    width: "100%",
+    height: "100%",
     color: "#FFF",
+
+    // message
+    message: {
+      position: "absolute",
+      left: "50%",
+      top: "50%",
+      color: "red",
+      backgroundColor: "#dedede",
+      zIndex: "1",
+      transform: "translate(-50%,-50%)",
+    },
+  },
+  list: {
+    position: "absolute",
+    top: "0",
+    left: "0",
+    width: "200px",
+    height: "100%",
+    backgroundColor: "#dedede",
+    zIndex: "1",
   },
 } as const;
 export const markerStyle = {

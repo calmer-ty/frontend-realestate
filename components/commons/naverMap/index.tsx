@@ -42,7 +42,7 @@ export default function NaverMap({
         zoom: 10,
         zoomControl: true,
         zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_LEFT,
+          position: window.naver.maps.Position.TOP_RIGHT,
           style: window.naver.maps.ZoomControlStyle.SMALL,
         },
       };
@@ -67,6 +67,11 @@ export default function NaverMap({
             },
           };
           const marker = new window.naver.maps.Marker(markerOptions);
+
+          // 마커에 데이터를 설정
+          marker.set("address", address);
+          marker.set("amount", amount);
+          marker.set("area", area);
 
           const infoWindow = new window.naver.maps.InfoWindow({
             content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
@@ -108,15 +113,12 @@ export default function NaverMap({
         },
       });
 
-      const message =
-        geocodeResults.length === 0
-          ? "geocodeResults는 빈 배열입니다."
-          : "geocodeResults는 비어 있지 않은 배열입니다.";
-      console.log(message);
-
       // 보이는 곳만 마커 불러오기
+      let visibleMarkers: any[] = [];
+
       const updateMarkers = (map: any, markers: any): void => {
         const mapBounds = map.getBounds();
+        visibleMarkers = []; // 기존 배열 초기화
 
         markers.forEach((marker: any) => {
           const position = marker.getPosition();
@@ -126,11 +128,20 @@ export default function NaverMap({
             hideMarker(marker);
           }
         });
+        console.log("Visible markers data array:", visibleMarkers); // 현재 보이는 마커 데이터 배열 출력
       };
 
       const showMarker = (map: any, marker: any): void => {
         if (marker.getMap() === true) return;
         marker.setMap(map);
+
+        // 마커의 데이터를 콘솔에 출력
+        const markerData = {
+          address: marker.get("address"),
+          amount: marker.get("amount"),
+          area: marker.get("area"),
+        };
+        visibleMarkers.push(markerData);
       };
 
       const hideMarker = (marker: any): void => {
@@ -151,12 +162,16 @@ export default function NaverMap({
 
   return (
     <>
-      <div style={mapStyle.info}>
-        <p>
-          {geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}
-        </p>
+      <div id="map" style={mapStyle.container}>
+        <div style={mapStyle.info}>
+          <p style={mapStyle.info.message}>
+            {geocodeResults.length === 0
+              ? "지도 정보를 불러오는 중입니다."
+              : ""}
+          </p>
+        </div>
+        <div style={mapStyle.list}>list</div>
       </div>
-      <div id="map" style={mapStyle.container}></div>
     </>
   );
 }
