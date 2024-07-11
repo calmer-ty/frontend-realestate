@@ -13,19 +13,11 @@ export const apartmentData = async (): Promise<IApartmentData[]> => {
   try {
     const regionResults = await regionAllData(); // regionAllData 함수 호출 및 결과를 기다립니다
 
-    const regionCds = regionResults.flatMap(
-      (result) =>
-        result.StanReginCd[1].row.map((el) => el.region_cd.slice(0, 5)) ?? []
-    );
-
-    // 중복 제거
-    const uniqueRegionCds = Array.from(new Set(regionCds));
-
     const cacheKeyPrefix = "apartmentData_";
 
     // 아파트 api
     const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-    const apartmentDataPromises = uniqueRegionCds.map((regionCd) => {
+    const apartmentDataPromises = regionResults.map((regionCd) => {
       const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=${regionCd}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
       const cacheKey = cacheKeyPrefix + regionCd;
 
@@ -41,6 +33,7 @@ export const apartmentData = async (): Promise<IApartmentData[]> => {
         .get(apartmentUrl)
         .then((response) => {
           const apartmentData = response.data;
+
           // 데이터를 캐시에 저장합니다
           cache.set(cacheKey, apartmentData);
           return apartmentData;
@@ -54,7 +47,7 @@ export const apartmentData = async (): Promise<IApartmentData[]> => {
         });
     });
 
-    const results = await Promise.all(apartmentDataPromises);
+    const results: IApartmentData[] = await Promise.all(apartmentDataPromises);
 
     return results; // 최종 결과를 IApartmentData[] 타입으로 반환
   } catch (error) {

@@ -44,6 +44,7 @@ export const regionData = async (city: string): Promise<IRegionData> => {
 
     const response = await axios.get(reginCdUrl); // HTTP GET 요청을 보내 지역 데이터를 가져옵니다
     const regionData: IRegionData = response.data; // 가져온 지역 데이터를 변수에 저장합니다
+    console.log("regionData", regionData);
 
     cache.set(cacheKey, regionData, 7200); // 가져온 데이터를 캐시에 저장하며 TTL을 7200초(2시간)로 설정합니다
 
@@ -55,12 +56,18 @@ export const regionData = async (city: string): Promise<IRegionData> => {
 };
 
 // 모든 도시의 지역 데이터를 일괄적으로 가져오는 함수
-export const regionAllData = async (): Promise<IRegionData[]> => {
+export const regionAllData = async (): Promise<string[]> => {
   try {
     const promises = cities.map((city) => regionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
-    return regionDatas; // 모든 도시의 지역 데이터 배열을 반환합니다
+    const regionCds = regionDatas.flatMap(
+      (result) =>
+        result.StanReginCd[1].row.map((el) => el.region_cd.slice(0, 5)) ?? []
+    );
+    const uniqueRegionCds = Array.from(new Set(regionCds));
+
+    return uniqueRegionCds; // 모든 도시의 지역 데이터 배열을 반환합니다
   } catch (error) {
     console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
     throw error; // 에러를 throw하여 호출자에게 전달합니다
