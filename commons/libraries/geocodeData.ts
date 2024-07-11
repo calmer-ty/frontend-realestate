@@ -21,6 +21,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         latitude: number;
         longitude: number;
       }>(cacheKey);
+
       if (cachedData !== undefined) {
         // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
         return {
@@ -70,5 +71,18 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
     (result): result is IGeocodeData => result !== null
   );
 
-  return geocodeResults;
+  // 주소와 면적이 같은 경우 중복을 제거하고 하나만 선택합니다
+  const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
+    if (result === null) {
+      return false;
+    }
+    const key = `${result.address}_${result.area}`;
+    // 같은 주소와 면적을 가진 데이터 중 첫 번째 데이터만 유지합니다
+    return (
+      index ===
+      self.findIndex((t) => t !== null && `${t.address}_${t.area}` === key)
+    );
+  });
+
+  return uniqueGeocodeResults;
 };
