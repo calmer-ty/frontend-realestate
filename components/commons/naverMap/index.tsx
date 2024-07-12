@@ -11,6 +11,7 @@ declare global {
 
 export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps): JSX.Element {
   const [markerDatas, setMarkerDatas] = useState<IMarkerData[]>([]);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
@@ -78,6 +79,11 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
 
         window.naver.maps.Event.addListener(marker, "click", () => {
           infoWindow.open(map, marker);
+          setSelectedMarkerData({
+            address,
+            amount,
+            area,
+          });
         });
 
         return marker;
@@ -157,20 +163,26 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
   return (
     <>
       <div id="map" style={mapStyle.container}>
+        <p style={mapStyle.message}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
         <div style={mapStyle.info}>
-          <p style={mapStyle.info.message}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
+          {selectedMarkerData !== null ? (
+            <div>
+              <p>{selectedMarkerData.address}</p>
+              <p>{selectedMarkerData.amount}</p>
+              <p>{selectedMarkerData.area}</p>
+            </div>
+          ) : (
+            <ul style={mapStyle.info.list}>
+              {markerDatas.map((el, index) => (
+                <li key={`${el.address}_${index}`}>
+                  <p>{el.address}</p>
+                  <p>{el.amount}</p>
+                  <p>{el.area}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        <ul style={mapStyle.list}>
-          {markerDatas.map((el, index) => {
-            return (
-              <li key={`${el.address}_${index}`}>
-                <p>Address: {el.address}</p>
-                <p>Amount: {el.amount}</p>
-                <p>Area: {el.area}</p>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </>
   );

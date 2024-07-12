@@ -3,31 +3,28 @@ export const mapStyle = {
     width: "100%",
     height: "100%",
   },
-  info: {
-    position: "relative",
-    width: "100%",
-    height: "100%",
-    color: "#FFF",
-
-    // message
-    message: {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      color: "red",
-      backgroundColor: "#dedede",
-      zIndex: "1",
-      transform: "translate(-50%,-50%)",
-    },
+  // message
+  message: {
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    color: "red",
+    backgroundColor: "#dedede",
+    zIndex: "2",
+    transform: "translate(-50%,-50%)",
   },
-  list: {
+  info: {
+    overflowY: "auto",
     position: "absolute",
     top: "0",
     left: "0",
-    width: "200px",
+    width: "400px",
     height: "100%",
-    backgroundColor: "#dedede",
+    border: "1px solid #dedede",
+    backgroundColor: "#fff",
     zIndex: "1",
+
+    list: {},
   },
 } as const;
 export const markerStyle = {
