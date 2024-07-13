@@ -148,6 +148,9 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
           area: marker.get("area"),
         }));
         setMarkerDatas(markerDataArray);
+
+        // idle 이벤트 발생 시 선택된 마커 데이터 초기화
+        setSelectedMarkerData(null);
       };
       // 초기화 후 지도에 idle 이벤트 추가
       updateVisibleMarkers();
