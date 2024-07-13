@@ -1,17 +1,23 @@
 // 지역코드
 export interface IRegionData {
   StanReginCd: Array<{
-    row: Array<{
-      region_cd: string;
-      locatadd_nm: string;
-    }>;
+    row: IRegionItem[];
     head: Array<{
       totalCount: number;
     }>;
   }>;
 }
-
+export interface IRegionItem {
+  locatadd_nm: string;
+  region_cd: string;
+  umd_cd?: string;
+  sgg_cd?: string;
+}
 // 아파트
+export interface IApartmentLocationData {
+  locatadd_nm: string;
+  apartmentData: IApartmentData;
+}
 export interface IApartmentData {
   response: {
     body: {
