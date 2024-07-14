@@ -5,13 +5,24 @@ export const mapStyle = {
   },
   // message
   message: {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    color: "red",
-    backgroundColor: "#dedede",
-    zIndex: "2",
-    transform: "translate(-50%,-50%)",
+    loading: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      zIndex: "2",
+      transform: "translate(-50%,-50%)",
+      color: "red",
+      backgroundColor: "#dedede",
+    },
+    null: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      zIndex: "2",
+      transform: "translate(-50%,-50%)",
+      color: "red",
+      backgroundColor: "#dedede",
+    },
   },
   info: {
     overflowY: "auto",

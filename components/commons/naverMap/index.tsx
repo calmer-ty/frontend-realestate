@@ -51,6 +51,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
 
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, address, amount, area } = coord;
+        console.log("address:", address);
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(latitude, longitude),
@@ -166,7 +167,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
   return (
     <>
       <div id="map" style={mapStyle.container}>
-        <p style={mapStyle.message}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
+        <p style={mapStyle.message.loading}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
         <div style={mapStyle.info}>
           {selectedMarkerData !== null ? (
             <div>
@@ -178,7 +179,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
             <ul style={mapStyle.info.list}>
               {markerDatas.map((el, index) => (
                 <li key={`${el.address}_${index}`}>
-                  <p>{el.address}</p>
+                  <p>{el.address.replace(/(\s)(0+)(\d+)(\s|$)/g, (match, p1, p2, p3, p4) => `${p1}${p3}${p4}`)}</p>
                   <p>{el.amount}</p>
                   <p>{el.area}</p>
                 </li>

@@ -11,11 +11,11 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
     console.log("resultresult", result);
     const items = result?.apartmentData?.response?.body?.items?.item ?? [];
     return items.map(async (item) => {
-      const area = Math.round(item.전용면적 * 0.3025);
-      const address = `${item.법정동} ${item.법정동본번코드} ${item.아파트}`;
-      const amount = Math.round((Number(item.거래금액.replace(/,/g, "")) / 10000) * 10) / 10;
-      const cacheKey = `geocode_${address}`;
       const locationName = result.locatadd_nm;
+      const area = Math.round(item.전용면적 * 0.3025);
+      const amount = Math.round((Number(item.거래금액.replace(/,/g, "")) / 10000) * 10) / 10;
+      const address = `${locationName} ${item.법정동} ${item.법정동본번코드} ${item.아파트}`;
+      const cacheKey = `geocode_${address}`;
 
       // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
       const cachedData = geocodeCache.get<{
