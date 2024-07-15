@@ -12,6 +12,7 @@ declare global {
 export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps): JSX.Element {
   const [markerDatas, setMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
+  console.log("selectedMarkerData:::", selectedMarkerData);
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
@@ -51,26 +52,23 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
 
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
-        console.log("address:", apartmentData.address);
+        console.log("apartmentData:::", apartmentData);
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(latitude, longitude),
           map,
           icon: {
             content: `<div style="${markerStyle.container}">
-                              <div style="${markerStyle.top}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                              <div style="${markerStyle.bottom}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                              <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
+                              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
                               <div style="${markerStyle.arrow}"></div>
                             </div>`,
-            anchor: new window.naver.maps.Point(12, 12),
           },
         };
 
         const marker = new window.naver.maps.Marker(markerOptions);
         // 마커에 데이터를 설정
-        const markerData: IMarkerData = {
-          ...apartmentData,
-        };
+        const markerData: IMarkerData = apartmentData;
 
         // 마커 데이터를 보냄
         marker.set("data", markerData);
@@ -81,7 +79,6 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
         // });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          // infoWindow.open(map, marker);
           setSelectedMarkerData(markerData);
         });
 
@@ -157,7 +154,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
     });
   }, [geocodeResults, ncpClientId]);
 
-  console.log("markerDatas:", markerDatas);
+  // console.log("selectedMarker:::", selectedMarker);
   return (
     <>
       <div id="map" style={mapStyle.container}>
@@ -172,11 +169,9 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
                 <span style={mapStyle.info.selector.recentDeal.title}>최근 실거래가</span>
                 <p style={mapStyle.info.selector.recentDeal.content}>
                   <strong>
-                    매매 {Math.floor(selectedMarkerData.amount / 10000)}억 {selectedMarkerData.amount % 10000}
+                    매매 {Math.floor(selectedMarkerData.amount / 10000)}억 {selectedMarkerData.amount % 10000}만 원
                   </strong>
-                  <p>
-                    {selectedMarkerData.dealYear}.{selectedMarkerData.dealMonth}.{selectedMarkerData.dealDay}・{selectedMarkerData.floor}층・{selectedMarkerData.area}m²
-                  </p>
+                  {selectedMarkerData.dealYear}.{selectedMarkerData.dealMonth}.{selectedMarkerData.dealDay}・{selectedMarkerData.floor}층・{selectedMarkerData.area}m²
                 </p>
               </div>
             </div>
@@ -188,7 +183,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
               <li key={`${el.address}_${index}`} style={mapStyle.info.list.item.container}>
                 <p style={mapStyle.info.list.item.amount}>
                   <strong>
-                    매매 {Math.floor(el.amount / 10000) !== 0 ? `${Math.floor(el.amount / 10000)}억` : ""} {el.amount % 10000} 만원
+                    매매 {Math.floor(el.amount / 10000) !== 0 ? `${Math.floor(el.amount / 10000)}억` : ""} {el.amount % 10000 !== 0 ? `${el.amount % 10000}만` : ""} 원
                   </strong>
                 </p>
                 <p>아파트・{el.apartmentName}</p>
