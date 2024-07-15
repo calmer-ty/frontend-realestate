@@ -100,7 +100,7 @@ export const markerStyle = {
      background-color: #f00;
     }
   `,
-  topAreaSelector: `
+  topAreaSelected: `
     width: 100%;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;

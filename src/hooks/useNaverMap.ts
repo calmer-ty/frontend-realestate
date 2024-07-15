@@ -42,60 +42,60 @@ export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSe
       const map = new window.naver.maps.Map("map", mapOptions);
 
       // 마커를 담을 Map 생성
-      const markerMap = new Map();
-      let selectedMarker: any = null; // 선택된 마커 저장 변수
+      //   const markerMap = new Map();
+      //   let selectedMarker: any = null; // 선택된 마커 저장 변수
 
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
+
+        // 아이콘 스타일 정의
+        const defaultStyles = markerStyle.topArea;
+        // const selectedStyles = markerStyle.topAreaSelected;
+        const markerIconContent = (changeStyles: any): string => {
+          const iconContent = `
+                <div style="${markerStyle.container}">
+                    <div style="${changeStyles}">${Math.round(apartmentData.area * 0.3025)}평</div>
+                    <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                    <div style="${markerStyle.arrow}"></div>
+                </div>
+            `;
+          return iconContent;
+        };
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(latitude, longitude),
           map,
           icon: {
-            content: `<div style="${markerStyle.container}">
-                                    <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                                    <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
-                                    <div style="${markerStyle.arrow}"></div>
-                                  </div>`,
+            content: markerIconContent(defaultStyles),
           },
         };
 
         const marker = new window.naver.maps.Marker(markerOptions);
-
         // 마커에 데이터를 설정
         const markerData: IMarkerData = apartmentData;
-
-        // 마커 데이터를 보냄
         marker.set("data", markerData);
-        markerMap.get(`${apartmentData.location} ${apartmentData.address} ${apartmentData.apartmentName}`);
+
+        // markerMap.get(`${apartmentData.location} ${apartmentData.address} ${apartmentData.apartmentName}`);
 
         // const infoWindow = new window.naver.maps.InfoWindow({
         //   content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
         // });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
-          if (selectedMarker !== null) {
-            selectedMarker.setIcon({
-              content: `<div style="${markerStyle.container}">
-                  <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                  <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(selectedMarker.get("data").amount / 10000).toFixed(1)}억</strong></div>
-                  <div style="${markerStyle.arrow}"></div>
-                </div>`,
-            });
-          }
+          //   // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
+          //   if (selectedMarker) {
+          //     selectedMarker.setIcon({
+          //       content: markerIconContent(defaultStyles),
+          //     });
+          //   }
 
-          // 선택된 마커를 현재 클릭된 마커로 업데이트
-          selectedMarker = marker;
+          //   // 선택된 마커를 현재 클릭된 마커로 업데이트
+          //   selectedMarker = marker;
 
-          // 클릭된 마커의 아이콘 변경
-          marker.setIcon({
-            content: `<div style="${markerStyle.container}">
-                        <div style="${markerStyle.topAreaSelector}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                        <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
-                        <div style="${markerStyle.arrow}"></div>
-                    </div>`,
-          });
+          //   // 클릭된 마커의 아이콘 변경
+          //   marker.setIcon({
+          //     content: markerIconContent(selectedStyles),
+          //   });
 
           // 선택된 마커 데이터 설정
           setSelectedMarkerData(markerData);
