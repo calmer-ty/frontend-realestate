@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { NaverMapProps, IGeocodeData, IMarkerData } from "@/commons/types";
-import { markerStyle, mapStyle, clusterStyle } from "./styles"; // markerStyles 파일에서 markerStyle 가져오기
+import { markerStyle, mapStyle, clusterStyle } from "./styles";
 
 declare global {
   interface Window {
@@ -50,16 +50,16 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
       let markerClustering: any;
 
       const createMarker = (coord: IGeocodeData): any => {
-        const { latitude, longitude, location, address, apartmentName, amount, area, floor, dealYear, dealMonth, dealDay } = coord;
-        console.log("address:", address);
+        const { latitude, longitude, ...apartmentData } = coord;
+        console.log("address:", apartmentData.address);
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(latitude, longitude),
           map,
           icon: {
             content: `<div style="${markerStyle.container}">
-                              <div style="${markerStyle.top}">${Math.round(area * 0.3025)}평</div>
-                              <div style="${markerStyle.bottom}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(amount / 10000).toFixed(1)}억</strong></div>
+                              <div style="${markerStyle.top}">${Math.round(apartmentData.area * 0.3025)}평</div>
+                              <div style="${markerStyle.bottom}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
                               <div style="${markerStyle.arrow}"></div>
                             </div>`,
             anchor: new window.naver.maps.Point(12, 12),
@@ -69,20 +69,12 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
         const marker = new window.naver.maps.Marker(markerOptions);
         // 마커에 데이터를 설정
         const markerData: IMarkerData = {
-          location,
-          address,
-          apartmentName,
-          amount,
-          area,
-          floor,
-          dealYear,
-          dealMonth,
-          dealDay,
+          ...apartmentData,
         };
 
         // 마커 데이터를 보냄
         marker.set("data", markerData);
-        markerMap.get(`${location} ${address} ${apartmentName}`);
+        markerMap.get(`${apartmentData.location} ${apartmentData.address} ${apartmentData.apartmentName}`);
 
         // const infoWindow = new window.naver.maps.InfoWindow({
         //   content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
@@ -203,7 +195,6 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
                 <p>
                   {el.area}m² {el.floor}층
                 </p>
-                {/* <p>{el.address.replace(/(\s)(0+)(\d+)(\s|$)/g, (match, p1, p2, p3, p4) => `${p1}${p3}${p4}`)}</p> */}
               </li>
             ))}
           </ul>
