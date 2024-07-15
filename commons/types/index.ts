@@ -33,6 +33,7 @@ export interface IApartmentItem {
   거래금액: string;
   아파트: string;
   전용면적: number;
+  층: number;
 }
 
 // Geocode
@@ -46,20 +47,25 @@ export interface IGeocodeCoord {
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
-  amount: number;
+  location: string;
   address: string;
+  apartment: string;
+  amount: number;
   area: number;
+  floor: number;
+}
+
+// marker
+export interface IMarkerData {
+  location: string;
+  address: string;
+  apartment: string;
+  amount: number;
+  area: number;
+  floor: number;
 }
 
 export interface NaverMapProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
-}
-
-// marker
-// 타입 정의
-export interface IMarkerData {
-  address: string;
-  amount: number;
-  area: number;
 }

@@ -50,7 +50,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
       let markerClustering: any;
 
       const createMarker = (coord: IGeocodeData): any => {
-        const { latitude, longitude, address, amount, area } = coord;
+        const { latitude, longitude, location, address, apartment, amount, area, floor } = coord;
         console.log("address:", address);
 
         const markerOptions = {
@@ -65,14 +65,21 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
             anchor: new window.naver.maps.Point(12, 12),
           },
         };
+
         const marker = new window.naver.maps.Marker(markerOptions);
-
         // 마커에 데이터를 설정
-        marker.set("address", address);
-        marker.set("amount", amount);
-        marker.set("area", area);
+        const markerData: IMarkerData = {
+          location,
+          address,
+          apartment,
+          amount,
+          area,
+          floor,
+        };
 
-        markerMap.get(address);
+        // 마커 데이터를 보냄
+        marker.set("data", markerData);
+        markerMap.get(`${location} ${address} ${apartment}`);
 
         const infoWindow = new window.naver.maps.InfoWindow({
           content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
@@ -80,11 +87,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
 
         window.naver.maps.Event.addListener(marker, "click", () => {
           infoWindow.open(map, marker);
-          setSelectedMarkerData({
-            address,
-            amount,
-            area,
-          });
+          setSelectedMarkerData(markerData);
         });
 
         return marker;
@@ -143,11 +146,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
         }
 
         // 각 마커의 데이터를 배열에 저장
-        const markerDataArray = markers.map((marker) => ({
-          address: marker.get("address"),
-          amount: marker.get("amount"),
-          area: marker.get("area"),
-        }));
+        const markerDataArray = markers.map((marker) => marker.get("data"));
         setMarkerDatas(markerDataArray);
 
         // idle 이벤트 발생 시 선택된 마커 데이터 초기화
@@ -169,23 +168,22 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
       <div id="map" style={mapStyle.container}>
         <p style={mapStyle.message.loading}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
         <div style={mapStyle.info}>
-          {selectedMarkerData !== null ? (
-            <div>
-              <p>{selectedMarkerData.address}</p>
-              <p>{selectedMarkerData.amount}</p>
-              <p>{selectedMarkerData.area}</p>
-            </div>
-          ) : (
-            <ul style={mapStyle.info.list}>
-              {markerDatas.map((el, index) => (
-                <li key={`${el.address}_${index}`}>
-                  <p>{el.address.replace(/(\s)(0+)(\d+)(\s|$)/g, (match, p1, p2, p3, p4) => `${p1}${p3}${p4}`)}</p>
-                  <p>{el.amount}</p>
-                  <p>{el.area}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div>
+            <p>{selectedMarkerData?.address}</p>
+            <p>{selectedMarkerData?.amount}</p>
+            <p>{selectedMarkerData?.area}</p>
+          </div>
+          <ul style={mapStyle.info.list}>
+            {markerDatas.map((el, index) => (
+              <li key={`${el.address}_${index}`}>
+                <p>매매 {el.amount}</p>
+                <p>아파트・{el.apartment}</p>
+                <p>{el.area}m2</p>
+                <p>{el.floor}층</p>
+                {/* <p>{el.address.replace(/(\s)(0+)(\d+)(\s|$)/g, (match, p1, p2, p3, p4) => `${p1}${p3}${p4}`)}</p> */}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
