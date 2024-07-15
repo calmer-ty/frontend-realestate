@@ -81,7 +81,7 @@ export const mapStyle = {
 export const markerStyle = {
   container: `
     position: relative;
-    min-width: 56px;
+    min-width: 58px;
     display: flex;
     flex-direction: column;
     align-items: center;

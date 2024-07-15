@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 // 지역코드
 export interface IRegionData {
   StanReginCd: Array<{
@@ -74,7 +76,13 @@ export interface IMarkerData {
   dealDay: string;
 }
 
-export interface NaverMapProps {
+export interface INaverMapProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
+}
+export interface INaverMapHooksProps {
+  geocodeResults: IGeocodeData[];
+  ncpClientId: string | undefined;
+  setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
+  setMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
 }
