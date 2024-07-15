@@ -50,7 +50,7 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
       let markerClustering: any;
 
       const createMarker = (coord: IGeocodeData): any => {
-        const { latitude, longitude, location, address, apartment, amount, area, floor } = coord;
+        const { latitude, longitude, location, address, apartmentName, amount, area, floor, dealYear, dealMonth, dealDay } = coord;
         console.log("address:", address);
 
         const markerOptions = {
@@ -58,8 +58,8 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
           map,
           icon: {
             content: `<div style="${markerStyle.container}">
-                              <div style="${markerStyle.top}">${area}평</div>
-                              <div style="${markerStyle.bottom}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${amount}억</strong></div>
+                              <div style="${markerStyle.top}">${Math.round(area * 0.3025)}평</div>
+                              <div style="${markerStyle.bottom}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(amount / 10000).toFixed(1)}억</strong></div>
                               <div style="${markerStyle.arrow}"></div>
                             </div>`,
             anchor: new window.naver.maps.Point(12, 12),
@@ -71,22 +71,25 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
         const markerData: IMarkerData = {
           location,
           address,
-          apartment,
+          apartmentName,
           amount,
           area,
           floor,
+          dealYear,
+          dealMonth,
+          dealDay,
         };
 
         // 마커 데이터를 보냄
         marker.set("data", markerData);
-        markerMap.get(`${location} ${address} ${apartment}`);
+        markerMap.get(`${location} ${address} ${apartmentName}`);
 
-        const infoWindow = new window.naver.maps.InfoWindow({
-          content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
-        });
+        // const infoWindow = new window.naver.maps.InfoWindow({
+        //   content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
+        // });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          infoWindow.open(map, marker);
+          // infoWindow.open(map, marker);
           setSelectedMarkerData(markerData);
         });
 
@@ -168,18 +171,38 @@ export default function NaverMap({ geocodeResults, ncpClientId }: NaverMapProps)
       <div id="map" style={mapStyle.container}>
         <p style={mapStyle.message.loading}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
         <div style={mapStyle.info}>
-          <div>
-            <p>{selectedMarkerData?.address}</p>
-            <p>{selectedMarkerData?.amount}</p>
-            <p>{selectedMarkerData?.area}</p>
-          </div>
-          <ul style={mapStyle.info.list}>
+          {selectedMarkerData !== null ? (
+            <div style={mapStyle.info.selector.container}>
+              <p style={mapStyle.info.selector.apartmentName}>
+                <strong>{selectedMarkerData.apartmentName}</strong>
+              </p>
+              <div style={mapStyle.info.selector.recentDeal.container}>
+                <span style={mapStyle.info.selector.recentDeal.title}>최근 실거래가</span>
+                <p style={mapStyle.info.selector.recentDeal.content}>
+                  <strong>
+                    매매 {Math.floor(selectedMarkerData.amount / 10000)}억 {selectedMarkerData.amount % 10000}
+                  </strong>
+                  <p>
+                    {selectedMarkerData.dealYear}.{selectedMarkerData.dealMonth}.{selectedMarkerData.dealDay}・{selectedMarkerData.floor}층・{selectedMarkerData.area}m²
+                  </p>
+                </p>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+          <ul>
             {markerDatas.map((el, index) => (
-              <li key={`${el.address}_${index}`}>
-                <p>매매 {el.amount}</p>
-                <p>아파트・{el.apartment}</p>
-                <p>{el.area}m2</p>
-                <p>{el.floor}층</p>
+              <li key={`${el.address}_${index}`} style={mapStyle.info.list.item.container}>
+                <p style={mapStyle.info.list.item.amount}>
+                  <strong>
+                    매매 {Math.floor(el.amount / 10000) !== 0 ? `${Math.floor(el.amount / 10000)}억` : ""} {el.amount % 10000} 만원
+                  </strong>
+                </p>
+                <p>아파트・{el.apartmentName}</p>
+                <p>
+                  {el.area}m² {el.floor}층
+                </p>
                 {/* <p>{el.address.replace(/(\s)(0+)(\d+)(\s|$)/g, (match, p1, p2, p3, p4) => `${p1}${p3}${p4}`)}</p> */}
               </li>
             ))}

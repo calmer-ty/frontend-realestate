@@ -34,6 +34,9 @@ export interface IApartmentItem {
   아파트: string;
   전용면적: number;
   층: number;
+  년: string;
+  월: string;
+  일: string;
 }
 
 // Geocode
@@ -49,20 +52,26 @@ export interface IGeocodeData {
   longitude: number;
   location: string;
   address: string;
-  apartment: string;
+  apartmentName: string;
   amount: number;
   area: number;
   floor: number;
+  dealYear: string;
+  dealMonth: string;
+  dealDay: string;
 }
 
 // marker
 export interface IMarkerData {
   location: string;
   address: string;
-  apartment: string;
+  apartmentName: string;
   amount: number;
   area: number;
   floor: number;
+  dealYear: string;
+  dealMonth: string;
+  dealDay: string;
 }
 
 export interface NaverMapProps {

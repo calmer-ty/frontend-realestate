@@ -12,14 +12,17 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
     return items.map(async (item) => {
       const location = result.locatadd_nm;
       const address = `${item.법정동} ${item.법정동본번코드}`;
-      const apartment = item.아파트;
-      const amount = Math.round((Number(item.거래금액.replace(/,/g, "")) / 10000) * 10) / 10;
-      const area = Math.round(item.전용면적 * 0.3025);
+      const apartmentName = item.아파트;
+      const amount = Number(item.거래금액.replace(/,/g, ""));
+      const area = item.전용면적;
       const floor = item.층;
+      const dealYear = item.년;
+      const dealMonth = item.월;
+      const dealDay = item.일;
       const cacheKey = `geocode_${address}`;
 
       // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
-      const cacheData = { location, address, apartment, amount, area, floor };
+      const cacheData = { location, address, apartmentName, amount, area, floor, dealYear, dealMonth, dealDay };
       const cachedData = geocodeCache.get<IGeocodeData>(cacheKey);
 
       if (cachedData !== undefined) {
@@ -60,15 +63,15 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
 
   const geocodeResults = (await Promise.all(geocodePromises)).filter((result): result is IGeocodeData => result !== null);
 
-  // // 주소와 면적이 같은 경우 중복을 제거하고 하나만 선택합니다
-  // const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
-  //   if (result === null) {
-  //     return false;
-  //   }
-  //   const key = `${result.address}_${result.area}`;
-  //   // 같은 주소와 면적을 가진 데이터 중 첫 번째 데이터만 유지합니다
-  //   return index === self.findIndex((t) => t !== null && `${t.address}_${t.area}` === key);
-  // });
+  // 주소와 면적이 같은 경우 중복을 제거하고 하나만 선택합니다
+  const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
+    if (result === null) {
+      return false;
+    }
+    const key = `${result.address}_${result.area}_${result.floor}`;
+    // 같은 주소와 면적을 가진 데이터 중 첫 번째 데이터만 유지합니다
+    return index === self.findIndex((t) => t !== null && `${t.address}_${t.area}_${t.floor}` === key);
+  });
 
-  return geocodeResults;
+  return uniqueGeocodeResults;
 };
