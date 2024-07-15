@@ -1,7 +1,7 @@
 import axios from "axios";
 import NodeCache from "node-cache";
 import { apartmentData } from "./apartmentData";
-import type { IApartmentLocationData, IGeocodeCoord, IGeocodeData } from "../types";
+import type { IApartmentLocationData, IGeocodeCoord, IGeocodeData } from "@/src/types";
 
 const geocodeCache = new NodeCache({ stdTTL: 7200 });
 

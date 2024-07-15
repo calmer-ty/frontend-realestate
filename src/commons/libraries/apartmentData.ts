@@ -1,7 +1,7 @@
 import { regionAllData } from "./regionData";
 
 import axios from "axios";
-import type { IApartmentLocationData } from "../types";
+import type { IApartmentLocationData } from "@/src/types";
 
 import NodeCache from "node-cache";
 

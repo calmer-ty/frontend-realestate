@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { NaverMapProps, IGeocodeData, IMarkerData } from "@/commons/types";
+import type { NaverMapProps, IGeocodeData, IMarkerData } from "@/src/types";
 import { markerStyle, mapStyle, clusterStyle } from "./styles";
 
 declare global {

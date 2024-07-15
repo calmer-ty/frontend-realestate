@@ -1,6 +1,6 @@
 import axios from "axios";
 import NodeCache from "node-cache";
-import type { IRegionData, IRegionItem } from "@/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
+import type { IRegionData, IRegionItem } from "@/src/types"; // 지역 데이터 타입 정의를 가져옵니다
 
 // 지역 데이터를 가져올 도시 리스트
 const cities = ["서울특별시", "경기도", "부산광역시", "대구광역시", "인천광역시", "광주광역시", "대전광역시", "울산광역시", "경상북도", "경상남도", "전라남도", "충청북도", "충청남도", "세종특별자치시", "전북특별자치도", "제주특별자치도", "강원특별자치도"];

@@ -7,8 +7,8 @@ import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import InputRequired01 from "@/components/commons/input/required/01";
-import InputReadOnly01 from "@/components/commons/input/readOnly/01";
+import InputRequired01 from "@/src/components/commons/input/required/01";
+import InputReadOnly01 from "@/src/components/commons/input/readOnly/01";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData, IWritePageProps } from "./types";
@@ -43,18 +43,8 @@ export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
   // 폼의 제출 시 handleSubmit 함수로 onClickSubmit 함수를 연결하고, 입력 필드 및 버튼을 렌더링합니다
   return (
     <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-      <InputRequired01
-        role="input-title"
-        defaultValue=" "
-        placeholder="제목"
-        register={register("title")}
-      />
-      <InputReadOnly01
-        role="input-address"
-        defaultValue={selectedAddress}
-        placeholder="주소"
-        register={register("address")}
-      />
+      <InputRequired01 role="input-title" defaultValue=" " placeholder="제목" register={register("title")} />
+      <InputReadOnly01 role="input-address" defaultValue={selectedAddress} placeholder="주소" register={register("address")} />
       <Button variant="contained">주소찾기</Button>
       <S.AddressModal></S.AddressModal>
       <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
