@@ -1,3 +1,3 @@
-export const comboBoxStyle = {
+export const style = {
   width: "100%",
 };

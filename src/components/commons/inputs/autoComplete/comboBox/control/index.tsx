@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState } from "react";
 import type { IComboBoxControlProps } from "./types";
-import { comboBoxStyle } from "./styles";
+import { style } from "./styles";
 
 const options = ["아파트", "준비중"];
 
@@ -16,7 +16,7 @@ export default function ComboBoxControl(props: IComboBoxControlProps): JSX.Eleme
 
   return (
     <Autocomplete
-      style={comboBoxStyle}
+      style={style}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}

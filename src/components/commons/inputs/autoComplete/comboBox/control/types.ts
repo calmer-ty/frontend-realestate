@@ -1,5 +1,8 @@
+// import type { UseFormRegisterReturn } from "react-hook-form";
+
 export interface IAutocompletePrimaryProps {
   label: string;
+  // register?: UseFormRegisterReturn;
 }
 
 export interface IComboBoxControlProps extends IAutocompletePrimaryProps {
