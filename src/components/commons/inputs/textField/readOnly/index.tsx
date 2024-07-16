@@ -1,14 +1,14 @@
 import { TextField } from "@mui/material";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
-interface IInputReadOnly01 {
+interface TextFieldReadOnlyProps {
   role: string;
   defaultValue: string;
   placeholder: string;
   register: UseFormRegisterReturn;
 }
 
-export default function InputReadOnly01(props: IInputReadOnly01): JSX.Element {
+export default function TextFieldReadOnly(props: TextFieldReadOnlyProps): JSX.Element {
   return (
     <TextField
       id="outlined-read-only-input"
