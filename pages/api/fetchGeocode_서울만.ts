@@ -1,10 +1,6 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type {
-  IApartmentData,
-  IGeocodeCoord,
-  IGeocodeData,
-} from "@/commons/types";
+import type { IApartmentData, IGeocodeCoord, IGeocodeData } from "@/src/types";
 import NodeCache from "node-cache";
 
 // 메모리 내 캐시 객체 생성
@@ -13,9 +9,7 @@ const cache = new NodeCache({ stdTTL: 3600 }); // 1시간 TTL 설정
 // 아파트 정보를 가져오는 비동기 함수 정의
 const fetchApartmentData = async (): Promise<IApartmentData[]> => {
   try {
-    const response = await axios.get<IApartmentData[]>(
-      "http://localhost:3000/api/apartment"
-    );
+    const response = await axios.get<IApartmentData[]>("http://localhost:3000/api/apartment");
     return response.data; // 아파트 데이터 반환
   } catch (error) {
     console.error("Error fetching apartment data:", error);
@@ -25,9 +19,7 @@ const fetchApartmentData = async (): Promise<IApartmentData[]> => {
 
 // 주소를 받아와 지오코딩 정보를 반환하는 비동기 함수 정의
 const fetchGeocode = async (address: string): Promise<IGeocodeData | null> => {
-  const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(
-    address
-  )}`;
+  const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
   try {
     // 캐시에서 데이터 조회
     const cachedData = cache.get(address);
@@ -53,10 +45,7 @@ const fetchGeocode = async (address: string): Promise<IGeocodeData | null> => {
       const apartmentData = await fetchApartmentData();
       apartmentData.forEach((apartment) => {
         apartment.response.body.items.item.forEach((item) => {
-          const itemAddress = `${item.법정동} ${item.법정동본번코드.replace(
-            /^0+/g,
-            ""
-          )}`;
+          const itemAddress = `${item.법정동} ${item.법정동본번코드.replace(/^0+/g, "")}`;
 
           // 주소가 일치하는 경우 거래금액을 할당
           if (itemAddress === address) {
@@ -89,10 +78,7 @@ const fetchGeocode = async (address: string): Promise<IGeocodeData | null> => {
 };
 
 // Next.js API route 핸들러 정의
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   console.log("===== geocode handler =====");
   try {
     // 아파트 데이터 불러오기
@@ -102,10 +88,7 @@ export default async function handler(
     // 아파트 데이터에서 주소 추출하여 중복 제거 후 배열로 변환
     apartmentData.forEach((apartment) => {
       apartment.response.body.items.item.forEach((item) => {
-        const address = `${item.법정동} ${item.법정동본번코드.replace(
-          /^0+/g,
-          ""
-        )}`;
+        const address = `${item.법정동} ${item.법정동본번코드.replace(/^0+/g, "")}`;
         addressesSet.add(address);
       });
     });
@@ -113,9 +96,7 @@ export default async function handler(
     const uniqueAddresses = Array.from(addressesSet); // 중복 제거된 주소 배열 생성
 
     // 주소 배열을 이용하여 지오코딩 API를 병렬로 호출하여 결과 수집
-    const geocodeResults = await Promise.all(
-      uniqueAddresses.map((address: string) => fetchGeocode(address))
-    );
+    const geocodeResults = await Promise.all(uniqueAddresses.map((address: string) => fetchGeocode(address)));
 
     // null이 아닌 지오코딩 결과만 필터링
     const filteredResults = geocodeResults.filter((result) => result !== null);
