@@ -36,12 +36,18 @@ export const mapStyle = {
     zIndex: "1",
 
     selector: {
-      container: {
+      wrap: {
         display: "flex",
         flexDirection: "column",
         rowGap: "20px",
         padding: "15px",
       },
+      container: {
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "10px",
+      },
+
       apartmentName: {
         fontSize: "24px",
       },
