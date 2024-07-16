@@ -39,11 +39,10 @@ export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSe
         },
       };
 
-      const map = new window.naver.maps.Map("map", mapOptions);
-
       // 마커를 담을 Map 생성
       //   const markerMap = new Map();
-      //   let selectedMarker: any = null; // 선택된 마커 저장 변수
+      // let selectedMarker: any = null; // 선택된 마커 저장 변수
+      const map = new window.naver.maps.Map("map", mapOptions);
 
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
@@ -82,20 +81,19 @@ export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSe
         // });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          //   // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
-          //   if (selectedMarker) {
-          //     selectedMarker.setIcon({
-          //       content: markerIconContent(defaultStyles),
-          //     });
-          //   }
-
-          //   // 선택된 마커를 현재 클릭된 마커로 업데이트
-          //   selectedMarker = marker;
-
-          //   // 클릭된 마커의 아이콘 변경
-          //   marker.setIcon({
-          //     content: markerIconContent(selectedStyles),
+          // // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
+          // if (selectedMarker !== null) {
+          //   selectedMarker.setIcon({
+          //     content: markerIconContent(defaultStyles),
           //   });
+          // }
+          // // 선택된 마커를 현재 클릭된 마커로 업데이트
+          // selectedMarker = marker;
+
+          // // 클릭된 마커의 아이콘 변경
+          // marker.setIcon({
+          //   content: markerIconContent(selectedStyles),
+          // });
 
           // 선택된 마커 데이터 설정
           setSelectedMarkerData(markerData);
@@ -128,7 +126,6 @@ export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSe
 
         // 보이는 영역 내의 마커만 생성
         geocodeResults.forEach((coord) => {
-          console.log("coordcoord", coord);
           if (coord !== undefined) {
             const { latitude, longitude } = coord;
             const position = new window.naver.maps.LatLng(latitude, longitude);
@@ -164,8 +161,9 @@ export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSe
         const markerDataArray = markers.map((marker) => marker.get("data"));
         setMarkerDatas(markerDataArray);
 
-        // idle 이벤트 발생 시 선택된 마커 데이터 초기화
-        setSelectedMarkerData(null);
+        setSelectedMarkerData(null); // idle 이벤트 발생 시 선택된 마커 데이터 초기화
+
+        // selectedMarker = null; // 선택된 마커 초기화
       };
       // 초기화 후 지도에 idle 이벤트 추가
       updateVisibleMarkers();
