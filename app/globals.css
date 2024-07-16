@@ -15,11 +15,17 @@ body {
   height: 100%;
   font-family: "NotoSansKR-Regular", sans-serif;
 }
+
+a {
+  text-decoration: none;
+  color: #000;
+}
 ul,
 ol,
 li {
   list-style-type: none;
 }
+
 #wrapper {
   display: flex;
   flex-direction: column;
@@ -31,18 +37,20 @@ header {
   align-items: center;
   width: 100%;
   height: 60px;
-  border: 3px solid red;
 
   position: fixed;
 }
 .header-inner {
   display: flex;
   justify-content: space-between;
-  width: 1024px;
+  width: 100%;
+  margin: 0 20px;
 }
+
 nav {
   display: flex;
   align-items: center;
+  column-gap: 20px;
 }
 
 main {
@@ -57,6 +65,10 @@ main {
   border: 1px solid blue; */
 }
 .main-inner {
-  width: 1024px;
-  border: 1px solid green;
+  width: 100%;
+}
+
+#logo a {
+  display: flex;
+  align-items: center;
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import "./globals.css";
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
 
 export default function RootLayout({
   children,
@@ -14,13 +15,14 @@ export default function RootLayout({
         <div id="wrapper">
           <header>
             <div className="header-inner">
-              <h1 className="logo">logo</h1>
-              <nav>
-                <Link href="/buildings/view/apartment">
-                  apartment 페이지 이동
+              <h1 id="logo">
+                <Link href="/">
+                  <HomeWorkIcon color="primary" fontSize="large" />
                 </Link>
-                <Link href="/buildings/write">write 페이지 이동</Link>
-                <Link href="/view">geo-test 페이지 이동</Link>
+              </h1>
+              <nav>
+                <Link href="/buildings/view/apartment">지도</Link>
+                <Link href="/buildings/write">방 내놓기</Link>
               </nav>
             </div>
           </header>

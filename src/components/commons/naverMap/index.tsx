@@ -25,8 +25,8 @@ export default function NaverMap({ geocodeResults, ncpClientId }: INaverMapProps
           {selectedMarkerData !== null ? (
             <article style={mapStyle.info.selector.wrap}>
               <section style={mapStyle.info.selector.container}>
-                <h3 style={mapStyle.info.selector.apartmentName}>{selectedMarkerData.apartmentName}</h3>
-                <h4 style={mapStyle.info.selector.recentDeal.title}>최근 실거래가</h4>
+                <h2 style={mapStyle.info.selector.apartmentName}>{selectedMarkerData.apartmentName}</h2>
+                <h3 style={mapStyle.info.selector.recentDeal.title}>최근 실거래가</h3>
                 <div style={mapStyle.info.selector.recentDeal.content}>
                   <p>
                     <strong>
@@ -46,9 +46,9 @@ export default function NaverMap({ geocodeResults, ncpClientId }: INaverMapProps
             <ul>
               {markerDatas.map((el, index) => (
                 <li key={`${el.address}_${index}`} style={mapStyle.info.list.item.container}>
-                  <h3 style={mapStyle.info.list.item.amount}>
+                  <h2 style={mapStyle.info.list.item.amount}>
                     매매 {isBillion(el.amount) !== 0 ? `${isBillion(el.amount)}억` : ""} {isTenMillion(el.amount) !== 0 ? `${isTenMillion(el.amount)}만` : ""} 원
-                  </h3>
+                  </h2>
                   <p>
                     아파트・{el.apartmentName}
                     <br />
