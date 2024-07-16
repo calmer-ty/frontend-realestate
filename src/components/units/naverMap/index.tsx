@@ -1,21 +1,23 @@
 import { useState } from "react";
-import { mapStyle } from "./styles";
-import { useNaverMap } from "@/src/hooks/useNaverMap";
-import MapInfo from "../mapInfo";
-import type { INaverMapProps, IMarkerData } from "@/src/types";
 
-export default function NaverMap({ geocodeResults, ncpClientId }: INaverMapProps): JSX.Element {
+import MapInfo from "./mapInfo";
+import MapView from "./mapView";
+import { useNaverMap } from "@/src/hooks/useNaverMap";
+import type { IMarkerData } from "@/src/types";
+import type { INaverMapProps } from "./types";
+import { mapStyle } from "./styles";
+
+export default function NaverMap(props: INaverMapProps): JSX.Element {
+  const { ncpClientId, geocodeResults } = props;
   const [markerDatas, setMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
 
   useNaverMap({ ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData });
   return (
     <>
-      <div style={mapStyle.wrap}>
+      <div style={mapStyle}>
         <MapInfo markerDatas={markerDatas} selectedMarkerData={selectedMarkerData} />
-        <div id="map" style={mapStyle.container}>
-          <p style={mapStyle.message.loading}>{geocodeResults.length === 0 ? "지도 정보를 불러오는 중입니다." : ""}</p>
-        </div>
+        <MapView geocodeResults={props.geocodeResults} />
       </div>
     </>
   );

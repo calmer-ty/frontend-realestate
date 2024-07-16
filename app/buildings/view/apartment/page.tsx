@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import NaverMap from "@/src/components/commons/naverMap";
+import NaverMap from "@/src/components/units/naverMap";
 import type { IGeocodeData } from "@/src/types";
 
 export default function ApartmentPage(): JSX.Element {

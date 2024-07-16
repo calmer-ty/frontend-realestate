@@ -1,6 +1,6 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils";
-import { infoStyle } from "./styles";
 import type { IMapInfoProps } from "./types";
+import { infoStyle } from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
   return (

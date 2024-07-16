@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { clusterStyle, markerStyle } from "@/src/components/commons/naverMap/styles";
+import { clusterStyle, markerStyle } from "@/src/components/units/naverMap/styles";
 import type { IGeocodeData, IMarkerData, INaverMapHooksProps } from "@/src/types";
 
 declare global {
@@ -9,7 +9,9 @@ declare global {
   }
 }
 
-export const useNaverMap = ({ ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData }: INaverMapHooksProps): void => {
+export const useNaverMap = (props: INaverMapHooksProps): void => {
+  const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData } = props;
+
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
     const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";

@@ -76,10 +76,6 @@ export interface IMarkerData {
   dealDay: string;
 }
 
-export interface INaverMapProps {
-  geocodeResults: IGeocodeData[];
-  ncpClientId: string | undefined;
-}
 export interface INaverMapHooksProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
