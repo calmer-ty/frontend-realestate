@@ -2,20 +2,21 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { firebaseApp } from "@/pages/api/firebase";
-import { collection, addDoc, getDocs, getFirestore } from "firebase/firestore";
+import { db } from "@/pages/api/firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import TextFieldReadOnly from "@/src/components/commons/inputs/textField/readOnly";
-
-import type { Address } from "react-daum-postcode";
-import type { IWriteFormData, IWritePageProps } from "./types";
-import * as S from "./styles";
 import ComboBoxControl from "@/src/components/commons/inputs/autoComplete/comboBox/control";
 import BasicModal from "@/src/components/commons/modal/basic";
+import TextFieldReadOnly from "@/src/components/commons/inputs/textField/readOnly";
+import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
 
-export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
+import type { Address } from "react-daum-postcode";
+import type { IWriteFormData } from "./types";
+import * as S from "./styles";
+
+export default function WritePage(): JSX.Element {
   const { register, handleSubmit, setValue } = useForm<IWriteFormData>();
   const [selectedAddress, setSelectedAddress] = useState<string>("");
 
@@ -28,18 +29,21 @@ export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
   const [selectedType, setSelectedType] = useState<string | null>(null); // 매물 유형 state 추가
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
-  const onClickSubmit = (data: IWriteFormData): void => {
-    const building = collection(firestore, "building"); // Firestore에서 'building' 컬렉션을 참조합니다
-    void addDoc(building, { ...data }); // 'building' 컬렉션에 데이터를 추가합니다
+  const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
+    if (selectedType === null) return;
+    const docRef = await addDoc(collection(db, selectedType), {
+      // Firestore에서 'building' 컬렉션을 참조합니다
+      ...data, // 'building' 컬렉션에 데이터를 추가합니다
+    });
+    console.log(docRef);
   };
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
   const onClickFetch = async (): Promise<void> => {
-    const building = collection(getFirestore(firebaseApp), "building"); // Firebase Firestore에서 'building' 컬렉션을 참조합니다
-
-    const result = await getDocs(building); // 'building' 컬렉션의 모든 문서를 가져옵니다
-    const datas = result.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-    console.log(datas); // 콘솔에 조회된 데이터를 출력합니다
+    if (selectedType === null) return;
+    const querySnapshot = await getDocs(collection(db, selectedType)); // 'building' 컬렉션을 참조합니다
+    const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
+    console.log(datas);
   };
 
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
@@ -60,7 +64,8 @@ export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <ComboBoxControl label="매물 유형" onChange={handleTypeChange} />
-        <TextFieldReadOnly role="input-address" label="주소" value={selectedAddress} placeholder="주소" register={register("address")} />
+        <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
+        <TextFieldBasic role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
         <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
           <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
         </BasicModal>

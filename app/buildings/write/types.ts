@@ -1,10 +1,11 @@
-import type { Firestore } from "firebase/firestore";
+// import type { Firestore } from "firebase/firestore";
 
 export interface IWriteFormData {
-  title: string;
+  buildingType: string;
   address: string;
+  addressDetail: string;
 }
 
-export interface IWritePageProps {
-  firestore: Firestore;
-}
+// export interface IWritePageProps {
+//   firestore: Firestore;
+// }
