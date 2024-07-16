@@ -1,4 +1,10 @@
 export const mapStyle = {
+  wrap: {
+    display: "flex",
+    position: "relative",
+    width: "100%",
+    height: "calc(100vh - 60px)",
+  },
   container: {
     width: "100%",
     height: "100%",
@@ -26,10 +32,7 @@ export const mapStyle = {
   },
   info: {
     overflowY: "auto",
-    position: "absolute",
-    top: "0",
-    left: "0",
-    width: "400px",
+    width: "30%",
     height: "100%",
     border: "1px solid #dedede",
     backgroundColor: "#fff",
