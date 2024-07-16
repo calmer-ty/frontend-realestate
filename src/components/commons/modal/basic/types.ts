@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
-export interface BasicModalProps {
-  btnText: string;
+export interface IModalBasicProps {
   open: boolean;
-  onToggle: () => void;
   children: ReactNode;
+  btnText: string;
+  onToggle: () => void;
 }

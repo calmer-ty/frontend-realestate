@@ -1,26 +1,24 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useState } from "react";
-
-interface IAutocompletePrimaryProps {
-  label: string;
-}
+import type { IComboBoxControlProps } from "./types";
+import { comboBoxStyle } from "./styles";
 
 const options = ["아파트", "준비중"];
 
-export default function ComboBoxControl(props: IAutocompletePrimaryProps): JSX.Element {
+export default function ComboBoxControl(props: IComboBoxControlProps): JSX.Element {
   const [value, setValue] = useState<string | null>(options[0]);
   const [inputValue, setInputValue] = useState("");
 
+  const handleChange = (event: any, newValue: string | null): void => {
+    setValue(newValue); // 기존 코드
+    props.onChange(newValue); // 부모 컴포넌트로 새로운 값 전달
+  };
+
   return (
-    // <div>
-    //   <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
-    //   <div>{`inputValue: '${inputValue}'`}</div>
-    //   <br />
     <Autocomplete
+      style={comboBoxStyle}
       value={value}
-      onChange={(event: any, newValue: string | null) => {
-        setValue(newValue);
-      }}
+      onChange={handleChange}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -30,6 +28,5 @@ export default function ComboBoxControl(props: IAutocompletePrimaryProps): JSX.E
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label={props.label} />}
     />
-    // </div>
   );
 }

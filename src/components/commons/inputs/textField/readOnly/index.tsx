@@ -3,7 +3,9 @@ import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface TextFieldReadOnlyProps {
   role: string;
-  defaultValue: string;
+  label: string;
+  value: string;
+  // defaultValue: string;
   placeholder: string;
   register: UseFormRegisterReturn;
 }
@@ -12,9 +14,10 @@ export default function TextFieldReadOnly(props: TextFieldReadOnlyProps): JSX.El
   return (
     <TextField
       id="outlined-read-only-input"
-      // label="Read Only"
+      label={props.label}
       role={props.role}
-      defaultValue={props.defaultValue}
+      value={props.value}
+      // defaultValue={props.defaultValue}
       placeholder={props.placeholder}
       {...props.register}
       InputProps={{

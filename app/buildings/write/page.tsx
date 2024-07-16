@@ -21,9 +21,11 @@ export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
 
   // 모달창
   const [open, setOpen] = useState(false);
-  const handleToggle = (): void => {
+  const onToggle = (): void => {
     setOpen((prev) => !prev);
   };
+
+  const [selectedType, setSelectedType] = useState<string | null>(null); // 매물 유형 state 추가
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = (data: IWriteFormData): void => {
@@ -45,18 +47,24 @@ export default function WritePage({ firestore }: IWritePageProps): JSX.Element {
     const selectedAddress = data.address; // 검색된 주소를 선택하고
     setSelectedAddress(selectedAddress); // 상태 변수에 설정합니다
     setValue("address", selectedAddress); // 폼의 'address' 필드에 선택된 주소를 설정합니다
-    handleToggle(); // 주소 검색 완료 후 모달 닫기
+    onToggle(); // 주소 검색 완료 후 모달 닫기
   };
+
+  const handleTypeChange = (type: string | null): void => {
+    setSelectedType(type);
+  };
+  console.log(selectedType);
+  console.log(selectedAddress);
 
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-        <ComboBoxControl label="매물 유형" />
-        <TextFieldReadOnly role="input-address" defaultValue={selectedAddress} placeholder="주소" register={register("address")} />
-        <BasicModal btnText="주소 찾기" open={open} onToggle={handleToggle}>
+        <ComboBoxControl label="매물 유형" onChange={handleTypeChange} />
+        <TextFieldReadOnly role="input-address" label="주소" value={selectedAddress} placeholder="주소" register={register("address")} />
+        <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
           <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
         </BasicModal>
-        <Button role="submit-button" type="submit" variant="outlined">
+        <Button role="submit-button" type="submit" variant="contained">
           등록하기
         </Button>
         <Button onClick={onClickFetch} variant="outlined">
