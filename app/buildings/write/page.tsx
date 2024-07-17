@@ -4,35 +4,61 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { db } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import ComboBoxControl from "@/src/components/commons/inputs/autoComplete/comboBox/control";
+
+import SelectBasic from "@/src/components/commons/inputs/select/basic";
 import BasicModal from "@/src/components/commons/modal/basic";
 import TextFieldReadOnly from "@/src/components/commons/inputs/textField/readOnly";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
+import ErrorBasic from "@/src/components/commons/errors/basic";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
+
+import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
 import * as S from "./styles";
 
 export default function WritePage(): JSX.Element {
-  const { register, handleSubmit, setValue } = useForm<IWriteFormData>();
-  const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IWriteFormData>({
+    resolver: yupResolver(schemaBuildingWrite),
+  });
 
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
   // 모달창
   const [open, setOpen] = useState(false);
   const onToggle = (): void => {
     setOpen((prev) => !prev);
   };
 
-  const [selectedType, setSelectedType] = useState<string | null>(null); // 매물 유형 state 추가
+  // 셀렉터
+  const [selectedOption, setSelectedOption] = useState("");
+  const handleOptionChange = (selectedValue: string): void => {
+    setSelectedOption(selectedValue);
+  };
+  console.log("selectedOption:::", selectedOption);
+
+  const getFirestoreCollectionName = (type: string | null): string => {
+    switch (type) {
+      case "아파트":
+        return "apartment";
+      default:
+        return "";
+    }
+  };
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
-    if (selectedType === null) return;
-    const docRef = await addDoc(collection(db, selectedType), {
-      // Firestore에서 'building' 컬렉션을 참조합니다
+    if (selectedOption === null) return;
+    const collectionName = getFirestoreCollectionName(selectedOption);
+    const docRef = await addDoc(collection(db, collectionName), {
       ...data, // 'building' 컬렉션에 데이터를 추가합니다
     });
     console.log(docRef);
@@ -40,8 +66,9 @@ export default function WritePage(): JSX.Element {
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
   const onClickFetch = async (): Promise<void> => {
-    if (selectedType === null) return;
-    const querySnapshot = await getDocs(collection(db, selectedType)); // 'building' 컬렉션을 참조합니다
+    if (selectedOption === null) return;
+    const collectionName = getFirestoreCollectionName(selectedOption);
+    const querySnapshot = await getDocs(collection(db, collectionName)); // 'building' 컬렉션을 참조합니다
     const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
     console.log(datas);
   };
@@ -54,21 +81,32 @@ export default function WritePage(): JSX.Element {
     onToggle(); // 주소 검색 완료 후 모달 닫기
   };
 
-  const handleTypeChange = (type: string | null): void => {
-    setSelectedType(type);
-  };
-  console.log(selectedType);
-  console.log(selectedAddress);
+  // const handleTypeChange = (type: string | null): void => {
+  //   setSelectedType(type);
+  // };
 
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-        <ComboBoxControl label="매물 유형" onChange={handleTypeChange} />
-        <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-        <TextFieldBasic role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
-        <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
-          <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-        </BasicModal>
+        <div>
+          <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
+          {/* <ErrorBasic text={errors.propertyType?.message ?? ""} /> */}
+        </div>
+
+        <div style={{ width: "100%" }}>
+          <S.InputWrap>
+            <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
+            <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
+              <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
+            </BasicModal>
+          </S.InputWrap>
+          <ErrorBasic text={errors.address?.message ?? ""} />
+        </div>
+
+        <div>
+          <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
+          <ErrorBasic text={errors.addressDetail?.message ?? ""} />
+        </div>
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
         </Button>
