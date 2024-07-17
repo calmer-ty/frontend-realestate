@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/naverMap/styles";
 import { shortenCityName } from "../commons/libraries/utils";
 import type { IGeocodeData, IMarkerData, INaverMapHooksProps } from "@/src/types";
@@ -12,6 +12,11 @@ declare global {
 
 export const useNaverMap = (props: INaverMapHooksProps): void => {
   const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+
+  // let markers: any[] = [];
+  // let markerClustering: any;
+  const markersRef = useRef<any[]>([]);
+  const markerClusteringRef = useRef<any>();
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
@@ -119,7 +124,7 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
         const icons = [];
         for (let i = 1; i <= 5; i++) {
           icons.push({
-            content: `<div style="${clusterStyle.container}background-image:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
+            content: `<div style="${clusterStyle.container} background-image: url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
             size: new window.naver.maps.Size(40, 40),
             anchor: new window.naver.maps.Point(20, 20),
           });
@@ -128,13 +133,13 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
       };
 
       const updateVisibleMarkers = (): void => {
-        let markers: any[] = [];
-        let markerClustering: any;
         const mapBounds = map.getBounds();
 
         // 기존 마커 제거
-        markers.forEach((marker) => marker.setMap(null));
-        markers = [];
+        // markers.forEach((marker) => marker.setMap(null));
+        // markers = [];
+        markersRef.current.forEach((marker) => marker.setMap(null));
+        markersRef.current = [];
 
         // 보이는 영역 내의 마커만 생성
         geocodeResults.forEach((coord) => {
@@ -144,37 +149,37 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
 
             if (mapBounds.hasLatLng(position) === true) {
               const marker = createMarker(coord);
-              markers.push(marker);
+              // markers.push(marker);
+              markersRef.current.push(marker);
             }
           }
         });
 
         // 클러스터링 업데이트
-        if (markerClustering === null || markerClustering === undefined) {
-          markerClustering = new window.MarkerClustering({
-            minClusterSize: 2,
-            maxZoom: 13,
-            map,
-            markers,
-            disableClickZoom: false,
-            gridSize: 120,
-            icons: createClusterMarkers(),
-            indexGenerator: [10, 100, 200, 500, 1000],
-            stylingFunction: (clusterMarker: any, count: any) => {
-              clusterMarker.getElement().querySelector("div:first-child").innerText = count;
-            },
-          });
-        } else {
-          // 이미 초기화된 경우 마커 업데이트
-          markerClustering?.setMarkers(markers);
-        }
+        // if (!markerClusteringRef.current) {
+        const newMarkerClustering = new window.MarkerClustering({
+          minClusterSize: 2,
+          maxZoom: 13,
+          map,
+          markers: markersRef.current,
+          disableClickZoom: false,
+          gridSize: 120,
+          icons: createClusterMarkers(),
+          indexGenerator: [10, 100, 200, 500, 1000],
+          stylingFunction: (clusterMarker: any, count: any) => {
+            clusterMarker.getElement().querySelector("div:first-child").innerText = count;
+          },
+        });
+        markerClusteringRef.current = newMarkerClustering;
+        // } else {
+        //   // 이미 초기화된 경우 마커 업데이트
+        //   markerClusteringRef.current.setMarkers(markersRef.current);
+        // }
 
         // 각 마커의 데이터를 배열에 저장
-        const markerDataArray = markers.map((marker) => marker.get("data"));
-
+        const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
         setMarkerDatas(markerDataArray);
-
-        setSelectedMarkerData(null); // idle 이벤트 발생 시 선택된 마커 데이터 초기화
+        setSelectedMarkerData(null);
       };
       // 초기화 후 지도에 idle 이벤트 추가
       updateVisibleMarkers();
