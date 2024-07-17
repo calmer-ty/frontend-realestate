@@ -52,7 +52,7 @@ export interface IGeocodeCoord {
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
-  location: string;
+
   address: string;
   apartmentName: string;
   amount: number;
@@ -65,7 +65,6 @@ export interface IGeocodeData {
 
 // marker
 export interface IMarkerData {
-  location: string;
   address: string;
   apartmentName: string;
   amount: number;

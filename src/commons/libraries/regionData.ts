@@ -48,7 +48,6 @@ export const regionAllData = async (): Promise<IRegionItem[]> => {
           region_cd: el.region_cd.slice(0, 5),
         }))
     );
-
     return filteredRegionDatas; // 모든 도시의 지역 데이터 배열을 반환합니다
   } catch (error) {
     console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
