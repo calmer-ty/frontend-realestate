@@ -17,6 +17,8 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
                 </strong>
                 <br />
                 {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
+                <br />
+                {props.selectedMarkerData.location} {props.selectedMarkerData.address}
               </p>
             </div>
           </section>

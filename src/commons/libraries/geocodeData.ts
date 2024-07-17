@@ -11,7 +11,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
     const items = result?.apartmentData?.response?.body?.items?.item ?? [];
     return items.map(async (item) => {
       const location = result.locatadd_nm;
-      const address = `${item.법정동} ${item.법정동본번코드}`;
+      const address = `${item.법정동} ${Number(item.법정동본번코드).toString()}`;
       const apartmentName = item.아파트;
       const amount = Number(item.거래금액.replace(/,/g, ""));
       const area = item.전용면적;
@@ -69,7 +69,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
       return false;
     }
     const key = `${result.address}_${result.area}_${result.floor}`;
-    // 같은 주소와 면적을 가진 데이터 중 첫 번째 데이터만 유지합니다
+    // 같은 주소와 면적과 층을 가진 데이터 중 첫 번째 데이터만 유지합니다
     return index === self.findIndex((t) => t !== null && `${t.address}_${t.area}_${t.floor}` === key);
   });
 
