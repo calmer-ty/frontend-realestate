@@ -50,34 +50,34 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
 
-        firebaseDatas.forEach((fbData) => {
-          console.log("======= fbData.address ======= ", fbData.address);
-          console.log("******** apartmentData.address ********: ", shortenCityName(apartmentData.address));
-          if (fbData.address === shortenCityName(apartmentData.address)) {
-            console.log("같은 것이 있음");
-          }
-        });
-
         // 아이콘 스타일 정의
-        const defaultStyles = markerStyle.topArea;
+        // const defaultStyles = markerStyle.topArea;
         // const selectedStyles = markerStyle.topAreaSelected;
 
-        const markerIconContent = (changeStyles: any): string => {
-          const iconContent = `
-                <div style="${markerStyle.container}">
-                    <div style="${changeStyles}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                    <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
-                    <div style="${markerStyle.arrow}"></div>
-                </div>
-            `;
-          return iconContent;
+        const markerIconContent = (): string => {
+          const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address));
+          if (matchedFbData !== undefined) {
+            return `
+              <div style="${markerStyle.containerActive}">
+                <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
+                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                <div style="${markerStyle.arrowActive}"></div>
+              </div>`;
+          } else {
+            return `
+              <div style="${markerStyle.container}">
+                <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
+                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                <div style="${markerStyle.arrow}"></div>
+              </div>`;
+          }
         };
 
         const markerOptions = {
           position: new window.naver.maps.LatLng(latitude, longitude),
           map,
           icon: {
-            content: markerIconContent(defaultStyles),
+            content: markerIconContent(),
           },
         };
 
@@ -184,5 +184,5 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
     loadScript(NAVER_MAP_SCRIPT_URL, () => {
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, initMap);
     });
-  }, [geocodeResults, ncpClientId, setMarkerDatas, setSelectedMarkerData]);
+  }, [geocodeResults, ncpClientId, setMarkerDatas, setSelectedMarkerData, firebaseDatas]);
 };

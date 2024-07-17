@@ -45,11 +45,11 @@ export default function NaverMap(props: INaverMapProps): JSX.Element {
   // 셀렉트가 된 것만 파이어 베이스 데이터와 매칭
   const matchingFirebaseData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(selectedMarkerData?.address ?? ""));
 
-  if (matchingFirebaseData !== undefined) {
-    console.log(`매칭된 데이터: selectedMarkerData address: ${selectedMarkerData?.address}, firebaseData address: ${matchingFirebaseData.address}`);
-  } else {
-    console.log(`매칭되지 않은 데이터: markerData address: ${selectedMarkerData?.address}`);
-  }
+  // if (matchingFirebaseData !== undefined) {
+  //   console.log(`매칭된 데이터: selectedMarkerData address: ${selectedMarkerData?.address}, firebaseData address: ${matchingFirebaseData.address}`);
+  // } else {
+  //   console.log(`매칭되지 않은 데이터: markerData address: ${selectedMarkerData?.address}`);
+  // }
 
   useNaverMap({ ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
