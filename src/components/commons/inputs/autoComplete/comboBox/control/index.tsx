@@ -6,8 +6,9 @@ import { style } from "./styles";
 const options = ["아파트", "준비중"];
 
 export default function ComboBoxControl(props: IComboBoxControlProps): JSX.Element {
-  const [value, setValue] = useState<string | null>(options[0]);
+  const [value, setValue] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
+  console.log(inputValue);
 
   const handleChange = (event: any, newValue: string | null): void => {
     setValue(newValue); // 기존 코드
@@ -25,8 +26,9 @@ export default function ComboBoxControl(props: IComboBoxControlProps): JSX.Eleme
       }}
       id="controllable-states-demo"
       options={options}
-      sx={{ width: 300 }}
+      // sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label={props.label} />}
+      {...props.register}
     />
   );
 }

@@ -9,10 +9,14 @@ export const modalStyle = {
   boxShadow: 24,
   p: 4,
 
-  btn: {
+  closeBtn: {
     position: "absolute" as "absolute",
     top: "20px",
     right: "20px",
     cursor: "pointer",
   },
+};
+export const submitBtnStyle = {
+  minWidth: "max-content",
+  height: "100%",
 };
