@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/naverMap/styles";
+import { shortenCityName } from "../commons/libraries/utils";
 import type { IGeocodeData, IMarkerData, INaverMapHooksProps } from "@/src/types";
 
 declare global {
@@ -10,7 +11,7 @@ declare global {
 }
 
 export const useNaverMap = (props: INaverMapHooksProps): void => {
-  const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData } = props;
+  const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
@@ -49,9 +50,18 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
 
+        firebaseDatas.forEach((fbData) => {
+          console.log("======= fbData.address ======= ", fbData.address);
+          console.log("******** apartmentData.address ********: ", shortenCityName(apartmentData.address));
+          if (fbData.address === shortenCityName(apartmentData.address)) {
+            console.log("같은 것이 있음");
+          }
+        });
+
         // 아이콘 스타일 정의
         const defaultStyles = markerStyle.topArea;
         // const selectedStyles = markerStyle.topAreaSelected;
+
         const markerIconContent = (changeStyles: any): string => {
           const iconContent = `
                 <div style="${markerStyle.container}">
@@ -161,11 +171,10 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
 
         // 각 마커의 데이터를 배열에 저장
         const markerDataArray = markers.map((marker) => marker.get("data"));
+
         setMarkerDatas(markerDataArray);
 
         setSelectedMarkerData(null); // idle 이벤트 발생 시 선택된 마커 데이터 초기화
-
-        // selectedMarker = null; // 선택된 마커 초기화
       };
       // 초기화 후 지도에 idle 이벤트 추가
       updateVisibleMarkers();

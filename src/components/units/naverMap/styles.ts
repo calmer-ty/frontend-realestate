@@ -11,11 +11,32 @@ export const markerStyle = {
       display: flex;
       flex-direction: column;
       align-items: center;
+      border: 1px solid #888;
+      border-radius: 5px;
+      color: #FFF;
+    `,
+  container_isSale: `
+      position: relative;
+      min-width: 58px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       border: 1px solid #1565c0;
       border-radius: 5px;
       color: #FFF;
     `,
   topArea: `
+      width: 100%;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+      background-color: #888;
+      text-align: center;
+      font-weight: bold;
+      &:click {
+       background-color: #f00;
+      }
+    `,
+  topArea_isSale: `
       width: 100%;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
@@ -51,6 +72,18 @@ export const markerStyle = {
       font-size: 12px;
     `,
   arrow: `
+      width: 14px;
+      height: 14px;
+      background-color: #FFF;
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      transform: translateX(-50%) rotate(135deg);
+      // border: 1px solid #1565c0;
+      border: 1px solid #888;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+    `,
+  arrow_isSale: `
       width: 14px;
       height: 14px;
       background-color: #FFF;

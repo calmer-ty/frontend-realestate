@@ -80,4 +80,11 @@ export interface INaverMapHooksProps {
   ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
+
+  firebaseDatas: IFirebaseData[];
+}
+
+export interface IFirebaseData {
+  address: string;
+  addressDetail: string;
 }
