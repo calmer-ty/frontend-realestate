@@ -1,9 +1,9 @@
 export const infoStyle = {
   container: {
     overflowY: "auto",
-    width: "30%",
+    width: "50%",
     height: "100%",
-    border: "1px solid #dedede",
+    borderRight: "1px solid #dedede",
     backgroundColor: "#fff",
     zIndex: "1",
   },
