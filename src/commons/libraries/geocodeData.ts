@@ -11,7 +11,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
     const items = result?.apartmentData?.response?.body?.items?.item ?? [];
     return items.map(async (item) => {
       const location = result.locatadd_nm;
-      const address = `${location}${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}`;
+      const address = `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}`;
       const apartmentName = item.아파트;
       const amount = Number(item.거래금액.replace(/,/g, ""));
       const area = item.전용면적;
