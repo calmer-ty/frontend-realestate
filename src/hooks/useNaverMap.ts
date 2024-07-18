@@ -11,7 +11,7 @@ declare global {
 }
 
 export const useNaverMap = (props: IUseNaverMapProps): void => {
-  const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+  const { ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   // let markers: any[] = [];
   // let markerClustering: any;
@@ -144,7 +144,6 @@ export const useNaverMap = (props: IUseNaverMapProps): void => {
         });
 
         // 클러스터링 업데이트
-        console.log("markerClusteringRef.current", markerClusteringRef.current);
         if (markerClusteringRef.current !== null) {
           markerClusteringRef.current.setMap(null);
         }
@@ -165,7 +164,7 @@ export const useNaverMap = (props: IUseNaverMapProps): void => {
 
         // 각 마커의 데이터를 배열에 저장
         const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
-        setMarkerDatas(markerDataArray);
+        setVisibleMarkerDatas(markerDataArray);
         setSelectedMarkerData(null);
       };
       // 초기화 후 지도에 idle 이벤트 추가
@@ -176,5 +175,5 @@ export const useNaverMap = (props: IUseNaverMapProps): void => {
     loadScript(NAVER_MAP_SCRIPT_URL, () => {
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, initMap);
     });
-  }, [geocodeResults, ncpClientId, setMarkerDatas, setSelectedMarkerData, firebaseDatas]);
+  }, [geocodeResults, ncpClientId, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas]);
 };

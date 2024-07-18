@@ -85,7 +85,7 @@ export interface IUseNaverMapProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
-  setMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
+  setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
 
   firebaseDatas: IFirebaseData[];
 }
