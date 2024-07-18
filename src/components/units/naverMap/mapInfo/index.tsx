@@ -1,8 +1,9 @@
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils";
+import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils";
 import type { IMapInfoProps } from "./types";
 import { infoStyle } from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
+  const matchingFirebaseData = props.firebaseDatas.find((fbData) => fbData.address === shortenCityName(props.selectedMarkerData?.address ?? ""));
   return (
     <div style={infoStyle.container}>
       {props.selectedMarkerData !== null ? (
@@ -23,8 +24,8 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
             </div>
           </section>
           <section>
-            {props.matchingFirebaseData !== undefined ? (
-              props.matchingFirebaseData?.address
+            {matchingFirebaseData !== undefined ? (
+              matchingFirebaseData?.address
             ) : (
               <div>
                 조건에 맞는 방이 없습니다.

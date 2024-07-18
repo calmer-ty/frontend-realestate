@@ -75,7 +75,13 @@ export interface IMarkerData {
   dealDay: string;
 }
 
-export interface INaverMapHooksProps {
+export interface IFirebaseData {
+  address: string;
+  addressDetail: string;
+}
+
+// Hooks Type
+export interface IUseNaverMapProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
@@ -83,8 +89,6 @@ export interface INaverMapHooksProps {
 
   firebaseDatas: IFirebaseData[];
 }
-
-export interface IFirebaseData {
-  address: string;
-  addressDetail: string;
+export interface IUseFetchFireBaseProps {
+  setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
 }
