@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/naverMap/styles";
 import { shortenCityName } from "../commons/libraries/utils";
-import type { IGeocodeData, IMarkerData, INaverMapHooksProps } from "@/src/types";
+import type { IGeocodeData, IMarkerData, IUseNaverMapProps } from "@/src/types";
 
 declare global {
   interface Window {
@@ -10,13 +10,13 @@ declare global {
   }
 }
 
-export const useNaverMap = (props: INaverMapHooksProps): void => {
+export const useNaverMap = (props: IUseNaverMapProps): void => {
   const { ncpClientId, geocodeResults, setMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   // let markers: any[] = [];
   // let markerClustering: any;
   const markersRef = useRef<any[]>([]);
-  const markerClusteringRef = useRef<any>();
+  const markerClusteringRef = useRef<any | null>(null); // 초기 값을 null로 설정하여 타입 정의
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
@@ -48,16 +48,10 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
       };
 
       // 마커를 담을 Map 생성
-      //   const markerMap = new Map();
-      // let selectedMarker: any = null; // 선택된 마커 저장 변수
       const map = new window.naver.maps.Map("map", mapOptions);
 
       const createMarker = (coord: IGeocodeData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
-
-        // 아이콘 스타일 정의
-        // const defaultStyles = markerStyle.topArea;
-        // const selectedStyles = markerStyle.topAreaSelected;
 
         const markerIconContent = (): string => {
           const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address));
@@ -90,12 +84,6 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
         // 마커에 데이터를 설정
         const markerData: IMarkerData = apartmentData;
         marker.set("data", markerData);
-
-        // markerMap.get(`${apartmentData.location} ${apartmentData.address} ${apartmentData.apartmentName}`);
-
-        // const infoWindow = new window.naver.maps.InfoWindow({
-        //   content: `${address} ${amount}억`, // 각 주소에 맞는 인포 윈도우 내용으로 변경
-        // });
 
         window.naver.maps.Event.addListener(marker, "click", () => {
           // // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
@@ -136,8 +124,6 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
         const mapBounds = map.getBounds();
 
         // 기존 마커 제거
-        // markers.forEach((marker) => marker.setMap(null));
-        // markers = [];
         markersRef.current.forEach((marker) => marker.setMap(null));
         markersRef.current = [];
 
@@ -148,15 +134,20 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
             const position = new window.naver.maps.LatLng(latitude, longitude);
 
             if (mapBounds.hasLatLng(position) === true) {
-              const marker = createMarker(coord);
-              // markers.push(marker);
-              markersRef.current.push(marker);
+              const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
+              if (existingMarker === undefined) {
+                const marker = createMarker(coord);
+                markersRef.current.push(marker);
+              }
             }
           }
         });
 
         // 클러스터링 업데이트
-        // if (!markerClusteringRef.current) {
+        console.log("markerClusteringRef.current", markerClusteringRef.current);
+        if (markerClusteringRef.current !== null) {
+          markerClusteringRef.current.setMap(null);
+        }
         const newMarkerClustering = new window.MarkerClustering({
           minClusterSize: 2,
           maxZoom: 13,
@@ -171,10 +162,6 @@ export const useNaverMap = (props: INaverMapHooksProps): void => {
           },
         });
         markerClusteringRef.current = newMarkerClustering;
-        // } else {
-        //   // 이미 초기화된 경우 마커 업데이트
-        //   markerClusteringRef.current.setMarkers(markersRef.current);
-        // }
 
         // 각 마커의 데이터를 배열에 저장
         const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
