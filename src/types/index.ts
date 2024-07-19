@@ -30,15 +30,22 @@ export interface IApartmentData {
   };
 }
 export interface IApartmentItem {
+  지번: string;
   법정동: string;
   법정동본번코드: string;
-  거래금액: string;
+  법정동부번코드: string;
+  도로명: string;
+  도로명건물본번호코드: string;
+  도로명건물부번호코드: string;
   아파트: string;
+
+  거래금액: string;
   전용면적: number;
   층: number;
   년: string;
   월: string;
   일: string;
+  건축년도: number;
 }
 
 // Geocode
@@ -54,6 +61,7 @@ export interface IGeocodeData {
   longitude: number;
 
   address: string;
+  address_street: string;
   apartmentName: string;
   amount: number;
   area: number;
@@ -61,11 +69,13 @@ export interface IGeocodeData {
   dealYear: string;
   dealMonth: string;
   dealDay: string;
+  constructionYear: number;
 }
 
 // marker
 export interface IMarkerData {
   address: string;
+  address_street: string;
   apartmentName: string;
   amount: number;
   area: number;
@@ -73,6 +83,7 @@ export interface IMarkerData {
   dealYear: string;
   dealMonth: string;
   dealDay: string;
+  constructionYear: number;
 }
 
 export interface IFirebaseData {

@@ -1,67 +1,80 @@
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils";
 import type { IMapInfoProps } from "./types";
-import { infoStyle } from "./styles";
+// import { infoStyle } from "./styles";
+import * as S from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
-  const matchedFirebaseData = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address);
-  console.log(matchedFirebaseData);
+  const matchedFirebaseData = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address);
+  console.log("props:::", props);
   return (
-    <div style={infoStyle.container}>
+    <S.Container>
       {/* 클릭시 건물 상세 정보 */}
       {props.selectedMarkerData !== null ? (
-        <article style={infoStyle.selector.wrap}>
-          <section style={infoStyle.selector.container}>
-            <h2 style={infoStyle.selector.apartmentName}>{props.selectedMarkerData.apartmentName}</h2>
-            <h3 style={infoStyle.selector.recentDeal.title}>최근 실거래가</h3>
-            <div style={infoStyle.selector.recentDeal.content}>
-              <p>
-                <strong>
-                  매매 {isBillion(props.selectedMarkerData.amount) !== 0 ? `${isBillion(props.selectedMarkerData.amount)}억` : ""} {isTenMillion(props.selectedMarkerData.amount) !== 0 ? `${isTenMillion(props.selectedMarkerData.amount)}만` : ""} 원
-                </strong>
-                <br />
-                {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
-                <br />
-                {props.selectedMarkerData.address}
-              </p>
-            </div>
-          </section>
+        <S.SelectedArea>
+          <S.SelectedInfo>
+            <S.InfoWrap>
+              <S.SelectedBuildingName>{props.selectedMarkerData.apartmentName}</S.SelectedBuildingName>
+              연식: {props.selectedMarkerData.constructionYear}
+              <br />
+              지번: {props.selectedMarkerData.address}
+              <br />
+              도로명: {props.selectedMarkerData.address_street}
+            </S.InfoWrap>
 
-          <section>
+            <S.InfoWrap>
+              <S.SelectedTitle>최근 실거래가</S.SelectedTitle>
+              <S.SelectedContent>
+                <p>
+                  <strong>
+                    매매 {isBillion(props.selectedMarkerData.amount) !== 0 ? `${isBillion(props.selectedMarkerData.amount)}억` : ""} {isTenMillion(props.selectedMarkerData.amount) !== 0 ? `${isTenMillion(props.selectedMarkerData.amount)}만` : ""} 원
+                  </strong>
+                  <br />
+                  {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
+                </p>
+              </S.SelectedContent>
+            </S.InfoWrap>
+          </S.SelectedInfo>
+
+          <S.RegisteredInfo>
             {matchedFirebaseData.length > 0 ? (
-              matchedFirebaseData.map((el, index) => (
-                <div key={`${el.address}_${index}`}>
-                  {el.address} {el.addressDetail}
-                </div>
-              ))
+              <ul>
+                {matchedFirebaseData.map((el, index) => (
+                  <li key={`${el.address}_${index}`}>
+                    {el.address} {el.addressDetail}
+                  </li>
+                ))}
+              </ul>
             ) : (
               <div>매물 없음</div>
             )}
-          </section>
-        </article>
+          </S.RegisteredInfo>
+        </S.SelectedArea>
       ) : (
         <>
           {/* 보여지는 지도 범위의 건물 리스트 */}
-          <ul>
-            {props.visibleMarkerDatas.map((el, index) => {
-              const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
+          <S.VisibleArea>
+            <ul>
+              {props.visibleMarkerDatas.map((el, index) => {
+                const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
 
-              return (
-                <li key={`${el.address}_${index}`} style={infoStyle.list.item.container}>
-                  <h2 style={infoStyle.list.item.amount}>
-                    매매 {isBillion(el.amount) !== 0 ? `${isBillion(el.amount)}억` : ""} {isTenMillion(el.amount) !== 0 ? `${isTenMillion(el.amount)}만` : ""} 원
-                  </h2>
-                  <p>
-                    아파트・{el.apartmentName}
-                    <br />
-                    {el.area}m² {el.floor}층
-                  </p>
-                  <div>{matchingFirebaseData && <>매물있음</>}</div>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <S.VisibleList key={`${el.address}_${index}`}>
+                    <S.VisibleTitle>
+                      매매 {isBillion(el.amount) !== 0 ? `${isBillion(el.amount)}억` : ""} {isTenMillion(el.amount) !== 0 ? `${isTenMillion(el.amount)}만` : ""} 원
+                    </S.VisibleTitle>
+                    <p>
+                      아파트・{el.apartmentName}
+                      <br />
+                      {el.area}m² {el.floor}층
+                    </p>
+                    <div>{matchingFirebaseData && <>매물있음</>}</div>
+                  </S.VisibleList>
+                );
+              })}
+            </ul>
+          </S.VisibleArea>
         </>
       )}
-    </div>
+    </S.Container>
   );
 }

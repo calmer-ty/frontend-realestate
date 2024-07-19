@@ -54,7 +54,7 @@ export const useNaverMap = (props: IUseNaverMapProps): void => {
         const { latitude, longitude, ...apartmentData } = coord;
 
         const markerIconContent = (): string => {
-          const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address));
+          const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
           if (matchedFbData !== undefined) {
             return `
               <div style="${markerStyle.containerActive}">

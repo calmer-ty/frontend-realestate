@@ -26,5 +26,6 @@ export default function ApartmentPage(): JSX.Element {
   useEffect(() => {
     setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
   }, []);
+
   return <>{ncpClientId !== undefined ? <NaverMap geocodeResults={geocodeResults} ncpClientId={ncpClientId} /> : <div>Loading...</div>}</>;
 }

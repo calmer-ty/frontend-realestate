@@ -10,8 +10,17 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
   const geocodePromises = apartmentResults.flatMap((result) => {
     const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];
     return apartmentDataItems.map(async (item) => {
+      // console.log("itemitemitem:::", item);
+      const location = result.locatadd_nm;
+      const dongSubCode = Number(item.법정동부번코드);
+      const dongSubCodeStr = dongSubCode !== 0 ? `-${dongSubCode.toString()}` : "";
+      const streetSubCode = Number(item.도로명건물부번호코드);
+      const streetSubCodeStr = streetSubCode !== 0 ? `-${streetSubCode.toString()}` : "";
+
       const itemsData = {
-        address: `${result.locatadd_nm} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}`,
+        streetNumber: item.지번,
+        address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${dongSubCodeStr}`,
+        address_street: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${streetSubCodeStr}`,
         apartmentName: item.아파트,
         amount: Number(item.거래금액.replace(/,/g, "")),
         area: item.전용면적,
@@ -19,6 +28,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         dealYear: item.년,
         dealMonth: item.월,
         dealDay: item.일,
+        constructionYear: item.건축년도,
       };
       const cacheKey = `geocode_${itemsData.address}`;
 
@@ -63,7 +73,6 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
   });
 
   const geocodeResults = (await Promise.all(geocodePromises)).filter((result): result is IGeocodeData => result !== null);
-
   // 주소와 면적이 같은 경우 중복을 제거하고 하나만 선택합니다
   const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
     if (result === null) {
