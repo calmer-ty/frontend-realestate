@@ -4,21 +4,18 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { db } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 import SelectBasic from "@/src/components/commons/inputs/select/basic";
 import BasicModal from "@/src/components/commons/modal/basic";
-import TextFieldReadOnly from "@/src/components/commons/inputs/textField/readOnly";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
-import ErrorBasic from "@/src/components/commons/errors/basic";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 
-import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
 import * as S from "./styles";
 
 export default function WritePage(): JSX.Element {
@@ -26,9 +23,9 @@ export default function WritePage(): JSX.Element {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<IWriteFormData>({
-    resolver: yupResolver(schemaBuildingWrite),
+    // resolver: yupResolver(schemaBuildingWrite),
   });
 
   const [selectedAddress, setSelectedAddress] = useState<string>("");
@@ -88,25 +85,17 @@ export default function WritePage(): JSX.Element {
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-        <div>
-          <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
-          {/* <ErrorBasic text={errors.propertyType?.message ?? ""} /> */}
-        </div>
+        <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
 
-        <div style={{ width: "100%" }}>
-          <S.InputWrap>
-            <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-            <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
-              <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-            </BasicModal>
-          </S.InputWrap>
-          <ErrorBasic text={errors.address?.message ?? ""} />
-        </div>
+        <S.InputWrap>
+          {/* <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} /> */}
+          <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
+          <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
+            <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
+          </BasicModal>
+        </S.InputWrap>
 
-        <div>
-          <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
-          <ErrorBasic text={errors.addressDetail?.message ?? ""} />
-        </div>
+        <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
         </Button>
