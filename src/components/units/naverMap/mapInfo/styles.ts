@@ -25,6 +25,13 @@ export const InfoWrap = styled.div`
   flex-direction: column;
   row-gap: 10px;
 `;
+export const TextWrap = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  font-size: 14px;
+`;
+
 export const SelectedBuildingName = styled.h2`
   font-size: 24px;
 `;

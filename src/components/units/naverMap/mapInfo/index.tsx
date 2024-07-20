@@ -1,11 +1,13 @@
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils";
+import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
+
 import type { IMapInfoProps } from "./types";
-// import { infoStyle } from "./styles";
+import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
-  const matchedFirebaseData = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address);
-  console.log("props:::", props);
+  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address);
+  console.log("matchedFirebaseData:::", matchedFirebaseData);
   return (
     <S.Container>
       {/* 클릭시 건물 상세 정보 */}
@@ -16,9 +18,13 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <S.SelectedBuildingName>{props.selectedMarkerData.apartmentName}</S.SelectedBuildingName>
               연식: {props.selectedMarkerData.constructionYear}
               <br />
-              지번: {props.selectedMarkerData.address}
-              <br />
-              도로명: {props.selectedMarkerData.address_street}
+              <S.TextWrap>
+                <ChipSmall label="지번" /> {props.selectedMarkerData.address}
+              </S.TextWrap>
+              <S.TextWrap>
+                <ChipSmall label="도로명" />
+                {props.selectedMarkerData.address_street}
+              </S.TextWrap>
             </S.InfoWrap>
 
             <S.InfoWrap>
