@@ -10,13 +10,14 @@ import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 import SelectBasic from "@/src/components/commons/inputs/select/basic";
-import BasicModal from "@/src/components/commons/modal/basic";
+import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
+import UnitBasic from "@/src/components/commons/unit/basic";
 
 export default function WritePage(): JSX.Element {
   const {
@@ -86,16 +87,32 @@ export default function WritePage(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
-
         <S.InputWrap>
-          {/* <TextFieldReadOnly required role="input-address" label="주소" value={selectedAddress} register={register("address")} /> */}
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-          <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
+          <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
             <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-          </BasicModal>
+          </ModalBasic>
         </S.InputWrap>
-
-        <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
+        <S.InputWrap>
+          <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
+        </S.InputWrap>
+        <S.InputWrap>
+          <TextFieldBasic required role="input-addressDetail" label="층" register={register("floor")} />
+          <UnitBasic label="층" />
+        </S.InputWrap>
+        <S.InputWrap>
+          <TextFieldBasic required role="input-pyeong" label="평" register={register("pyeong")} />
+          <UnitBasic label="평" />
+          <TextFieldBasic required role="input-roomCount" label="방 개수" register={register("roomCount")} />
+          <UnitBasic label="개" />
+        </S.InputWrap>
+        <hr />
+        <hr />
+        <hr />
+        <S.InputWrap>
+          <TextFieldBasic required role="input-price" label="가격" register={register("price")} />
+          <UnitBasic label="만원" />
+        </S.InputWrap>
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
         </Button>

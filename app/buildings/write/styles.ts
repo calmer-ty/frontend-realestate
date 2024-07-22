@@ -10,5 +10,6 @@ export const InputWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  column-gap: 20px;
+  column-gap: 10px;
+  width: 100%;
 `;
