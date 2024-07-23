@@ -56,7 +56,7 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
                     <br />
                     {el.type}・{el.addressDetail}
                     <br />
-                    {el.floor}층, {el.area}m², 관리비 {el.manageCost} 만원
+                    {el.floor}층, {el.area}m², 관리비 {el.manageCost}만 원
                   </S.RegisteredItem>
                 ))}
               </ul>

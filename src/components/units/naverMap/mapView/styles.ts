@@ -3,25 +3,11 @@ export const viewStyle = {
     width: "100%",
     height: "100%",
   },
-  // message
-  message: {
-    loading: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      zIndex: "2",
-      transform: "translate(-50%,-50%)",
-      color: "red",
-      backgroundColor: "#dedede",
-    },
-    null: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      zIndex: "2",
-      transform: "translate(-50%,-50%)",
-      color: "red",
-      backgroundColor: "#dedede",
-    },
+  img: {
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%,-50%)",
+    zIndex: "1",
   },
 } as const;
