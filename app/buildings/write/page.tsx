@@ -12,13 +12,16 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import SelectBasic from "@/src/components/commons/inputs/select/basic";
 import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
+import UnitBasic from "@/src/components/commons/unit/basic";
+import TitleUnderline from "@/src/components/commons/titles/underline";
+
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
-import UnitBasic from "@/src/components/commons/unit/basic";
-import TitleUnderline from "@/src/components/commons/titles/underline";
 
 export default function WritePage(): JSX.Element {
   const router = useRouter();
@@ -59,7 +62,7 @@ export default function WritePage(): JSX.Element {
     if (selectedOption === null) return;
     const collectionName = getFirestoreCollectionName(selectedOption);
     const docRef = await addDoc(collection(db, collectionName), {
-      ...data, // 'building' 컬렉션에 데이터를 추가합니다
+      ...data, // 컬렉션에 데이터를 추가합니다
     });
     console.log(docRef);
     router.push("/buildings/view/apartment/");
@@ -69,7 +72,7 @@ export default function WritePage(): JSX.Element {
   const onClickFetch = async (): Promise<void> => {
     if (selectedOption === null) return;
     const collectionName = getFirestoreCollectionName(selectedOption);
-    const querySnapshot = await getDocs(collection(db, collectionName)); // 'building' 컬렉션을 참조합니다
+    const querySnapshot = await getDocs(collection(db, collectionName)); // 컬렉션을 참조합니다
     const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
     console.log(datas);
   };
@@ -101,18 +104,22 @@ export default function WritePage(): JSX.Element {
           <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
         </S.InputWrap>
         <S.InputWrap>
-          <TextFieldBasic required role="input-addressDetail" label="층" register={register("floor")} />
+          <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
           <UnitBasic label="층" />
         </S.InputWrap>
         <S.InputWrap>
-          <TextFieldBasic required role="input-pyeong" label="평" register={register("pyeong")} />
-          <UnitBasic label="평" />
-          <TextFieldBasic required role="input-roomCount" label="방 개수" register={register("roomCount")} />
+          <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
+          <UnitBasic label="m²" />
+          <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
           <UnitBasic label="개" />
         </S.InputWrap>
         <TitleUnderline label="거래 정보" />
         <S.InputWrap>
-          <TextFieldBasic required role="input-price" label="가격" register={register("price")} />
+          <TextFieldBasic required role="input-price" type="number" label="가격" register={register("price")} />
+          <UnitBasic label="만원" />
+        </S.InputWrap>
+        <S.InputWrap>
+          <TextFieldBasic required role="input-price" type="number" label="" register={register("manageCost")} />
           <UnitBasic label="만원" />
         </S.InputWrap>
         <Button role="submit-button" type="submit" variant="contained">
