@@ -6,11 +6,12 @@ import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
-  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address);
-  // console.log("matchedFirebaseData:::", matchedFirebaseData);
+  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
+    (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
+  );
   return (
     <S.Container>
-      {/* 클릭시 건물 상세 정보 */}
+      {/* 클릭 된 건물 상세 정보 */}
       {props.selectedMarkerData !== null ? (
         <S.SelectedArea>
           <S.SelectedInfo>
@@ -32,7 +33,8 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <S.SelectedContent>
                 <p>
                   <strong>
-                    매매 {isBillion(props.selectedMarkerData.amount) !== 0 ? `${isBillion(props.selectedMarkerData.amount)}억` : ""} {isTenMillion(props.selectedMarkerData.amount) !== 0 ? `${isTenMillion(props.selectedMarkerData.amount)}만` : ""} 원
+                    매매 {isBillion(props.selectedMarkerData.amount) !== 0 ? `${isBillion(props.selectedMarkerData.amount)}억` : ""}{" "}
+                    {isTenMillion(props.selectedMarkerData.amount) !== 0 ? `${isTenMillion(props.selectedMarkerData.amount)}만` : ""} 원
                   </strong>
                   <br />
                   {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
@@ -41,17 +43,18 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
             </S.InfoWrap>
           </S.SelectedInfo>
 
+          {/* 등록된 건물 정보 */}
           <S.RegisteredInfo>
             {matchedFirebaseData.length > 0 ? (
               <ul>
                 {matchedFirebaseData.map((el, index) => (
-                  <li key={`${el.address}_${index}`}>
+                  <S.RegisteredItem key={`${el.address}_${index}`}>
                     <strong>매매 {el.price}만원</strong>
                     <br />
-                    아파트・{el.addressDetail}
+                    {el.type}・{el.addressDetail}
                     <br />
-                    {el.floor}층, {el.area}m², 관리비
-                  </li>
+                    {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
+                  </S.RegisteredItem>
                 ))}
               </ul>
             ) : (

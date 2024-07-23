@@ -87,12 +87,14 @@ export interface IMarkerData {
 }
 
 export interface IFirebaseData {
+  type: string;
   address: string;
   addressDetail: string;
   floor: number;
   area: number;
   price: number;
   roomCount: number;
+  manageCost: number;
 }
 
 // Hooks Type

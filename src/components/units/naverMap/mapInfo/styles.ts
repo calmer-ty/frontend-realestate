@@ -8,7 +8,7 @@ export const Container = styled.div`
   background-color: #fff;
   z-index: 1;
 `;
-// Selected
+// 클릭 된 건물 상세 정보
 export const SelectedArea = styled.article`
   display: flex;
   flex-direction: column;
@@ -45,7 +45,12 @@ export const SelectedContent = styled.div`
   background-color: #efefef;
 `;
 
+// 등록된 건물 정보
 export const RegisteredInfo = styled.section``;
+export const RegisteredItem = styled.li`
+  padding: 20px 0;
+  border-bottom: 1px solid #dedede;
+`;
 
 export const VisibleArea = styled.section``;
 export const VisibleList = styled.li`
