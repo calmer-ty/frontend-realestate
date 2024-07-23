@@ -14,7 +14,7 @@ export default function RootLayout({
       <body>
         <div id="wrapper">
           <header>
-            <div className="header-inner">
+            <div id="header-inner">
               <h1 id="logo">
                 <Link href="/">
                   <HomeWorkIcon color="primary" fontSize="large" />
@@ -27,7 +27,7 @@ export default function RootLayout({
             </div>
           </header>
           <main>
-            <div className="main-inner">{children}</div>
+            <div id="main-inner">{children}</div>
           </main>
         </div>
       </body>

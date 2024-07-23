@@ -5,8 +5,10 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   row-gap: 20px;
-  margin: 0 100px;
   height: 100%;
+  width: 100%;
+  padding: 20px;
+  max-width: 1024px;
 `;
 export const InputWrap = styled.div`
   display: flex;
