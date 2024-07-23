@@ -7,7 +7,7 @@ export const Form = styled.form`
   row-gap: 20px;
   height: 100%;
   width: 100%;
-  padding: 20px;
+  padding: 40px;
   max-width: 1024px;
 `;
 export const InputWrap = styled.div`

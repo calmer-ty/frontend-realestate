@@ -22,6 +22,7 @@ import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
+import FormattedInputs from "@/src/components/commons/inputs/textField/number";
 
 export default function WritePage(): JSX.Element {
   const router = useRouter();
@@ -63,6 +64,7 @@ export default function WritePage(): JSX.Element {
     const collectionName = getFirestoreCollectionName(selectedOption);
     const docRef = await addDoc(collection(db, collectionName), {
       ...data, // 컬렉션에 데이터를 추가합니다
+      type: selectedOption,
     });
     console.log(docRef);
     router.push("/buildings/view/apartment/");
@@ -93,6 +95,7 @@ export default function WritePage(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <TitleUnderline label="매물 정보" />
+        <FormattedInputs />
         <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />

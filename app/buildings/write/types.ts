@@ -1,7 +1,7 @@
 // import type { Firestore } from "firebase/firestore";
 
 export interface IWriteFormData {
-  aaa: string;
+  type: string;
   address: string;
   addressDetail: string;
   floor: number;
