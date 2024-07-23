@@ -22,7 +22,6 @@ import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
-import FormattedInputs from "@/src/components/commons/inputs/textField/number";
 
 export default function WritePage(): JSX.Element {
   const router = useRouter();
@@ -87,15 +86,11 @@ export default function WritePage(): JSX.Element {
     onToggle(); // 주소 검색 완료 후 모달 닫기
   };
 
-  // useEffect 훅을 사용하여 isSubmitted가 true가 되면 페이지를 이동합니다.
-  // useEffect(() => {
-  //   void router.push("/");
-  // }, [router]);
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <TitleUnderline label="매물 정보" />
-        <FormattedInputs />
+
         <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
@@ -118,7 +113,7 @@ export default function WritePage(): JSX.Element {
         </S.InputWrap>
         <TitleUnderline label="거래 정보" />
         <S.InputWrap>
-          <TextFieldBasic required role="input-price" type="number" label="가격" register={register("price")} />
+          <TextFieldBasic required role="input-price" type="number" label="매매가" />
           <UnitBasic label="만원" />
         </S.InputWrap>
         <S.InputWrap>
