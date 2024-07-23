@@ -33,7 +33,7 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <S.SelectedContent>
                 <p>
                   <strong>
-                    매매 {isBillion(props.selectedMarkerData.price) !== 0 ? `${isBillion(props.selectedMarkerData.price)}억` : ""}
+                    매매 {isBillion(props.selectedMarkerData.price) !== 0 ? `${isBillion(props.selectedMarkerData.price)}억` : ""}&nbsp;
                     {isTenMillion(props.selectedMarkerData.price) !== 0 ? `${isTenMillion(props.selectedMarkerData.price)}만` : ""} 원
                   </strong>
                   <br />
@@ -50,13 +50,13 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
                 {matchedFirebaseData.map((el, index) => (
                   <S.RegisteredItem key={`${el.address}_${index}`}>
                     <strong>
-                      매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}
+                      매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}&nbsp;
                       {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""}원
                     </strong>
                     <br />
                     {el.type}・{el.addressDetail}
                     <br />
-                    {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
+                    {el.floor}층, {el.area}m², 관리비 {el.manageCost} 만원
                   </S.RegisteredItem>
                 ))}
               </ul>
