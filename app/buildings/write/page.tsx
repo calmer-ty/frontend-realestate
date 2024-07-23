@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { db } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
@@ -18,8 +18,10 @@ import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
 import UnitBasic from "@/src/components/commons/unit/basic";
+import TitleUnderline from "@/src/components/commons/titles/underline";
 
 export default function WritePage(): JSX.Element {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -60,6 +62,7 @@ export default function WritePage(): JSX.Element {
       ...data, // 'building' 컬렉션에 데이터를 추가합니다
     });
     console.log(docRef);
+    router.push("/buildings/view/apartment/");
   };
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
@@ -79,13 +82,14 @@ export default function WritePage(): JSX.Element {
     onToggle(); // 주소 검색 완료 후 모달 닫기
   };
 
-  // const handleTypeChange = (type: string | null): void => {
-  //   setSelectedType(type);
-  // };
-
+  // useEffect 훅을 사용하여 isSubmitted가 true가 되면 페이지를 이동합니다.
+  // useEffect(() => {
+  //   void router.push("/");
+  // }, [router]);
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
+        <TitleUnderline label="매물 정보" />
         <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
@@ -106,9 +110,7 @@ export default function WritePage(): JSX.Element {
           <TextFieldBasic required role="input-roomCount" label="방 개수" register={register("roomCount")} />
           <UnitBasic label="개" />
         </S.InputWrap>
-        <hr />
-        <hr />
-        <hr />
+        <TitleUnderline label="거래 정보" />
         <S.InputWrap>
           <TextFieldBasic required role="input-price" label="가격" register={register("price")} />
           <UnitBasic label="만원" />

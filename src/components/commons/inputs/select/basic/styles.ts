@@ -1,3 +1,5 @@
 export const style = {
-  width: "100%",
+  label: {
+    backgroundColor: "#fff",
+  },
 };

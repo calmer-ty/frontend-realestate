@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import type { ISelectBasic } from "./types";
 import type { SelectChangeEvent } from "@mui/material/Select";
-// import { style } from "./styles";
+import { style } from "./styles";
 
 const options = ["아파트"];
 
@@ -20,7 +20,9 @@ export default function SelectBasic(props: ISelectBasic): JSX.Element {
 
   return (
     <FormControl fullWidth required={props.required}>
-      <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
+      <InputLabel style={style.label} id="demo-simple-select-label">
+        {props.label}
+      </InputLabel>
       <Select labelId="demo-simple-select-label" id="demo-simple-select" value={type} label="type" onChange={handleChange}>
         <MenuItem value="">
           <em>매물 유형을 선택하세요</em>
