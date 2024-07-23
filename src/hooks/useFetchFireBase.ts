@@ -12,12 +12,11 @@ export const useFetchFireBase = (): IFirebaseData[] => {
     const fetchBuildings = async (): Promise<void> => {
       try {
         const querySnapshot = await getDocs(collection(db, "apartment")); // 'building' 컬렉션을 참조합니다
-        const datas = querySnapshot.docs.map((el) => {
-          const data = el.data();
+        const datas: IFirebaseData[] = querySnapshot.docs.map((el) => {
+          const data = el.data() as IFirebaseData;
           // 속성 순서를 일정하게 유지하여 새로운 객체 생성
           return {
-            address: data.address,
-            addressDetail: data.addressDetail,
+            ...data,
           };
         });
         setFirebaseDatas(datas); // 데이터 상태 업데이트

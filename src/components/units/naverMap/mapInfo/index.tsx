@@ -7,7 +7,7 @@ import * as S from "./styles";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter((el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address);
-  console.log("matchedFirebaseData:::", matchedFirebaseData);
+  // console.log("matchedFirebaseData:::", matchedFirebaseData);
   return (
     <S.Container>
       {/* 클릭시 건물 상세 정보 */}
@@ -46,7 +46,11 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <ul>
                 {matchedFirebaseData.map((el, index) => (
                   <li key={`${el.address}_${index}`}>
-                    {el.address} {el.addressDetail}
+                    <strong>매매 {el.price}만원</strong>
+                    <br />
+                    아파트・{el.addressDetail}
+                    <br />
+                    {el.floor}층, {el.area}m², 관리비
                   </li>
                 ))}
               </ul>

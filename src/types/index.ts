@@ -89,6 +89,10 @@ export interface IMarkerData {
 export interface IFirebaseData {
   address: string;
   addressDetail: string;
+  floor: number;
+  area: number;
+  price: number;
+  roomCount: number;
 }
 
 // Hooks Type
