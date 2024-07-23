@@ -59,14 +59,14 @@ export const useNaverMap = (props: IUseNaverMapProps): void => {
             return `
               <div style="${markerStyle.containerActive}">
                 <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
                 <div style="${markerStyle.arrowActive}"></div>
               </div>`;
           } else {
             return `
               <div style="${markerStyle.container}">
                 <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.amount / 10000).toFixed(1)}억</strong></div>
+                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
                 <div style="${markerStyle.arrow}"></div>
               </div>`;
           }
