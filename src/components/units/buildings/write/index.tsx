@@ -63,12 +63,12 @@ export default function BuildingWrite(): JSX.Element {
     if (selectedOption === null) return;
     const collectionName = getFirestoreCollectionName(selectedOption);
     const docRef = await addDoc(collection(db, collectionName), {
-      _id: uuidv4(), // 고유한 _id 생성
       ...data, // 컬렉션에 데이터를 추가합니다
+      _id: uuidv4(), // 고유한 _id 생성
       type: selectedOption,
     });
     console.log(docRef);
-    router.push("/buildings/view/apartment/");
+    router.push("/buildings");
   };
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
