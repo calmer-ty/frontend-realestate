@@ -22,7 +22,7 @@ export default function RootLayout({
               </h1>
               <nav>
                 <Link href="/buildings/view/apartment">지도</Link>
-                <Link href="/buildings/write">방 내놓기</Link>
+                <Link href="/buildings/new">방 내놓기</Link>
               </nav>
             </div>
           </header>

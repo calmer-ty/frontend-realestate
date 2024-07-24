@@ -23,7 +23,7 @@ import type { IWriteFormData } from "./types";
 
 import * as S from "./styles";
 
-export default function WritePage(): JSX.Element {
+export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const {
     register,
