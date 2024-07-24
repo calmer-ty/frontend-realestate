@@ -17,6 +17,7 @@ import TitleUnderline from "@/src/components/commons/titles/underline";
 
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
+import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
@@ -62,6 +63,7 @@ export default function BuildingWrite(): JSX.Element {
     if (selectedOption === null) return;
     const collectionName = getFirestoreCollectionName(selectedOption);
     const docRef = await addDoc(collection(db, collectionName), {
+      _id: uuidv4(), // 고유한 _id 생성
       ...data, // 컬렉션에 데이터를 추가합니다
       type: selectedOption,
     });
