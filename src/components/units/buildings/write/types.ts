@@ -5,6 +5,7 @@ export interface IWriteFormData {
   type: string;
   address: string;
   addressDetail: string;
+  elevator: string;
   floor: number;
   area: number;
   roomCount: number;

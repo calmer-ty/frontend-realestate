@@ -22,12 +22,14 @@ import { v4 as uuidv4 } from "uuid";
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
+import RadioControl from "@/src/components/commons/inputs/radio/control";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    control,
     setValue,
     // formState: { errors },
   } = useForm<IWriteFormData>({
@@ -128,6 +130,7 @@ export default function BuildingWrite(): JSX.Element {
           <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
           <UnitBasic label="개" />
         </S.InputWrap>
+        <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
 
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
