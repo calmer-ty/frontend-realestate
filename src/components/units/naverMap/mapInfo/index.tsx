@@ -35,8 +35,8 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <S.SelectedContent>
                 <p>
                   <strong>
-                    매매 {isBillion(props.selectedMarkerData.price) !== 0 ? `${isBillion(props.selectedMarkerData.price)}억` : ""}&nbsp;
-                    {isTenMillion(props.selectedMarkerData.price) !== 0 ? `${isTenMillion(props.selectedMarkerData.price)}만` : ""} 원
+                    매매 {isBillion(props.selectedMarkerData.price)}&nbsp;
+                    {isTenMillion(props.selectedMarkerData.price)}원
                   </strong>
                   <br />
                   {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
@@ -53,13 +53,13 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
                   <S.RegisteredItem key={`${el.type}_${el.address}_${index}`}>
                     <Link href={`/buildings/${el._id}`}>
                       <strong>
-                        매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}&nbsp;
-                        {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""}원
+                        매매 {isBillion(el.price)}&nbsp;
+                        {isTenMillion(el.price)}원
                       </strong>
                       <br />
                       {el.type}・{el.addressDetail}
                       <br />
-                      {el.floor}층, {el.area}m², 관리비 {el.manageCost}만 원
+                      {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
                     </Link>
                   </S.RegisteredItem>
                 ))}
@@ -80,7 +80,8 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
                 return (
                   <S.VisibleList key={`${el.address}_${index}`}>
                     <S.VisibleTitle>
-                      매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""} 원
+                      매매 {isBillion(el.price)}&nbsp;
+                      {isTenMillion(el.price)}원
                     </S.VisibleTitle>
                     <p>
                       아파트・{el.apartmentName}
