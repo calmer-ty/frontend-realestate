@@ -1,5 +1,5 @@
-import BuildingMap from "@/src/components/units/buildings/map";
+import BuildingView from "@/src/components/units/buildings/view";
 
 export default function BuildingsPage(): JSX.Element {
-  return <BuildingMap />;
+  return <BuildingView />;
 }
