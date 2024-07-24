@@ -4,6 +4,7 @@ import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import type { IMapInfoProps } from "./types";
 import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
+import Link from "next/link";
 
 export default function MapInfo(props: IMapInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
@@ -48,15 +49,17 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
             {matchedFirebaseData.length > 0 ? (
               <ul>
                 {matchedFirebaseData.map((el, index) => (
-                  <S.RegisteredItem key={`${el.type}_${el.address}_${index}`} id={`${el.type}_${el.address}_#${index}`}>
-                    <strong>
-                      매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}&nbsp;
-                      {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""}원
-                    </strong>
-                    <br />
-                    {el.type}・{el.addressDetail}
-                    <br />
-                    {el.floor}층, {el.area}m², 관리비 {el.manageCost}만 원
+                  <S.RegisteredItem key={`${el.type}_${el.address}_${index}`}>
+                    <Link href={`/buildings/${el.type}_${el.address}_#${index}`}>
+                      <strong>
+                        매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}&nbsp;
+                        {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""}원
+                      </strong>
+                      <br />
+                      {el.type}・{el.addressDetail}
+                      <br />
+                      {el.floor}층, {el.area}m², 관리비 {el.manageCost}만 원
+                    </Link>
                   </S.RegisteredItem>
                 ))}
               </ul>
