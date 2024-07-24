@@ -3,7 +3,7 @@ import { useState } from "react";
 import MapInfo from "./mapInfo";
 import MapView from "./mapView";
 
-import { useNaverMap } from "@/src/hooks/useNaverMap";
+import { useAllMarkerMaps } from "@/src/hooks/useAllMarkerMaps";
 import { useFetchFireBase } from "@/src/hooks/useFetchFireBase";
 
 import type { IMarkerData } from "@/src/types";
@@ -17,7 +17,7 @@ export default function NaverMap(props: INaverMapProps): JSX.Element {
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
   const firebaseDatas = useFetchFireBase();
 
-  useNaverMap({ ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
+  useAllMarkerMaps({ ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
   return (
     <>

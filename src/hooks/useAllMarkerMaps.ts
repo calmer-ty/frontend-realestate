@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { clusterStyle, markerStyle } from "@/src/components/units/naverMap/styles";
+import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
 import { shortenCityName } from "../commons/libraries/utils";
-import type { IGeocodeData, IMarkerData, IUseNaverMapProps } from "@/src/types";
+import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 declare global {
   interface Window {
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-export const useNaverMap = (props: IUseNaverMapProps): void => {
+export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const { ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   // let markers: any[] = [];

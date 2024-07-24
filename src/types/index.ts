@@ -99,7 +99,7 @@ export interface IFirebaseData {
 }
 
 // Hooks Type
-export interface IUseNaverMapProps {
+export interface IUseAllMarkerMapsProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
