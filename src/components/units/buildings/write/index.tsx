@@ -91,7 +91,6 @@ export default function BuildingWrite(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <TitleUnderline label="매물 정보" />
-
         <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
@@ -102,16 +101,14 @@ export default function BuildingWrite(): JSX.Element {
         <S.InputWrap>
           <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
         </S.InputWrap>
-        <S.InputWrap>
-          <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
-          <UnitBasic label="층" />
-        </S.InputWrap>
+
         <S.InputWrap>
           <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
           <UnitBasic label="m²" />
           <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
           <UnitBasic label="개" />
         </S.InputWrap>
+
         <TitleUnderline label="거래 정보" />
         <S.InputWrap>
           <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
@@ -121,6 +118,17 @@ export default function BuildingWrite(): JSX.Element {
           <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
           <UnitBasic label="만원" />
         </S.InputWrap>
+
+        <TitleUnderline label="추가 정보" />
+        <S.InputWrap>
+          <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
+          <UnitBasic label="층" />
+        </S.InputWrap>
+        <S.InputWrap>
+          <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
+          <UnitBasic label="개" />
+        </S.InputWrap>
+
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
         </Button>

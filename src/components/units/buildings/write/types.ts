@@ -10,6 +10,7 @@ export interface IWriteFormData {
   roomCount: number;
   price: number;
   manageCost: number;
+  bathroomCount: number;
 }
 
 // export interface IWritePageProps {
