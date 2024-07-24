@@ -21,8 +21,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
-
 import * as S from "./styles";
+import NaverMap from "../../naverMap";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
@@ -99,6 +99,7 @@ export default function BuildingWrite(): JSX.Element {
           <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
             <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
           </ModalBasic>
+          <NaverMap />
         </S.InputWrap>
         <S.InputWrap>
           <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />

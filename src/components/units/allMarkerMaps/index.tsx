@@ -23,7 +23,7 @@ export default function NaverMap(props: INaverMapProps): JSX.Element {
     <>
       <div style={mapStyle}>
         <MapInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} />
-        <MapView geocodeResults={props.geocodeResults} />
+        <MapView geocodeResults={geocodeResults} />
       </div>
     </>
   );
