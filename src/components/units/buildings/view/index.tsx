@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import NaverMap from "@/src/components/units/naverMap";
 import type { IGeocodeData } from "@/src/types";
 
-export default function ApartmentPage(): JSX.Element {
+export default function BuildingView(): JSX.Element {
   const [geocodeResults, setGeocodeResults] = useState<IGeocodeData[]>([]);
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
   useEffect(() => {
