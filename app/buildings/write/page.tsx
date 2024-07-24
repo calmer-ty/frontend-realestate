@@ -113,11 +113,11 @@ export default function WritePage(): JSX.Element {
         </S.InputWrap>
         <TitleUnderline label="거래 정보" />
         <S.InputWrap>
-          <TextFieldBasic required role="input-price" type="number" label="매매가" />
+          <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
           <UnitBasic label="만원" />
         </S.InputWrap>
         <S.InputWrap>
-          <TextFieldBasic required role="input-price" type="number" label="" register={register("manageCost")} />
+          <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
           <UnitBasic label="만원" />
         </S.InputWrap>
         <Button role="submit-button" type="submit" variant="contained">
