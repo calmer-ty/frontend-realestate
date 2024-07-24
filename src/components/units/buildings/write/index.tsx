@@ -12,7 +12,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import SelectBasic from "@/src/components/commons/inputs/select/basic";
 import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
-import UnitBasic from "@/src/components/commons/unit/basic";
+import UnitBasic from "@/src/components/commons/units/basic";
 import TitleUnderline from "@/src/components/commons/titles/underline";
 
 // import { yupResolver } from "@hookform/resolvers/yup";
