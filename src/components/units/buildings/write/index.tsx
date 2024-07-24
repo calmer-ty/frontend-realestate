@@ -17,6 +17,7 @@ import TitleUnderline from "@/src/components/commons/titles/underline";
 
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
+import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
@@ -63,10 +64,11 @@ export default function BuildingWrite(): JSX.Element {
     const collectionName = getFirestoreCollectionName(selectedOption);
     const docRef = await addDoc(collection(db, collectionName), {
       ...data, // 컬렉션에 데이터를 추가합니다
+      _id: uuidv4(), // 고유한 _id 생성
       type: selectedOption,
     });
     console.log(docRef);
-    router.push("/buildings/view/apartment/");
+    router.push("/buildings");
   };
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
