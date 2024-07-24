@@ -30,6 +30,7 @@ export default function BuildingWrite(): JSX.Element {
     register,
     handleSubmit,
     control,
+    watch,
     setValue,
     // formState: { errors },
   } = useForm<IWriteFormData>({
@@ -44,11 +45,7 @@ export default function BuildingWrite(): JSX.Element {
   };
 
   // 셀렉터
-  const [selectedOption, setSelectedOption] = useState("");
-  const handleOptionChange = (selectedValue: string): void => {
-    setSelectedOption(selectedValue);
-  };
-  console.log("selectedOption:::", selectedOption);
+  const selectedType = watch("type");
 
   const getFirestoreCollectionName = (type: string | null): string => {
     switch (type) {
@@ -61,12 +58,12 @@ export default function BuildingWrite(): JSX.Element {
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
-    if (selectedOption === null) return;
-    const collectionName = getFirestoreCollectionName(selectedOption);
+    if (selectedType === null) return;
+    const collectionName = getFirestoreCollectionName(selectedType);
     const docRef = await addDoc(collection(db, collectionName), {
       ...data, // 컬렉션에 데이터를 추가합니다
       _id: uuidv4(), // 고유한 _id 생성
-      type: selectedOption,
+      type: selectedType,
     });
     console.log(docRef);
     router.push("/buildings");
@@ -74,8 +71,8 @@ export default function BuildingWrite(): JSX.Element {
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
   const onClickFetch = async (): Promise<void> => {
-    if (selectedOption === null) return;
-    const collectionName = getFirestoreCollectionName(selectedOption);
+    if (selectedType === null) return;
+    const collectionName = getFirestoreCollectionName(selectedType);
     const querySnapshot = await getDocs(collection(db, collectionName)); // 컬렉션을 참조합니다
     const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
     console.log(datas);
@@ -93,7 +90,7 @@ export default function BuildingWrite(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <TitleUnderline label="매물 정보" />
-        <SelectBasic required label="매물유형" onChange={handleOptionChange} value={selectedOption} />
+        <SelectBasic required label="매물유형" name="type" control={control} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
           <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
