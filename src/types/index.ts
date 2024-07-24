@@ -87,6 +87,7 @@ export interface IMarkerData {
 }
 
 export interface IFirebaseData {
+  _id: string;
   type: string;
   address: string;
   addressDetail: string;

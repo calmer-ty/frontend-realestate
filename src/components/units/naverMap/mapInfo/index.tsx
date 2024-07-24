@@ -10,6 +10,7 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
     (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
   );
+  console.log("matchedFirebaseData:::", matchedFirebaseData);
   return (
     <S.Container>
       {/* 클릭 된 건물 상세 정보 */}
@@ -50,7 +51,7 @@ export default function MapInfo(props: IMapInfoProps): JSX.Element {
               <ul>
                 {matchedFirebaseData.map((el, index) => (
                   <S.RegisteredItem key={`${el.type}_${el.address}_${index}`}>
-                    <Link href={`/buildings/${el.type}_${el.address}_#${index}`}>
+                    <Link href={`/buildings/${el._id}`}>
                       <strong>
                         매매 {isBillion(el.price) !== 0 ? `${isBillion(el.price)}억` : ""}&nbsp;
                         {isTenMillion(el.price) !== 0 ? `${isTenMillion(el.price)}만` : ""}원
