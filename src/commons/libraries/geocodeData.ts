@@ -21,7 +21,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         streetNumber: item.지번,
         address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${dongSubCodeStr}`,
         address_street: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${streetSubCodeStr}`,
-        apartmentName: item.아파트,
+        buildingName: item.아파트,
         price: Number(item.거래금액.replace(/,/g, "")),
         area: item.전용면적,
         floor: item.층,

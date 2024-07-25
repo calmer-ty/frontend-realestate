@@ -18,7 +18,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
         <S.SelectedArea>
           <S.SelectedInfo>
             <S.InfoWrap>
-              <S.SelectedBuildingName>{props.selectedMarkerData.apartmentName}</S.SelectedBuildingName>
+              <S.SelectedBuildingName>{props.selectedMarkerData.buildingName}</S.SelectedBuildingName>
               연식: {props.selectedMarkerData.constructionYear}
               <br />
               <S.TextWrap>
@@ -84,7 +84,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
                       {isTenMillion(el.price)}원
                     </S.VisibleTitle>
                     <p>
-                      아파트・{el.apartmentName}
+                      아파트・{el.buildingName}
                       <br />
                       {el.area}m² {el.floor}층
                     </p>
