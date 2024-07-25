@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { IGeocodeCoord } from "@/src/types";
 
-export const geocodeAddress = async (address: string): Promise<{ latitude: number; longitude: number } | null> => {
+export const geocode = async (address: string): Promise<{ latitude: number; longitude: number } | null> => {
   try {
     const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
     const response = await axios.get<IGeocodeCoord>(apiUrl, {
