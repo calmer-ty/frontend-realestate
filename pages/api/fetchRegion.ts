@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next"; // Next.js의 API 요청 및 응답 타입을 가져옵니다
-import { regionAllData } from "@/src/commons/libraries/regionData"; // 지역 데이터 처리 함수를 가져옵니다
+import { regionAllData } from "@/src/commons/libraries/region/regionData"; // 지역 데이터 처리 함수를 가져옵니다
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   try {

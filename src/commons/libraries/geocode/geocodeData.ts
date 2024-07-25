@@ -1,9 +1,7 @@
-import axios from "axios";
-import NodeCache from "node-cache";
-import { apartmentData } from "./apartmentData";
-import type { IApartmentLocationData, IGeocodeCoord, IGeocodeData } from "@/src/types";
-
-const geocodeCache = new NodeCache({ stdTTL: 7200 });
+import { apartmentData } from "../apartment/apartmentData";
+import type { IApartmentLocationData, IGeocodeData } from "@/src/types";
+import { geocode } from "./geocode";
+import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
 export const geocodeData = async (): Promise<IGeocodeData[]> => {
   const apartmentResults: IApartmentLocationData[] = await apartmentData();
@@ -30,37 +28,25 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         dealDay: item.일,
         constructionYear: item.건축년도,
       };
+
       const cacheKey = `geocode_${itemsData.address}`;
-
-      // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
-      const cacheData = itemsData;
-      const cachedData = geocodeCache.get<IGeocodeData>(cacheKey);
-
+      const cachedData = getCachedGeocodeData(cacheKey);
       if (cachedData !== undefined) {
         // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
         return cachedData;
       }
 
       try {
-        const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(itemsData.address)}`;
-        const response = await axios.get<IGeocodeCoord>(apiUrl, {
-          headers: {
-            "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
-            "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
-          },
-        });
-
-        if (response.data.addresses.length > 0) {
-          const { x, y } = response.data.addresses[0];
-          const geocodeResult = {
-            ...cacheData,
-            latitude: parseFloat(y),
-            longitude: parseFloat(x),
+        const geocodeResult = await geocode(itemsData.address);
+        if (geocodeResult !== null) {
+          const result = {
+            ...itemsData,
+            latitude: geocodeResult.latitude,
+            longitude: geocodeResult.longitude,
           };
 
-          // 데이터를 캐시에 저장합니다
-          geocodeCache.set(cacheKey, geocodeResult);
-          return geocodeResult;
+          setGeocodeCache(cacheKey, result);
+          return result;
         } else {
           console.log(`주소 ${itemsData.address}에 대한 지오코딩 결과 없음`);
           return null;
