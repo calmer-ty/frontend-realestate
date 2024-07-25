@@ -6,9 +6,9 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
+import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
 import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
@@ -16,13 +16,12 @@ import UnitBasic from "@/src/components/commons/units/basic";
 import TitleUnderline from "@/src/components/commons/titles/underline";
 import RadioControl from "@/src/components/commons/inputs/radio/control";
 
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import { schemaBuildingWrite } from "@/src/commons/libraries/validation";
 import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
+import axios from "axios";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
@@ -71,13 +70,19 @@ export default function BuildingWrite(): JSX.Element {
 
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
-  const onCompleteAddressSearch = (data: Address): void => {
+  const onCompleteAddressSearch = async (data: Address): Promise<void> => {
     const selectedAddress = data.address; // 검색된 주소를 선택하고
     setSelectedAddress(selectedAddress); // 상태 변수에 설정합니다
     setValue("address", selectedAddress); // 폼의 'address' 필드에 선택된 주소를 설정합니다
     onToggle(); // 주소 검색 완료 후 모달 닫기
+
+    try {
+      const response = await axios.get(`/api/fetchGeocodeAddress?address=${encodeURIComponent(selectedAddress)}`);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching geocode data:", error);
+    }
   };
-  console.log(selectedAddress);
 
   // =======================================
   // =======================================
@@ -126,6 +131,8 @@ export default function BuildingWrite(): JSX.Element {
     };
     loadScript(NAVER_MAP_SCRIPT_URL, initMap);
   }, [ncpClientId]);
+
+  //  지오코드
 
   // 주소를 받아 지오코딩 수행 및 마커 추가
 
