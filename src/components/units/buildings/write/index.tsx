@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 
-import SelectBasic from "@/src/components/commons/inputs/select/basic";
+import SelectControl from "@/src/components/commons/inputs/select/control";
 import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
 import UnitBasic from "@/src/components/commons/units/basic";
@@ -26,18 +26,8 @@ import RadioControl from "@/src/components/commons/inputs/radio/control";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    control,
-    watch,
-    setValue,
-    // formState: { errors },
-  } = useForm<IWriteFormData>({
-    // resolver: yupResolver(schemaBuildingWrite),
-  });
+  const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
 
-  const [selectedAddress, setSelectedAddress] = useState<string>("");
   // 모달창
   const [open, setOpen] = useState(false);
   const onToggle = (): void => {
@@ -45,6 +35,7 @@ export default function BuildingWrite(): JSX.Element {
   };
 
   // 셀렉터
+  const selecteItems = ["아파트"];
   const selectedType = watch("type");
 
   const getFirestoreCollectionName = (type: string | null): string => {
@@ -78,6 +69,7 @@ export default function BuildingWrite(): JSX.Element {
     console.log(datas);
   };
 
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
   const onCompleteAddressSearch = (data: Address): void => {
     const selectedAddress = data.address; // 검색된 주소를 선택하고
@@ -90,7 +82,7 @@ export default function BuildingWrite(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <TitleUnderline label="매물 정보" />
-        <SelectBasic required label="매물유형" name="type" control={control} />
+        <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={selecteItems} />
         <S.InputWrap>
           <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
           <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
