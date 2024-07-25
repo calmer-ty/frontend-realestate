@@ -1,12 +1,12 @@
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 
-import type { IMapInfoProps } from "./types";
+import type { IMapsInfoProps } from "./types";
 import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
 import Link from "next/link";
 
-export default function MapInfo(props: IMapInfoProps): JSX.Element {
+export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
     (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
   );

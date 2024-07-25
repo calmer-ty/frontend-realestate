@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import MapInfo from "./mapInfo";
-import MapView from "./mapView";
+import MapsInfo from "./mapsInfo";
+import MapsView from "./mapsView";
 
 import { useAllMarkerMaps } from "@/src/hooks/useAllMarkerMaps";
 import { useFetchFireBase } from "@/src/hooks/useFetchFireBase";
@@ -22,8 +22,8 @@ export default function NaverMap(props: INaverMapProps): JSX.Element {
   return (
     <>
       <div style={mapStyle}>
-        <MapInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} />
-        <MapView geocodeResults={geocodeResults} />
+        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} />
+        <MapsView geocodeResults={geocodeResults} />
       </div>
     </>
   );
