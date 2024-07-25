@@ -62,7 +62,7 @@ export interface IGeocodeData {
 
   address: string;
   address_street: string;
-  apartmentName: string;
+  buildingName: string;
   price: number;
   area: number;
   floor: number;
@@ -76,7 +76,7 @@ export interface IGeocodeData {
 export interface IMarkerData {
   address: string;
   address_street: string;
-  apartmentName: string;
+  buildingName: string;
   price: number;
   area: number;
   floor: number;
