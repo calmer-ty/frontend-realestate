@@ -14,20 +14,20 @@ export default function RootLayout({
       <body>
         <div id="wrapper">
           <header>
-            <div className="header-inner">
+            <div id="header-inner">
               <h1 id="logo">
                 <Link href="/">
                   <HomeWorkIcon color="primary" fontSize="large" />
                 </Link>
               </h1>
               <nav>
-                <Link href="/buildings/view/apartment">지도</Link>
-                <Link href="/buildings/write">방 내놓기</Link>
+                <Link href="/buildings">지도</Link>
+                <Link href="/buildings/new">방 내놓기</Link>
               </nav>
             </div>
           </header>
           <main>
-            <div className="main-inner">{children}</div>
+            <div id="main-inner">{children}</div>
           </main>
         </div>
       </body>

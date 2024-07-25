@@ -30,15 +30,22 @@ export interface IApartmentData {
   };
 }
 export interface IApartmentItem {
+  지번: string;
   법정동: string;
   법정동본번코드: string;
-  거래금액: string;
+  법정동부번코드: string;
+  도로명: string;
+  도로명건물본번호코드: string;
+  도로명건물부번호코드: string;
   아파트: string;
+
+  거래금액: string;
   전용면적: number;
   층: number;
   년: string;
   월: string;
   일: string;
+  건축년도: number;
 }
 
 // Geocode
@@ -52,33 +59,54 @@ export interface IGeocodeCoord {
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
-  location: string;
+
   address: string;
-  apartmentName: string;
-  amount: number;
+  address_street: string;
+  buildingName: string;
+  price: number;
   area: number;
   floor: number;
   dealYear: string;
   dealMonth: string;
   dealDay: string;
+  constructionYear: number;
 }
 
 // marker
 export interface IMarkerData {
-  location: string;
   address: string;
-  apartmentName: string;
-  amount: number;
+  address_street: string;
+  buildingName: string;
+  price: number;
   area: number;
   floor: number;
   dealYear: string;
   dealMonth: string;
   dealDay: string;
+  constructionYear: number;
 }
 
-export interface INaverMapHooksProps {
+export interface IFirebaseData {
+  _id: string;
+  type: string;
+  address: string;
+  addressDetail: string;
+  floor: number;
+  area: number;
+  price: number;
+  roomCount: number;
+  manageCost: number;
+}
+
+// Hooks Type
+export interface IUseAllMarkerMapsProps {
   geocodeResults: IGeocodeData[];
   ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
-  setMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
+  setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
+
+  firebaseDatas: IFirebaseData[];
+}
+export interface IUseFetchFireBaseProps {
+  setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
 }

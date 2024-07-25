@@ -37,10 +37,10 @@ header {
   align-items: center;
   width: 100%;
   height: 60px;
-
+  border-bottom: 1px solid #dedede;
   position: fixed;
 }
-.header-inner {
+#header-inner {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -59,12 +59,10 @@ main {
   flex: 1;
   min-height: 100%;
   margin-top: 60px;
-  /* align-items: center; */
-  /* height: 100vh;
-  max-height: 100%;
-  border: 1px solid blue; */
 }
-.main-inner {
+#main-inner {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 

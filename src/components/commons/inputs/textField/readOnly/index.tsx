@@ -1,24 +1,16 @@
 import { TextField } from "@mui/material";
-import type { UseFormRegisterReturn } from "react-hook-form";
-
-interface TextFieldReadOnlyProps {
-  role: string;
-  label: string;
-  value: string;
-  // defaultValue: string;
-  placeholder: string;
-  register: UseFormRegisterReturn;
-}
+import type { TextFieldReadOnlyProps } from "./types";
+import { style } from "./styles";
 
 export default function TextFieldReadOnly(props: TextFieldReadOnlyProps): JSX.Element {
   return (
     <TextField
-      id="outlined-read-only-input"
-      label={props.label}
+      id="outlined-basic"
+      style={style}
       role={props.role}
-      value={props.value}
-      // defaultValue={props.defaultValue}
-      placeholder={props.placeholder}
+      required={props.required}
+      label={props.label}
+      // value={props.value}
       {...props.register}
       InputProps={{
         readOnly: true,
