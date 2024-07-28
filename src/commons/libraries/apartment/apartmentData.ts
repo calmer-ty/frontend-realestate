@@ -1,19 +1,15 @@
-import axios from "axios";
-
 import { regionAllData } from "../region/regionData";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import type { IApartmentLocationData } from "@/src/types";
+import { apartmentApi } from "./apartmentApi";
 
 export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
   try {
     // 지역 데이터를 가져옵니다
     const regionResults = await regionAllData();
 
-    const apartmentKey = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
-    const cacheKeyPrefix = "apartmentData_";
     const apartmentDataPromises = regionResults.map(async (result) => {
-      const apartmentUrl = `http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=${result.region_cd}&DEAL_YMD=201512&serviceKey=${apartmentKey}`;
-      const cacheKey = cacheKeyPrefix + result.region_cd;
+      const cacheKey = `apartment_${result.region_cd}`;
 
       const cachedData = getCachedApartmentData(cacheKey);
       if (cachedData !== undefined) {
@@ -23,8 +19,8 @@ export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
 
       // 캐시에 없는 경우 실제 데이터를 요청합니다
       try {
-        const response = await axios.get(apartmentUrl);
-        const apartmentData = response.data;
+        const response = await apartmentApi(result);
+        const apartmentData = response;
 
         const apartmentLocationData: IApartmentLocationData = {
           apartmentData,

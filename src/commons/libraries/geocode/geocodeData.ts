@@ -1,10 +1,10 @@
 import { apartmentData } from "../apartment/apartmentData";
-import type { IApartmentLocationData, IGeocodeData } from "@/src/types";
-import { geocode } from "./geocode";
+import type { IGeocodeData } from "@/src/types";
+import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
 export const geocodeData = async (): Promise<IGeocodeData[]> => {
-  const apartmentResults: IApartmentLocationData[] = await apartmentData();
+  const apartmentResults = await apartmentData();
   const geocodePromises = apartmentResults.flatMap((result) => {
     const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];
     return apartmentDataItems.map(async (item) => {
@@ -15,7 +15,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
       const streetSubCode = Number(item.도로명건물부번호코드);
       const streetSubCodeStr = streetSubCode !== 0 ? `-${streetSubCode.toString()}` : "";
 
-      const itemsData = {
+      const itemDatas = {
         streetNumber: item.지번,
         address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${dongSubCodeStr}`,
         address_street: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${streetSubCodeStr}`,
@@ -29,7 +29,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         constructionYear: item.건축년도,
       };
 
-      const cacheKey = `geocode_${itemsData.address}`;
+      const cacheKey = `geocode_${itemDatas.address}`;
       const cachedData = getCachedGeocodeData(cacheKey);
       if (cachedData !== undefined) {
         // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
@@ -37,10 +37,10 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
       }
 
       try {
-        const geocodeResult = await geocode(itemsData.address);
+        const geocodeResult = await geocodeApi(itemDatas.address);
         if (geocodeResult !== null) {
           const result = {
-            ...itemsData,
+            ...itemDatas,
             latitude: geocodeResult.latitude,
             longitude: geocodeResult.longitude,
           };
@@ -48,11 +48,11 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
           setGeocodeCache(cacheKey, result);
           return result;
         } else {
-          console.log(`주소 ${itemsData.address}에 대한 지오코딩 결과 없음`);
+          console.log(`주소 ${itemDatas.address}에 대한 지오코딩 결과 없음`);
           return null;
         }
       } catch (error) {
-        console.error(`Error geocoding address ${itemsData.address}:`, error);
+        console.error(`Error geocoding address ${itemDatas.address}:`, error);
         return null;
       }
     });
