@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { getMapInitialOptions, loadScript } from "@/src//commons/libraries/utils/naverMaps";
 import type { IGeocodeData } from "../types";
-import { loadScript } from "@/src//commons/libraries/utils/naverMaps";
 
 export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
@@ -17,18 +17,9 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
         console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
         return;
       }
-      const mapOptions = {
-        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_RIGHT,
-          style: window.naver.maps.ZoomControlStyle.SMALL,
-        },
-      };
 
       // 마커를 담을 Map 생성
-      const map = new window.naver.maps.Map("map", mapOptions);
+      const map = new window.naver.maps.Map("map", getMapInitialOptions());
 
       if (props !== null) {
         const markerPosition = new window.naver.maps.LatLng(props.latitude, props.longitude);

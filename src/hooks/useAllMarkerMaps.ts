@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
 import { shortenCityName } from "../commons/libraries/utils/regex";
-import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import { getMapInitialOptions, loadScript } from "@/src/commons/libraries/utils/naverMaps";
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
@@ -25,18 +25,8 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         return;
       }
 
-      const mapOptions = {
-        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_RIGHT,
-          style: window.naver.maps.ZoomControlStyle.SMALL,
-        },
-      };
-
       // 마커를 담을 Map 생성
-      const map = new window.naver.maps.Map("map", mapOptions);
+      const map = new window.naver.maps.Map("map", getMapInitialOptions());
 
       const createMarker = (coord: IGeocodeEtcData): any => {
         const { latitude, longitude, ...apartmentData } = coord;

@@ -104,7 +104,7 @@ export interface IFirebaseData {
 
 // Hooks Type
 export interface IUseSelectMarkerMapsProps {
-  mapId: string;
+  // mapId: string;
   ncpClientId: string | undefined;
   onMapReady: (map: any) => void;
 }

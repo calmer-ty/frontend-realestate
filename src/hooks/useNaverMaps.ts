@@ -10,7 +10,7 @@ declare global {
 }
 
 export const useNaverMaps = (props: IUseSelectMarkerMapsProps): void => {
-  const { mapId, ncpClientId, onMapReady } = props;
+  const { ncpClientId, onMapReady } = props;
 
   useEffect(() => {
     if (ncpClientId === undefined) {
@@ -36,11 +36,11 @@ export const useNaverMaps = (props: IUseSelectMarkerMapsProps): void => {
           style: window.naver.maps.ZoomControlStyle.SMALL,
         },
       };
-      const map = new window.naver.maps.Map(mapId, mapOptions);
+      const map = new window.naver.maps.Map("map", mapOptions);
       onMapReady(map);
     };
     loadScript(NAVER_MAP_SCRIPT_URL, () => {
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, initMap);
     });
-  }, [mapId, ncpClientId, onMapReady]);
+  }, [ncpClientId, onMapReady]);
 };
