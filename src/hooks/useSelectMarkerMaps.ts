@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { IGeocodeData } from "../types";
-import { useNaverMaps } from "./useNaverMaps";
 
 export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
@@ -9,20 +8,45 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
     setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
   }, []);
 
-  useNaverMaps({
-    mapId: "map",
-    ncpClientId,
-    onMapReady: (map) => {
-      if (props !== null) {
-        const markerOptions = {
-          position: new window.naver.maps.LatLng(props.latitude, props.longitude),
-          map,
-        };
+  useEffect(() => {
+    const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
 
-        const marker = new window.naver.maps.Marker(markerOptions);
-        marker.setMap(map);
-        map.setCenter(markerOptions.position);
+    const loadScript = (src: string, onload: () => void): void => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = src;
+      script.async = true;
+      script.onload = onload;
+      document.head.appendChild(script);
+    };
+
+    const initMap = async (): Promise<void> => {
+      if (typeof window.naver === "undefined") {
+        console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
+        return;
       }
-    },
-  });
+      const mapOptions = {
+        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
+        zoom: 10,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: window.naver.maps.Position.TOP_RIGHT,
+          style: window.naver.maps.ZoomControlStyle.SMALL,
+        },
+      };
+
+      // 마커를 담을 Map 생성
+      const map = new window.naver.maps.Map("map", mapOptions);
+
+      const markerOptions = {
+        position: new window.naver.maps.LatLng(37.3595704, 127.105399),
+        map,
+      };
+
+      // 마커를 변수에 저장하고 이를 활용
+      const marker = new window.naver.maps.Marker(markerOptions);
+      marker.setMap(map);
+    };
+    loadScript(NAVER_MAP_SCRIPT_URL, initMap);
+  }, [ncpClientId]);
 };

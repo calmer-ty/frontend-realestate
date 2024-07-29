@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import type { IUseSelectMarkerMapsProps } from "../types";
+import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import type { IUseSelectMarkerMapsProps } from "@/src/types";
 
 declare global {
   interface Window {
@@ -7,15 +8,6 @@ declare global {
     MarkerClustering: any;
   }
 }
-
-const loadScript = (src: string, onload: () => void): void => {
-  const script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src = src;
-  script.async = true;
-  script.onload = onload;
-  document.head.appendChild(script);
-};
 
 export const useNaverMaps = (props: IUseSelectMarkerMapsProps): void => {
   const { mapId, ncpClientId, onMapReady } = props;
