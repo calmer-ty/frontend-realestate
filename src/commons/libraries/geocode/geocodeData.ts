@@ -1,12 +1,10 @@
-import axios from "axios";
-import NodeCache from "node-cache";
-import { apartmentData } from "./apartmentData";
-import type { IApartmentLocationData, IGeocodeCoord, IGeocodeData } from "@/src/types";
-
-const geocodeCache = new NodeCache({ stdTTL: 7200 });
+import { apartmentData } from "../apartment/apartmentData";
+import type { IGeocodeData } from "@/src/types";
+import { geocodeApi } from "./geocodeApi";
+import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
 export const geocodeData = async (): Promise<IGeocodeData[]> => {
-  const apartmentResults: IApartmentLocationData[] = await apartmentData();
+  const apartmentResults = await apartmentData();
   const geocodePromises = apartmentResults.flatMap((result) => {
     const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];
     return apartmentDataItems.map(async (item) => {
@@ -17,7 +15,7 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
       const streetSubCode = Number(item.도로명건물부번호코드);
       const streetSubCodeStr = streetSubCode !== 0 ? `-${streetSubCode.toString()}` : "";
 
-      const itemsData = {
+      const itemDatas = {
         streetNumber: item.지번,
         address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${dongSubCodeStr}`,
         address_street: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${streetSubCodeStr}`,
@@ -30,43 +28,31 @@ export const geocodeData = async (): Promise<IGeocodeData[]> => {
         dealDay: item.일,
         constructionYear: item.건축년도,
       };
-      const cacheKey = `geocode_${itemsData.address}`;
 
-      // 캐시에서 데이터를 가져오거나 새로 요청하여 캐시에 저장합니다
-      const cacheData = itemsData;
-      const cachedData = geocodeCache.get<IGeocodeData>(cacheKey);
-
+      const cacheKey = `geocode_${itemDatas.address}`;
+      const cachedData = getCachedGeocodeData(cacheKey);
       if (cachedData !== undefined) {
         // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
         return cachedData;
       }
 
       try {
-        const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(itemsData.address)}`;
-        const response = await axios.get<IGeocodeCoord>(apiUrl, {
-          headers: {
-            "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
-            "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
-          },
-        });
-
-        if (response.data.addresses.length > 0) {
-          const { x, y } = response.data.addresses[0];
-          const geocodeResult = {
-            ...cacheData,
-            latitude: parseFloat(y),
-            longitude: parseFloat(x),
+        const geocodeResult = await geocodeApi(itemDatas.address);
+        if (geocodeResult !== null) {
+          const result = {
+            ...itemDatas,
+            latitude: geocodeResult.latitude,
+            longitude: geocodeResult.longitude,
           };
 
-          // 데이터를 캐시에 저장합니다
-          geocodeCache.set(cacheKey, geocodeResult);
-          return geocodeResult;
+          setGeocodeCache(cacheKey, result);
+          return result;
         } else {
-          console.log(`주소 ${itemsData.address}에 대한 지오코딩 결과 없음`);
+          console.log(`주소 ${itemDatas.address}에 대한 지오코딩 결과 없음`);
           return null;
         }
       } catch (error) {
-        console.error(`Error geocoding address ${itemsData.address}:`, error);
+        console.error(`Error geocoding address ${itemDatas.address}:`, error);
         return null;
       }
     });
