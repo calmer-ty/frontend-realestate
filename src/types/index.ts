@@ -99,12 +99,15 @@ export interface IFirebaseData {
 }
 
 // Hooks Type
+export interface IUseSelectMarkerMapsProps {
+  mapId: string;
+  ncpClientId: string | undefined;
+  onMapReady: (map: any) => void;
+}
 export interface IUseAllMarkerMapsProps {
   geocodeResults: IGeocodeData[];
-  // ncpClientId: string | undefined;
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
-
   firebaseDatas: IFirebaseData[];
 }
 export interface IUseFetchFireBaseProps {

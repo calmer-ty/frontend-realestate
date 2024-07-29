@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useSelectedMarkerMaps } from "@/src/hooks/useSelectedMarkerMaps";
+import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
@@ -88,7 +88,7 @@ export default function BuildingWrite(): JSX.Element {
     }
   };
 
-  useSelectedMarkerMaps(geocodeData);
+  useSelectMarkerMaps(geocodeData);
 
   return (
     <>

@@ -3,13 +3,6 @@ import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/
 import { shortenCityName } from "../commons/libraries/utils";
 import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
-declare global {
-  interface Window {
-    naver: any;
-    MarkerClustering: any;
-  }
-}
-
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
   useEffect(() => {
@@ -35,7 +28,7 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
     };
 
     const initMap = async (): Promise<void> => {
-      if (typeof window.naver === "undefined" || typeof window.MarkerClustering === "undefined") {
+      if (window.naver === undefined || window.MarkerClustering === undefined) {
         console.error("네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다.");
         return;
       }
