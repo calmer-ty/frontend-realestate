@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import { db } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
@@ -21,8 +22,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
+import type { IGeocodeData } from "@/src/types";
 import * as S from "./styles";
-import axios from "axios";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
@@ -70,6 +71,7 @@ export default function BuildingWrite(): JSX.Element {
   };
 
   const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [geocodeData, setGeocodeData] = useState<IGeocodeData | null>(null);
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
   const onCompleteAddressSearch = async (data: Address): Promise<void> => {
     const selectedAddress = data.address; // 검색된 주소를 선택하고
@@ -78,20 +80,15 @@ export default function BuildingWrite(): JSX.Element {
     onToggle(); // 주소 검색 완료 후 모달 닫기
 
     try {
-      const response = await axios.get(`/api/fetchGeocodeAddress?address=${encodeURIComponent(selectedAddress)}`);
+      const response = await axios.get<IGeocodeData>(`/api/fetchSelectGeocode?address=${encodeURIComponent(selectedAddress)}`);
+      setGeocodeData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching geocode data:", error);
     }
   };
 
-  // =======================================
-  // =======================================
-  // ======================================= MAPS
-
-  //  지오코드
-  useSelectedMarkerMaps();
-  // 주소를 받아 지오코딩 수행 및 마커 추가
+  useSelectedMarkerMaps(geocodeData);
 
   return (
     <>
