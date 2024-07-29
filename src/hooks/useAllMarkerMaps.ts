@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
 import { shortenCityName } from "../commons/libraries/utils/regex";
+import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
@@ -17,15 +18,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
     const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
-
-    const loadScript = (src: string, onload: () => void): void => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = src;
-      script.async = true;
-      script.onload = onload;
-      document.head.appendChild(script);
-    };
 
     const initMap = async (): Promise<void> => {
       if (window.naver === undefined || window.MarkerClustering === undefined) {

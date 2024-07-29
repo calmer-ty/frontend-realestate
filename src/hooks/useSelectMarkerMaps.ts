@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { IGeocodeData } from "../types";
+import { loadScript } from "@/src//commons/libraries/utils/naverMaps";
 
 export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
@@ -10,15 +11,6 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
 
   useEffect(() => {
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
-
-    const loadScript = (src: string, onload: () => void): void => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = src;
-      script.async = true;
-      script.onload = onload;
-      document.head.appendChild(script);
-    };
 
     const initMap = async (): Promise<void> => {
       if (typeof window.naver === "undefined") {
@@ -38,15 +30,20 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
       // 마커를 담을 Map 생성
       const map = new window.naver.maps.Map("map", mapOptions);
 
-      const markerOptions = {
-        position: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        map,
-      };
+      if (props !== null) {
+        const markerPosition = new window.naver.maps.LatLng(props.latitude, props.longitude);
 
-      // 마커를 변수에 저장하고 이를 활용
-      const marker = new window.naver.maps.Marker(markerOptions);
-      marker.setMap(map);
+        // 마커를 변수에 저장하고 이를 활용
+        const marker = new window.naver.maps.Marker({
+          position: markerPosition,
+          map,
+        });
+        marker.setMap(map);
+
+        // 지도 중심을 마커 위치로 이동
+        map.setCenter(markerPosition);
+      }
     };
     loadScript(NAVER_MAP_SCRIPT_URL, initMap);
-  }, [ncpClientId]);
+  }, [ncpClientId, props]);
 };
