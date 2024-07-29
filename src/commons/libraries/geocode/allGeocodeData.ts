@@ -3,7 +3,7 @@ import type { IGeocodeData } from "@/src/types";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
-export const geocodeData = async (): Promise<IGeocodeData[]> => {
+export const allGeocodeData = async (): Promise<IGeocodeData[]> => {
   const apartmentResults = await apartmentData();
   const geocodePromises = apartmentResults.flatMap((result) => {
     const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];

@@ -13,7 +13,7 @@ export default function BuildingView(): JSX.Element {
     const fetchData = async (): Promise<void> => {
       try {
         // API 엔드포인트로부터 아파트 데이터를 비동기적으로 가져옵니다
-        const geocodeResponse = await axios.get<IGeocodeData[]>("/api/fetchGeocode");
+        const geocodeResponse = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode");
         setGeocodeResults(geocodeResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error); // 데이터 가져오기 실패 시 에러를 콘솔에 로깅합니다
