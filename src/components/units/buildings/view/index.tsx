@@ -6,8 +6,8 @@ import NaverMap from "@/src/components/units/allMarkerMaps";
 import type { IGeocodeData } from "@/src/types";
 
 export default function BuildingView(): JSX.Element {
+  // const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
   const [geocodeResults, setGeocodeResults] = useState<IGeocodeData[]>([]);
-  const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
   useEffect(() => {
     // 페이지가 로드될 때 데이터를 가져오는 함수를 정의합니다
     const fetchData = async (): Promise<void> => {
@@ -23,9 +23,9 @@ export default function BuildingView(): JSX.Element {
     void fetchData();
   }, []); // useEffect의 두 번째 매개변수는 의존성 배열로, 빈 배열을 넘겨 페이지가 로드될 때 한 번만 실행됩니다
 
-  useEffect(() => {
-    setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
-  }, []);
+  // useEffect(() => {
+  //   setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
+  // }, []);
 
-  return <>{ncpClientId !== undefined ? <NaverMap geocodeResults={geocodeResults} ncpClientId={ncpClientId} /> : <div>Loading...</div>}</>;
+  return <NaverMap geocodeResults={geocodeResults} />;
 }

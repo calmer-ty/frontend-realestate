@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
 import { shortenCityName } from "../commons/libraries/utils";
 import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
@@ -11,10 +11,13 @@ declare global {
 }
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
-  const { ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+  const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
+  }, []);
 
-  // let markers: any[] = [];
-  // let markerClustering: any;
+  const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null); // 초기 값을 null로 설정하여 타입 정의
 

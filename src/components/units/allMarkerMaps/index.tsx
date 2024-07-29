@@ -12,12 +12,12 @@ import type { INaverMapProps } from "./types";
 import { mapStyle } from "./styles";
 
 export default function NaverMap(props: INaverMapProps): JSX.Element {
-  const { ncpClientId, geocodeResults } = props;
+  const { geocodeResults } = props;
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
   const firebaseDatas = useFetchFireBase();
 
-  useAllMarkerMaps({ ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
+  useAllMarkerMaps({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
   return (
     <>
