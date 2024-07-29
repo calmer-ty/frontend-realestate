@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useState } from "react";
 import { db } from "@/pages/api/firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
@@ -20,8 +22,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
+import type { IGeocodeData } from "@/src/types";
 import * as S from "./styles";
-import axios from "axios";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
@@ -69,6 +71,7 @@ export default function BuildingWrite(): JSX.Element {
   };
 
   const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [geocodeData, setGeocodeData] = useState<IGeocodeData | null>(null);
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
   const onCompleteAddressSearch = async (data: Address): Promise<void> => {
     const selectedAddress = data.address; // 검색된 주소를 선택하고
@@ -77,64 +80,15 @@ export default function BuildingWrite(): JSX.Element {
     onToggle(); // 주소 검색 완료 후 모달 닫기
 
     try {
-      const response = await axios.get(`/api/fetchGeocodeAddress?address=${encodeURIComponent(selectedAddress)}`);
+      const response = await axios.get<IGeocodeData>(`/api/fetchSelectGeocode?address=${encodeURIComponent(selectedAddress)}`);
+      setGeocodeData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching geocode data:", error);
     }
   };
 
-  // =======================================
-  // =======================================
-  // ======================================= MAPS
-  const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    setNcpClientId(process.env.NEXT_PUBLIC_NCP_CLIENT_ID);
-  }, []);
-  useEffect(() => {
-    const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
-
-    const loadScript = (src: string, onload: () => void): void => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = src;
-      script.async = true;
-      script.onload = onload;
-      document.head.appendChild(script);
-    };
-    const initMap = async (): Promise<void> => {
-      if (typeof window.naver === "undefined") {
-        console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
-        return;
-      }
-      const mapOptions = {
-        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_RIGHT,
-          style: window.naver.maps.ZoomControlStyle.SMALL,
-        },
-      };
-
-      // 마커를 담을 Map 생성
-      const map = new window.naver.maps.Map("map", mapOptions);
-
-      const markerOptions = {
-        position: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        map,
-      };
-
-      // 마커를 변수에 저장하고 이를 활용
-      const marker = new window.naver.maps.Marker(markerOptions);
-      marker.setMap(map);
-    };
-    loadScript(NAVER_MAP_SCRIPT_URL, initMap);
-  }, [ncpClientId]);
-
-  //  지오코드
-
-  // 주소를 받아 지오코딩 수행 및 마커 추가
+  useSelectMarkerMaps(geocodeData);
 
   return (
     <>

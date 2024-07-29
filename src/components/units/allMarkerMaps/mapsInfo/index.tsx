@@ -1,4 +1,4 @@
-import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils";
+import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 
 import type { IMapsInfoProps } from "./types";

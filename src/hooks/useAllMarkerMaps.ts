@@ -1,74 +1,36 @@
-import { useEffect, useRef } from "react";
+import { useRef, useCallback } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
-import { shortenCityName } from "../commons/libraries/utils";
-import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
-
-declare global {
-  interface Window {
-    naver: any;
-    MarkerClustering: any;
-  }
-}
+import { shortenCityName } from "../commons/libraries/utils/regex";
+import { useNaverMaps } from "@/src/hooks/useNaverMaps";
+import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
-  const { ncpClientId, geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+  const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
-  // let markers: any[] = [];
-  // let markerClustering: any;
   const markersRef = useRef<any[]>([]);
-  const markerClusteringRef = useRef<any | null>(null); // 초기 값을 null로 설정하여 타입 정의
+  const markerClusteringRef = useRef<any | null>(null);
 
-  useEffect(() => {
-    const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
-    const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
-
-    const loadScript = (src: string, onload: () => void): void => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = src;
-      script.async = true;
-      script.onload = onload;
-      document.head.appendChild(script);
-    };
-
-    const initMap = async (): Promise<void> => {
-      if (typeof window.naver === "undefined" || typeof window.MarkerClustering === "undefined") {
-        console.error("네이버 맵 또는 마커 클러스터링 라이브러리가 로드되지 않았습니다.");
-        return;
-      }
-
-      const mapOptions = {
-        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_RIGHT,
-          style: window.naver.maps.ZoomControlStyle.SMALL,
-        },
-      };
-
-      // 마커를 담을 Map 생성
-      const map = new window.naver.maps.Map("map", mapOptions);
-
-      const createMarker = (coord: IGeocodeData): any => {
+  const onMapLoaded = useCallback(
+    (map: any) => {
+      const createMarker = (coord: IGeocodeEtcData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
-
         const markerIconContent = (): string => {
           const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
           if (matchedFbData !== undefined) {
             return `
-              <div style="${markerStyle.containerActive}">
-                <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
-                <div style="${markerStyle.arrowActive}"></div>
-              </div>`;
+            <div style="${markerStyle.containerActive}">
+              <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
+              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
+              <div style="${markerStyle.arrowActive}"></div>
+            </div>`;
           } else {
             return `
-              <div style="${markerStyle.container}">
-                <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
-                <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
-                <div style="${markerStyle.arrow}"></div>
-              </div>`;
+            <div style="${markerStyle.container}">
+              <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
+              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
+              <div style="${markerStyle.arrow}"></div>
+            </div>`;
           }
         };
 
@@ -81,33 +43,16 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         };
 
         const marker = new window.naver.maps.Marker(markerOptions);
-        // 마커에 데이터를 설정
         const markerData: IMarkerData = apartmentData;
         marker.set("data", markerData);
 
         window.naver.maps.Event.addListener(marker, "click", () => {
-          // // 이전에 선택된 마커가 있을 경우 아이콘을 초기화
-          // if (selectedMarker !== null) {
-          //   selectedMarker.setIcon({
-          //     content: markerIconContent(defaultStyles),
-          //   });
-          // }
-          // // 선택된 마커를 현재 클릭된 마커로 업데이트
-          // selectedMarker = marker;
-
-          // // 클릭된 마커의 아이콘 변경
-          // marker.setIcon({
-          //   content: markerIconContent(selectedStyles),
-          // });
-
-          // 선택된 마커 데이터 설정
           setSelectedMarkerData(markerData);
         });
 
         return marker;
       };
 
-      // htmlMarker 객체 정의
       const createClusterMarkers = (): any => {
         const icons = [];
         for (let i = 1; i <= 5; i++) {
@@ -122,12 +67,9 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
 
       const updateVisibleMarkers = (): void => {
         const mapBounds = map.getBounds();
-
-        // 기존 마커 제거
         markersRef.current.forEach((marker) => marker.setMap(null));
         markersRef.current = [];
 
-        // 보이는 영역 내의 마커만 생성
         geocodeResults.forEach((coord) => {
           if (coord !== undefined) {
             const { latitude, longitude } = coord;
@@ -143,7 +85,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
           }
         });
 
-        // 클러스터링 업데이트
         if (markerClusteringRef.current !== null) {
           markerClusteringRef.current.setMap(null);
         }
@@ -162,18 +103,23 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         });
         markerClusteringRef.current = newMarkerClustering;
 
-        // 각 마커의 데이터를 배열에 저장
         const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
         setVisibleMarkerDatas(markerDataArray);
         setSelectedMarkerData(null);
       };
-      // 초기화 후 지도에 idle 이벤트 추가
-      updateVisibleMarkers();
-      window.naver.maps.Event.addListener(map, "idle", updateVisibleMarkers);
-    };
 
-    loadScript(NAVER_MAP_SCRIPT_URL, () => {
-      loadScript(MARKER_CLUSTERING_SCRIPT_URL, initMap);
-    });
-  }, [geocodeResults, ncpClientId, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas]);
+      const loadClusterScript = (): void => {
+        const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
+        loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
+          updateVisibleMarkers();
+          window.naver.maps.Event.addListener(map, "idle", updateVisibleMarkers);
+        });
+      };
+
+      loadClusterScript();
+    },
+    [geocodeResults, firebaseDatas, setVisibleMarkerDatas, setSelectedMarkerData]
+  );
+
+  useNaverMaps("map", onMapLoaded);
 };
