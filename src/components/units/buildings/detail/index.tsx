@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from "react";
 import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
 import TitleUnderline from "@/src/components/commons/titles/underline";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
 export default function BuildingDetail(): JSX.Element {
   const [fbData, setFbData] = useState<IFirebaseData[]>();

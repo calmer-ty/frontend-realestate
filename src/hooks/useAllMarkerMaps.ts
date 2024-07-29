@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
-import { shortenCityName } from "../commons/libraries/utils";
+import { shortenCityName } from "../commons/libraries/utils/regex";
 import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
