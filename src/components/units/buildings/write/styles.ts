@@ -13,6 +13,7 @@ export const Form = styled.form`
 export const InputWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   column-gap: 10px;
   width: 100%;
 `;
@@ -20,6 +21,7 @@ export const AddressWrap = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  align-self: flex-start;
 `;
 export const MapCover = styled.div`
   display: flex;
