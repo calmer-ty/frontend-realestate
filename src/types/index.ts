@@ -59,6 +59,10 @@ export interface IGeocodeCoord {
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
+}
+export interface IGeocodeEtcData {
+  latitude: number;
+  longitude: number;
 
   address: string;
   address_street: string;
@@ -105,7 +109,7 @@ export interface IUseSelectMarkerMapsProps {
   onMapReady: (map: any) => void;
 }
 export interface IUseAllMarkerMapsProps {
-  geocodeResults: IGeocodeData[];
+  geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];

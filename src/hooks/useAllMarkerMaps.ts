@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
 import { shortenCityName } from "../commons/libraries/utils/regex";
-import type { IGeocodeData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
+import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
@@ -46,7 +46,7 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       // 마커를 담을 Map 생성
       const map = new window.naver.maps.Map("map", mapOptions);
 
-      const createMarker = (coord: IGeocodeData): any => {
+      const createMarker = (coord: IGeocodeEtcData): any => {
         const { latitude, longitude, ...apartmentData } = coord;
 
         const markerIconContent = (): string => {
