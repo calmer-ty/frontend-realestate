@@ -1,35 +1,80 @@
-import { useState } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 import { useFirebaseStorage } from "@/src/hooks/useFirebaseStorage";
 
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
 import type { ChangeEvent } from "react";
+import type { IFileWithPreview } from "./types";
+import { FilePreview, imageStyles, inputStyles, PrevWrap } from "./styles";
 
 export default function UploadBasic(): JSX.Element {
-  const { uploadFile, uploading, error } = useFirebaseStorage();
-  const [file, setFile] = useState<File | null>(null);
+  const { uploadFile, uploading } = useFirebaseStorage();
+  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+  const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
-      setFile(e.target.files[0]);
+      const selectedFiles = Array.from(e.target.files);
+
+      const newFiles = selectedFiles.map((file) => {
+        const reader = new FileReader();
+        return new Promise<IFileWithPreview>((resolve) => {
+          reader.onloadend = () => {
+            resolve({
+              file,
+              previewUrl: reader.result as string,
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
+      const fileWithPreviews = await Promise.all(newFiles);
+      setFilePreviews((prevFiles) => [...prevFiles, ...fileWithPreviews]);
     }
   };
 
+  // 파일 업로드 핸들러
   const handleUpload = async (): Promise<void> => {
-    // 비동기 함수로 선언
-    if (file !== null) {
-      try {
-        await uploadFile(file); // 파일 업로드를 기다림
-      } catch (err) {
-        console.error("Upload failed:", err); // 오류 처리
+    setUploadFiles(filePreviews.map((fileWithPreview) => fileWithPreview.file));
+    try {
+      for (const fileWithPreview of filePreviews) {
+        await uploadFile(fileWithPreview.file);
       }
+      console.log("Files uploaded successfully");
+    } catch (error) {
+      console.error("Upload failed:", error);
+    } finally {
+      setUploadFiles([]);
+    }
+  };
+
+  const triggerFileInput = (): void => {
+    if (fileInputRef.current !== null) {
+      fileInputRef.current.click();
     }
   };
   return (
     <>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={uploading}>
+      <Button variant="outlined" startIcon={<AddIcon />} onClick={triggerFileInput} style={inputStyles}>
+        사진 추가
+      </Button>
+      <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
+      <button onClick={handleUpload} disabled={uploading || uploadFiles.length > 0}>
         {uploading ? "Uploading..." : "Upload"}
       </button>
-      {error !== "" && <p>Error: {error}</p>}
+      <FilePreview>
+        {filePreviews.map((fileWithPreview, index) => (
+          <PrevWrap key={index} style={{ position: "relative" }}>
+            <Image src={fileWithPreview.previewUrl} width={0} height={0} alt={`Preview ${index}`} style={imageStyles} />
+          </PrevWrap>
+        ))}
+      </FilePreview>
     </>
   );
 }

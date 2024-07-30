@@ -49,27 +49,6 @@ export default function BuildingWrite(): JSX.Element {
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
 
-  // 파일 업로드
-  // const { uploadFile, uploading, error } = useFirebaseStorage();
-  // const [file, setFile] = useState<File | null>(null);
-
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
-  //   if (e.target.files !== null) {
-  //     setFile(e.target.files[0]);
-  //   }
-  // };
-
-  // const handleUpload = async (): Promise<void> => {
-  //   // 비동기 함수로 선언
-  //   if (file !== null) {
-  //     try {
-  //       await uploadFile(file); // 파일 업로드를 기다림
-  //     } catch (err) {
-  //       console.error("Upload failed:", err); // 오류 처리
-  //     }
-  //   }
-  // };
-
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
     try {

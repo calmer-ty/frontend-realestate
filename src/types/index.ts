@@ -125,7 +125,6 @@ export interface IUseFetchFirestoreProps {
 export interface IUseFirebaseStorageProps {
   uploadFile: (file: File | null) => Promise<void>;
   uploading: boolean;
-  error: string;
 }
 export interface IUseFireStoreProps {
   addData: (data: any) => Promise<void>;
