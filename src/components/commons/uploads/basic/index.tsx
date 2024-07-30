@@ -10,8 +10,7 @@ import type { IFileWithPreview } from "./types";
 import { FilePreview, imageStyles, inputStyles, PrevWrap } from "./styles";
 
 export default function UploadBasic(): JSX.Element {
-  const { uploadFile, uploading } = useFirebaseStorage();
-  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+  const { uploadFiles, uploading } = useFirebaseStorage();
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -19,6 +18,12 @@ export default function UploadBasic(): JSX.Element {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
       const selectedFiles = Array.from(e.target.files);
+      const totalFilesCount = filePreviews.length + selectedFiles.length;
+
+      if (totalFilesCount > 5) {
+        alert("You can upload up to 5 files only.");
+        return;
+      }
 
       const newFiles = selectedFiles.map((file) => {
         const reader = new FileReader();
@@ -41,16 +46,12 @@ export default function UploadBasic(): JSX.Element {
 
   // 파일 업로드 핸들러
   const handleUpload = async (): Promise<void> => {
-    setUploadFiles(filePreviews.map((fileWithPreview) => fileWithPreview.file));
+    const filesToUpload = filePreviews.map((fileWithPreview) => fileWithPreview.file);
     try {
-      for (const fileWithPreview of filePreviews) {
-        await uploadFile(fileWithPreview.file);
-      }
+      await uploadFiles(filesToUpload);
       console.log("Files uploaded successfully");
     } catch (error) {
       console.error("Upload failed:", error);
-    } finally {
-      setUploadFiles([]);
     }
   };
 
@@ -65,7 +66,7 @@ export default function UploadBasic(): JSX.Element {
         사진 추가
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-      <button onClick={handleUpload} disabled={uploading || uploadFiles.length > 0}>
+      <button onClick={handleUpload} disabled={uploading}>
         {uploading ? "Uploading..." : "Upload"}
       </button>
       <FilePreview>
