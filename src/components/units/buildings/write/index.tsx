@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
 import { useAddressSearch } from "@/src/hooks/useAddressSearch";
+import { useFirebaseStorage } from "@/src/hooks/useFirebaseStorage";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
@@ -27,6 +28,10 @@ import * as S from "./styles";
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
+  const { uploadFiles } = useFirebaseStorage();
+
+  // 파일 상태
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   // 모달창
   const [open, setOpen] = useState(false);
@@ -57,6 +62,12 @@ export default function BuildingWrite(): JSX.Element {
         _id: uuidv4(), // 고유한 _id 생성
         type: selectedType,
       });
+
+      // 파일 업로드
+      if (selectedFiles.length > 0) {
+        await uploadFiles(selectedFiles);
+      }
+
       router.push("/buildings");
       console.log(docRef);
     } catch (error) {
@@ -135,7 +146,7 @@ export default function BuildingWrite(): JSX.Element {
         <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
 
         <TitleUnderline label="사진 등록" />
-        <UploadBasic />
+        <UploadBasic onFilesChange={setSelectedFiles} />
 
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
