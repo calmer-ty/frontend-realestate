@@ -123,7 +123,7 @@ export interface IUseFetchFirestoreProps {
   setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
 }
 export interface IUseFirebaseStorageProps {
-  uploadFiles: (files: File[]) => Promise<void>;
+  uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
 }
 export interface IUseFireStoreProps {

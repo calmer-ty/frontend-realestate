@@ -57,10 +57,14 @@ export default function BuildingWrite(): JSX.Element {
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
+      // 파일 업로드 및 다운로드 URL 가져오기
+      const downloadURLs = await uploadFiles(selectedFiles);
+
       const docRef = await addDoc(collection(db, collectionName), {
         ...data, // 컬렉션에 데이터를 추가합니다
         _id: uuidv4(), // 고유한 _id 생성
         type: selectedType,
+        imageUrls: downloadURLs, // 이미지 다운로드 URL
       });
 
       // 파일 업로드

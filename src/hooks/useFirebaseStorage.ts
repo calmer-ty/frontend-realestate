@@ -1,26 +1,28 @@
 import { useState } from "react";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/pages/api/cloudFirestore";
 import type { IUseFirebaseStorageProps } from "@/src/types";
 
 export const useFirebaseStorage = (): IUseFirebaseStorageProps => {
   const [uploading, setUploading] = useState(false);
 
-  const uploadFiles = async (files: File[]): Promise<void> => {
+  const uploadFiles = async (files: File[]): Promise<string[]> => {
     setUploading(true);
 
-    const uploadPromises = files.map((file) => {
+    const uploadPromises = files.map(async (file) => {
       const storageRef = ref(storage, "uploads/" + file.name);
-      return uploadBytes(storageRef, file);
+      await uploadBytes(storageRef, file);
+      return await getDownloadURL(storageRef);
     });
 
     try {
-      await Promise.all(uploadPromises);
-      alert("success upload");
+      const downloadURLs = await Promise.all(uploadPromises);
+      return downloadURLs;
     } catch (error) {
       if (error instanceof Error) {
         console.error("Upload failed: ", error.message);
       }
+      return [];
     } finally {
       setUploading(false);
     }
