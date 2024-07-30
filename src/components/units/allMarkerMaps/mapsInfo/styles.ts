@@ -2,11 +2,12 @@ import styled from "@emotion/styled";
 
 export const Container = styled.div`
   overflow-y: auto;
-  width: 50%;
+  width: 100%;
   height: 100%;
   border-right: 1px solid #dedede;
   background-color: #fff;
   z-index: 1;
+  flex: 1;
 `;
 // 클릭 된 건물 상세 정보
 export const SelectedArea = styled.article`
@@ -62,13 +63,27 @@ export const RegisteredInfo = styled.section`
     > li {
       border-bottom: 1px solid #dedede;
       > a {
-        display: block;
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
         padding: 20px;
       }
       :hover {
         background-color: #efefef;
       }
     }
+  }
+`;
+export const ImgWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 export const UnRegistered = styled.div`

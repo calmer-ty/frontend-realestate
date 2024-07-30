@@ -100,6 +100,7 @@ export interface IFirebaseData {
   price: number;
   roomCount: number;
   manageCost: number;
+  imageUrls?: string[];
 }
 
 // Hooks Type

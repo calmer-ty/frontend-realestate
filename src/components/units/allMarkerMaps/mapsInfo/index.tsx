@@ -1,7 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
+
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
 import type { IMapsInfoProps } from "./types";
 import type { IFirebaseData } from "@/src/types";
@@ -53,14 +57,17 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
                 {matchedFirebaseData.map((el, index) => (
                   <li key={`${el.type}_${el.address}_${index}`}>
                     <Link href={`/buildings/${el._id}`}>
-                      <strong>
-                        매매 {isBillion(el.price)}&nbsp;
-                        {isTenMillion(el.price)}원
-                      </strong>
-                      <br />
-                      {el.type}・{el.addressDetail}
-                      <br />
-                      {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
+                      <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={0} height={0} alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
+                      <p>
+                        <strong>
+                          매매 {isBillion(el.price)}&nbsp;
+                          {isTenMillion(el.price)}원
+                        </strong>
+                        <br />
+                        {el.type}・{el.addressDetail}
+                        <br />
+                        {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
+                      </p>
                     </Link>
                   </li>
                 ))}
