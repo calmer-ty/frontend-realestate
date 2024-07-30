@@ -1,3 +1,5 @@
-export default function Home(): JSX.Element {
-  return <div>Home</div>;
+import Home from "@/src/components/units/home";
+
+export default function HomePage(): JSX.Element {
+  return <Home />;
 }
