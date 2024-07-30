@@ -4,11 +4,21 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  row-gap: 30px;
+  row-gap: 40px;
   height: 100%;
   width: 100%;
   padding: 40px;
   max-width: 1024px;
+`;
+export const InfoContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+`;
+export const InfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 `;
 export const InputWrap = styled.div`
   display: flex;

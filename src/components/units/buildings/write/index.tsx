@@ -96,61 +96,75 @@ export default function BuildingWrite(): JSX.Element {
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-        <TitleUnderline label="매물 정보" />
-        <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
-        <S.InputWrap>
-          <S.AddressWrap>
+        <S.InfoContainer>
+          <TitleUnderline label="매물 정보" />
+          <S.InfoContent>
+            <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
             <S.InputWrap>
-              <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-              <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
-                <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-              </ModalBasic>
+              <S.AddressWrap>
+                <S.InputWrap>
+                  <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
+                  <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
+                    <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
+                  </ModalBasic>
+                </S.InputWrap>
+                <S.InputWrap>
+                  <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
+                </S.InputWrap>
+              </S.AddressWrap>
+              {selectedAddress !== "" ? (
+                <div id="map" style={{ width: "400px", height: "200px" }}></div>
+              ) : (
+                <S.MapCover>
+                  주소를 검색하면
+                  <br />
+                  해당 위치가 지도에 표시됩니다.
+                </S.MapCover>
+              )}
             </S.InputWrap>
             <S.InputWrap>
-              <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
+              <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
+              <UnitBasic label="m²" />
+              <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
+              <UnitBasic label="개" />
             </S.InputWrap>
-          </S.AddressWrap>
-          {selectedAddress !== "" ? (
-            <div id="map" style={{ width: "400px", height: "200px" }}></div>
-          ) : (
-            <S.MapCover>
-              주소를 검색하면
-              <br />
-              해당 위치가 지도에 표시됩니다.
-            </S.MapCover>
-          )}
-        </S.InputWrap>
+          </S.InfoContent>
+        </S.InfoContainer>
 
-        <S.InputWrap>
-          <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
-          <UnitBasic label="m²" />
-          <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
-          <UnitBasic label="개" />
-        </S.InputWrap>
+        <S.InfoContainer>
+          <TitleUnderline label="거래 정보" />
+          <S.InfoContent>
+            <S.InputWrap>
+              <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
+              <UnitBasic label="만원" />
+            </S.InputWrap>
+            <S.InputWrap>
+              <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
+              <UnitBasic label="만원" />
+            </S.InputWrap>
+          </S.InfoContent>
+        </S.InfoContainer>
 
-        <TitleUnderline label="거래 정보" />
-        <S.InputWrap>
-          <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
-          <UnitBasic label="만원" />
-        </S.InputWrap>
-        <S.InputWrap>
-          <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
-          <UnitBasic label="만원" />
-        </S.InputWrap>
+        <S.InfoContainer>
+          <TitleUnderline label="추가 정보" />
+          <S.InfoContent>
+            <S.InputWrap>
+              <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
+              <UnitBasic label="층" />
+            </S.InputWrap>
+            <S.InputWrap>
+              <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
+              <UnitBasic label="개" />
+            </S.InputWrap>
+            <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
+          </S.InfoContent>
+        </S.InfoContainer>
 
-        <TitleUnderline label="추가 정보" />
-        <S.InputWrap>
-          <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
-          <UnitBasic label="층" />
-        </S.InputWrap>
-        <S.InputWrap>
-          <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
-          <UnitBasic label="개" />
-        </S.InputWrap>
-        <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
+        <S.InfoContainer>
+          <TitleUnderline label="사진 등록" />
 
-        <TitleUnderline label="사진 등록" />
-        <UploadBasic onFilesChange={setSelectedFiles} />
+          <UploadBasic onFilesChange={setSelectedFiles} />
+        </S.InfoContainer>
 
         <Button role="submit-button" type="submit" variant="contained">
           등록하기
