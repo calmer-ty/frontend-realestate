@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
+import { useFirebaseStorage } from "@/src/hooks/useFirebaseStorage";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
@@ -20,6 +21,7 @@ import RadioControl from "@/src/components/commons/inputs/radio/control";
 
 import { v4 as uuidv4 } from "uuid";
 
+import type { ChangeEvent } from "react";
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "./types";
 import type { IGeocodeData } from "@/src/types";
@@ -47,29 +49,35 @@ export default function BuildingWrite(): JSX.Element {
         return "";
     }
   };
+  const collectionName = getFirestoreCollectionName(selectedType);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
-    if (selectedType === null) return;
-    const collectionName = getFirestoreCollectionName(selectedType);
-    const docRef = await addDoc(collection(db, collectionName), {
-      ...data, // 컬렉션에 데이터를 추가합니다
-      _id: uuidv4(), // 고유한 _id 생성
-      type: selectedType,
-    });
-    console.log(docRef);
-    router.push("/buildings");
+    try {
+      const docRef = await addDoc(collection(db, collectionName), {
+        ...data, // 컬렉션에 데이터를 추가합니다
+        _id: uuidv4(), // 고유한 _id 생성
+        type: selectedType,
+      });
+      router.push("/buildings");
+      console.log(docRef);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
   };
 
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
   const onClickFetch = async (): Promise<void> => {
-    if (selectedType === null) return;
-    const collectionName = getFirestoreCollectionName(selectedType);
-    const querySnapshot = await getDocs(collection(db, collectionName)); // 컬렉션을 참조합니다
-    const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-    console.log(datas);
+    try {
+      const querySnapshot = await getDocs(collection(db, collectionName)); // 컬렉션을 참조합니다
+      const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
+      console.log(datas);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
   };
 
+  // 주소 선택 기능
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [geocodeData, setGeocodeData] = useState<IGeocodeData | null>(null);
   // 주소 검색 완료 시 실행되는 콜백 함수입니다
@@ -88,6 +96,28 @@ export default function BuildingWrite(): JSX.Element {
     }
   };
 
+  // 파일 업로드
+  const { uploadFile, uploading, error } = useFirebaseStorage();
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.files !== null) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = async (): Promise<void> => {
+    // 비동기 함수로 선언
+    if (file !== null) {
+      try {
+        await uploadFile(file); // 파일 업로드를 기다림
+      } catch (err) {
+        console.error("Upload failed:", err); // 오류 처리
+      }
+    }
+  };
+
+  // 맵 훅에 데이터 보냄
   useSelectMarkerMaps(geocodeData);
 
   return (
@@ -145,6 +175,15 @@ export default function BuildingWrite(): JSX.Element {
           <UnitBasic label="개" />
         </S.InputWrap>
         <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
+
+        <TitleUnderline label="사진 등록" />
+        <div>
+          <input type="file" onChange={handleFileChange} />
+          <button onClick={handleUpload} disabled={uploading}>
+            {uploading ? "Uploading..." : "Upload"}
+          </button>
+          {error !== "" && <p>Error: {error}</p>}
+        </div>
 
         <Button role="submit-button" type="submit" variant="contained">
           등록하기

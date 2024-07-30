@@ -104,7 +104,6 @@ export interface IFirebaseData {
 
 // Hooks Type
 export interface IUseSelectMarkerMapsProps {
-  // mapId: string;
   ncpClientId: string | undefined;
   onMapReady: (map: any) => void;
 }
@@ -116,4 +115,9 @@ export interface IUseAllMarkerMapsProps {
 }
 export interface IUseFetchFirestoreProps {
   setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
+}
+export interface IUseFirebaseStorageProps {
+  uploadFile: (file: File | null) => Promise<void>;
+  uploading: boolean;
+  error: string;
 }
