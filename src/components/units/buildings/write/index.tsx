@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { db } from "@/pages/api/firebase";
+import { db } from "@/pages/api/cloudFirestore";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -96,7 +96,7 @@ export default function BuildingWrite(): JSX.Element {
         <TitleUnderline label="매물 정보" />
         <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={selecteItems} />
         <S.InputWrap>
-          <div>
+          <S.AddressWrap>
             <S.InputWrap>
               <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
               <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
@@ -106,8 +106,16 @@ export default function BuildingWrite(): JSX.Element {
             <S.InputWrap>
               <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
             </S.InputWrap>
-          </div>
-          <div id="map" style={{ width: "400px", height: "200px" }}></div>
+          </S.AddressWrap>
+          {selectedAddress !== "" ? (
+            <div id="map" style={{ width: "400px", height: "200px" }}></div>
+          ) : (
+            <S.MapCover>
+              주소를 검색하면
+              <br />
+              해당 위치가 지도에 표시됩니다.
+            </S.MapCover>
+          )}
         </S.InputWrap>
 
         <S.InputWrap>

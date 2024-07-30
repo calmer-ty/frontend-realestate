@@ -1,6 +1,6 @@
 "use client";
 
-import { db } from "@/pages/api/firebase";
+import { db } from "@/pages/api/cloudFirestore";
 import { collection, getDocs } from "firebase/firestore";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
