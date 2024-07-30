@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 // Firebase
-import { db } from "@/pages/api/firebase";
+import { db } from "@/pages/api/cloudFirestore";
 import { collection, getDocs } from "firebase/firestore";
 
 import type { IFirebaseData } from "@/src/types";
 
-export const useFetchFireBase = (): IFirebaseData[] => {
+export const useFetchFirestore = (): IFirebaseData[] => {
   const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
 
   useEffect(() => {

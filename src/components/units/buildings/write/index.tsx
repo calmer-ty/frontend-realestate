@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { db } from "@/pages/api/firebase";
+import { db } from "@/pages/api/cloudFirestore";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

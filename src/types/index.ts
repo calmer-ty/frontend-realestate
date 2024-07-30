@@ -114,6 +114,6 @@ export interface IUseAllMarkerMapsProps {
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];
 }
-export interface IUseFetchFireBaseProps {
+export interface IUseFetchFirestoreProps {
   setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
 }
