@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import type { IMapsInfoProps } from "./types";
 import type { IFirebaseData } from "@/src/types";
 import * as S from "./styles";
-import Link from "next/link";
 
 export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
@@ -18,9 +19,10 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
         <S.SelectedArea>
           <S.SelectedInfo>
             <S.InfoWrap>
-              <S.SelectedBuildingName>{props.selectedMarkerData.buildingName}</S.SelectedBuildingName>
-              연식: {props.selectedMarkerData.constructionYear}
-              <br />
+              <h2>{props.selectedMarkerData.buildingName}</h2>
+              <S.TextWrap>
+                <ChipSmall label="연식" /> {props.selectedMarkerData.constructionYear}
+              </S.TextWrap>
               <S.TextWrap>
                 <ChipSmall label="지번" /> {props.selectedMarkerData.address}
               </S.TextWrap>
@@ -31,14 +33,13 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
             </S.InfoWrap>
 
             <S.InfoWrap>
-              <S.SelectedTitle>최근 실거래가</S.SelectedTitle>
+              <h3>최근 실거래가</h3>
               <S.SelectedContent>
+                <strong>
+                  매매 {isBillion(props.selectedMarkerData.price)}&nbsp;
+                  {isTenMillion(props.selectedMarkerData.price)}원
+                </strong>
                 <p>
-                  <strong>
-                    매매 {isBillion(props.selectedMarkerData.price)}&nbsp;
-                    {isTenMillion(props.selectedMarkerData.price)}원
-                  </strong>
-                  <br />
                   {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
                 </p>
               </S.SelectedContent>
@@ -50,7 +51,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
             {matchedFirebaseData.length > 0 ? (
               <ul>
                 {matchedFirebaseData.map((el, index) => (
-                  <S.RegisteredItem key={`${el.type}_${el.address}_${index}`}>
+                  <li key={`${el.type}_${el.address}_${index}`}>
                     <Link href={`/buildings/${el._id}`}>
                       <strong>
                         매매 {isBillion(el.price)}&nbsp;
@@ -61,11 +62,18 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
                       <br />
                       {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
                     </Link>
-                  </S.RegisteredItem>
+                  </li>
                 ))}
               </ul>
             ) : (
-              <div>매물 없음</div>
+              <S.UnRegistered>
+                <ErrorOutlineIcon fontSize="large" />
+                <p>
+                  거래 가능한 매물이 없습니다.
+                  <br />
+                  다른 건물을 선택해 주세요.
+                </p>
+              </S.UnRegistered>
             )}
           </S.RegisteredInfo>
         </S.SelectedArea>
@@ -78,18 +86,18 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
                 const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
 
                 return (
-                  <S.VisibleList key={`${el.address}_${index}`}>
-                    <S.VisibleTitle>
+                  <li key={`${el.address}_${index}`}>
+                    <h2>
                       매매 {isBillion(el.price)}&nbsp;
                       {isTenMillion(el.price)}원
-                    </S.VisibleTitle>
+                    </h2>
                     <p>
                       아파트・{el.buildingName}
                       <br />
                       {el.area}m² {el.floor}층
                     </p>
                     <div>{matchingFirebaseData && <>매물있음</>}</div>
-                  </S.VisibleList>
+                  </li>
                 );
               })}
             </ul>

@@ -13,13 +13,8 @@ export const SelectedArea = styled.article`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  padding: 15px;
 `;
-export const SelectedInfo = styled.section`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-`;
+
 export const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,33 +25,71 @@ export const TextWrap = styled.div`
   align-items: center;
   column-gap: 4px;
   font-size: 14px;
+  color: #656565;
 `;
 
-export const SelectedBuildingName = styled.h2`
-  font-size: 24px;
-`;
-export const SelectedTitle = styled.h3`
-  font-size: 16px;
+export const SelectedInfo = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 15px;
+
+  div > {
+    h2 {
+      font-size: 24px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+  }
 `;
 export const SelectedContent = styled.div`
   padding: 20px;
-  border: 1px solid #bcbcbc;
+  border: 1px solid #dedede;
   border-radius: 10px;
-  background-color: #efefef;
+  background-color: #fafafa;
+
+  > p {
+    font-size: 14px;
+    color: #979797;
+  }
 `;
 
 // 등록된 건물 정보
-export const RegisteredInfo = styled.section``;
-export const RegisteredItem = styled.li`
-  padding: 20px 0;
-  border-bottom: 1px solid #dedede;
+export const RegisteredInfo = styled.section`
+  > ul {
+    border-top: 1px solid #dedede;
+    > li {
+      border-bottom: 1px solid #dedede;
+      > a {
+        display: block;
+        padding: 20px;
+      }
+      :hover {
+        background-color: #efefef;
+      }
+    }
+  }
+`;
+export const UnRegistered = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+
+  > p {
+    text-align: center;
+  }
 `;
 
-export const VisibleArea = styled.section``;
-export const VisibleList = styled.li`
-  padding: 10px 15px;
-  border-top: 1px solid #dedede;
-`;
-export const VisibleTitle = styled.h2`
-  font-size: 20px;
+export const VisibleArea = styled.section`
+  > ul {
+    > li {
+      padding: 10px 15px;
+      border-top: 1px solid #dedede;
+      > h2 {
+        font-size: 20px;
+      }
+    }
+  }
 `;
