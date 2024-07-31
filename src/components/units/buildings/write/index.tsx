@@ -161,9 +161,11 @@ export default function BuildingWrite(): JSX.Element {
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="사진 등록" />
-
+          <TitleUnderline label="사진 등록" desc="이미지 용량(5MB 이하), 파일 확장자(jpeg/png/webp)" />
+          {/* <S.ButtonWrap> */}
           <UploadBasic onFilesChange={setSelectedFiles} />
+          <p></p>
+          {/* </S.ButtonWrap> */}
         </S.InfoContainer>
 
         <Button role="submit-button" type="submit" variant="contained">
