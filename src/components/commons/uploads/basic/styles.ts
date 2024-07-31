@@ -1,4 +1,3 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import Image from "next/image";
@@ -20,4 +19,3 @@ export const PrevImg = styled(Image)`
   height: 100%;
   object-fit: cover;
 `;
-export const imageStyles = css``;
