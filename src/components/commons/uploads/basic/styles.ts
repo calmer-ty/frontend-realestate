@@ -8,6 +8,7 @@ export const FilePreview = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  min-height: 150px;
 `;
 export const PrevWrap = styled.div`
   position: relative;
