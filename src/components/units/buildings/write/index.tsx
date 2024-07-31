@@ -123,7 +123,7 @@ export default function BuildingWrite(): JSX.Element {
               )}
             </S.InputWrap>
             <S.InputWrap>
-              <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
+              <TextFieldBasic required role="input-area" type="number" step="0.01" label="매물 크기" register={register("area")} />
               <UnitBasic label="m²" />
               <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
               <UnitBasic label="개" />
