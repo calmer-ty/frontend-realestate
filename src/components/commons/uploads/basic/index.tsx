@@ -1,15 +1,13 @@
-import Image from "next/image";
 import { useRef, useState } from "react";
-// import { useFirebaseStorage } from "@/src/hooks/useFirebaseStorage";
 
-import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import ModalBasic from "../../modal/basic";
+
+import { checkValidationImg } from "@/src/commons/libraries/validation";
 
 import type { ChangeEvent, RefObject } from "react";
 import type { IFileWithPreview, IUploadBasicProps } from "./types";
-import { FilePreview, imageStyles, inputStyles, PrevWrap } from "./styles";
-import { checkValidationImg } from "@/src/commons/libraries/validation";
-import ModalBasic from "../../modal/basic";
+import * as S from "./styles";
 
 export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.Element {
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
@@ -53,7 +51,6 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
         resetFileInput(fileInputRef);
         return;
       }
-      console.log("totalFilesCount:::", totalFilesCount);
 
       const fileWithPreviews = await Promise.all(
         selectedFiles.map(async (file) => {
@@ -93,17 +90,19 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
   };
   return (
     <>
-      <Button variant="outlined" startIcon={<AddIcon />} onClick={triggerFileInput} style={inputStyles}>
+      <S.UploadBtn variant="outlined" startIcon={<AddIcon />} onClick={triggerFileInput}>
         사진 추가
-      </Button>
+      </S.UploadBtn>
       <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-      <FilePreview>
-        {filePreviews.map((fileWithPreview, index) => (
-          <PrevWrap key={index} style={{ position: "relative" }}>
-            <Image src={fileWithPreview.previewUrl} width={0} height={0} alt={`Preview ${index}`} style={imageStyles} />
-          </PrevWrap>
-        ))}
-      </FilePreview>
+      <div>
+        <S.FilePreview>
+          {filePreviews.map((fileWithPreview, index) => (
+            <S.PrevWrap key={index} style={{ position: "relative" }}>
+              <S.PrevImg src={fileWithPreview.previewUrl} width={0} height={0} alt={`Preview ${index}`} />
+            </S.PrevWrap>
+          ))}
+        </S.FilePreview>
+      </div>
 
       {openModal && (
         <ModalBasic

@@ -1,5 +1,7 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import type { CSSProperties } from "react";
+import { Button } from "@mui/material";
+import Image from "next/image";
 
 export const FilePreview = styled.div`
   display: flex;
@@ -10,11 +12,12 @@ export const PrevWrap = styled.div`
   width: 200px;
   height: 150px;
 `;
-export const inputStyles: CSSProperties = {
-  width: "160px",
-};
-export const imageStyles: CSSProperties = {
-  width: "100%",
-  height: "100%",
-  objectFit: "cover",
-};
+export const UploadBtn = styled(Button)`
+  width: 160px;
+`;
+export const PrevImg = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+export const imageStyles = css``;
