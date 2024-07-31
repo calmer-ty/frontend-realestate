@@ -1,5 +1,5 @@
-import type { SerializedStyles } from "@emotion/react";
 import { css } from "@emotion/react";
+import type { SerializedStyles } from "@emotion/react";
 
 // 미디어 쿼리 믹스인 정의
 export const mediaQueries = {

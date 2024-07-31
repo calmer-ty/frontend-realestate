@@ -2,12 +2,15 @@ import styled from "@emotion/styled";
 
 export const Container = styled.div`
   overflow-y: auto;
+  flex: 1;
   width: 100%;
   height: 100%;
   border-right: 1px solid #dedede;
   background-color: #fff;
   z-index: 1;
-  flex: 1;
+  @media screen and (max-width: 1024px) {
+    flex: 3;
+  }
 `;
 // 클릭 된 건물 상세 정보
 export const SelectedArea = styled.article`
