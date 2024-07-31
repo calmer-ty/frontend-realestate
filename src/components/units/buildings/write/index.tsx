@@ -167,12 +167,14 @@ export default function BuildingWrite(): JSX.Element {
           <UploadBasic onFilesChange={setSelectedFiles} />
         </S.InfoContainer>
 
-        <Button role="submit-button" type="submit" variant="contained">
-          등록하기
-        </Button>
-        <Button onClick={onClickFetch} variant="outlined">
-          조회하기
-        </Button>
+        <S.Footer>
+          <Button role="submit-button" type="submit" variant="contained">
+            등록하기
+          </Button>
+          <Button onClick={onClickFetch} variant="outlined">
+            조회하기
+          </Button>
+        </S.Footer>
       </S.Form>
     </>
   );

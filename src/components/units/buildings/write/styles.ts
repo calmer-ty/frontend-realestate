@@ -53,3 +53,12 @@ export const MapsCover = styled.div`
   line-height: 2.1;
   z-index: 101;
 `;
+export const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 20px;
+  > button {
+    width: 200px;
+  }
+`;
