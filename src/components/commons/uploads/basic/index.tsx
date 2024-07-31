@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import ModalBasic from "../../modal/basic";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { checkValidationImg } from "@/src/commons/libraries/validation";
 
@@ -75,12 +76,20 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
       );
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const validFilePreviews = fileWithPreviews.filter((fileWithPreview): fileWithPreview is IFileWithPreview => fileWithPreview !== null);
+      const validFilePreviews = fileWithPreviews.filter((fileWithPreview) => fileWithPreview !== null);
       const updatedFilePreviews = [...filePreviews, ...validFilePreviews];
 
       setFilePreviews(updatedFilePreviews);
       onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
     }
+  };
+
+  const handleRemoveFile = (index: number): void => {
+    const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
+    setFilePreviews(updatedFilePreviews);
+    onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+    // 리셋 파일 입력 필드
+    resetFileInput(fileInputRef);
   };
 
   const triggerFileInput = (): void => {
@@ -97,8 +106,16 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
       <div>
         <S.FilePreview>
           {filePreviews.map((fileWithPreview, index) => (
-            <S.PrevWrap key={index} style={{ position: "relative" }}>
+            <S.PrevWrap key={index}>
               <S.PrevImg src={fileWithPreview.previewUrl} width={0} height={0} alt={`Preview ${index}`} />
+              <S.PrevCloseBtn
+                type="button"
+                onClick={() => {
+                  handleRemoveFile(index);
+                }}
+              >
+                <CloseIcon />
+              </S.PrevCloseBtn>
             </S.PrevWrap>
           ))}
         </S.FilePreview>
