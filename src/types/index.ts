@@ -109,10 +109,12 @@ export interface IUseAddressSearchProps {
   geocodeData: IGeocodeData | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
-export interface IUseSelectMarkerMapsProps {
-  ncpClientId: string | undefined;
-  onMapReady: (map: any) => void;
-}
+// export interface IUseSelectMarkerMapsProps {
+//   // ncpClientId: string | undefined;
+//   // onMapReady: (map: any) => void;
+//   geocodeData: IGeocodeData | null;
+//   selectedAddress: string;
+// }
 export interface IUseAllMarkerMapsProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;

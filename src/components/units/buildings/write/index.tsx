@@ -54,6 +54,8 @@ export default function BuildingWrite(): JSX.Element {
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
 
+  useSelectMarkerMaps(geocodeData);
+
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
@@ -90,9 +92,6 @@ export default function BuildingWrite(): JSX.Element {
     }
   };
 
-  // 맵 훅에 데이터 보냄
-  useSelectMarkerMaps(geocodeData);
-
   return (
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
@@ -112,18 +111,21 @@ export default function BuildingWrite(): JSX.Element {
                   <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
                 </S.InputWrap>
               </S.AddressWrap>
-              {selectedAddress !== "" ? (
+              <S.MapsWrap>
+                {selectedAddress === "" ? (
+                  <S.MapsCover>
+                    주소를 검색하면
+                    <br />
+                    해당 위치가 지도에 표시됩니다.
+                  </S.MapsCover>
+                ) : (
+                  <></>
+                )}
                 <div id="map" style={{ width: "400px", height: "200px" }}></div>
-              ) : (
-                <S.MapCover>
-                  주소를 검색하면
-                  <br />
-                  해당 위치가 지도에 표시됩니다.
-                </S.MapCover>
-              )}
+              </S.MapsWrap>
             </S.InputWrap>
             <S.InputWrap>
-              <TextFieldBasic required role="input-area" type="number" label="매물 크기" register={register("area")} />
+              <TextFieldBasic required role="input-area" type="number" step="0.01" label="매물 크기" register={register("area")} />
               <UnitBasic label="m²" />
               <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
               <UnitBasic label="개" />
@@ -161,17 +163,18 @@ export default function BuildingWrite(): JSX.Element {
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="사진 등록" />
-
+          <TitleUnderline label="사진 등록" desc="이미지 용량(5MB 이하), 파일 확장자(jpeg/png/webp)" />
           <UploadBasic onFilesChange={setSelectedFiles} />
         </S.InfoContainer>
 
-        <Button role="submit-button" type="submit" variant="contained">
-          등록하기
-        </Button>
-        <Button onClick={onClickFetch} variant="outlined">
-          조회하기
-        </Button>
+        <S.Footer>
+          <Button role="submit-button" type="submit" variant="contained">
+            등록하기
+          </Button>
+          <Button onClick={onClickFetch} variant="outlined">
+            조회하기
+          </Button>
+        </S.Footer>
       </S.Form>
     </>
   );

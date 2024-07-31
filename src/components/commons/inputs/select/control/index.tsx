@@ -1,17 +1,16 @@
-import { Controller } from "react-hook-form";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Controller } from "react-hook-form";
+import { InputLabel } from "@mui/material";
+
 import type { ISelectControl } from "./types";
-import { style } from "./styles";
+// import * as S from "./styles";
 
 export default function SelectControl(props: ISelectControl): JSX.Element {
   return (
     <FormControl fullWidth required={props.required}>
-      <InputLabel style={style.label} id="demo-simple-select-label">
-        {props.label}
-      </InputLabel>
+      <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
       <Controller
         name={props.name}
         control={props.control}
