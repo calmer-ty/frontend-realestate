@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import type { Address } from "react-daum-postcode";
 
 // 지역코드
 export interface IRegionData {
@@ -103,8 +104,12 @@ export interface IFirebaseData {
 }
 
 // Hooks Type
+export interface IUseAddressSearchProps {
+  selectedAddress: string;
+  geocodeData: IGeocodeData | null;
+  onCompleteAddressSearch: (data: Address) => Promise<void>;
+}
 export interface IUseSelectMarkerMapsProps {
-  // mapId: string;
   ncpClientId: string | undefined;
   onMapReady: (map: any) => void;
 }
@@ -114,6 +119,14 @@ export interface IUseAllMarkerMapsProps {
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];
 }
-export interface IUseFetchFireBaseProps {
+export interface IUseFetchFirestoreProps {
   setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
+}
+export interface IUseFirebaseStorageProps {
+  uploadFiles: (files: File[]) => Promise<string[]>;
+  uploading: boolean;
+}
+export interface IUseFireStoreProps {
+  addData: (data: any) => Promise<void>;
+  fetchData: () => Promise<void>;
 }
