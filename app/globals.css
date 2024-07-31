@@ -44,6 +44,7 @@ header {
   background-color: #fff;
   border-bottom: 1px solid #dedede;
   position: fixed;
+  z-index: 110;
 }
 #header-inner {
   display: flex;
@@ -69,6 +70,7 @@ main {
   display: flex;
   justify-content: center;
   width: 100%;
+  background-color: #f5f5f5;
 }
 
 #logo a {

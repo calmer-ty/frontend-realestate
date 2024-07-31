@@ -3,17 +3,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import NaverMap from "@/src/components/units/allMarkerMaps";
+// import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 import type { IGeocodeEtcData } from "@/src/types";
 
 export default function BuildingView(): JSX.Element {
+  // const { geocodeResults, loading, error, fetchData } = useAllGeocodeData();
+  // if (loading) return <p>Loading...</p>;
+  // if (error !== null) return <p>Error loading data: {error.message}</p>;
+
   const [geocodeResults, setGeocodeResults] = useState<IGeocodeEtcData[]>([]);
   useEffect(() => {
     // 페이지가 로드될 때 데이터를 가져오는 함수를 정의합니다
     const fetchData = async (): Promise<void> => {
       try {
         // API 엔드포인트로부터 아파트 데이터를 비동기적으로 가져옵니다
-        const geocodeResponse = await axios.get<IGeocodeEtcData[]>("/api/fetchAllGeocode");
-        setGeocodeResults(geocodeResponse.data);
+        const response = await axios.get<IGeocodeEtcData[]>("/api/fetchAllGeocode");
+        setGeocodeResults(response.data);
       } catch (error) {
         console.error("Error fetching data:", error); // 데이터 가져오기 실패 시 에러를 콘솔에 로깅합니다
       }
