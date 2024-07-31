@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import type { ChangeEvent } from "react";
 import type { IFileWithPreview, IUploadBasicProps } from "./types";
 import { FilePreview, imageStyles, inputStyles, PrevWrap } from "./styles";
+import { checkValidationImg } from "@/src/commons/libraries/validation";
 
 export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.Element {
   //   const { uploadFiles, uploading } = useFirebaseStorage();
@@ -25,22 +26,41 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
         return;
       }
 
-      const newFiles = selectedFiles.map((file) => {
-        const reader = new FileReader();
-        return new Promise<IFileWithPreview>((resolve) => {
-          reader.onloadend = () => {
-            resolve({
+      const fileWithPreviews = await Promise.all(
+        selectedFiles.map(async (file) => {
+          // 파일 검증
+          const isValid = await checkValidationImg(file);
+          if (!isValid) {
+            console.log("검증 실패");
+            return null; // 유효하지 않은 파일은 null로 처리
+          }
+
+          try {
+            const previewUrl = await readFileAsDataURL(file);
+            return {
               file,
-              previewUrl: reader.result as string,
-            });
-          };
-          reader.readAsDataURL(file);
-        });
-      });
+              previewUrl,
+            };
+          } catch (error) {
+            console.error("Error reading file:", error);
+            return null;
+          }
+          // const reader = new FileReader();
+          // return new Promise<IFileWithPreview>((resolve) => {
+          //   reader.onloadend = () => {
+          //     resolve({
+          //       file,
+          //       previewUrl: reader.result as string,
+          //     });
+          //   };
+          //   reader.readAsDataURL(file);
+          // });
+        })
+      );
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const fileWithPreviews = await Promise.all(newFiles);
-      const updatedFilePreviews = [...filePreviews, ...fileWithPreviews];
+      const validFilePreviews = fileWithPreviews.filter((fileWithPreview): fileWithPreview is IFileWithPreview => fileWithPreview !== null);
+      const updatedFilePreviews = [...filePreviews, ...validFilePreviews];
       setFilePreviews(updatedFilePreviews);
       onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
     }
@@ -56,6 +76,23 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
   //       console.error("Upload failed:", error);
   //     }
   //   };
+
+  const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          resolve(reader.result);
+        } else {
+          reject(new Error("Failed to read file."));
+        }
+      };
+      reader.onerror = () => {
+        reject(new Error("File reading error."));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
 
   const triggerFileInput = (): void => {
     if (fileInputRef.current !== null) {
