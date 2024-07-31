@@ -33,13 +33,23 @@ export const AddressWrap = styled.div`
   row-gap: 20px;
   align-self: flex-start;
 `;
-export const MapCover = styled.div`
+export const MapsWrap = styled.div`
+  position: relative;
+  width: 400px;
+  height: 200px;
+`;
+export const MapsCover = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 400px;
   height: 200px;
+  border: 1px solid #dedede;
   background-color: #efefef;
   text-align: center;
   line-height: 2.1;
+  z-index: 101;
 `;
