@@ -3,12 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "next/core-web-vitals",
-    "standard-with-typescript",
-    "plugin:react/recommended",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "standard-with-typescript", "plugin:react/recommended", "prettier"],
   "parserOptions": {
     "project": "**/tsconfig.json",
     "ecmaVersion": "latest",
@@ -24,7 +19,8 @@
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/promise-function-async": "off",
-    "@typescript-eslint/unbound-method": "off"
+    "@typescript-eslint/unbound-method": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   }
   // "overrides": [
   //   {

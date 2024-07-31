@@ -1,6 +1,5 @@
-import type { IGeocodeData } from "@/src/types";
+import type { IGeocodeEtcData } from "@/src/types";
 
 export interface INaverMapProps {
-  geocodeResults: IGeocodeData[];
-  // ncpClientId: string;
+  geocodeResults: IGeocodeEtcData[];
 }
