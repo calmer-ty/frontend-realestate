@@ -1,6 +1,8 @@
+import { mediaQueries } from "@/src/commons/styles/styles";
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
-export const Container = styled.div`
+export const Container = styled.aside`
   overflow-y: auto;
   flex: 1;
   width: 100%;
@@ -8,15 +10,17 @@ export const Container = styled.div`
   border-right: 1px solid #dedede;
   background-color: #fff;
   z-index: 1;
-  @media screen and (max-width: 1024px) {
-    flex: 3;
-  }
+
+  ${mediaQueries.tablet(css`
+    flex: 2;
+  `)}
 `;
 // 클릭 된 건물 상세 정보
 export const SelectedArea = styled.article`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  height: 100%;
 `;
 
 export const InfoWrap = styled.div`
@@ -61,8 +65,23 @@ export const SelectedContent = styled.div`
 
 // 등록된 건물 정보
 export const RegisteredInfo = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
+export const Registered = styled.div`
+  width: 100%;
+  border-top: 1px solid #dedede;
+  > p {
+    font-size: 16px;
+    margin: 10px 20px;
+    > strong {
+      color: #1976d2;
+    }
+  }
   > ul {
-    border-top: 1px solid #dedede;
     > li {
       border-bottom: 1px solid #dedede;
       > a {
@@ -77,18 +96,6 @@ export const RegisteredInfo = styled.section`
     }
   }
 `;
-export const ImgWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 70px;
-  > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
 export const UnRegistered = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,11 +107,26 @@ export const UnRegistered = styled.div`
   }
 `;
 
-export const VisibleArea = styled.section`
+// 등록된 리스트의 이미지
+export const ImgWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  background-color: #dedede;
+
+  > img {
+    position: static !important;
+    object-fit: cover;
+  }
+`;
+
+export const VisibleArea = styled.article`
   > ul {
     > li {
       padding: 10px 15px;
-      border-top: 1px solid #dedede;
+      border-bottom: 1px solid #dedede;
       > h2 {
         font-size: 20px;
       }

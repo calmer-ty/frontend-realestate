@@ -53,25 +53,30 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
           {/* 등록된 건물 정보 */}
           <S.RegisteredInfo>
             {matchedFirebaseData.length > 0 ? (
-              <ul>
-                {matchedFirebaseData.map((el, index) => (
-                  <li key={`${el.type}_${el.address}_${index}`}>
-                    <Link href={`/buildings/${el._id}`}>
-                      <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={0} height={0} alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
-                      <p>
-                        <strong>
-                          매매 {isBillion(el.price)}&nbsp;
-                          {isTenMillion(el.price)}원
-                        </strong>
-                        <br />
-                        {el.type}・{el.addressDetail}
-                        <br />
-                        {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
-                      </p>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <S.Registered>
+                <p>
+                  총 <strong>{matchedFirebaseData.length}</strong>개의 매물이 있습니다
+                </p>
+                <ul>
+                  {matchedFirebaseData.map((el, index) => (
+                    <li key={`${el.type}_${el.address}_${index}`}>
+                      <Link href={`/buildings/${el._id}`}>
+                        <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} layout="fill" alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
+                        <p>
+                          <strong>
+                            매매 {isBillion(el.price)}
+                            {isTenMillion(el.price)}원
+                          </strong>
+                          <br />
+                          {el.type}・{el.addressDetail}
+                          <br />
+                          {el.floor}층, {el.area}m², 관리비 {el.manageCost}만원
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </S.Registered>
             ) : (
               <S.UnRegistered>
                 <ErrorOutlineIcon fontSize="large" />
