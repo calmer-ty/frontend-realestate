@@ -9,9 +9,13 @@ import { modalStyle, submitBtnStyle } from "./styles";
 export default function ModalBasic(props: IModalBasicProps): JSX.Element {
   return (
     <>
-      <Button style={submitBtnStyle} variant="outlined" onClick={props.onToggle}>
-        {props.btnText}
-      </Button>
+      {props.btnText !== undefined ? (
+        <Button style={submitBtnStyle} variant="outlined" onClick={props.onToggle}>
+          {props.btnText}
+        </Button>
+      ) : (
+        <></>
+      )}
       <Modal open={props.open} onClose={props.onToggle} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={modalStyle}>
           <CloseIcon style={modalStyle.closeBtn} onClick={props.onToggle} />
