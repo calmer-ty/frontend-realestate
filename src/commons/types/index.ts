@@ -138,3 +138,7 @@ export interface IUseFireStoreProps {
 export interface IBuildingParams {
   buildingType: string;
 }
+export interface IBuildingListParams {
+  buildingType: string;
+  listId: string;
+}
