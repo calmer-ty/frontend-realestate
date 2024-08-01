@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from "react";
 
 import MapsInfo from "./mapsInfo";
@@ -21,7 +22,7 @@ export default function AllMarkerMaps(props: IAllMarkerMapsProps): JSX.Element {
 
   return (
     <>
-      <div style={mapStyle}>
+      <div css={mapStyle}>
         <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
         <MapsView geocodeResults={geocodeResults} />
       </div>

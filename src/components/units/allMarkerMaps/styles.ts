@@ -1,9 +1,12 @@
-export const mapStyle = {
-  display: "flex",
-  width: "100%",
-  height: "calc(100vh - 60px)",
-} as const;
+import { css } from "@emotion/react";
 
+export const mapStyle = css`
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px);
+`;
+
+// useAllMarkerMaps 안에 들어가는 마커
 const containerCommon = `
   position: relative;
   min-width: 58px;
