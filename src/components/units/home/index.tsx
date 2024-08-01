@@ -1,16 +1,43 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+
+import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
+
+import type { IGeocodeEtcData } from "@/src/types";
 import * as S from "./styles";
 
 export default function Home(): JSX.Element {
+  const [preloadedData, setPreloadedData] = useState<IGeocodeEtcData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  // 데이터 프리로딩
+  const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData();
+
+  // 마우스 오버 시 데이터 설정
+  const handleMouseEnter = async (): Promise<void> => {
+    if (preloadedData.length === 0 && !loading) {
+      setIsLoading(true);
+      try {
+        await fetchData();
+        setPreloadedData(geocodeResults);
+      } catch (err) {
+        setError(hookError);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   return (
     <S.Container>
-      <S.BuildingType>
+      <S.BuildingType onMouseEnter={handleMouseEnter}>
         <Link href="/buildings">
           <S.TextWrap>
             <h2>아파트</h2>
@@ -21,6 +48,8 @@ export default function Home(): JSX.Element {
           </S.IconWrap>
         </Link>
       </S.BuildingType>
+      {isLoading && <p>Loading...</p>}
+      {error !== null && <p>Error loading data: {error.message}</p>}
       <S.BuildingTypeU>
         {/* <Link href="/"> */}
         <S.TextWrap>

@@ -9,7 +9,6 @@ export const Container = styled.article`
   height: 100%;
   padding: 40px;
   max-width: 1024px;
-  background-color: #f5f5f5;
 `;
 export const BuildingType = styled.div`
   position: relative;
