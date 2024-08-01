@@ -11,11 +11,12 @@ import type { INaverMapProps } from "./types";
 
 import { mapStyle } from "./styles";
 
-export default function NaverMap(props: INaverMapProps): JSX.Element {
+export default function AllMarkerMaps(props: INaverMapProps): JSX.Element {
   const { geocodeResults } = props;
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
   const firebaseDatas = useFetchFirestore();
+  console.log("firebaseDatas:::", firebaseDatas);
 
   useAllMarkerMaps({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 

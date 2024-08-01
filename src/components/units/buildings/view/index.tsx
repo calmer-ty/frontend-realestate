@@ -2,7 +2,7 @@
 
 // import axios from "axios";
 import { useEffect } from "react";
-import NaverMap from "@/src/components/units/allMarkerMaps";
+import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 
 export default function BuildingView(): JSX.Element {
@@ -16,5 +16,5 @@ export default function BuildingView(): JSX.Element {
   if (loading) return <p>Loading...</p>;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
-  return <NaverMap geocodeResults={geocodeResults} />;
+  return <AllMarkerMaps geocodeResults={geocodeResults} />;
 }
