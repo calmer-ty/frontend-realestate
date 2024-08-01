@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
   return (
     <S.Container>
       <S.BuildingType onMouseEnter={handleMouseEnter}>
-        <Link href="/buildings">
+        <Link href="/buildings/apartment">
           <S.TextWrap>
             <h2>아파트</h2>
             <p>거래된 목록들이 지도에!</p>

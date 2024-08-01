@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 
-export default function BuildingView(): JSX.Element {
+import type { IBuildingParams } from "@/src/commons/types";
+
+export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const { geocodeResults, loading, error, fetchData } = useAllGeocodeData();
 
   useEffect(() => {
@@ -16,5 +18,10 @@ export default function BuildingView(): JSX.Element {
   if (loading) return <p>Loading...</p>;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
-  return <AllMarkerMaps geocodeResults={geocodeResults} />;
+  // // buildingType이 잘못된 경우 404 페이지로 리다이렉트
+  // if (!["apartment", "house", "officetel"].includes(buildingType)) {
+  //   return notFound();
+  // }
+
+  return <AllMarkerMaps geocodeResults={geocodeResults} buildingType={buildingType} />;
 }
