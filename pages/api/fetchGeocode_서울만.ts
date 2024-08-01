@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { IApartmentData, IGeocodeCoord, IGeocodeData } from "@/src/types";
+import type { IApartmentData, IGeocodeCoord, IGeocodeData } from "@/src/commons/types";
 import NodeCache from "node-cache";
 
 // 메모리 내 캐시 객체 생성

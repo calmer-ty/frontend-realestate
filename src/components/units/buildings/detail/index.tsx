@@ -7,7 +7,7 @@ import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
 import TitleUnderline from "@/src/components/commons/titles/underline";
 
-import type { IFirebaseData } from "@/src/types";
+import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
 interface IBuildingDetailProps {

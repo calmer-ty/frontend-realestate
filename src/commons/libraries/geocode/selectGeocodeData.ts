@@ -1,5 +1,5 @@
 import { geocodeApi } from "./geocodeApi";
-import type { IGeocodeData } from "@/src/types";
+import type { IGeocodeData } from "@/src/commons/types";
 
 export const selectGeocodeData = async (address: string): Promise<IGeocodeData | null> => {
   console.log("selectGeocodeData props:::", address);

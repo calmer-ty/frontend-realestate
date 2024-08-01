@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { db } from "@/pages/api/cloudFirestore";
+import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

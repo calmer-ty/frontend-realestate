@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { IGeocodeCoord } from "@/src/types";
+import type { IGeocodeCoord } from "@/src/commons/types";
 
 export const geocodeApi = async (address: string): Promise<{ latitude: number; longitude: number } | null> => {
   try {

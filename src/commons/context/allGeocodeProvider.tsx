@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { SetStateAction, Dispatch, ReactNode } from "react";
-import type { IGeocodeEtcData } from "@/src/types";
+import type { IGeocodeEtcData } from "@/src/commons/types";
 
 interface IAllGeocodeContextProps {
   geocodeResults: IGeocodeEtcData[];
