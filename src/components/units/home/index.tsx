@@ -9,7 +9,7 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
 
-import type { IGeocodeEtcData } from "@/src/types";
+import type { IGeocodeEtcData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function Home(): JSX.Element {

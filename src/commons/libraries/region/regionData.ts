@@ -1,4 +1,4 @@
-import type { IRegionData, IRegionItem } from "@/src/types"; // 지역 데이터 타입 정의를 가져옵니다
+import type { IRegionData, IRegionItem } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 import { getCachedRegionData, setRegionCache } from "./regionCache";
 import { regionApi } from "./regionApi";
 

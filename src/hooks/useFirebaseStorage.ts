@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "@/pages/api/cloudFirestore";
-import type { IUseFirebaseStorageProps } from "@/src/types";
+import { storage } from "@/src/commons/libraries/firebase/firebaseApp";
+import type { IUseFirebaseStorageProps } from "@/src/commons/types";
 
 export const useFirebaseStorage = (): IUseFirebaseStorageProps => {
   const [uploading, setUploading] = useState(false);
