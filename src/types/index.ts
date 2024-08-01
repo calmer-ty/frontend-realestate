@@ -91,6 +91,7 @@ export interface IMarkerData {
   constructionYear: number;
 }
 
+// firebase
 export interface IFirebaseData {
   _id: string;
   type: string;
