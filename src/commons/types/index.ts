@@ -134,3 +134,7 @@ export interface IUseFireStoreProps {
   addData: (data: any) => Promise<void>;
   fetchData: () => Promise<void>;
 }
+
+export interface IBuildingParams {
+  buildingType: string;
+}
