@@ -15,8 +15,8 @@ export default async function BuildingDetailPage({ params }: { params: IBuilding
     if (!docSnap.exists()) {
       console.log("No such document!");
     } else {
-      const apartment = docSnap.data() as IFirebaseData;
-      return <BuildingDetail apartment={apartment} />;
+      const buildingType = docSnap.data() as IFirebaseData;
+      return <BuildingDetail buildingType={buildingType} />;
     }
   } catch (error) {
     console.error("Error fetching documents: ", error);

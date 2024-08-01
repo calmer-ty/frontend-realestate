@@ -1,6 +1,5 @@
 "use client";
 
-// import axios from "axios";
 import Image from "next/image";
 import { useEffect } from "react";
 import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
