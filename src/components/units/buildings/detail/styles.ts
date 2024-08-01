@@ -21,16 +21,16 @@ export const ImgWrap = styled.figure`
   grid-template-rows: 1fr 1fr; /* 2개의 행 정의 */
   gap: 10px; /* 항목 사이의 간격 */
   gap: 10px;
-  img {
+  > img {
     display: block;
     position: static !important;
     object-fit: cover;
   }
-  img:first-child {
+  > img:first-child {
     grid-column: span 2; /* 2열 차지 (50%) */
     grid-row: span 2; /* 2행 차지 */
   }
-  img:not(:first-child) {
+  > img:not(:first-child) {
     grid-column: span 1; /* 하나의 열 차지 */
     grid-row: span 1; /* 하나의 행 차지 */
   }
@@ -47,14 +47,14 @@ export const InfoItem = styled.div`
   row-gap: 20px;
 `;
 export const InfoContent = styled.ul`
-  li {
+  > li {
     display: flex;
     h3 {
       width: 150px;
       font-size: 16px;
     }
   }
-  li + li {
+  > li + li {
     margin-top: 10px;
   }
 `;
