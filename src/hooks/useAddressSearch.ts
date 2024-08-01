@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import type { Address } from "react-daum-postcode";
 import type { UseFormSetValue } from "react-hook-form";
-import type { IGeocodeData, IUseAddressSearchProps } from "@/src/types";
+import type { IGeocodeData, IUseAddressSearchProps } from "@/src/commons/types";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
 export const useAddressSearch = (setValue: UseFormSetValue<IWriteFormData>, onToggle: () => void): IUseAddressSearchProps => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { IApartmentData, IRegionItem } from "@/src/types"; // 지역 데이터 타입 정의를 가져옵니다
+import type { IApartmentData, IRegionItem } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 

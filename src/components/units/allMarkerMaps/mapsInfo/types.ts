@@ -1,4 +1,4 @@
-import type { IFirebaseData, IMarkerData } from "@/src/types";
+import type { IFirebaseData, IMarkerData } from "@/src/commons/types";
 
 export interface IMapsInfoProps {
   visibleMarkerDatas: IMarkerData[];

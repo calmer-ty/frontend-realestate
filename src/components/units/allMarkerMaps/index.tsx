@@ -6,7 +6,7 @@ import MapsView from "./mapsView";
 import { useAllMarkerMaps } from "@/src/hooks/useAllMarkerMaps";
 import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
 
-import type { IMarkerData } from "@/src/types";
+import type { IMarkerData } from "@/src/commons/types";
 import type { INaverMapProps } from "./types";
 
 import { mapStyle } from "./styles";

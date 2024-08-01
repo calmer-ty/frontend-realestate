@@ -8,7 +8,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
 import type { IMapsInfoProps } from "./types";
-import type { IFirebaseData } from "@/src/types";
+import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function MapsInfo(props: IMapsInfoProps): JSX.Element {

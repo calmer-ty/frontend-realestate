@@ -1,5 +1,5 @@
 import { apartmentData } from "../apartment/apartmentData";
-import type { IGeocodeData } from "@/src/types";
+import type { IGeocodeData } from "@/src/commons/types";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 

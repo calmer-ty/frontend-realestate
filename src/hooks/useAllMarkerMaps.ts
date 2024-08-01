@@ -3,7 +3,7 @@ import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/
 import { shortenCityName } from "../commons/libraries/utils/regex";
 import { useNaverMaps } from "@/src/hooks/useNaverMaps";
 import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
-import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/types";
+import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/commons/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
