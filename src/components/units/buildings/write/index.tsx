@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { db } from "@/pages/api/cloudFirestore";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -19,8 +19,6 @@ import UnitBasic from "@/src/components/commons/units/basic";
 import TitleUnderline from "@/src/components/commons/titles/underline";
 import RadioControl from "@/src/components/commons/inputs/radio/control";
 import UploadBasic from "@/src/components/commons/uploads/basic";
-
-import { v4 as uuidv4 } from "uuid";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
@@ -64,9 +62,13 @@ export default function BuildingWrite(): JSX.Element {
 
       const docRef = await addDoc(collection(db, collectionName), {
         ...data, // 컬렉션에 데이터를 추가합니다
-        _id: uuidv4(), // 고유한 _id 생성
         type: selectedType,
         imageUrls: downloadURLs, // 이미지 다운로드 URL
+      });
+
+      // 문서 ID를 포함한 데이터로 업데이트
+      await updateDoc(docRef, {
+        _id: docRef.id,
       });
 
       // 파일 업로드
