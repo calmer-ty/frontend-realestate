@@ -4,4 +4,5 @@ export interface IMapsInfoProps {
   visibleMarkerDatas: IMarkerData[];
   selectedMarkerData: IMarkerData | null;
   firebaseDatas: IFirebaseData[];
+  buildingType: string;
 }

@@ -16,14 +16,13 @@ export default function AllMarkerMaps(props: IAllMarkerMapsProps): JSX.Element {
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
   const firebaseDatas = useFetchFirestore(buildingType);
-  console.log("firebaseDatas:::", firebaseDatas);
 
   useAllMarkerMaps({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
   return (
     <>
       <div style={mapStyle}>
-        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} />
+        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
         <MapsView geocodeResults={geocodeResults} />
       </div>
     </>
