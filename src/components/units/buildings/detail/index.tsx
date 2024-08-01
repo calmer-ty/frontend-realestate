@@ -1,5 +1,6 @@
 "use client";
 
+// import Head from "next/head";
 import { db } from "@/pages/api/cloudFirestore";
 import { collection, getDocs } from "firebase/firestore";
 import { usePathname } from "next/navigation";
@@ -16,7 +17,6 @@ export default function BuildingDetail(): JSX.Element {
     try {
       const querySnapshot = await getDocs(collection(db, "apartment")); // 컬렉션을 참조합니다
       const datas = querySnapshot.docs.map((el) => el.data() as IFirebaseData); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-      console.log(datas);
       setFbData(datas);
     } catch (error) {
       console.error("Error fetching documents: ", error);
@@ -39,6 +39,11 @@ export default function BuildingDetail(): JSX.Element {
   }, []);
   return (
     <>
+      {/* <Head>
+        <meta property="og:title" content={apartment.name} />
+        <meta property="og:description" content={apartment.remarks} />
+        <meta property="og:image" content={apartment.images?.[0]} />
+      </Head> */}
       <S.Container>
         <S.MainImg>MainImg</S.MainImg>
         <S.BuildingInfo>
