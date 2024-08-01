@@ -1,86 +1,72 @@
 "use client";
 
-// import Head from "next/head";
-import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-import { collection, getDocs } from "firebase/firestore";
-import { usePathname } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
-import type { IFirebaseData } from "@/src/types";
-import * as S from "./styles";
-import TitleUnderline from "@/src/components/commons/titles/underline";
+import Head from "next/head";
+import Image from "next/image";
+
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
-export default function BuildingDetail(): JSX.Element {
-  const [fbData, setFbData] = useState<IFirebaseData[]>();
+import TitleUnderline from "@/src/components/commons/titles/underline";
 
-  const fetchData = async (): Promise<void> => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "apartment")); // 컬렉션을 참조합니다
-      const datas = querySnapshot.docs.map((el) => el.data() as IFirebaseData); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-      setFbData(datas);
-    } catch (error) {
-      console.error("Error fetching documents: ", error);
-    }
-  };
+import type { IFirebaseData } from "@/src/commons/types";
+import * as S from "./styles";
 
-  const pathname = usePathname();
-  // id값 뽑는 정규식
-  const extractIdFromPathname = (path: string | null): string | null => {
-    // 정규 표현식 패턴을 사용하여 ID를 추출합니다
-    const regex = /\/buildings\/([a-f0-9-]{36})\/$/;
-    const match = path?.match(regex);
-    // 정규 표현식이 일치하면 ID를 반환하고, 그렇지 않으면 null을 반환합니다
-    return match !== null && match !== undefined ? match?.[1] : null;
-  };
-  const id = extractIdFromPathname(pathname);
+interface IBuildingDetailProps {
+  apartment: IFirebaseData;
+}
 
-  useEffect(() => {
-    void fetchData();
-  }, []);
+export default function BuildingDetail({ apartment }: IBuildingDetailProps): JSX.Element {
   return (
     <>
-      {/* <Head>
-        <meta property="og:title" content={apartment.name} />
-        <meta property="og:description" content={apartment.remarks} />
-        <meta property="og:image" content={apartment.images?.[0]} />
-      </Head> */}
+      <Head>
+        <meta property="og:title" content={apartment.type} />
+        <meta property="og:description" content={`${apartment.address}_${apartment.addressDetail}`} />
+        <meta property="og:image" content={apartment.imageUrls?.[0]} />
+      </Head>
       <S.Container>
-        <S.MainImg>MainImg</S.MainImg>
+        <S.ImgContainer>
+          <S.ImgWrap>
+            {apartment.imageUrls?.map((el, index) => {
+              return <Image key={`${el}_${index}`} src={apartment.imageUrls?.[index] ?? ""} width={0} height={0} alt={apartment.address} layout="fill" />;
+            })}
+          </S.ImgWrap>
+        </S.ImgContainer>
         <S.BuildingInfo>
-          {fbData
-            ?.filter((el) => el._id === id)
-            .map((el) => (
-              <Fragment key={el._id}>
-                <S.InfoItem>
-                  <TitleUnderline label="가격 정보" />
-                  <S.InfoContent>
-                    <S.InfoContentItem>
-                      <S.InfoLabel>가격</S.InfoLabel>
-                      {isBillion(el.price)}&nbsp;
-                      {isTenMillion(el.price)} 원
-                    </S.InfoContentItem>
-                    <S.InfoContentItem>
-                      <S.InfoLabel>관리비</S.InfoLabel>
-                      <span>매월 {el.manageCost}만 원</span>
-                    </S.InfoContentItem>
-                  </S.InfoContent>
-                </S.InfoItem>
+          <S.InfoItem>
+            <TitleUnderline label="가격 정보" />
+            <S.InfoContent>
+              <li>
+                <h3>매물 가격</h3>
+                {isBillion(apartment.price)}&nbsp;
+                {isTenMillion(apartment.price)} 원
+              </li>
+              <li>
+                <h3>관리비</h3>
+                <span>매월 {apartment.manageCost}만 원</span>
+              </li>
+            </S.InfoContent>
+          </S.InfoItem>
 
-                <S.InfoItem>
-                  <TitleUnderline label="상세 정보" />
-                  <S.InfoContent>
-                    <S.InfoContentItem>
-                      <S.InfoLabel>건물 이름</S.InfoLabel>
-                      <span>{el.addressDetail}</span>
-                    </S.InfoContentItem>
-                    <S.InfoContentItem>
-                      <S.InfoLabel>해당 층</S.InfoLabel>
-                      <span>{el.floor}</span>
-                    </S.InfoContentItem>
-                  </S.InfoContent>
-                </S.InfoItem>
-              </Fragment>
-            ))}
+          <S.InfoItem>
+            <TitleUnderline label="상세 정보" />
+            <S.InfoContent>
+              <li>
+                <h3>건물 이름</h3>
+                <span>{apartment.addressDetail}</span>
+              </li>
+              <li>
+                <h3>해당 층</h3>
+                <span>{apartment.floor}</span>
+              </li>
+              <li>
+                <h3>방 개수</h3>
+                <span>{apartment.roomCount}</span>
+              </li>
+              <li>
+                <h3>면적</h3>
+                <span>{apartment.area}</span>
+              </li>
+            </S.InfoContent>
+          </S.InfoItem>
         </S.BuildingInfo>
       </S.Container>
     </>
