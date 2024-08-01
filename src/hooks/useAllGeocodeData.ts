@@ -1,4 +1,3 @@
-// hooks/usePreloadGeocodeData.ts
 import { useState, useCallback } from "react";
 import axios from "axios";
 import type { IGeocodeEtcData } from "@/src/commons/types";
