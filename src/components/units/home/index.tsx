@@ -9,6 +9,7 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
 
+import type { MouseEventHandler } from "react";
 import type { IGeocodeEtcData } from "@/src/commons/types";
 import * as S from "./styles";
 
@@ -16,12 +17,17 @@ export default function Home(): JSX.Element {
   const [preloadedData, setPreloadedData] = useState<IGeocodeEtcData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
 
   // 데이터 프리로딩
-  const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData();
+  const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
 
   // 마우스 오버 시 데이터 설정
-  const handleMouseEnter = async (): Promise<void> => {
+  const handleMouseEnter: MouseEventHandler<HTMLDivElement> = async (event) => {
+    const target = event.currentTarget;
+    const buildingType = target.getAttribute("data-href") ?? "";
+    setCurrentBuildingType(buildingType);
+
     if (preloadedData.length === 0 && !loading) {
       setIsLoading(true);
       try {
@@ -37,7 +43,7 @@ export default function Home(): JSX.Element {
 
   return (
     <S.Container>
-      <S.BuildingType onMouseEnter={handleMouseEnter}>
+      <S.BuildingType data-href="apartment" onMouseEnter={handleMouseEnter}>
         <Link href="/buildings/apartment">
           <S.TextWrap>
             <h2>아파트</h2>

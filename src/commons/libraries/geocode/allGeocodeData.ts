@@ -1,14 +1,15 @@
 import { apartmentData } from "../apartment/apartmentData";
-import type { IGeocodeData } from "@/src/commons/types";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
-export const allGeocodeData = async (): Promise<IGeocodeData[]> => {
+import type { IGeocodeEtcData } from "@/src/commons/types";
+
+export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {
+  console.log("allGeocodeData:::", buildingType);
   const apartmentResults = await apartmentData();
   const geocodePromises = apartmentResults.flatMap((result) => {
     const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];
     return apartmentDataItems.map(async (item) => {
-      // console.log("itemitemitem:::", item);
       const location = result.locatadd_nm;
       const dongSubCode = Number(item.법정동부번코드);
       const dongSubCodeStr = dongSubCode !== 0 ? `-${dongSubCode.toString()}` : "";
@@ -58,7 +59,7 @@ export const allGeocodeData = async (): Promise<IGeocodeData[]> => {
     });
   });
 
-  const geocodeResults = (await Promise.all(geocodePromises)).filter((result): result is IGeocodeData => result !== null);
+  const geocodeResults = (await Promise.all(geocodePromises)).filter((result): result is IGeocodeEtcData => result !== null);
   // 주소와 면적이 같은 경우 중복을 제거하고 하나만 선택합니다
   const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
     if (result === null) {

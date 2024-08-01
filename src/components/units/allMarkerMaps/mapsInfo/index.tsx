@@ -15,6 +15,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
     (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
   );
+
   return (
     <S.Container>
       {/* 클릭 된 건물 상세 정보 */}
