@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import "./globals.css";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
+import "./globals.css";
 
 export default function RootLayout({
   children,

@@ -1,6 +1,7 @@
 "use client";
 
 // import axios from "axios";
+import Image from "next/image";
 import { useEffect } from "react";
 import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
@@ -15,13 +16,8 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     void fetchData();
   }, [fetchData]); // 의존성 배열에 fetchData를 포함시킵니다
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Image src="/images/load.gif" width={50} height={50} alt="loading" />;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
-
-  // // buildingType이 잘못된 경우 404 페이지로 리다이렉트
-  // if (!["apartment", "house", "officetel"].includes(buildingType)) {
-  //   return notFound();
-  // }
 
   return <AllMarkerMaps geocodeResults={geocodeResults} buildingType={buildingType} />;
 }
