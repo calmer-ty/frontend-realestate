@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // Firebase
-import { db } from "@/pages/api/cloudFirestore";
+import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { collection, getDocs } from "firebase/firestore";
 
 import type { IFirebaseData } from "@/src/types";

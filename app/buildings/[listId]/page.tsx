@@ -1,6 +1,6 @@
 import BuildingDetail from "@/src/components/units/buildings/detail";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/pages/api/cloudFirestore";
+import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 
 interface Params extends Record<string, string> {
   listId: string;
