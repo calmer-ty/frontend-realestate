@@ -18,8 +18,8 @@ export interface IRegionItem {
 }
 // 아파트
 export interface IApartmentLocationData {
+  datas: IApartmentData;
   locatadd_nm: string;
-  apartmentData: IApartmentData;
 }
 export interface IApartmentData {
   response: {
@@ -31,7 +31,7 @@ export interface IApartmentData {
   };
 }
 export interface IApartmentItem {
-  지번: string;
+  // 지번: string;
   법정동: string;
   법정동본번코드: string;
   법정동부번코드: string;

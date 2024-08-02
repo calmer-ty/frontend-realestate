@@ -5,11 +5,23 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import type { IGeocodeEtcData } from "@/src/commons/types";
 
 export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {
-  console.log("allGeocodeData:::", buildingType);
-  const apartmentResults = await apartmentData();
-  const geocodePromises = apartmentResults.flatMap((result) => {
-    const apartmentDataItems = result?.apartmentData?.response?.body?.items?.item ?? [];
-    return apartmentDataItems.map(async (item) => {
+  let results;
+
+  // buildingType에 따른 데이터 호출
+  switch (buildingType) {
+    case "apartment":
+      results = await apartmentData();
+      break;
+    // 다른 buildingType에 대한 분기 추가 가능
+    default:
+      console.error("Unsupported building type:", buildingType);
+      return [];
+  }
+
+  const geocodePromises = results.flatMap((result) => {
+    const dataItems = result.datas.response.body.items.item ?? [];
+
+    return dataItems.map(async (item) => {
       const location = result.locatadd_nm;
       const dongSubCode = Number(item.법정동부번코드);
       const dongSubCodeStr = dongSubCode !== 0 ? `-${dongSubCode.toString()}` : "";
@@ -17,7 +29,7 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
       const streetSubCodeStr = streetSubCode !== 0 ? `-${streetSubCode.toString()}` : "";
 
       const itemDatas = {
-        streetNumber: item.지번,
+        // streetNumber: item.지번,
         address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${dongSubCodeStr}`,
         address_street: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${streetSubCodeStr}`,
         buildingName: item.아파트,
