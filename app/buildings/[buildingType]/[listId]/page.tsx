@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 
 import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 export default function BuildingDetailPage({ params }: { params: IBuildingListParams }): JSX.Element {
   const { buildingType, listId } = params;
@@ -34,8 +35,8 @@ export default function BuildingDetailPage({ params }: { params: IBuildingListPa
   }, [buildingType, listId]);
 
   if (loading) {
-    // return <LoadingSpinner />;
-    return <div>LOADING...</div>;
+    return <LoadingSpinner />;
+    // return <div>LOADING...</div>;
   }
 
   if (buildingData === null) {
