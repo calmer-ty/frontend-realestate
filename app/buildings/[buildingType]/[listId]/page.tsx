@@ -1,25 +1,46 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import BuildingDetail from "@/src/components/units/buildings/detail";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 
 import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
 
-export default async function BuildingDetailPage({ params }: { params: IBuildingListParams }): Promise<JSX.Element | undefined> {
+export default function BuildingDetailPage({ params }: { params: IBuildingListParams }): JSX.Element {
   const { buildingType, listId } = params;
+  const [buildingData, setBuildingData] = useState<IFirebaseData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  try {
-    // Firestore에서 특정 ID의 문서 가져오기
-    const docRef = doc(db, buildingType, listId);
-    const docSnap = await getDoc(docRef);
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      try {
+        const docRef = doc(db, buildingType, listId);
+        const docSnap = await getDoc(docRef);
 
-    if (!docSnap.exists()) {
-      console.log("No such document!");
-    } else {
-      const buildingType = docSnap.data() as IFirebaseData;
-      return <BuildingDetail buildingType={buildingType} />;
-    }
-  } catch (error) {
-    console.error("Error fetching documents: ", error);
-    return <div>Error fetching document: {error instanceof Error ? error.message : "Unknown error"}</div>;
+        if (docSnap.exists()) {
+          setBuildingData(docSnap.data() as IFirebaseData);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching documents: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void fetchData();
+  }, [buildingType, listId]);
+
+  if (loading) {
+    // return <LoadingSpinner />;
+    return <div>LOADING...</div>;
   }
+
+  if (buildingData === null) {
+    return <div>Error fetching document.</div>;
+  }
+
+  return <BuildingDetail buildingType={buildingData} />;
 }
