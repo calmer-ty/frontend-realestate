@@ -6,6 +6,9 @@ export const containerStyle = css`
   height: 100%;
   flex: 3;
   ${mediaQueries.desktop(css`
+    flex: 2;
+  `)}
+  ${mediaQueries.tablet(css`
     flex: 1;
   `)}
 `;
