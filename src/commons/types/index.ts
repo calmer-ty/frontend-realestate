@@ -124,16 +124,9 @@ export interface IUseAllGeocodeDataProps {
   fetchData: () => Promise<void>;
 }
 
-export interface IUseFetchFirestoreProps {
-  setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
-}
 export interface IUseFirebaseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
-}
-export interface IUseFireStoreProps {
-  addData: (data: any) => Promise<void>;
-  fetchData: () => Promise<void>;
 }
 
 export interface IBuildingParams {
