@@ -6,13 +6,9 @@ export const containerStyle = css`
   height: 100%;
   flex: 3;
   ${mediaQueries.desktop(css`
+    flex: 2;
+  `)}
+  ${mediaQueries.tablet(css`
     flex: 1;
   `)}
-`;
-export const imgStyle = css`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
 `;

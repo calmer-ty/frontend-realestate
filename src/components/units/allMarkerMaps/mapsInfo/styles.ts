@@ -11,7 +11,7 @@ export const Container = styled.aside`
   background-color: #fff;
   z-index: 1;
 
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.largeDesktop(css`
     flex: 2;
   `)}
 `;

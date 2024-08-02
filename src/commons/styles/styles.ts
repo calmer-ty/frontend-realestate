@@ -18,4 +18,14 @@ export const mediaQueries = {
       ${styles}
     }
   `,
+  largeDesktop: (styles: SerializedStyles) => css`
+    @media screen and (max-width: 1280px) {
+      ${styles}
+    }
+  `,
+  extraLarge: (styles: SerializedStyles) => css`
+    @media screen and (max-width: 1690px) {
+      ${styles}
+    }
+  `,
 };
