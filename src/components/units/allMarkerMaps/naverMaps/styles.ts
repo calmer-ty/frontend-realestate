@@ -9,10 +9,3 @@ export const containerStyle = css`
     flex: 1;
   `)}
 `;
-export const imgStyle = css`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-`;
