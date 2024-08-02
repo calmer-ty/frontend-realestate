@@ -111,6 +111,7 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       const loadClusterScript = (): void => {
         const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
         loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
+          console.log("Cluster script loaded successfully");
           updateVisibleMarkers();
           window.naver.maps.Event.addListener(map, "idle", updateVisibleMarkers);
         });
