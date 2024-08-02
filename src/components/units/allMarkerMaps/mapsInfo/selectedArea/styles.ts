@@ -1,26 +1,13 @@
 import styled from "@emotion/styled";
 
 // 클릭 된 건물 상세 정보
-export const SelectedArea = styled.article`
+export const SelectedArea = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
 `;
 
-export const InfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-`;
-export const TextWrap = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 4px;
-  font-size: 14px;
-  color: #656565;
-`;
-
-export const SelectedInfo = styled.section`
+export const BuildingInfo = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -35,6 +22,19 @@ export const SelectedInfo = styled.section`
     }
   }
 `;
+export const InfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+export const TextWrap = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  font-size: 14px;
+  color: #656565;
+`;
+
 export const SelectedContent = styled.div`
   padding: 20px;
   border: 1px solid #dedede;

@@ -17,7 +17,7 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   );
   return (
     <S.SelectedArea>
-      <S.SelectedInfo>
+      <S.BuildingInfo>
         <S.InfoWrap>
           <h2>{props.selectedMarkerData.buildingName}</h2>
           <S.TextWrap>
@@ -44,7 +44,7 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
             </p>
           </S.SelectedContent>
         </S.InfoWrap>
-      </S.SelectedInfo>
+      </S.BuildingInfo>
 
       {/* 등록된 건물 정보 */}
       <S.RegisteredInfo>
