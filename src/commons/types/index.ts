@@ -111,28 +111,22 @@ export interface IUseAddressSearchProps {
   geocodeData: IGeocodeData | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
-// export interface IUseSelectMarkerMapsProps {
-//   // ncpClientId: string | undefined;
-//   // onMapReady: (map: any) => void;
-//   geocodeData: IGeocodeData | null;
-//   selectedAddress: string;
-// }
 export interface IUseAllMarkerMapsProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];
 }
-export interface IUseFetchFirestoreProps {
-  setFirebaseDatas: Dispatch<SetStateAction<IFirebaseData[]>>;
+export interface IUseAllGeocodeDataProps {
+  geocodeResults: IGeocodeEtcData[];
+  loading: boolean;
+  error: Error | null;
+  fetchData: () => Promise<void>;
 }
+
 export interface IUseFirebaseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
-}
-export interface IUseFireStoreProps {
-  addData: (data: any) => Promise<void>;
-  fetchData: () => Promise<void>;
 }
 
 export interface IBuildingParams {
