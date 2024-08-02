@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 import MapsInfo from "./mapsInfo";
-import MapsView from "./mapsView";
+import NaverMaps from "./naverMaps";
 
 import { useAllMarkerMaps } from "@/src/hooks/useAllMarkerMaps";
 import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
@@ -24,7 +24,7 @@ export default function AllMarkerMaps(props: IAllMarkerMapsProps): JSX.Element {
     <>
       <div css={mapStyle}>
         <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
-        <MapsView geocodeResults={geocodeResults} />
+        <NaverMaps geocodeResults={geocodeResults} />
       </div>
     </>
   );
