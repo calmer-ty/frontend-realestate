@@ -15,6 +15,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
     (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
   );
+
   return (
     <S.Container>
       {/* 클릭 된 건물 상세 정보 */}
@@ -59,7 +60,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
                 <ul>
                   {matchedFirebaseData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
-                      <Link href={`/buildings/${el._id}`}>
+                      <Link href={`/buildings/${props.buildingType}/${el._id}`}>
                         <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} layout="fill" alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
                         <p>
                           <strong>

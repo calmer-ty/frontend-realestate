@@ -2,25 +2,21 @@ import BuildingDetail from "@/src/components/units/buildings/detail";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 
-import type { IFirebaseData } from "@/src/commons/types";
+import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
 
-interface Params extends Record<string, string> {
-  listId: string;
-}
-
-export default async function BuildingDetailPage({ params }: { params: Params }): Promise<JSX.Element | undefined> {
-  const { listId } = params;
+export default async function BuildingDetailPage({ params }: { params: IBuildingListParams }): Promise<JSX.Element | undefined> {
+  const { buildingType, listId } = params;
 
   try {
     // Firestore에서 특정 ID의 문서 가져오기
-    const docRef = doc(db, "apartment", listId);
+    const docRef = doc(db, buildingType, listId);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
       console.log("No such document!");
     } else {
-      const apartment = docSnap.data() as IFirebaseData;
-      return <BuildingDetail apartment={apartment} />;
+      const buildingType = docSnap.data() as IFirebaseData;
+      return <BuildingDetail buildingType={buildingType} />;
     }
   } catch (error) {
     console.error("Error fetching documents: ", error);

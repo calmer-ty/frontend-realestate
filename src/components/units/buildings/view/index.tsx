@@ -1,11 +1,13 @@
 "use client";
 
-// import axios from "axios";
+import Image from "next/image";
 import { useEffect } from "react";
-import NaverMap from "@/src/components/units/allMarkerMaps";
+import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 
-export default function BuildingView(): JSX.Element {
+import type { IBuildingParams } from "@/src/commons/types";
+
+export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const { geocodeResults, loading, error, fetchData } = useAllGeocodeData();
 
   useEffect(() => {
@@ -13,8 +15,8 @@ export default function BuildingView(): JSX.Element {
     void fetchData();
   }, [fetchData]); // 의존성 배열에 fetchData를 포함시킵니다
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Image src="/images/load.gif" width={50} height={50} alt="loading" />;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
-  return <NaverMap geocodeResults={geocodeResults} />;
+  return <AllMarkerMaps geocodeResults={geocodeResults} buildingType={buildingType} />;
 }

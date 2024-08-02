@@ -1,5 +1,6 @@
 import type { IGeocodeEtcData } from "@/src/commons/types";
 
-export interface INaverMapProps {
+export interface IAllMarkerMapsProps {
+  buildingType: string;
   geocodeResults: IGeocodeEtcData[];
 }
