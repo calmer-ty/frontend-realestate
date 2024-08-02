@@ -20,7 +20,6 @@ export const SelectedArea = styled.article`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  height: 100%;
 `;
 
 export const InfoWrap = styled.div`

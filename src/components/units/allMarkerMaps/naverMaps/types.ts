@@ -1,5 +1,5 @@
 import type { IGeocodeData } from "@/src/commons/types";
 
-export interface IMapViewProps {
+export interface INaverMapsProps {
   geocodeResults: IGeocodeData[];
 }
