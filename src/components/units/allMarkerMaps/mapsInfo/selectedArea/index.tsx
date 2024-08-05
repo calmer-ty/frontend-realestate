@@ -11,6 +11,7 @@ import type { ISelectedAreaProps } from "./types";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 import { useState } from "react";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   const { buildingType, firebaseDatas, selectedMarkerData } = props;
@@ -23,12 +24,6 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
     console.log(`Image with ID ${id} loaded successfully.`);
     setLoadingImages((prev) => ({ ...prev, [id]: false }));
   };
-
-  const handleImageError = (id: string): void => {
-    console.log(`Image with ID ${id} failed to load.`);
-    setLoadingImages((prev) => ({ ...prev, [id]: false }));
-  };
-  console.log("loadingImages:::", loadingImages);
 
   return (
     <S.SelectedArea>
@@ -74,18 +69,19 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
                   <Link href={`/buildings/${buildingType}/${el._id}`}>
                     <S.ImgWrap>
                       {el.imageUrls !== undefined ? (
-                        <Image
-                          src={el.imageUrls?.[0] ?? ""}
-                          width={80}
-                          height={80}
-                          alt={el._id}
-                          onLoad={() => {
-                            handleImageLoad(el._id);
-                          }}
-                          onError={() => {
-                            handleImageError(el._id);
-                          }}
-                        />
+                        !loadingImages[el._id] ? (
+                          <Image
+                            src={el.imageUrls?.[0] ?? ""}
+                            width={80}
+                            height={80}
+                            alt={el._id}
+                            onLoad={() => {
+                              handleImageLoad(el._id);
+                            }}
+                          />
+                        ) : (
+                          <LoadingSpinner size={40} />
+                        )
                       ) : (
                         <ImageNotSupportedIcon />
                       )}
