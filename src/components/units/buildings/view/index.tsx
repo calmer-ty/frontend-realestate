@@ -15,7 +15,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     void fetchData();
   }, [fetchData]); // 의존성 배열에 fetchData를 포함시킵니다
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner size={100} />;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
   return <AllMarkerMaps geocodeResults={geocodeResults} buildingType={buildingType} />;
