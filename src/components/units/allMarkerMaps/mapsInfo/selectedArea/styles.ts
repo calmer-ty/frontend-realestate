@@ -101,7 +101,6 @@ export const ImgWrap = styled.div`
   background-color: #dedede;
 
   > img {
-    position: static !important;
     object-fit: cover;
   }
 `;

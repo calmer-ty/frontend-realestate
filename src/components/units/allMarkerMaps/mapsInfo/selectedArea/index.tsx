@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 
 import Link from "next/link";
@@ -7,42 +5,45 @@ import Image from "next/image";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+// import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import type { ISelectedAreaProps } from "./types";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
+import { useState } from "react";
 
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
-  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
-    (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
+  const { buildingType, firebaseDatas, selectedMarkerData } = props;
+  const matchedFirebaseData: IFirebaseData[] = firebaseDatas.filter(
+    (el) => shortenCityName(selectedMarkerData?.address ?? "") === el.address || shortenCityName(selectedMarkerData?.address_street ?? "") === el.address
   );
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading time for demonstration
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+  const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({});
+  const handleImageLoad = (id: string): void => {
+    console.log(`Image with ID ${id} loaded successfully.`);
+    setLoadingImages((prev) => ({ ...prev, [id]: false }));
+  };
+
+  const handleImageError = (id: string): void => {
+    console.log(`Image with ID ${id} failed to load.`);
+    setLoadingImages((prev) => ({ ...prev, [id]: false }));
+  };
+  console.log("loadingImages:::", loadingImages);
 
   return (
     <S.SelectedArea>
       <S.BuildingInfo>
         <S.InfoWrap>
-          <h2>{props.selectedMarkerData.buildingName}</h2>
+          <h2>{selectedMarkerData.buildingName}</h2>
           <S.TextWrap>
-            <ChipSmall label="연식" /> {props.selectedMarkerData.constructionYear}
+            <ChipSmall label="연식" /> {selectedMarkerData.constructionYear}
           </S.TextWrap>
           <S.TextWrap>
-            <ChipSmall label="지번" /> {props.selectedMarkerData.address}
+            <ChipSmall label="지번" /> {selectedMarkerData.address}
           </S.TextWrap>
           <S.TextWrap>
             <ChipSmall label="도로명" />
-            {props.selectedMarkerData.address_street}
+            {selectedMarkerData.address_street}
           </S.TextWrap>
         </S.InfoWrap>
 
@@ -50,11 +51,11 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
           <h3>최근 실거래가</h3>
           <S.SelectedContent>
             <strong>
-              매매 {isBillion(props.selectedMarkerData.price)}&nbsp;
-              {isTenMillion(props.selectedMarkerData.price)}원
+              매매 {isBillion(selectedMarkerData.price)}&nbsp;
+              {isTenMillion(selectedMarkerData.price)}원
             </strong>
             <p>
-              {props.selectedMarkerData.dealYear}.{props.selectedMarkerData.dealMonth}.{props.selectedMarkerData.dealDay}・{props.selectedMarkerData.floor}층・{props.selectedMarkerData.area}m²
+              {selectedMarkerData.dealYear}.{selectedMarkerData.dealMonth}.{selectedMarkerData.dealDay}・{selectedMarkerData.floor}층・{selectedMarkerData.area}m²
             </p>
           </S.SelectedContent>
         </S.InfoWrap>
@@ -70,12 +71,25 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
             <ul>
               {matchedFirebaseData.map((el, index) => (
                 <li key={`${el.type}_${el.address}_${index}`}>
-                  <Link href={`/buildings/${props.buildingType}/${el._id}`}>
-                    {loading ? (
-                      <LoadingSpinner size={80} />
-                    ) : (
-                      <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? "사진 로딩중???"} layout="fill" alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
-                    )}
+                  <Link href={`/buildings/${buildingType}/${el._id}`}>
+                    <S.ImgWrap>
+                      {el.imageUrls !== undefined ? (
+                        <Image
+                          src={el.imageUrls?.[0] ?? ""}
+                          width={80}
+                          height={80}
+                          alt={el._id}
+                          onLoad={() => {
+                            handleImageLoad(el._id);
+                          }}
+                          onError={() => {
+                            handleImageError(el._id);
+                          }}
+                        />
+                      ) : (
+                        <ImageNotSupportedIcon />
+                      )}
+                    </S.ImgWrap>
                     <p>
                       <strong>
                         매매 {isBillion(el.price)}
