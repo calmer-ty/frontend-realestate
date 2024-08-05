@@ -2,10 +2,10 @@ import { apartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 
-import type { IGeocodeEtcData } from "@/src/commons/types";
+import type { IApartmentItem, IApartmentLocationData, IGeocodeEtcData } from "@/src/commons/types";
 
 export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {
-  let results;
+  let results: IApartmentLocationData[];
 
   // buildingType에 따른 데이터 호출
   switch (buildingType) {
@@ -19,7 +19,8 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
   }
 
   const geocodePromises = results.flatMap((result) => {
-    const dataItems = result.datas.response.body.items.item ?? [];
+    // 옵셔널 체이닝을 사용해야, 네트워크가 느려질 시 데이터가 받아지지 않은 경우에도 데이터를 불러오지 않음
+    const dataItems: IApartmentItem[] = result?.datas?.response?.body?.items?.item ?? [];
 
     return dataItems.map(async (item) => {
       const location = result.locatadd_nm;
