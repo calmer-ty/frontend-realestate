@@ -122,5 +122,5 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
     [geocodeResults, firebaseDatas, setVisibleMarkerDatas, setSelectedMarkerData]
   );
 
-  useNaverMaps("map", onMapLoaded);
+  useNaverMaps({ mapId: "map", onMapLoaded });
 };

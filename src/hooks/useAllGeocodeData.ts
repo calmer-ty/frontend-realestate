@@ -18,7 +18,7 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
-      console.log("Data already fetched, skipping fetchData");
+      // console.log("Data already fetched, skipping fetchData");
       return;
     }
 
@@ -28,6 +28,7 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
       const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
+      console.log("useAllGeocodeData=== 요청나감");
       setGeocodeResults(response.data);
     } catch (error) {
       setError(error as Error);

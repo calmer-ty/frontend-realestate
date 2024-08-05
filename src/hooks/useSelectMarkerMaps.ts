@@ -1,5 +1,5 @@
-import type { IGeocodeData } from "../types";
 import { useNaverMaps } from "./useNaverMaps";
+import type { IGeocodeData } from "@/src/commons/types";
 
 export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
   const onMapLoaded = (map: any): void => {
@@ -17,5 +17,8 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
       map.setCenter(markerPosition);
     }
   };
-  useNaverMaps("map", onMapLoaded);
+  useNaverMaps({
+    mapId: "map",
+    onMapLoaded,
+  });
 };

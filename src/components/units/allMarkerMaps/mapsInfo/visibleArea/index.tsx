@@ -6,7 +6,6 @@ import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  console.log("VisibleArea props", props);
   return (
     <S.VisibleArea>
       {props.visibleMarkerDatas.length !== 0 ? (
