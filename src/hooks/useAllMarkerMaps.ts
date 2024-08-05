@@ -12,8 +12,7 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const markerClusteringRef = useRef<any | null>(null);
 
   // prettier-ignore
-  const createMarker = useCallback(
-    (coord: IGeocodeEtcData) => {
+  const createMarker = useCallback((coord: IGeocodeEtcData) => {
       const { latitude, longitude, ...apartmentData } = coord;
       const markerIconContent = (): string => {
         const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
@@ -67,9 +66,9 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   }, []);
 
   // prettier-ignore
-  const updateVisibleMarkers = useCallback(
-    (map: any) => {
+  const updateVisibleMarkers = useCallback((map: any) => {
       const mapBounds = map.getBounds();
+      console.log("Map bounds:", mapBounds);
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
@@ -88,6 +87,8 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         }
       });
 
+      console.log("Markers after update:", markersRef.current);
+
       if (markerClusteringRef.current !== null) {
         markerClusteringRef.current.setMap(null);
       }
@@ -105,8 +106,9 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         },
       });
       markerClusteringRef.current = newMarkerClustering;
-
+      
       const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
+      console.log("Visible markers data:", markerDataArray);
       setVisibleMarkerDatas(markerDataArray);
       setSelectedMarkerData(null);
     },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
@@ -117,18 +119,18 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         console.log("Cluster script loaded successfully");
-        updateVisibleMarkers(map);
         window.naver.maps.Event.addListener(map, "idle", () => {
           updateVisibleMarkers(map);
         });
+        updateVisibleMarkers(map);
       });
     },[updateVisibleMarkers]);
 
   // prettier-ignore
-  const onMapLoaded = useCallback(
-    (map: any) => {
-      loadClusterScript(map);
-    },[loadClusterScript]);
+  const onMapLoaded = useCallback((map: any) => {
+    console.log("Map loaded:", map);
+    loadClusterScript(map);
+  },[loadClusterScript]);
 
   useNaverMaps({ mapId: "map", onMapLoaded });
 };
