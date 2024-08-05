@@ -17,10 +17,6 @@ export interface IRegionItem {
   sgg_cd?: string;
 }
 // 아파트
-export interface IApartmentLocationData {
-  datas: IApartmentData;
-  locatadd_nm: string;
-}
 export interface IApartmentData {
   response: {
     body: {
@@ -31,7 +27,6 @@ export interface IApartmentData {
   };
 }
 export interface IApartmentItem {
-  // 지번: string;
   법정동: string;
   법정동본번코드: string;
   법정동부번코드: string;
@@ -47,6 +42,10 @@ export interface IApartmentItem {
   월: string;
   일: string;
   건축년도: number;
+}
+export interface IApartmentLocationData {
+  datas: IApartmentData;
+  locatadd_nm: string;
 }
 
 // Geocode

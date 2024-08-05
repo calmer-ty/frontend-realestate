@@ -96,8 +96,8 @@ export const ImgWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   background-color: #dedede;
 
   > img {

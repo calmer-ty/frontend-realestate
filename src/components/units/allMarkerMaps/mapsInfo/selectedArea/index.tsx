@@ -1,11 +1,13 @@
-import Link from "next/link";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 
+import Link from "next/link";
+import Image from "next/image";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import type { ISelectedAreaProps } from "./types";
 import type { IFirebaseData } from "@/src/commons/types";
@@ -15,6 +17,18 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
     (el) => shortenCityName(props.selectedMarkerData?.address ?? "") === el.address || shortenCityName(props.selectedMarkerData?.address_street ?? "") === el.address
   );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for demonstration
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <S.SelectedArea>
       <S.BuildingInfo>
@@ -57,7 +71,11 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
               {matchedFirebaseData.map((el, index) => (
                 <li key={`${el.type}_${el.address}_${index}`}>
                   <Link href={`/buildings/${props.buildingType}/${el._id}`}>
-                    <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} layout="fill" alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
+                    {loading ? (
+                      <LoadingSpinner size={80} />
+                    ) : (
+                      <S.ImgWrap>{el.imageUrls !== undefined ? <Image src={el.imageUrls?.[0] ?? "사진 로딩중???"} layout="fill" alt={el._id} /> : <ImageNotSupportedIcon />}</S.ImgWrap>
+                    )}
                     <p>
                       <strong>
                         매매 {isBillion(el.price)}
