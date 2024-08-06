@@ -5,6 +5,7 @@ import { shortenCityName } from "@/src/commons/libraries/utils/regex";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 
 import type { IGeocodeEtcData } from "@/src/commons/types";
+import LoadingSpinner from "../../commons/loadingSpinner";
 
 export default function ChartTest(): JSX.Element {
   // 데이터 프리로딩
@@ -92,8 +93,14 @@ export default function ChartTest(): JSX.Element {
   }, [data]);
   return (
     <>
-      <h2>지역별 아파트 거래현황</h2>
-      <svg ref={svgRef}></svg>
+      {loading ? (
+        <LoadingSpinner size={80} />
+      ) : (
+        <>
+          <h2>지역별 아파트 거래현황</h2>
+          <svg ref={svgRef} style={{ backgroundColor: "#fff" }}></svg>
+        </>
+      )}
     </>
   );
 }
