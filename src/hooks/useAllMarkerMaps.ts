@@ -68,7 +68,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   // prettier-ignore
   const updateVisibleMarkers = useCallback((map: any) => {
       const mapBounds = map.getBounds();
-      console.log("Map bounds:", mapBounds);
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
@@ -87,7 +86,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
         }
       });
 
-      console.log("Markers after update:", markersRef.current);
 
       if (markerClusteringRef.current !== null) {
         markerClusteringRef.current.setMap(null);
@@ -108,7 +106,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       markerClusteringRef.current = newMarkerClustering;
       
       const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
-      console.log("Visible markers data:", markerDataArray);
       setVisibleMarkerDatas(markerDataArray);
       setSelectedMarkerData(null);
     },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
@@ -118,7 +115,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
     (map: any) => {
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
-        console.log("Cluster script loaded successfully");
         window.naver.maps.Event.addListener(map, "idle", () => {
           updateVisibleMarkers(map);
         });
@@ -128,7 +124,6 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
 
   // prettier-ignore
   const onMapLoaded = useCallback((map: any) => {
-    console.log("Map loaded:", map);
     loadClusterScript(map);
   },[loadClusterScript]);
 
