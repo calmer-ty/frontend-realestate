@@ -7,8 +7,12 @@ declare global {
     MarkerClustering: any;
   }
 }
-
-export const useNaverMaps = (mapContainerId: string, onMapLoaded: (map: any) => void): void => {
+interface IUseNaverMapsProps {
+  mapId: string;
+  onMapLoaded: (map: any) => void;
+}
+export const useNaverMaps = (props: IUseNaverMapsProps): void => {
+  const { mapId, onMapLoaded } = props;
   const [ncpClientId, setNcpClientId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -26,10 +30,10 @@ export const useNaverMaps = (mapContainerId: string, onMapLoaded: (map: any) => 
         return;
       }
 
-      const map = new window.naver.maps.Map(mapContainerId, getMapInitialOptions());
+      const map = new window.naver.maps.Map(mapId, getMapInitialOptions());
       onMapLoaded(map);
     };
 
     loadScript(NAVER_MAP_SCRIPT_URL, initMap);
-  }, [ncpClientId, mapContainerId, onMapLoaded]);
+  }, [ncpClientId, mapId, onMapLoaded]);
 };

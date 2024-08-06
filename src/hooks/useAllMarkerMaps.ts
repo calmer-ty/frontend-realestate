@@ -11,116 +11,121 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null);
 
-  const onMapLoaded = useCallback(
-    (map: any) => {
-      const createMarker = (coord: IGeocodeEtcData): any => {
-        const { latitude, longitude, ...apartmentData } = coord;
-        const markerIconContent = (): string => {
-          const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
-          if (matchedFbData !== undefined) {
-            return `
+  // prettier-ignore
+  const createMarker = useCallback((coord: IGeocodeEtcData) => {
+      const { latitude, longitude, ...apartmentData } = coord;
+      const markerIconContent = (): string => {
+        const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
+        if (matchedFbData !== undefined) {
+          return `
             <div style="${markerStyle.containerActive}">
               <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
               <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
               <div style="${markerStyle.arrowActive}"></div>
             </div>`;
-          } else {
-            return `
+        } else {
+          return `
             <div style="${markerStyle.container}">
               <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
               <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
               <div style="${markerStyle.arrow}"></div>
             </div>`;
-          }
-        };
-
-        const markerOptions = {
-          position: new window.naver.maps.LatLng(latitude, longitude),
-          map,
-          icon: {
-            content: markerIconContent(),
-          },
-        };
-
-        const marker = new window.naver.maps.Marker(markerOptions);
-        const markerData: IMarkerData = apartmentData;
-        marker.set("data", markerData);
-
-        window.naver.maps.Event.addListener(marker, "click", () => {
-          setSelectedMarkerData(markerData);
-        });
-
-        return marker;
-      };
-
-      const createClusterMarkers = (): any => {
-        const icons = [];
-        for (let i = 1; i <= 5; i++) {
-          icons.push({
-            content: `<div style="${clusterStyle.container} background-image: url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
-            size: new window.naver.maps.Size(40, 40),
-            anchor: new window.naver.maps.Point(20, 20),
-          });
         }
-        return icons;
       };
 
-      const updateVisibleMarkers = (): void => {
-        const mapBounds = map.getBounds();
-        markersRef.current.forEach((marker) => marker.setMap(null));
-        markersRef.current = [];
+      const markerOptions = {
+        position: new window.naver.maps.LatLng(latitude, longitude),
+        map: null, // Set map to null initially
+        icon: {
+          content: markerIconContent(),
+        },
+      };
 
-        geocodeResults.forEach((coord) => {
-          if (coord !== undefined) {
-            const { latitude, longitude } = coord;
-            const position = new window.naver.maps.LatLng(latitude, longitude);
+      const marker = new window.naver.maps.Marker(markerOptions);
+      const markerData: IMarkerData = apartmentData;
+      marker.set("data", markerData);
 
-            if (mapBounds.hasLatLng(position) === true) {
-              const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
-              if (existingMarker === undefined) {
-                const marker = createMarker(coord);
-                markersRef.current.push(marker);
-              }
+      window.naver.maps.Event.addListener(marker, "click", () => {
+        setSelectedMarkerData(markerData);
+      });
+
+      return marker;
+      
+    },[firebaseDatas, setSelectedMarkerData]);
+
+  const createClusterMarkers = useCallback(() => {
+    const icons = [];
+    for (let i = 1; i <= 5; i++) {
+      icons.push({
+        content: `<div style="${clusterStyle.container} background-image: url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
+        size: new window.naver.maps.Size(40, 40),
+        anchor: new window.naver.maps.Point(20, 20),
+      });
+    }
+    return icons;
+  }, []);
+
+  // prettier-ignore
+  const updateVisibleMarkers = useCallback((map: any) => {
+      const mapBounds = map.getBounds();
+      markersRef.current.forEach((marker) => marker.setMap(null));
+      markersRef.current = [];
+
+      geocodeResults.forEach((coord) => {
+        if (coord !== undefined) {
+          const { latitude, longitude } = coord;
+          const position = new window.naver.maps.LatLng(latitude, longitude);
+
+          if (mapBounds.hasLatLng(position) === true) {
+            const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
+            if (existingMarker === undefined) {
+              const marker = createMarker(coord);
+              markersRef.current.push(marker);
             }
           }
-        });
-
-        if (markerClusteringRef.current !== null) {
-          markerClusteringRef.current.setMap(null);
         }
-        const newMarkerClustering = new window.MarkerClustering({
-          minClusterSize: 2,
-          maxZoom: 13,
-          map,
-          markers: markersRef.current,
-          disableClickZoom: false,
-          gridSize: 120,
-          icons: createClusterMarkers(),
-          indexGenerator: [10, 100, 200, 500, 1000],
-          stylingFunction: (clusterMarker: any, count: any) => {
-            clusterMarker.getElement().querySelector("div:first-child").innerText = count;
-          },
+      });
+
+
+      if (markerClusteringRef.current !== null) {
+        markerClusteringRef.current.setMap(null);
+      }
+      const newMarkerClustering = new window.MarkerClustering({
+        minClusterSize: 2,
+        maxZoom: 13,
+        map,
+        markers: markersRef.current,
+        disableClickZoom: false,
+        gridSize: 120,
+        icons: createClusterMarkers(),
+        indexGenerator: [10, 100, 200, 500, 1000],
+        stylingFunction: (clusterMarker: any, count: any) => {
+          clusterMarker.getElement().querySelector("div:first-child").innerText = count;
+        },
+      });
+      markerClusteringRef.current = newMarkerClustering;
+      
+      const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
+      setVisibleMarkerDatas(markerDataArray);
+      setSelectedMarkerData(null);
+    },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
+
+  // prettier-ignore
+  const loadClusterScript = useCallback(
+    (map: any) => {
+      const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
+      loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
+        window.naver.maps.Event.addListener(map, "idle", () => {
+          updateVisibleMarkers(map);
         });
-        markerClusteringRef.current = newMarkerClustering;
+        updateVisibleMarkers(map);
+      });
+    },[updateVisibleMarkers]);
 
-        const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
-        setVisibleMarkerDatas(markerDataArray);
-        setSelectedMarkerData(null);
-      };
+  // prettier-ignore
+  const onMapLoaded = useCallback((map: any) => {
+    loadClusterScript(map);
+  },[loadClusterScript]);
 
-      const loadClusterScript = (): void => {
-        const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
-        loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
-          console.log("Cluster script loaded successfully");
-          updateVisibleMarkers();
-          window.naver.maps.Event.addListener(map, "idle", updateVisibleMarkers);
-        });
-      };
-
-      loadClusterScript();
-    },
-    [geocodeResults, firebaseDatas, setVisibleMarkerDatas, setSelectedMarkerData]
-  );
-
-  useNaverMaps("map", onMapLoaded);
+  useNaverMaps({ mapId: "map", onMapLoaded });
 };
