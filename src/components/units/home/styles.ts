@@ -24,7 +24,7 @@ export const Container = styled.article`
       display: flex;
       row-gap: 10px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 40px;
       max-width: 1024px;
     }
   }
@@ -39,15 +39,18 @@ export const BuildingType = styled.div`
   position: relative;
   width: 280px;
   height: 200px;
+  padding-bottom: 20px;
   background-color: #fff;
   border: 2px solid #efefef;
   border-radius: 10px;
   cursor: pointer;
 
   > a {
-    display: block;
-    width: inherit;
-    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px 0px;
@@ -63,9 +66,11 @@ export const BuildingTypeU = styled.div`
   cursor: pointer;
 
   > a {
-    display: block;
-    width: inherit;
-    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px 0px;
@@ -76,9 +81,7 @@ export const TextWrap = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  position: absolute;
-  top: 40px;
-  left: 40px;
+  width: 160px;
 `;
 export const IconWrap = styled.div`
   position: absolute;
