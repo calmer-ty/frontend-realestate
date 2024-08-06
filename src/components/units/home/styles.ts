@@ -1,19 +1,43 @@
+import { mediaQueries } from "@/src/commons/styles/styles";
+import { css } from "@emotion/react";
+
 import styled from "@emotion/styled";
 
 export const Container = styled.article`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  ::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #f00 url("/images/main.jpg") no-repeat center/cover;
+    opacity: 0.1;
+    z-index: -1;
+  }
+`;
+export const MapsContents = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  column-gap: 20px;
-  width: 100%;
-  height: 100%;
-  padding: 40px;
+  gap: 60px;
   max-width: 1024px;
+  ${mediaQueries.desktop(css`
+    /* flex-direction: column; */
+  `)}
 `;
 export const BuildingType = styled.div`
   position: relative;
-  flex-basis: 300px;
+  width: 100%;
   height: 200px;
+  min-width: 280px;
   background-color: #fff;
   border: 2px solid #efefef;
   border-radius: 10px;
@@ -30,7 +54,7 @@ export const BuildingType = styled.div`
 `;
 export const BuildingTypeU = styled.div`
   position: relative;
-  flex-basis: 300px;
+  min-width: 280px;
   height: 200px;
   background-color: #ccc;
   border: 2px solid #efefef;
@@ -59,4 +83,18 @@ export const IconWrap = styled.div`
   position: absolute;
   right: 20px;
   bottom: 20px;
+`;
+
+export const OptContents = styled.section`
+  width: 880px;
+  height: 440px;
+  > ul {
+    display: flex;
+    column-gap: 10px;
+  }
+`;
+export const OptItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid #1976d2;
 `;
