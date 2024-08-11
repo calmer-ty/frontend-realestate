@@ -35,7 +35,7 @@ export default function BuildingDetailPage({ params }: { params: IBuildingListPa
   }, [buildingType, listId]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner size={100} />;
     // return <div>LOADING...</div>;
   }
 

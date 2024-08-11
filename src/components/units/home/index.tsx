@@ -9,7 +9,7 @@ import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
-import ChartTest from "../charts";
+// import ChartTest from "../charts";
 
 import type { MouseEventHandler } from "react";
 import * as S from "./styles";
@@ -113,11 +113,11 @@ export default function Home(): JSX.Element {
           </ul>
         </div>
       </S.Registered>
-      <S.Option>
+      {/* <S.Option>
         <div>
           <ChartTest />
         </div>
-      </S.Option>
+      </S.Option> */}
     </S.Container>
   );
 }
