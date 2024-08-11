@@ -3,6 +3,7 @@ import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/
 import { shortenCityName } from "../commons/libraries/utils/regex";
 import { useNaverMaps } from "@/src/hooks/useNaverMaps";
 import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import { throttle } from "lodash";
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/commons/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
@@ -110,17 +111,25 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       setSelectedMarkerData(null);
     },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
 
+  // Throttled version of updateVisibleMarkers
+  const throttledUpdateVisibleMarkers = useCallback(
+    throttle((map: any) => {
+      updateVisibleMarkers(map);
+    }, 2000),
+    [updateVisibleMarkers]
+  );
+
   // prettier-ignore
   const loadClusterScript = useCallback(
     (map: any) => {
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         window.naver.maps.Event.addListener(map, "idle", () => {
-          updateVisibleMarkers(map);
+          throttledUpdateVisibleMarkers(map);
         });
-        updateVisibleMarkers(map);
+        throttledUpdateVisibleMarkers(map);
       });
-    },[updateVisibleMarkers]);
+    },[throttledUpdateVisibleMarkers]);
 
   // prettier-ignore
   const onMapLoaded = useCallback((map: any) => {

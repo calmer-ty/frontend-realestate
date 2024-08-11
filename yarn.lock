@@ -2616,6 +2616,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4":
+  version: 4.17.7
+  resolution: "@types/lodash@npm:4.17.7"
+  checksum: 10c0/40c965b5ffdcf7ff5c9105307ee08b782da228c01b5c0529122c554c64f6b7168fc8f11dc79aa7bae4e67e17efafaba685dc3a47e294dbf52a65ed2b67100561
+  languageName: node
+  linkType: hard
+
 "@types/node-cache@npm:^4.2.5":
   version: 4.2.5
   resolution: "@types/node-cache@npm:4.2.5"
@@ -7535,6 +7542,7 @@ __metadata:
     "@testing-library/react": "npm:^15.0.0"
     "@types/d3": "npm:^7"
     "@types/jest": "npm:^29.5.12"
+    "@types/lodash": "npm:^4"
     "@types/node": "npm:^20.14.9"
     "@types/node-cache": "npm:^4.2.5"
     "@types/react": "npm:^18"
@@ -7559,6 +7567,7 @@ __metadata:
     husky: "npm:8.0.1"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
+    lodash: "npm:^4.17.21"
     next: "npm:14.2.4"
     node-cache: "npm:^5.1.2"
     postcss: "npm:^8"
