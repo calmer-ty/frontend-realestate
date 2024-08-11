@@ -1,26 +1,54 @@
+// import { mediaQueries } from "@/src/commons/styles/styles";
+// import { css } from "@emotion/react";
+
 import styled from "@emotion/styled";
 
 export const Container = styled.article`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 20px;
+  flex-direction: column;
+  row-gap: 40px;
   width: 100%;
   height: 100%;
-  padding: 40px;
-  max-width: 1024px;
+  ::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #f00 url("/images/main.jpg") no-repeat center/cover;
+    opacity: 0.1;
+    z-index: -1;
+  }
+  > section {
+    > div {
+      display: flex;
+      row-gap: 10px;
+      margin: 0 auto;
+      padding: 40px;
+      max-width: 1024px;
+    }
+  }
+`;
+export const Maps = styled.section`
+  > div {
+    justify-content: space-between;
+    column-gap: 20px;
+  }
 `;
 export const BuildingType = styled.div`
   position: relative;
-  flex-basis: 300px;
+  width: 280px;
   height: 200px;
+  padding-bottom: 20px;
   background-color: #fff;
   border: 2px solid #efefef;
   border-radius: 10px;
   cursor: pointer;
 
   > a {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
   }
@@ -30,7 +58,7 @@ export const BuildingType = styled.div`
 `;
 export const BuildingTypeU = styled.div`
   position: relative;
-  flex-basis: 300px;
+  width: 280px;
   height: 200px;
   background-color: #ccc;
   border: 2px solid #efefef;
@@ -38,7 +66,9 @@ export const BuildingTypeU = styled.div`
   cursor: pointer;
 
   > a {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
   }
@@ -51,12 +81,43 @@ export const TextWrap = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  position: absolute;
-  top: 40px;
-  left: 40px;
+  width: 160px;
 `;
 export const IconWrap = styled.div`
   position: absolute;
   right: 20px;
   bottom: 20px;
+`;
+
+export const Registered = styled.section`
+  background-color: #fff;
+  > div {
+    flex-direction: column;
+    > ul {
+      display: flex;
+      column-gap: 20px;
+    }
+  }
+`;
+export const RegisteredItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  > img {
+    object-fit: cover;
+  }
+  > p {
+    display: flex;
+    flex-direction: column;
+    > strong {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  }
+`;
+
+export const Option = styled.section`
+  > div {
+    flex-direction: column;
+  }
 `;

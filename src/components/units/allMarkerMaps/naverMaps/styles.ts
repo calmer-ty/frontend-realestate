@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
 import { mediaQueries } from "@/src/commons/styles/styles";
+import { css } from "@emotion/react";
 
 export const containerStyle = css`
   display: flex;

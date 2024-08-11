@@ -10,9 +10,12 @@ export const isBillion = (price: number): string => {
 export const isTenMillion = (price: number): string => {
   return price % 10000 !== 0 ? `${price % 10000}만` : "";
 };
+interface ShortenOptions {
+  useSpecialRules?: boolean;
+}
 
-export const shortenCityName = (address: string): string => {
-  return address
+export const shortenCityName = (address: string, options: ShortenOptions = {}): string => {
+  let result = address
     .replace(/서울특별시/, "서울")
     .replace(/부산광역시/, "부산")
     .replace(/대구광역시/, "대구")
@@ -26,8 +29,13 @@ export const shortenCityName = (address: string): string => {
     .replace(/전라남도/, "전남")
     .replace(/경상북도/, "경북")
     .replace(/경상남도/, "경남");
-  // .replace(/강원특별자치도 /, "강원")
-  // .replace(/세종특별자치시/, "세종")
-  // .replace(/제주특별자치도/, "제주")
-  // .replace(/전북특별자치도/, "전북")
+
+  if (options.useSpecialRules !== undefined) {
+    result = result
+      .replace(/강원특별자치도/, "강원")
+      .replace(/세종특별자치시/, "세종")
+      .replace(/제주특별자치도/, "제주")
+      .replace(/전북특별자치도/, "전북");
+  }
+  return result;
 };

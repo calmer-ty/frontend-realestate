@@ -4,21 +4,22 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
+import ChartTest from "../charts";
 
 import type { MouseEventHandler } from "react";
-import type { IGeocodeEtcData } from "@/src/commons/types";
 import * as S from "./styles";
+import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
+import Image from "next/image";
 
 export default function Home(): JSX.Element {
-  const [preloadedData, setPreloadedData] = useState<IGeocodeEtcData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
-
   // 데이터 프리로딩
   const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
 
@@ -28,11 +29,10 @@ export default function Home(): JSX.Element {
     const buildingType = target.getAttribute("data-href") ?? "";
     setCurrentBuildingType(buildingType);
 
-    if (preloadedData.length === 0 && !loading) {
+    if (geocodeResults.length === 0 && !loading) {
       setIsLoading(true);
       try {
         await fetchData();
-        setPreloadedData(geocodeResults);
       } catch (err) {
         setError(hookError);
       } finally {
@@ -40,44 +40,84 @@ export default function Home(): JSX.Element {
       }
     }
   };
+  //
+  const firebaseDatas = useFetchFirestore("apartment");
+  console.log("firebaseDatas:", firebaseDatas);
 
   return (
     <S.Container>
-      <S.BuildingType data-href="apartment" onMouseEnter={handleMouseEnter}>
-        <Link href="/buildings/apartment">
-          <S.TextWrap>
-            <h2>아파트</h2>
-            <p>거래된 목록들이 지도에!</p>
-          </S.TextWrap>
-          <S.IconWrap>
-            <LocationCityIcon fontSize="large" color="primary" />
-          </S.IconWrap>
-        </Link>
-      </S.BuildingType>
-      {isLoading && <p>Loading...</p>}
-      {error !== null && <p>Error loading data: {error.message}</p>}
-      <S.BuildingTypeU>
-        {/* <Link href="/"> */}
-        <S.TextWrap>
-          <h2>주택/빌라</h2>
-          <p>준비중</p>
-        </S.TextWrap>
-        <S.IconWrap>
-          <HomeIcon fontSize="large" color="primary" />
-        </S.IconWrap>
-        {/* </Link> */}
-      </S.BuildingTypeU>
-      <S.BuildingTypeU>
-        {/* <Link href="/"> */}
-        <S.TextWrap>
-          <h2>오피스텔</h2>
-          <p>준비중</p>
-        </S.TextWrap>
-        <S.IconWrap>
-          <MapsHomeWorkIcon fontSize="large" color="primary" />
-        </S.IconWrap>
-        {/* </Link> */}
-      </S.BuildingTypeU>
+      <S.Maps>
+        <div>
+          <S.BuildingType data-href="apartment" onMouseEnter={handleMouseEnter}>
+            <Link href="/buildings/apartment">
+              <S.TextWrap>
+                <h2>아파트</h2>
+                <p>거래된 목록들이 지도에!</p>
+              </S.TextWrap>
+              <S.IconWrap>
+                <LocationCityIcon fontSize="large" color="primary" />
+              </S.IconWrap>
+            </Link>
+          </S.BuildingType>
+          {isLoading && <p>Loading...</p>}
+          {error !== null && <p>Error loading data: {error.message}</p>}
+          <S.BuildingTypeU>
+            {/* <Link href="/"> */}
+            <a href="#">
+              <S.TextWrap>
+                <h2>주택/빌라</h2>
+                <p>준비중</p>
+              </S.TextWrap>
+              <S.IconWrap>
+                <HomeIcon fontSize="large" color="primary" />
+              </S.IconWrap>
+            </a>
+            {/* </Link> */}
+          </S.BuildingTypeU>
+          <S.BuildingTypeU>
+            {/* <Link href="/"> */}
+            <a href="#">
+              <S.TextWrap>
+                <h2>오피스텔</h2>
+                <p>준비중</p>
+              </S.TextWrap>
+              <S.IconWrap>
+                <MapsHomeWorkIcon fontSize="large" color="primary" />
+              </S.IconWrap>
+            </a>
+            {/* </Link> */}
+          </S.BuildingTypeU>
+        </div>
+      </S.Maps>
+      <S.Registered>
+        <div>
+          <h2>추천드리는 매물입니다.</h2>
+          <ul>
+            {firebaseDatas.map((el) => (
+              <S.RegisteredItem key={el._id}>
+                <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} objectFit="contain" />
+                <p>
+                  <span>
+                    {el.type}・{el.addressDetail}
+                  </span>
+                  <strong>
+                    매매 {isBillion(el.price)}
+                    {isTenMillion(el.price)} 원
+                  </strong>
+                  <span>
+                    {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
+                  </span>
+                </p>
+              </S.RegisteredItem>
+            ))}
+          </ul>
+        </div>
+      </S.Registered>
+      <S.Option>
+        <div>
+          <ChartTest />
+        </div>
+      </S.Option>
     </S.Container>
   );
 }
