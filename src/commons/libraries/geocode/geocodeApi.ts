@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { IGeocodeCoord } from "@/src/commons/types";
+import type { IGeocodeCoord, IGeocodeData } from "@/src/commons/types";
 
-export const geocodeApi = async (address: string): Promise<{ latitude: number; longitude: number } | null> => {
+export const geocodeApi = async (address: string): Promise<IGeocodeData | null> => {
   try {
     const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
     const response = await axios.get<IGeocodeCoord>(apiUrl, {
@@ -16,6 +16,8 @@ export const geocodeApi = async (address: string): Promise<{ latitude: number; l
       return {
         latitude: parseFloat(y),
         longitude: parseFloat(x),
+        // roadAddress,
+        // jibunAddress,
       };
     } else {
       console.log(`주소 ${address}에 대한 지오코딩 결과 없음`);

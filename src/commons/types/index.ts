@@ -53,19 +53,25 @@ export interface IGeocodeCoord {
   addresses: Array<{
     x: string; // 경도
     y: string; // 위도
+    // roadAddress: string;
+    // jibunAddress: string;
   }>;
 }
 
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
+  // roadAddress: string;
+  // jibunAddress: string;
 }
 export interface IGeocodeEtcData {
   latitude: number;
   longitude: number;
+  // roadAddress: string;
+  // jibunAddress: string;
 
   address: string;
-  address_street: string;
+  address_road: string;
   buildingName: string;
   price: number;
   area: number;
@@ -79,7 +85,7 @@ export interface IGeocodeEtcData {
 // marker
 export interface IMarkerData {
   address: string;
-  address_street: string;
+  address_road: string;
   buildingName: string;
   price: number;
   area: number;
