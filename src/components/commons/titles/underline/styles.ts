@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const TitleWrap = styled.article`
+export const TitleWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
