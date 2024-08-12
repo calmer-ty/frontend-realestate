@@ -16,7 +16,7 @@ import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   const { buildingType, firebaseDatas, selectedMarkerData } = props;
   const matchedFirebaseData: IFirebaseData[] = firebaseDatas.filter(
-    (el) => shortenCityName(selectedMarkerData?.address ?? "") === el.address || shortenCityName(selectedMarkerData?.address_street ?? "") === el.address
+    (el) => shortenCityName(selectedMarkerData?.address ?? "") === el.address || shortenCityName(selectedMarkerData?.address_road ?? "") === el.address
   );
 
   const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({});
@@ -38,7 +38,7 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
           </S.TextWrap>
           <S.TextWrap>
             <ChipSmall label="도로명" />
-            {selectedMarkerData.address_street}
+            {selectedMarkerData.address_road}
           </S.TextWrap>
         </S.InfoWrap>
 

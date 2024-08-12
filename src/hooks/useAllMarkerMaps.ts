@@ -3,6 +3,7 @@ import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/
 import { shortenCityName } from "../commons/libraries/utils/regex";
 import { useNaverMaps } from "@/src/hooks/useNaverMaps";
 import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import { throttle } from "lodash";
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/commons/types";
 
 export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
@@ -13,21 +14,21 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
 
   // prettier-ignore
   const createMarker = useCallback((coord: IGeocodeEtcData) => {
-      const { latitude, longitude, ...apartmentData } = coord;
+      const { latitude, longitude, ...buildingsData } = coord;
       const markerIconContent = (): string => {
-        const matchedFbData = firebaseDatas.find((fbData) => fbData.address === shortenCityName(apartmentData.address) || fbData.address === shortenCityName(apartmentData.address_street));
-        if (matchedFbData !== undefined) {
+        const matchedFbirebaseData = firebaseDatas.find((firebaseData) => firebaseData.address === shortenCityName(buildingsData.address) || firebaseData.address === shortenCityName(buildingsData.address_road));
+        if (matchedFbirebaseData !== undefined) {
           return `
             <div style="${markerStyle.containerActive}">
-              <div style="${markerStyle.topAreaActive}">${Math.round(apartmentData.area * 0.3025)}평</div>
-              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
+              <div style="${markerStyle.topAreaActive}">${Math.round(buildingsData.area * 0.3025)}평</div>
+              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(buildingsData.price / 10000).toFixed(1)}억</strong></div>
               <div style="${markerStyle.arrowActive}"></div>
             </div>`;
         } else {
           return `
             <div style="${markerStyle.container}">
-              <div style="${markerStyle.topArea}">${Math.round(apartmentData.area * 0.3025)}평</div>
-              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(apartmentData.price / 10000).toFixed(1)}억</strong></div>
+              <div style="${markerStyle.topArea}">${Math.round(buildingsData.area * 0.3025)}평</div>
+              <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(buildingsData.price / 10000).toFixed(1)}억</strong></div>
               <div style="${markerStyle.arrow}"></div>
             </div>`;
         }
@@ -42,7 +43,7 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       };
 
       const marker = new window.naver.maps.Marker(markerOptions);
-      const markerData: IMarkerData = apartmentData;
+      const markerData: IMarkerData = buildingsData;
       marker.set("data", markerData);
 
       window.naver.maps.Event.addListener(marker, "click", () => {
@@ -110,17 +111,25 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       setSelectedMarkerData(null);
     },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
 
+  // Throttled version of updateVisibleMarkers
+  const throttledUpdateVisibleMarkers = useCallback(
+    throttle((map: any) => {
+      updateVisibleMarkers(map);
+    }, 2000),
+    [updateVisibleMarkers]
+  );
+
   // prettier-ignore
   const loadClusterScript = useCallback(
     (map: any) => {
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         window.naver.maps.Event.addListener(map, "idle", () => {
-          updateVisibleMarkers(map);
+          throttledUpdateVisibleMarkers(map);
         });
-        updateVisibleMarkers(map);
+        throttledUpdateVisibleMarkers(map);
       });
-    },[updateVisibleMarkers]);
+    },[throttledUpdateVisibleMarkers]);
 
   // prettier-ignore
   const onMapLoaded = useCallback((map: any) => {

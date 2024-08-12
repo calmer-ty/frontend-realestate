@@ -28,7 +28,6 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
       const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
-      console.log("useAllGeocodeData=== 요청나감");
       setGeocodeResults(response.data);
     } catch (error) {
       setError(error as Error);
