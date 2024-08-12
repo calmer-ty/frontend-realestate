@@ -16,8 +16,8 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
   const createMarker = useCallback((coord: IGeocodeEtcData) => {
       const { latitude, longitude, ...buildingsData } = coord;
       const markerIconContent = (): string => {
-        const matchedFbirebaseData = firebaseDatas.find((firebaseData) => firebaseData.address === shortenCityName(buildingsData.address) || firebaseData.address === shortenCityName(buildingsData.address_road));
-        if (matchedFbirebaseData !== undefined) {
+        const matchedFirebaseData = firebaseDatas.find((firebaseData) => firebaseData.address === shortenCityName(buildingsData.address) || firebaseData.address === shortenCityName(buildingsData.address_road));
+        if (matchedFirebaseData !== undefined) {
           return `
             <div style="${markerStyle.containerActive}">
               <div style="${markerStyle.topAreaActive}">${Math.round(buildingsData.area * 0.3025)}평</div>
