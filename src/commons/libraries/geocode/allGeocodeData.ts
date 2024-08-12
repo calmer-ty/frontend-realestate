@@ -24,7 +24,9 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
 
     return dataItems.map(async (item) => {
       const location = result.locatadd_nm;
+      const dongMainCode = Number(item.법정동본번코드);
       const dongSubCode = Number(item.법정동부번코드);
+      const filteredDongMainCode = dongMainCode !== 0 ? dongMainCode.toString() : "";
       // 부번이 없을 경우 부번이 존재하지 않고 주소에 합성되도록 하기 위해서
       const filteredDongSubCode = dongSubCode !== 0 ? `-${dongSubCode.toString()}` : "";
       const roadSubCode = Number(item.도로명건물부번호코드);
@@ -32,7 +34,7 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
 
       const itemDatas = {
         // streetNumber: item.지번,
-        address: `${location} ${item.법정동.trim()} ${Number(item.법정동본번코드).toString()}${filteredDongSubCode}`,
+        address: `${location} ${item.법정동.trim()} ${filteredDongMainCode}${filteredDongSubCode}`,
         address_road: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${filteredRoadSubCode}`,
         buildingName: item.아파트,
         price: Number(item.거래금액.replace(/,/g, "")),
@@ -61,7 +63,6 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
             // roadAddress: geocodeResult.roadAddress,
             // jibunAddress: geocodeResult.jibunAddress,
           };
-          console.log("geocodeResult의 result: ", result);
 
           setGeocodeCache(cacheKey, result);
           return result;
