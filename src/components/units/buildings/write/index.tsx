@@ -47,7 +47,8 @@ export default function BuildingWrite(): JSX.Element {
         return "";
     }
   };
-  const collectionName = getFirestoreCollectionName(selectedType);
+  const selectedTypeEng = getFirestoreCollectionName(selectedType);
+  console.log("collectionName", selectedTypeEng);
 
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
@@ -60,7 +61,7 @@ export default function BuildingWrite(): JSX.Element {
       // 파일 업로드 및 다운로드 URL 가져오기
       const downloadURLs = await uploadFiles(selectedFiles);
 
-      const docRef = await addDoc(collection(db, collectionName), {
+      const docRef = await addDoc(collection(db, selectedTypeEng), {
         ...data, // 컬렉션에 데이터를 추가합니다
         type: selectedType,
         imageUrls: downloadURLs, // 이미지 다운로드 URL
@@ -76,7 +77,7 @@ export default function BuildingWrite(): JSX.Element {
         await uploadFiles(selectedFiles);
       }
 
-      router.push("/buildings");
+      router.push(`/buildings/${selectedTypeEng}/`);
       console.log(docRef);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
@@ -86,7 +87,7 @@ export default function BuildingWrite(): JSX.Element {
   // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
   const onClickFetch = async (): Promise<void> => {
     try {
-      const querySnapshot = await getDocs(collection(db, collectionName)); // 컬렉션을 참조합니다
+      const querySnapshot = await getDocs(collection(db, selectedTypeEng)); // 컬렉션을 참조합니다
       const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
       console.log(datas);
     } catch (error) {
