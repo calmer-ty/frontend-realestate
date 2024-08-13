@@ -19,6 +19,7 @@ export const Container = styled.article`
       align-items: center;
       row-gap: 10px;
       height: 100%;
+      padding: 0 20px;
       margin: 0 auto;
       max-width: 1280px;
     }
