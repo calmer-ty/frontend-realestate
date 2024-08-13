@@ -96,14 +96,7 @@ export default function Home(): JSX.Element {
           <ul>
             {randomFirebaseDatas.map((el) => (
               <S.RegisteredItem key={el._id}>
-                {el.imageUrls?.[0] !== undefined ? (
-                  <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} />
-                ) : (
-                  // <S.UnImage>
-                  //   <ImageNotSupportedIcon />
-                  // </S.UnImage>
-                  <UnImageBasic width={280} height={180} />
-                )}
+                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} /> : <UnImageBasic width={280} height={180} fontSize={36} />}
                 <p>
                   <span>
                     {el.type}・{el.addressDetail}

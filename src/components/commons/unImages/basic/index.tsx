@@ -6,7 +6,7 @@ import * as S from "./styles";
 export default function UnImageBasic(props: IUnImageBasicProps): JSX.Element {
   return (
     <S.UnImage {...props}>
-      <ImageNotSupportedIcon />
+      <ImageNotSupportedIcon fontSize="inherit" />
     </S.UnImage>
   );
 }
