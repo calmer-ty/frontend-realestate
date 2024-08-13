@@ -40,7 +40,7 @@ export default function Home(): JSX.Element {
       }
     }
   };
-  //
+  // firebaseDatas
   const firebaseDatas = useFetchFirestore("apartment");
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
   console.log("randomFirebaseDatas:", randomFirebaseDatas);
@@ -96,19 +96,23 @@ export default function Home(): JSX.Element {
           <ul>
             {randomFirebaseDatas.map((el) => (
               <S.RegisteredItem key={el._id}>
-                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width={280} height={200} fontSize={36} />}
-                <p>
-                  <span>
-                    {el.type}・{el.addressDetail}
-                  </span>
-                  <strong>
-                    매매 {isBillion(el.price)}
-                    {isTenMillion(el.price)} 원
-                  </strong>
-                  <span>
-                    {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
-                  </span>
-                </p>
+                <Link href={`/buildings/${el.type}/${el._id}`}>
+                  <div className="imageWrap">
+                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width={300} height={200} fontSize={36} />}
+                  </div>
+                  <p className="buildingDesc">
+                    <span>
+                      {el.type}・{el.addressDetail}
+                    </span>
+                    <strong>
+                      매매 {isBillion(el.price)}
+                      {isTenMillion(el.price)} 원
+                    </strong>
+                    <span>
+                      {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
+                    </span>
+                  </p>
+                </Link>
               </S.RegisteredItem>
             ))}
           </ul>

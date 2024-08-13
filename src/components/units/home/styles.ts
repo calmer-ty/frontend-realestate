@@ -108,18 +108,42 @@ export const Registered = styled.section`
   }
 `;
 export const RegisteredItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  > img {
-    object-fit: cover;
-  }
-  > p {
+  > a {
     display: flex;
     flex-direction: column;
-    > strong {
-      font-size: 20px;
-      margin-bottom: 10px;
+    row-gap: 10px;
+    /* 이미지 랩 */
+    div.imageWrap {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      > img {
+        object-fit: cover;
+      }
+      ::before {
+        content: "";
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.3;
+      }
+    }
+    > p.buildingDesc {
+      display: flex;
+      flex-direction: column;
+      > strong {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+    }
+    :hover {
+      .imageWrap {
+        ::before {
+          display: block;
+        }
+      }
     }
   }
 `;
