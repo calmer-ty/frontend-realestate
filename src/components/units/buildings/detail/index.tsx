@@ -6,6 +6,7 @@ import Image from "next/image";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
 import TitleUnderline from "@/src/components/commons/titles/underline";
+import UnImageBasic from "@/src/components/commons/unImages/basic";
 
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
@@ -25,9 +26,17 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
       <S.Container>
         <S.ImgContainer>
           <S.ImgWrap>
-            {buildingType.imageUrls?.map((el, index) => {
-              return <Image key={`${el}_${index}`} src={buildingType.imageUrls?.[index] ?? ""} width={0} height={0} alt={buildingType.address} layout="fill" />;
+            {[...Array(5)].map((_, index) => {
+              const el = buildingType.imageUrls?.[index];
+              return el !== undefined ? (
+                <Image key={`${el}_${index}`} src={el} width={0} height={0} alt={buildingType.address ?? "No address available"} layout="fill" />
+              ) : (
+                <UnImageBasic width="100%" height="100%" fontSize="36px" />
+              );
             })}
+            {/* {buildingType.imageUrls?.map((el, index) => (
+              <div>{el}</div>
+            ))} */}
           </S.ImgWrap>
         </S.ImgContainer>
         <S.BuildingInfo>

@@ -4,26 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
-// import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import UnImageBasic from "@/src/components/commons/unImages/basic";
 
 import type { ISelectedAreaProps } from "./types";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
-import { useState } from "react";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   const { buildingType, firebaseDatas, selectedMarkerData } = props;
   const matchedFirebaseData: IFirebaseData[] = firebaseDatas.filter(
     (el) => shortenCityName(selectedMarkerData?.address ?? "") === el.address || shortenCityName(selectedMarkerData?.address_road ?? "") === el.address
   );
-
-  const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({});
-  const handleImageLoad = (id: string): void => {
-    console.log(`Image with ID ${id} loaded successfully.`);
-    setLoadingImages((prev) => ({ ...prev, [id]: false }));
-  };
 
   return (
     <S.SelectedArea>
@@ -60,32 +51,16 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
       <S.RegisteredInfo>
         {matchedFirebaseData.length > 0 ? (
           <S.Registered>
-            <p>
+            <h3>
               총 <strong>{matchedFirebaseData.length}</strong>개의 매물이 있습니다
-            </p>
-            <ul>
+            </h3>
+            <ul className="buildingList">
               {matchedFirebaseData.map((el, index) => (
                 <li key={`${el.type}_${el.address}_${index}`}>
                   <Link href={`/buildings/${buildingType}/${el._id}`}>
-                    <S.ImgWrap>
-                      {el.imageUrls !== undefined ? (
-                        !loadingImages[el._id] ? (
-                          <Image
-                            src={el.imageUrls?.[0] ?? ""}
-                            width={80}
-                            height={80}
-                            alt={el._id}
-                            onLoad={() => {
-                              handleImageLoad(el._id);
-                            }}
-                          />
-                        ) : (
-                          <LoadingSpinner size={40} />
-                        )
-                      ) : (
-                        <ImageNotSupportedIcon />
-                      )}
-                    </S.ImgWrap>
+                    <div className="imageWrap">
+                      {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <UnImageBasic width="80px" height="80px" fontSize="24px" />}
+                    </div>
                     <p>
                       <strong>
                         매매 {isBillion(el.price)}

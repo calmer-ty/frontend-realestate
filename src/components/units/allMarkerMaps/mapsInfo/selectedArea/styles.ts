@@ -58,14 +58,14 @@ export const RegisteredInfo = styled.section`
 export const Registered = styled.div`
   width: 100%;
   border-top: 1px solid #dedede;
-  > p {
+  > h3 {
     font-size: 16px;
     margin: 10px 20px;
     > strong {
       color: #1976d2;
     }
   }
-  > ul {
+  .buildingList {
     > li {
       border-bottom: 1px solid #dedede;
       > a {
@@ -73,6 +73,17 @@ export const Registered = styled.div`
         align-items: center;
         column-gap: 20px;
         padding: 20px;
+        .imageWrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 80px;
+          height: 80px;
+          background-color: #dedede;
+          > img {
+            object-fit: cover;
+          }
+        }
       }
       :hover {
         background-color: #efefef;
@@ -91,16 +102,16 @@ export const UnRegistered = styled.div`
   }
 `;
 
-// 등록된 리스트의 이미지
-export const ImgWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  background-color: #dedede;
+// // 등록된 리스트의 이미지
+// export const ImgWrap = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 80px;
+//   height: 80px;
+//   background-color: #dedede;
 
-  > img {
-    object-fit: cover;
-  }
-`;
+//   > img {
+//     object-fit: cover;
+//   }
+// `;

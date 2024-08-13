@@ -98,7 +98,7 @@ export default function Home(): JSX.Element {
               <S.RegisteredItem key={el._id}>
                 <Link href={`/buildings/${el.type}/${el._id}`}>
                   <div className="imageWrap">
-                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width={300} height={200} fontSize={36} />}
+                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
                   </div>
                   <p className="buildingDesc">
                     <span>

@@ -1,5 +1,5 @@
 export interface IUnImageBasicProps {
-  width?: number;
-  height?: number;
-  fontSize?: number;
+  width?: string;
+  height?: string;
+  fontSize?: string;
 }
