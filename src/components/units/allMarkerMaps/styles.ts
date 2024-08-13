@@ -8,7 +8,7 @@ export const mapStyle = css`
 
 // useAllMarkerMaps 안에 들어가는 마커
 const containerCommon = `
-  position: relative;
+  // position: relative;
   min-width: 58px;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ const containerCommon = `
 `;
 const topAreaCommon = `
   position: relative;
-  min-width: 58px;
+    width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +32,7 @@ const arrowCommon = `
   height: 14px;
   background-color: #FFF;
   position: absolute;
-  bottom: -7px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%) rotate(135deg);
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
