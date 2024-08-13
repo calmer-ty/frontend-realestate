@@ -4,9 +4,9 @@ import { doc, getDoc } from "firebase/firestore";
 import type { IFirebaseData } from "@/src/commons/types";
 
 export const useFirebase = (): {
-  fetchFirebaseData: (data: IFirebaseData) => Promise<void>;
+  readFirebaseData: (data: IFirebaseData) => Promise<void>;
 } => {
-  const fetchFirebaseData = async (data: IFirebaseData): Promise<void> => {
+  const readFirebaseData = async (data: IFirebaseData): Promise<void> => {
     const docRef = doc(db, data.type, data._id);
     try {
       const docSnap = await getDoc(docRef);
@@ -21,6 +21,6 @@ export const useFirebase = (): {
     }
   };
   return {
-    fetchFirebaseData,
+    readFirebaseData,
   };
 };

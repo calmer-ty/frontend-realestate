@@ -42,7 +42,7 @@ export default function Home(): JSX.Element {
     }
   };
 
-  const { fetchFirebaseData } = useFirebase();
+  const { readFirebaseData } = useFirebase();
 
   // firebaseDatas
   const firebaseDatas = useFetchFirestore("apartment");
@@ -98,7 +98,7 @@ export default function Home(): JSX.Element {
           <h2>추천드리는 매물입니다.</h2>
           <ul>
             {randomFirebaseDatas.map((el) => (
-              <S.RegisteredItem key={el._id} onMouseEnter={() => fetchFirebaseData(el)}>
+              <S.RegisteredItem key={el._id} onMouseEnter={() => readFirebaseData(el)}>
                 <Link href={`/buildings/${el.type}/${el._id}`}>
                   <div className="imageWrap">
                     {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
