@@ -6,9 +6,11 @@ import styled from "@emotion/styled";
 export const Container = styled.article`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   row-gap: 40px;
   width: 100%;
   height: 100%;
+  position: relative;
   ::before {
     content: "";
     position: absolute;
@@ -20,11 +22,15 @@ export const Container = styled.article`
     z-index: -1;
   }
   > section {
+    height: 50%;
     > div {
       display: flex;
+      justify-content: center;
+      align-items: center;
       row-gap: 10px;
+      height: 100%;
       margin: 0 auto;
-      padding: 40px;
+      /* padding: 40px; */
       max-width: 1024px;
     }
   }
