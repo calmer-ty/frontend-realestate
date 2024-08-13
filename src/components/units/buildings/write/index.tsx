@@ -63,7 +63,7 @@ export default function BuildingWrite(): JSX.Element {
 
       const docRef = await addDoc(collection(db, selectedTypeEng), {
         ...data, // 컬렉션에 데이터를 추가합니다
-        type: selectedType,
+        type: selectedTypeEng,
         imageUrls: downloadURLs, // 이미지 다운로드 URL
       });
 
