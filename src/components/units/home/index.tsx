@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
+import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 
 import LocationCityIcon from "@mui/icons-material/LocationCity";
@@ -13,8 +15,6 @@ import UnImageBasic from "../../commons/unImages/basic";
 
 import type { MouseEventHandler } from "react";
 import * as S from "./styles";
-import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
-import Image from "next/image";
 
 export default function Home(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -96,7 +96,7 @@ export default function Home(): JSX.Element {
           <ul>
             {randomFirebaseDatas.map((el) => (
               <S.RegisteredItem key={el._id}>
-                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} /> : <UnImageBasic width={280} height={180} fontSize={36} />}
+                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width={280} height={200} fontSize={36} />}
                 <p>
                   <span>
                     {el.type}・{el.addressDetail}
