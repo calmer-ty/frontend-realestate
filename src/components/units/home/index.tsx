@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
-import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
+import { useReadFirebaseDatas } from "@/src/hooks/firebase/useReadFirebaseDatas";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
@@ -23,6 +23,7 @@ export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
   const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
+  const { readFirebaseData } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
@@ -42,10 +43,8 @@ export default function Home(): JSX.Element {
     }
   };
 
-  const { readFirebaseData } = useFirebase();
-
   // firebaseDatas
-  const firebaseDatas = useFetchFirestore("apartment");
+  const firebaseDatas = useReadFirebaseDatas("apartment");
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
 
   return (

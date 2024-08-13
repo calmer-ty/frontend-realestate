@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 import type { IFirebaseData } from "@/src/commons/types";
 
-export const useFetchFirestore = (buildingType: string): IFirebaseData[] => {
+export const useReadFirebaseDatas = (buildingType: string): IFirebaseData[] => {
   const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
 
   useEffect(() => {
