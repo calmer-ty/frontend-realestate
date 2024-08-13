@@ -31,7 +31,7 @@ export const Container = styled.article`
       height: 100%;
       margin: 0 auto;
       /* padding: 40px; */
-      max-width: 1024px;
+      max-width: 1280px;
     }
   }
 `;
@@ -102,6 +102,7 @@ export const Registered = styled.section`
     > ul {
       display: flex;
       column-gap: 20px;
+      width: 100%;
     }
   }
 `;
@@ -122,6 +123,14 @@ export const RegisteredItem = styled.li`
   }
 `;
 
+export const UnImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  height: 180px;
+  background-color: #dedede;
+`;
 export const Option = styled.section`
   > div {
     flex-direction: column;

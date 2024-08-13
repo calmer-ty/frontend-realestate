@@ -9,7 +9,7 @@ import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
-// import ChartTest from "../charts";
+import UnImageBasic from "../../commons/unImages/basic";
 
 import type { MouseEventHandler } from "react";
 import * as S from "./styles";
@@ -42,7 +42,8 @@ export default function Home(): JSX.Element {
   };
   //
   const firebaseDatas = useFetchFirestore("apartment");
-  console.log("firebaseDatas:", firebaseDatas);
+  const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
+  console.log("randomFirebaseDatas:", randomFirebaseDatas);
 
   return (
     <S.Container>
@@ -93,9 +94,16 @@ export default function Home(): JSX.Element {
         <div>
           <h2>추천드리는 매물입니다.</h2>
           <ul>
-            {firebaseDatas.map((el) => (
+            {randomFirebaseDatas.map((el) => (
               <S.RegisteredItem key={el._id}>
-                <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} objectFit="contain" />
+                {el.imageUrls?.[0] !== undefined ? (
+                  <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} />
+                ) : (
+                  // <S.UnImage>
+                  //   <ImageNotSupportedIcon />
+                  // </S.UnImage>
+                  <UnImageBasic width={280} height={180} />
+                )}
                 <p>
                   <span>
                     {el.type}・{el.addressDetail}
