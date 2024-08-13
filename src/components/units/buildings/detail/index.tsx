@@ -34,9 +34,6 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
                 <UnImageBasic width="100%" height="100%" fontSize="36px" />
               );
             })}
-            {/* {buildingType.imageUrls?.map((el, index) => (
-              <div>{el}</div>
-            ))} */}
           </S.ImgWrap>
         </S.ImgContainer>
         <S.BuildingInfo>

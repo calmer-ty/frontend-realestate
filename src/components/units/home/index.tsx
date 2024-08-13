@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
@@ -24,7 +25,7 @@ export default function Home(): JSX.Element {
   const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
 
   // 마우스 오버 시 데이터 설정
-  const handleMouseEnter: MouseEventHandler<HTMLDivElement> = async (event) => {
+  const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
     setCurrentBuildingType(buildingType);
@@ -40,16 +41,18 @@ export default function Home(): JSX.Element {
       }
     }
   };
+
+  const { fetchFirebaseData } = useFirebase();
+
   // firebaseDatas
   const firebaseDatas = useFetchFirestore("apartment");
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
-  console.log("randomFirebaseDatas:", randomFirebaseDatas);
 
   return (
     <S.Container>
       <S.Maps>
         <div>
-          <S.BuildingType data-href="apartment" onMouseEnter={handleMouseEnter}>
+          <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
             <Link href="/buildings/apartment">
               <S.TextWrap>
                 <h2>아파트</h2>
@@ -95,7 +98,7 @@ export default function Home(): JSX.Element {
           <h2>추천드리는 매물입니다.</h2>
           <ul>
             {randomFirebaseDatas.map((el) => (
-              <S.RegisteredItem key={el._id}>
+              <S.RegisteredItem key={el._id} onMouseEnter={() => fetchFirebaseData(el)}>
                 <Link href={`/buildings/${el.type}/${el._id}`}>
                   <div className="imageWrap">
                     {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
