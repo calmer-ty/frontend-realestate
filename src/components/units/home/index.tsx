@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
-// import { useReadFirebaseDatas } from "@/src/hooks/firebase/useReadFirebaseDatas";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 

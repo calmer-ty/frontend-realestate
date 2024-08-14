@@ -133,6 +133,10 @@ export interface IUseFirebaseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
 }
+export interface IUseFirebaseProps {
+  readFirebaseData: (data: IFirebaseData) => Promise<void>;
+  readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
+}
 
 export interface IBuildingParams {
   buildingType: string;

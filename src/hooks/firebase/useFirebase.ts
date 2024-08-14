@@ -1,13 +1,10 @@
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
-import type { IFirebaseData } from "@/src/commons/types";
+import type { IFirebaseData, IUseFirebaseProps } from "@/src/commons/types";
 import { useCallback } from "react";
 
-export const useFirebase = (): {
-  readFirebaseData: (data: IFirebaseData) => Promise<void>;
-  readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
-} => {
+export const useFirebase = (): IUseFirebaseProps => {
   const readFirebaseData = useCallback(async (data: IFirebaseData): Promise<void> => {
     const docRef = doc(db, data.type, data._id);
     try {
