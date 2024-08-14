@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-import { collection, addDoc, getDocs, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -22,11 +20,13 @@ import UploadBasic from "@/src/components/commons/uploads/basic";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
+import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
+  const { createFirebaseData } = useFirebase(); // 훅 사용
 
   // 파일 상태
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -61,39 +61,31 @@ export default function BuildingWrite(): JSX.Element {
       // 파일 업로드 및 다운로드 URL 가져오기
       const downloadURLs = await uploadFiles(selectedFiles);
 
-      const docRef = await addDoc(collection(db, selectedTypeEng), {
-        ...data, // 컬렉션에 데이터를 추가합니다
-        type: selectedTypeEng,
-        imageUrls: downloadURLs, // 이미지 다운로드 URL
-      });
+      // 데이터에 파일 다운로드 URL 추가
+      const formData = {
+        ...data,
+        imageUrls: downloadURLs,
+      };
 
-      // 문서 ID를 포함한 데이터로 업데이트
-      await updateDoc(docRef, {
-        _id: docRef.id,
-      });
-
-      // 파일 업로드
-      if (selectedFiles.length > 0) {
-        await uploadFiles(selectedFiles);
-      }
+      // Firestore에 데이터 추가
+      await createFirebaseData(formData, selectedTypeEng);
 
       router.push(`/buildings/${selectedTypeEng}/`);
-      console.log(docRef);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   };
 
-  // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
-  const onClickFetch = async (): Promise<void> => {
-    try {
-      const querySnapshot = await getDocs(collection(db, selectedTypeEng)); // 컬렉션을 참조합니다
-      const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-      console.log(datas);
-    } catch (error) {
-      if (error instanceof Error) console.error(error.message);
-    }
-  };
+  // // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
+  // const onClickFetch = async (): Promise<void> => {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(db, selectedTypeEng)); // 컬렉션을 참조합니다
+  //     const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
+  //     console.log(datas);
+  //   } catch (error) {
+  //     if (error instanceof Error) console.error(error.message);
+  //   }
+  // };
 
   return (
     <>
@@ -174,9 +166,9 @@ export default function BuildingWrite(): JSX.Element {
           <Button role="submit-button" type="submit" variant="contained">
             등록하기
           </Button>
-          <Button onClick={onClickFetch} variant="outlined">
+          {/* <Button onClick={onClickFetch} variant="outlined">
             조회하기
-          </Button>
+          </Button> */}
         </S.Footer>
       </S.Form>
     </>

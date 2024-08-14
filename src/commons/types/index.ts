@@ -134,6 +134,7 @@ export interface IUseFirebaseStorageProps {
   uploading: boolean;
 }
 export interface IUseFirebaseProps {
+  createFirebaseData: (data: IFirebaseData, selectedTypeEng: string) => Promise<void>;
   readFirebaseData: (data: IFirebaseData) => Promise<void>;
   readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
 }

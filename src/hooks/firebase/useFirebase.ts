@@ -1,10 +1,28 @@
+import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 
 import type { IFirebaseData, IUseFirebaseProps } from "@/src/commons/types";
-import { useCallback } from "react";
 
 export const useFirebase = (): IUseFirebaseProps => {
+  const createFirebaseData = useCallback(async (data: IFirebaseData, selectedType: string): Promise<void> => {
+    try {
+      const docRef = await addDoc(collection(db, selectedType), {
+        ...data,
+        type: selectedType,
+      });
+
+      // 문서 ID를 포함한 데이터로 업데이트
+      await updateDoc(docRef, {
+        _id: docRef.id,
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  }, []);
+
   const readFirebaseData = useCallback(async (data: IFirebaseData): Promise<void> => {
     const docRef = doc(db, data.type, data._id);
     try {
@@ -32,6 +50,7 @@ export const useFirebase = (): IUseFirebaseProps => {
   }, []);
 
   return {
+    createFirebaseData,
     readFirebaseData,
     readFirebaseDatas,
   };
