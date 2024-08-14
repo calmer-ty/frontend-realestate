@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
 import { useAddressSearch } from "@/src/hooks/useAddressSearch";
-import { useFirebaseStorage } from "@/src/hooks/useFirebaseStorage";
+import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
