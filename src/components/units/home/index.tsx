@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
-import { useReadFirebaseDatas } from "@/src/hooks/firebase/useReadFirebaseDatas";
+// import { useReadFirebaseDatas } from "@/src/hooks/firebase/useReadFirebaseDatas";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
@@ -15,6 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import UnImageBasic from "../../commons/unImages/basic";
 
 import type { MouseEventHandler } from "react";
+import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function Home(): JSX.Element {
@@ -23,7 +24,7 @@ export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
   const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
-  const { readFirebaseData } = useFirebase();
+  const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
@@ -44,7 +45,15 @@ export default function Home(): JSX.Element {
   };
 
   // firebaseDatas
-  const firebaseDatas = useReadFirebaseDatas("apartment");
+  const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
+  useEffect(() => {
+    const readBuildings = async (): Promise<void> => {
+      const datas = await readFirebaseDatas("apartment");
+      setFirebaseDatas(datas);
+    };
+
+    void readBuildings();
+  }, [readFirebaseDatas]);
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
 
   return (
