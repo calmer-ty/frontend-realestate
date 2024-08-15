@@ -18,7 +18,7 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
-      // console.log("Data already fetched, skipping fetchData");
+      console.log("Data already fetched, skipping fetchData");
       return;
     }
 
@@ -34,9 +34,8 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
     } finally {
       setLoading(false);
     }
-  }, [buildingType, geocodeResults, setGeocodeResults]);
+  }, [buildingType, geocodeResults.length, setGeocodeResults]);
 
-  // data-href는 html 요소이고, html이 렌더링 된 후에 값을 뽑아낼 수 있다.
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType.trim() !== "") {
       void fetchData();

@@ -23,10 +23,18 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
     }
 
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
+    const mapContainer = document.getElementById(mapId);
 
+    console.log(window.naver);
+    console.log(mapContainer);
     const handleScriptLoad = (): void => {
       if (window.naver === undefined) {
         console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
+        return;
+      }
+
+      if (mapContainer === null) {
+        console.error(`ID가 ${mapId}인 mapContainer가 정의되지 않았습니다.`);
         return;
       }
 
@@ -38,12 +46,20 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
       }
     };
 
-    loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
+    // Check if the script is already loaded
+    const existingScript = document.querySelector(`script[src="${NAVER_MAP_SCRIPT_URL}"]`);
+    if (existingScript) {
+      handleScriptLoad(); // Directly call the callback if script is already loaded
+    } else {
+      loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
+    }
+
+    // loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
 
     return () => {
       // Clean up: Remove the script from the document head
       const existingScript = document.querySelector(`script[src="${NAVER_MAP_SCRIPT_URL}"]`);
-      if (existingScript !== null) {
+      if (existingScript) {
         document.head.removeChild(existingScript);
       }
     };
