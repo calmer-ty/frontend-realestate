@@ -2,7 +2,6 @@ import { geocodeApi } from "./geocodeApi";
 import type { IGeocodeData } from "@/src/commons/types";
 
 export const selectGeocodeData = async (address: string): Promise<IGeocodeData | null> => {
-  console.log("selectGeocodeData props:::", address);
   try {
     const geocodeResult = await geocodeApi(address);
     if (geocodeResult !== null) {
@@ -10,7 +9,7 @@ export const selectGeocodeData = async (address: string): Promise<IGeocodeData |
 
       return result;
     } else {
-      console.log(`주소 ${address}에 대한 지오코딩 결과 없음`);
+      console.log(`selectGeocodeData: 주소 ${address}에 대한 지오코딩 결과 없음`);
       return null;
     }
   } catch (error) {
