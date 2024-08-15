@@ -48,18 +48,16 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
 
     // Check if the script is already loaded
     const existingScript = document.querySelector(`script[src="${NAVER_MAP_SCRIPT_URL}"]`);
-    if (existingScript) {
+    if (existingScript !== null) {
       handleScriptLoad(); // Directly call the callback if script is already loaded
     } else {
       loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
     }
 
-    // loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
-
     return () => {
       // Clean up: Remove the script from the document head
       const existingScript = document.querySelector(`script[src="${NAVER_MAP_SCRIPT_URL}"]`);
-      if (existingScript) {
+      if (existingScript !== null) {
         document.head.removeChild(existingScript);
       }
     };
