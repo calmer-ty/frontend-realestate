@@ -67,7 +67,7 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
           setGeocodeCache(cacheKey, result);
           return result;
         } else {
-          console.log(`주소 ${itemDatas.address}에 대한 지오코딩 결과 없음`);
+          console.log(`allGeocodeData: 주소 ${itemDatas.address}에 대한 지오코딩 결과 없음`);
           return null;
         }
       } catch (error) {
