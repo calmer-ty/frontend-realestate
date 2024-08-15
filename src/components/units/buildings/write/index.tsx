@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useSelectMarkerMaps } from "@/src/hooks/useSelectMarkerMaps";
-import { useAddressSearch } from "@/src/hooks/useAddressSearch";
+import { useSelectMarker } from "@/src/hooks/maps/useSelectMarker";
+import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
+import { useAddressSearch } from "@/src/hooks/useAddressSearch";
 
 import { Button } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
@@ -20,7 +21,6 @@ import UploadBasic from "@/src/components/commons/uploads/basic";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
-import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
@@ -53,7 +53,8 @@ export default function BuildingWrite(): JSX.Element {
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
 
-  useSelectMarkerMaps(geocodeData);
+  // 선택된 마커
+  useSelectMarker(geocodeData);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {

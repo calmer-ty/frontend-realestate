@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import MapsInfo from "./mapsInfo";
 import NaverMaps from "./naverMaps";
 
-import { useAllMarkerMaps } from "@/src/hooks/useAllMarkerMaps";
+import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
 import type { IFirebaseData, IMarkerData } from "@/src/commons/types";
@@ -28,7 +28,7 @@ export default function AllMarkerMaps(props: IAllMarkerMapsProps): JSX.Element {
     void readBuildings();
   }, [readFirebaseDatas]);
 
-  useAllMarkerMaps({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
+  useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
   return (
     <>

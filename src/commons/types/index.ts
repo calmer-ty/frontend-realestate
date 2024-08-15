@@ -116,7 +116,7 @@ export interface IUseAddressSearchProps {
   geocodeData: IGeocodeData | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
-export interface IUseAllMarkerMapsProps {
+export interface IUseAllMarkerProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
