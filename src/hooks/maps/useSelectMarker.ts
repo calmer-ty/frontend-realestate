@@ -1,7 +1,7 @@
-import { useNaverMaps } from "./useNaverMaps";
+import { useMapsLoader } from "./useMapsLoader";
 import type { IGeocodeData } from "@/src/commons/types";
 
-export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
+export const useSelectMarker = (props: IGeocodeData | null): void => {
   const onMapLoaded = (map: any): void => {
     if (props !== null) {
       const markerPosition = new window.naver.maps.LatLng(props.latitude, props.longitude);
@@ -17,7 +17,7 @@ export const useSelectMarkerMaps = (props: IGeocodeData | null): void => {
       map.setCenter(markerPosition);
     }
   };
-  useNaverMaps({
+  useMapsLoader({
     mapId: "map",
     onMapLoaded,
   });

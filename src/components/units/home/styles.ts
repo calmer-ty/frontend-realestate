@@ -11,16 +11,6 @@ export const Container = styled.article`
   width: 100%;
   height: 100%;
   position: relative;
-  ::before {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: #f00 url("/images/main.jpg") no-repeat center/cover;
-    opacity: 0.1;
-    z-index: -1;
-  }
   > section {
     height: 50%;
     > div {
@@ -29,16 +19,26 @@ export const Container = styled.article`
       align-items: center;
       row-gap: 10px;
       height: 100%;
+      padding: 0 20px;
       margin: 0 auto;
-      /* padding: 40px; */
-      max-width: 1024px;
+      max-width: 1280px;
     }
   }
 `;
 export const Maps = styled.section`
+  position: relative;
+  ::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #f00 url("/images/main.jpg") no-repeat center/cover;
+    opacity: 0.2;
+  }
   > div {
     justify-content: space-between;
-    column-gap: 20px;
+    column-gap: 60px;
   }
 `;
 export const BuildingType = styled.div`
@@ -47,7 +47,6 @@ export const BuildingType = styled.div`
   height: 200px;
   padding-bottom: 20px;
   background-color: #fff;
-  border: 2px solid #efefef;
   border-radius: 10px;
   cursor: pointer;
 
@@ -55,8 +54,8 @@ export const BuildingType = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: inherit;
+    height: inherit;
   }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px 0px;
@@ -67,7 +66,6 @@ export const BuildingTypeU = styled.div`
   width: 280px;
   height: 200px;
   background-color: #ccc;
-  border: 2px solid #efefef;
   border-radius: 10px;
   cursor: pointer;
 
@@ -75,8 +73,8 @@ export const BuildingTypeU = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: inherit;
+    height: inherit;
   }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px 0px;
@@ -99,25 +97,54 @@ export const Registered = styled.section`
   background-color: #fff;
   > div {
     flex-direction: column;
+    > h2 {
+      width: 100%;
+    }
     > ul {
       display: flex;
-      column-gap: 20px;
+      column-gap: 30px;
+      width: 100%;
+      height: 300px;
     }
   }
 `;
 export const RegisteredItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  > img {
-    object-fit: cover;
-  }
-  > p {
+  > a {
     display: flex;
     flex-direction: column;
-    > strong {
-      font-size: 20px;
-      margin-bottom: 10px;
+    row-gap: 10px;
+    /* 이미지 랩 */
+    div.imageWrap {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      > img {
+        object-fit: cover;
+      }
+      ::before {
+        content: "";
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.3;
+      }
+    }
+    > p.buildingDesc {
+      display: flex;
+      flex-direction: column;
+      > strong {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+    }
+    :hover {
+      .imageWrap {
+        ::before {
+          display: block;
+        }
+      }
     }
   }
 `;

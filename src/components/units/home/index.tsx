@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
-// import ChartTest from "../charts";
+import UnImageBasic from "../../commons/unImages/basic";
 
 import type { MouseEventHandler } from "react";
+import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
-import { useFetchFirestore } from "@/src/hooks/useFetchFireBase";
-import Image from "next/image";
 
 export default function Home(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,9 +23,10 @@ export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
   const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
+  const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
-  const handleMouseEnter: MouseEventHandler<HTMLDivElement> = async (event) => {
+  const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
     setCurrentBuildingType(buildingType);
@@ -40,15 +42,24 @@ export default function Home(): JSX.Element {
       }
     }
   };
-  //
-  const firebaseDatas = useFetchFirestore("apartment");
-  console.log("firebaseDatas:", firebaseDatas);
+
+  // firebaseDatas
+  const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
+  useEffect(() => {
+    const readBuildings = async (): Promise<void> => {
+      const datas = await readFirebaseDatas("apartment");
+      setFirebaseDatas(datas);
+    };
+
+    void readBuildings();
+  }, [readFirebaseDatas]);
+  const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
 
   return (
     <S.Container>
       <S.Maps>
         <div>
-          <S.BuildingType data-href="apartment" onMouseEnter={handleMouseEnter}>
+          <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
             <Link href="/buildings/apartment">
               <S.TextWrap>
                 <h2>아파트</h2>
@@ -93,21 +104,25 @@ export default function Home(): JSX.Element {
         <div>
           <h2>추천드리는 매물입니다.</h2>
           <ul>
-            {firebaseDatas.map((el) => (
-              <S.RegisteredItem key={el._id}>
-                <Image src={el.imageUrls?.[0] ?? ""} width={280} height={180} alt={el.type} objectFit="contain" />
-                <p>
-                  <span>
-                    {el.type}・{el.addressDetail}
-                  </span>
-                  <strong>
-                    매매 {isBillion(el.price)}
-                    {isTenMillion(el.price)} 원
-                  </strong>
-                  <span>
-                    {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
-                  </span>
-                </p>
+            {randomFirebaseDatas.map((el) => (
+              <S.RegisteredItem key={el._id} onMouseEnter={() => readFirebaseData(el)}>
+                <Link href={`/buildings/${el.type}/${el._id}`}>
+                  <div className="imageWrap">
+                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
+                  </div>
+                  <p className="buildingDesc">
+                    <span>
+                      {el.type}・{el.addressDetail}
+                    </span>
+                    <strong>
+                      매매 {isBillion(el.price)}
+                      {isTenMillion(el.price)} 원
+                    </strong>
+                    <span>
+                      {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
+                    </span>
+                  </p>
+                </Link>
               </S.RegisteredItem>
             ))}
           </ul>

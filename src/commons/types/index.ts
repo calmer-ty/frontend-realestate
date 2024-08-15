@@ -116,7 +116,7 @@ export interface IUseAddressSearchProps {
   geocodeData: IGeocodeData | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
-export interface IUseAllMarkerMapsProps {
+export interface IUseAllMarkerProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
@@ -132,6 +132,11 @@ export interface IUseAllGeocodeDataProps {
 export interface IUseFirebaseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
+}
+export interface IUseFirebaseProps {
+  createFirebaseData: (data: IFirebaseData, selectedTypeEng: string) => Promise<void>;
+  readFirebaseData: (data: IFirebaseData) => Promise<void>;
+  readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
 }
 
 export interface IBuildingParams {

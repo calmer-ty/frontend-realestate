@@ -1,12 +1,12 @@
 import { useRef, useCallback } from "react";
 import { clusterStyle, markerStyle } from "@/src/components/units/allMarkerMaps/styles";
-import { shortenCityName } from "../commons/libraries/utils/regex";
-import { useNaverMaps } from "@/src/hooks/useNaverMaps";
+import { shortenCityName } from "@/src/commons/libraries/utils/regex";
+import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { loadScript } from "@/src/commons/libraries/utils/naverMaps";
-import { throttle } from "lodash";
-import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerMapsProps } from "@/src/commons/types";
 
-export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
+import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
+
+export const useAllMarker = (props: IUseAllMarkerProps): void => {
   const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   const markersRef = useRef<any[]>([]);
@@ -111,30 +111,22 @@ export const useAllMarkerMaps = (props: IUseAllMarkerMapsProps): void => {
       setSelectedMarkerData(null);
     },[geocodeResults, createMarker, createClusterMarkers, setSelectedMarkerData, setVisibleMarkerDatas]);
 
-  // Throttled version of updateVisibleMarkers
-  const throttledUpdateVisibleMarkers = useCallback(
-    throttle((map: any) => {
-      updateVisibleMarkers(map);
-    }, 2000),
-    [updateVisibleMarkers]
-  );
-
   // prettier-ignore
   const loadClusterScript = useCallback(
     (map: any) => {
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         window.naver.maps.Event.addListener(map, "idle", () => {
-          throttledUpdateVisibleMarkers(map);
+          updateVisibleMarkers(map);
         });
-        throttledUpdateVisibleMarkers(map);
+        updateVisibleMarkers(map);
       });
-    },[throttledUpdateVisibleMarkers]);
+    },[updateVisibleMarkers]);
 
   // prettier-ignore
   const onMapLoaded = useCallback((map: any) => {
     loadClusterScript(map);
   },[loadClusterScript]);
 
-  useNaverMaps({ mapId: "map", onMapLoaded });
+  useMapsLoader({ mapId: "map", onMapLoaded });
 };
