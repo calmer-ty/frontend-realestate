@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getMapInitOptions } from "@/src/commons/libraries/utils/naverMaps";
+import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/naverMaps";
 
 declare global {
   interface Window {
@@ -24,11 +24,6 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
 
     const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
 
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = NAVER_MAP_SCRIPT_URL;
-    script.async = true;
-
     const handleScriptLoad = (): void => {
       if (window.naver === undefined) {
         console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
@@ -43,12 +38,14 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
       }
     };
 
-    script.onload = handleScriptLoad;
-    document.head.appendChild(script);
+    loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
 
     return () => {
-      // Remove the script from the document head
-      document.head.removeChild(script);
+      // Clean up: Remove the script from the document head
+      const existingScript = document.querySelector(`script[src="${NAVER_MAP_SCRIPT_URL}"]`);
+      if (existingScript !== null) {
+        document.head.removeChild(existingScript);
+      }
     };
   }, [mapId, ncpClientId, onMapLoaded]);
 };
