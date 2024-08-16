@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
-import { useAllGeocode } from "../commons/context/allGeocodeProvider";
+import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 
 import type { IGeocodeEtcData, IUseAllGeocodeDataProps } from "@/src/commons/types";
 
-export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps => {
-  const { geocodeResults, setGeocodeResults } = useAllGeocode();
+export const useFetchAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps => {
+  const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -17,10 +17,10 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
     }
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
-    if (geocodeResults.length > 0) {
-      console.log("Data already fetched, skipping fetchData");
-      return;
-    }
+    // if (geocodeResults.length > 0) {
+    //   console.log("Data already fetched, skipping fetchData");
+    //   return;
+    // }
 
     setLoading(true);
     setError(null);
@@ -34,7 +34,7 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
     } finally {
       setLoading(false);
     }
-  }, [buildingType, geocodeResults.length, setGeocodeResults]);
+  }, [buildingType, setGeocodeResults]);
 
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType.trim() !== "") {

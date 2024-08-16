@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
+import { useFetchAllGeocodeData } from "@/src/hooks/useFetchAllGeocodeData";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
   const [error, setError] = useState<Error | null>(null);
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
-  const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
+  const { geocodeResults, loading, error: hookError, fetchData } = useFetchAllGeocodeData(currentBuildingType);
   const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
