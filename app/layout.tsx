@@ -11,9 +11,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    <html lang="en">
-      <body>
-        <AllGeocodeProvider>
+    <AllGeocodeProvider>
+      <html lang="en">
+        <body>
           <div id="wrapper">
             <header>
               <div id="header-inner">
@@ -32,8 +32,8 @@ export default function RootLayout({
               <div id="main-inner">{children}</div>
             </main>
           </div>
-        </AllGeocodeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </AllGeocodeProvider>
   );
 }

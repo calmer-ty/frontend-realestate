@@ -111,34 +111,40 @@ export interface IFirebaseData {
 }
 
 // Hooks Type
+// address
 export interface IUseAddressSearchProps {
   selectedAddress: string;
   geocodeData: IGeocodeData | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
+
+// maps
 export interface IUseAllMarkerProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];
 }
-export interface IUseAllGeocodeDataProps {
+export interface IUseFetchAllGeocodeDataProps {
   geocodeResults: IGeocodeEtcData[];
   loading: boolean;
   error: Error | null;
   fetchData: () => Promise<void>;
 }
 
-export interface IUseFirebaseStorageProps {
-  uploadFiles: (files: File[]) => Promise<string[]>;
-  uploading: boolean;
-}
+// firebase
 export interface IUseFirebaseProps {
   createFirebaseData: (data: IFirebaseData, selectedTypeEng: string) => Promise<void>;
   readFirebaseData: (data: IFirebaseData) => Promise<void>;
   readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
 }
 
+export interface IUseFirebaseStorageProps {
+  uploadFiles: (files: File[]) => Promise<string[]>;
+  uploading: boolean;
+}
+
+// params
 export interface IBuildingParams {
   buildingType: string;
 }
