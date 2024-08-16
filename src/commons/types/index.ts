@@ -129,7 +129,7 @@ export interface IUseFetchAllGeocodeDataProps {
   geocodeResults: IGeocodeEtcData[];
   loading: boolean;
   error: Error | null;
-  fetchData: () => Promise<void>;
+  // fetchData: () => Promise<void>;
 }
 
 // firebase

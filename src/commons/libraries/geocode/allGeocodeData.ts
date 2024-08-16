@@ -5,6 +5,7 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import type { IApartmentItem, IApartmentLocationData, IGeocodeEtcData } from "@/src/commons/types";
 
 export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {
+  console.log("================= 리렌더링??????????????????????????????? =================");
   let results: IApartmentLocationData[];
 
   // buildingType에 따른 데이터 호출
