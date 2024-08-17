@@ -20,7 +20,7 @@ import * as S from "./styles";
 export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
-  const { loading, error } = useFetchAllGeocodeData(currentBuildingType);
+  useFetchAllGeocodeData(currentBuildingType);
   const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
@@ -57,8 +57,8 @@ export default function Home(): JSX.Element {
               </S.IconWrap>
             </Link>
           </S.BuildingType>
-          {loading && <p>Loading...</p>}
-          {error !== null && <p>Error loading data: {error.message}</p>}
+          {/* {loading && <p>Loading...</p>}
+          {error !== null && <p>Error loading data: {error.message}</p>} */}
           <S.BuildingTypeU>
             {/* <Link href="/"> */}
             <a href="#">

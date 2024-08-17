@@ -12,7 +12,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
   const fetchData = useCallback(async () => {
     // buildingType이 없거나 빈 문자열인 경우 패칭을 하지 않도록 함
     // if (typeof buildingType !== "string" || buildingType.trim() === "") {
-    if (!buildingType) {
+    if (typeof buildingType !== "string") {
       console.warn("Invalid buildingType, skipping fetchData");
       return;
     }
@@ -38,7 +38,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
   }, [buildingType, setGeocodeResults, geocodeResults.length]);
 
   useEffect(() => {
-    if (buildingType) {
+    if (typeof buildingType === "string") {
       void fetchData();
     }
   }, [buildingType, fetchData]); // fetchData가 변경될 때도 실행됨
