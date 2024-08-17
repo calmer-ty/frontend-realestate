@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
+import { useFetchAllGeocodeData } from "@/src/hooks/useFetchAllGeocodeData";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
@@ -18,11 +18,9 @@ import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function Home(): JSX.Element {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   // 데이터 프리로딩
-  const { geocodeResults, loading, error: hookError, fetchData } = useAllGeocodeData(currentBuildingType);
+  const { loading, error } = useFetchAllGeocodeData(currentBuildingType);
   const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
   // 마우스 오버 시 데이터 설정
@@ -30,17 +28,6 @@ export default function Home(): JSX.Element {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
     setCurrentBuildingType(buildingType);
-
-    if (geocodeResults.length === 0 && !loading) {
-      setIsLoading(true);
-      try {
-        await fetchData();
-      } catch (err) {
-        setError(hookError);
-      } finally {
-        setIsLoading(false);
-      }
-    }
   };
 
   // firebaseDatas
@@ -70,7 +57,7 @@ export default function Home(): JSX.Element {
               </S.IconWrap>
             </Link>
           </S.BuildingType>
-          {isLoading && <p>Loading...</p>}
+          {loading && <p>Loading...</p>}
           {error !== null && <p>Error loading data: {error.message}</p>}
           <S.BuildingTypeU>
             {/* <Link href="/"> */}

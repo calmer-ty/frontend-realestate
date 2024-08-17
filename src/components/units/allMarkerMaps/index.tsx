@@ -12,8 +12,7 @@ import type { IAllMarkerMapsProps } from "./types";
 
 import { mapStyle } from "./styles";
 
-export default function AllMarkerMaps(props: IAllMarkerMapsProps): JSX.Element {
-  const { buildingType, geocodeResults } = props;
+export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMarkerMapsProps): JSX.Element {
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
   const { readFirebaseDatas } = useFirebase();

@@ -2,14 +2,14 @@ import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
 
 import { shortenCityName } from "@/src/commons/libraries/utils/regex";
-import { useAllGeocodeData } from "@/src/hooks/useAllGeocodeData";
+import { useFetchAllGeocodeData } from "@/src/hooks/useFetchAllGeocodeData";
 
 import type { IGeocodeEtcData } from "@/src/commons/types";
 import LoadingSpinner from "../../commons/loadingSpinner";
 
 export default function ChartTest(): JSX.Element {
   // 데이터 프리로딩
-  const { geocodeResults, loading, fetchData } = useAllGeocodeData("apartment");
+  const { geocodeResults, loading, fetchData } = useFetchAllGeocodeData("apartment");
 
   useEffect(() => {
     fetchData().catch((err) => {

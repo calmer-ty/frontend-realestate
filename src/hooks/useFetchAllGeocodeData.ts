@@ -1,24 +1,25 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
-import { useAllGeocode } from "../commons/context/allGeocodeProvider";
+import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 
-import type { IGeocodeEtcData, IUseAllGeocodeDataProps } from "@/src/commons/types";
+import type { IGeocodeEtcData, IUseFetchAllGeocodeDataProps } from "@/src/commons/types";
 
-export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps => {
-  const { geocodeResults, setGeocodeResults } = useAllGeocode();
+export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocodeDataProps => {
+  const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchData = useCallback(async () => {
     // buildingType이 없거나 빈 문자열인 경우 패칭을 하지 않도록 함
-    if (typeof buildingType !== "string" || buildingType.trim() === "") {
+    // if (typeof buildingType !== "string" || buildingType.trim() === "") {
+    if (!buildingType) {
       console.warn("Invalid buildingType, skipping fetchData");
       return;
     }
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
-      // console.log("Data already fetched, skipping fetchData");
+      console.log("Data already fetched, skipping fetchData");
       return;
     }
 
@@ -34,14 +35,13 @@ export const useAllGeocodeData = (buildingType: string): IUseAllGeocodeDataProps
     } finally {
       setLoading(false);
     }
-  }, [buildingType, geocodeResults, setGeocodeResults]);
+  }, [buildingType, setGeocodeResults, geocodeResults.length]);
 
-  // data-href는 html 요소이고, html이 렌더링 된 후에 값을 뽑아낼 수 있다.
   useEffect(() => {
-    if (typeof buildingType === "string" && buildingType.trim() !== "") {
+    if (buildingType) {
       void fetchData();
     }
-  }, [buildingType, fetchData]);
+  }, [buildingType, fetchData]); // fetchData가 변경될 때도 실행됨
 
-  return { geocodeResults, loading, error, fetchData };
+  return { geocodeResults, loading, error };
 };
