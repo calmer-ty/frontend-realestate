@@ -49,7 +49,7 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
       const cacheKey = `geocode_${itemDatas.address}`;
       const cachedData = getCachedGeocodeData(cacheKey);
       if (cachedData !== undefined) {
-        // console.log(`주소 ${address}에 대한 지오코딩 데이터 캐시 히트`);
+        // console.log(`주소 ${itemDatas.address}에 대한 지오코딩 데이터 캐시 히트`);
         return cachedData;
       }
 

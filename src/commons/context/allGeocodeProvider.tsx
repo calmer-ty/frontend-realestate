@@ -18,7 +18,7 @@ export const AllGeocodeProvider = ({ children }: { children: ReactNode }): JSX.E
 };
 
 // Context를 사용하기 위한 커스텀 훅
-export const useAllGeocode = (): IAllGeocodeContextProps => {
+export const useAllGeocodeContext = (): IAllGeocodeContextProps => {
   const context = useContext(AllGeocodeContext);
   if (context === undefined) {
     throw new Error("useAllGeocode must be used within a GeocodeProvider");
