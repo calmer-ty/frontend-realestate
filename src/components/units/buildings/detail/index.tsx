@@ -29,9 +29,11 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
             {[...Array(5)].map((_, index) => {
               const el = buildingType.imageUrls?.[index];
               return el !== undefined ? (
-                <Image key={`${el}_${index}`} src={el} width={0} height={0} alt={buildingType.address ?? "No address available"} layout="fill" />
+                <div className="imageWrap">
+                  <Image key={`${el}_${index}`} src={el} alt={buildingType.address ?? "No address available"} fill objectFit="cover" />
+                </div>
               ) : (
-                <UnImageBasic width="100%" height="100%" fontSize="36px" />
+                <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />
               );
             })}
           </S.ImgWrap>
@@ -39,7 +41,7 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
         <S.BuildingInfo>
           <S.InfoItem>
             <TitleUnderline label="가격 정보" />
-            <S.InfoContent>
+            <S.InfoList>
               <li>
                 <h3>매물 가격</h3>
                 {isBillion(buildingType.price)}&nbsp;
@@ -49,12 +51,12 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
                 <h3>관리비</h3>
                 <span>매월 {buildingType.manageCost}만 원</span>
               </li>
-            </S.InfoContent>
+            </S.InfoList>
           </S.InfoItem>
 
           <S.InfoItem>
             <TitleUnderline label="상세 정보" />
-            <S.InfoContent>
+            <S.InfoList>
               <li>
                 <h3>건물 이름</h3>
                 <span>{buildingType.addressDetail}</span>
@@ -71,7 +73,12 @@ export default function BuildingDetail({ buildingType }: IBuildingDetailProps): 
                 <h3>면적</h3>
                 <span>{buildingType.area}</span>
               </li>
-            </S.InfoContent>
+            </S.InfoList>
+          </S.InfoItem>
+
+          <S.InfoItem>
+            <TitleUnderline label="매물 설명" />
+            {buildingType.desc}
           </S.InfoItem>
         </S.BuildingInfo>
       </S.Container>
