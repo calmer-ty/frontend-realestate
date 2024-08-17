@@ -10,7 +10,7 @@ import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAddressSearch } from "@/src/hooks/useAddressSearch";
 
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import SelectControl from "@/src/components/commons/inputs/select/control";
 import ModalBasic from "@/src/components/commons/modal/basic";
 import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
@@ -156,6 +156,11 @@ export default function BuildingWrite(): JSX.Element {
             </S.InputWrap>
             <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
           </S.InfoContent>
+        </S.InfoContainer>
+
+        <S.InfoContainer>
+          <TitleUnderline label="매물 설명" />
+          <TextField id="outlined-multiline-flexible" label="설명 내용" multiline rows={5} {...register("desc")} />
         </S.InfoContainer>
 
         <S.InfoContainer>
