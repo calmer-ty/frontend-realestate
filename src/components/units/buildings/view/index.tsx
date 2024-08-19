@@ -9,6 +9,8 @@ import type { IBuildingParams } from "@/src/commons/types";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const { geocodeResults, loading, error } = useFetchAllGeocodeData(buildingType);
+  // console.log("buildingType: ", buildingType);
+  console.log("~~~렌더링~~~");
 
   if (loading) {
     return <LoadingSpinner size={100} />;
