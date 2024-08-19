@@ -41,21 +41,29 @@ export const markerIconContent = (buildingsData: IMarkerData, firebaseDatas: IFi
   const matchedFirebaseData = firebaseDatas.find(
     (firebaseData) => firebaseData.address === shortenCityName(buildingsData.address) || firebaseData.address === shortenCityName(buildingsData.address_road)
   );
-  if (matchedFirebaseData !== undefined) {
-    return `
-      <div style="${markerStyle.containerActive}">
-        <div style="${markerStyle.topAreaActive}">${Math.round(buildingsData.area * 0.3025)}평</div>
-        <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(buildingsData.price / 10000).toFixed(1)}억</strong></div>
-        <div style="${markerStyle.arrowActive}"></div>
+  let price = (buildingsData.price / 10000).toFixed(1);
+  price = price.endsWith(".0") ? price.slice(0, -2) : price;
+
+  // 공통 스타일
+  const area = ` <div style="${matchedFirebaseData !== undefined ? markerStyle.topAreaActive : markerStyle.topArea}">${Math.round(buildingsData.area * 0.3025)}평</div>`;
+  const priceDisplay = `<div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${price}억</strong></div>`;
+  const arrow = `<div style="${matchedFirebaseData !== undefined ? markerStyle.arrowActive : markerStyle.arrow}"></div>`;
+
+  // if (matchedFirebaseData !== undefined) {
+  //   return `
+  //     <div style="${markerStyle.containerActive}">
+  //       <div style="${markerStyle.topAreaActive}">${Math.round(buildingsData.area * 0.3025)}평</div>
+  //       <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${price}억</strong></div>
+  //       <div style="${markerStyle.arrowActive}"></div>
+  //     </div>`;
+  // } else {
+  return `
+      <div style="${matchedFirebaseData !== undefined ? markerStyle.containerActive : markerStyle.container}">
+        ${area}
+        ${priceDisplay}
+        ${arrow}
       </div>`;
-  } else {
-    return `
-      <div style="${markerStyle.container}">
-        <div style="${markerStyle.topArea}">${Math.round(buildingsData.area * 0.3025)}평</div>
-        <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${(buildingsData.price / 10000).toFixed(1)}억</strong></div>
-        <div style="${markerStyle.arrow}"></div>
-      </div>`;
-  }
+  // }
 };
 
 // 클러스터

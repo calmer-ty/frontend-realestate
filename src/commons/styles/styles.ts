@@ -32,25 +32,24 @@ export const mediaQueries = {
 
 // useAllMarkerMaps 안에 들어가는 마커
 const containerCommon = `
-  // position: relative;
   min-width: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #888;
   border-radius: 5px;
   color: #FFF;
 `;
+
 const topAreaCommon = `
   position: relative;
-    width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius-top-left: 5px;
-  border-radius-top-right: 5px;
+  border-radius: 5px 5px 0 0; /* 상단 좌우 모서리 반경 지정 */
   color: #FFF;
 `;
+
 const arrowCommon = `
   width: 14px;
   height: 14px;
@@ -75,7 +74,7 @@ export const markerStyle = {
     ${topAreaCommon}
     border: 1px solid #888;
     background-color: #888;
-    `,
+  `,
   topAreaActive: `
     ${topAreaCommon}
     border: 1px solid #1565c0;
@@ -83,15 +82,15 @@ export const markerStyle = {
   `,
   bottomArea: `
     display: flex;
+    justify-content: center;
     align-items: center;
     width: 100%;
     column-gap: 4px;
     padding: 2px;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
     background-color: #FFF;
     color: #000;
     text-align: center;
+    border-radius: 0 0 5px 5px; /* 하단 좌우 모서리 반경 지정 */
   `,
   bottom_unit1: `
     font-size: 12px;
@@ -108,14 +107,14 @@ export const markerStyle = {
 
 export const clusterStyle = {
   container: `
-      width:40px;
-      height:40px;
-      background-size:contain;
-      font-size:10px;
-      font-weight:bold;
-      line-height:42px;
-      color:white;
-      text-align:center;
-      cursor:pointer;
-    `,
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 42px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  `,
 };
