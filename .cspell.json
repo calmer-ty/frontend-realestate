@@ -1,0 +1,7 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignoreWords": ["naver", "geocode", "Firestore"],
+  "ignoreRegExpList": ["/\\b\\w+s\\b/"],
+  "dictionaries": ["default"]
+}
