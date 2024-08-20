@@ -36,12 +36,11 @@ export default function BuildingDetailPage({ params }: { params: IBuildingListPa
 
   if (loading) {
     return <LoadingSpinner size={100} />;
-    // return <div>LOADING...</div>;
   }
 
   if (buildingData === null) {
     return <div>Error fetching document.</div>;
   }
 
-  return <BuildingDetail buildingType={buildingData} />;
+  return <BuildingDetail buildingData={buildingData} />;
 }

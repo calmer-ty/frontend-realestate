@@ -14,26 +14,28 @@ export const ImgContainer = styled.section`
   width: 100%;
   height: 440px;
 `;
-export const ImgWrap = styled.figure`
+export const ImgInner = styled.figure`
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; /* 4개의 열 정의 */
   grid-template-rows: 1fr 1fr; /* 2개의 행 정의 */
   gap: 10px; /* 항목 사이의 간격 */
   width: 100%;
-  > div {
+  .imageWrap {
     position: relative;
+    background-color: #dedede;
     > img {
       position: absolute;
       top: 0;
       left: 0;
+      object-fit: cover;
     }
   }
-  > div:first-of-type {
+  .imageWrap:first-of-type {
     grid-column: span 2; /* 2열 차지 (50%) */
     grid-row: span 2; /* 2행 차지 */
   }
-  > div:not(:first-of-type) {
+  .imageWrap:not(:first-of-type) {
     grid-column: span 1; /* 하나의 열 차지 */
     grid-row: span 1; /* 하나의 행 차지 */
   }
