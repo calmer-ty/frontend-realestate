@@ -45,8 +45,6 @@ header {
   height: 60px;
   background-color: #fff;
   border-bottom: 1px solid #dedede;
-  /* position: fixed;
-  z-index: 110; */
 }
 #header-inner {
   display: flex;
@@ -67,14 +65,13 @@ main {
   justify-content: center;
   flex: 1;
   min-height: 100%;
-  /* margin-top: 60px; */
+  background-color: #fff;
 }
 #main-inner {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* background-color: #f9f9f9; */
 }
 
 #logo a {
