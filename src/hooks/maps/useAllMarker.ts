@@ -5,13 +5,10 @@ import { createMarkerClusteringOptions, loadScript, markerIconContent } from "@/
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
 
 export const useAllMarker = (props: IUseAllMarkerProps): void => {
-  // console.log("===== 렌더링 일어남 =====");
-  // console.log("props:::", props);
   const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null);
-  // const isClusterScriptLoadedRef = useRef(false); // 클러스터 스크립트 로딩 상태 추적
 
   const createMarker = useCallback(
     (coord: IGeocodeEtcData) => {
@@ -74,15 +71,9 @@ export const useAllMarker = (props: IUseAllMarkerProps): void => {
 
   const loadClusterScript = useCallback(
     (map: any) => {
-      // if (isClusterScriptLoadedRef.current) {
-      //   console.log("Cluster script already loaded");
-      //   return;
-      // }
-
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         console.log("Cluster script loaded and executing");
-        // isClusterScriptLoadedRef.current = true;
         window.naver.maps.Event.addListener(map, "idle", () => {
           updateVisibleMarkers(map);
         });

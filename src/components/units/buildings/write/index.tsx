@@ -48,7 +48,6 @@ export default function BuildingWrite(): JSX.Element {
     }
   };
   const selectedTypeEng = getFirestoreCollectionName(selectedType);
-  console.log("collectionName", selectedTypeEng);
 
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
@@ -76,17 +75,6 @@ export default function BuildingWrite(): JSX.Element {
       if (error instanceof Error) console.error(error.message);
     }
   };
-
-  // // 조회 버튼 클릭 시 Firestore에서 데이터를 가져오는 함수입니다
-  // const onClickFetch = async (): Promise<void> => {
-  //   try {
-  //     const querySnapshot = await getDocs(collection(db, selectedTypeEng)); // 컬렉션을 참조합니다
-  //     const datas = querySnapshot.docs.map((el) => el.data()); // 각 문서의 데이터를 추출하여 배열에 저장합니다
-  //     console.log(datas);
-  //   } catch (error) {
-  //     if (error instanceof Error) console.error(error.message);
-  //   }
-  // };
 
   return (
     <>

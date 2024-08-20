@@ -19,7 +19,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
-      console.log("Data already fetched, skipping fetchData");
+      console.log("이미  geocodeResults 데이터가 있어서 재패치 하지 않습니다.");
       return;
     }
 

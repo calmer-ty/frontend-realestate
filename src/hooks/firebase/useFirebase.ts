@@ -16,8 +16,6 @@ export const useFirebase = (): IUseFirebaseProps => {
       await updateDoc(docRef, {
         _id: docRef.id,
       });
-
-      console.log("Document written with ID: ", docRef.id);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -26,13 +24,14 @@ export const useFirebase = (): IUseFirebaseProps => {
   const readFirebaseData = useCallback(async (data: IFirebaseData): Promise<void> => {
     const docRef = doc(db, data.type, data._id);
     try {
-      const docSnap = await getDoc(docRef);
+      // const docSnap = await getDoc(docRef);
+      await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
+      // if (docSnap.exists()) {
+      //   console.log("Document data:", docSnap.data());
+      // } else {
+      //   console.log("No such document!");
+      // }
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

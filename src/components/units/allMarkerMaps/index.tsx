@@ -27,11 +27,6 @@ export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMark
     void readBuildings();
   }, [readFirebaseDatas]);
 
-  // console.log("geocodeResults: ", geocodeResults);
-  // console.log("setVisibleMarkerDatas: ", setVisibleMarkerDatas);
-  // console.log("setSelectedMarkerData: ", setSelectedMarkerData);
-  // console.log("firebaseDatas: ", firebaseDatas);
-
   useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
 
   return (
