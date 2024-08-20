@@ -16,6 +16,7 @@ import UnImageBasic from "../../commons/unImages/basic";
 import type { MouseEventHandler } from "react";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
+import LoadingSpinner from "../../commons/loadingSpinner";
 
 export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
@@ -41,85 +42,85 @@ export default function Home(): JSX.Element {
     void readBuildings();
   }, [readFirebaseDatas]);
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
+  console.log("randomFirebaseDatas::", randomFirebaseDatas);
 
   return (
     <S.Container>
       <S.Maps>
-        <div>
+        <div className="inner">
           <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
             <Link href="/buildings/apartment">
-              <S.TextWrap>
+              <div className="textWrap">
                 <h2>아파트</h2>
                 <p>거래된 목록들이 지도에!</p>
-              </S.TextWrap>
-              <S.IconWrap>
+              </div>
+              <div className="iconWrap">
                 <LocationCityIcon fontSize="large" color="primary" />
-              </S.IconWrap>
+              </div>
             </Link>
           </S.BuildingType>
-          {/* {loading && <p>Loading...</p>}
-          {error !== null && <p>Error loading data: {error.message}</p>} */}
-          <S.BuildingTypeU>
+          <S.UnBuildingType>
             {/* <Link href="/"> */}
             <a href="#">
-              <S.TextWrap>
+              <div className="textWrap">
                 <h2>주택/빌라</h2>
                 <p>준비중</p>
-              </S.TextWrap>
-              <S.IconWrap>
+              </div>
+              <div className="iconWrap">
                 <HomeIcon fontSize="large" color="primary" />
-              </S.IconWrap>
+              </div>
             </a>
             {/* </Link> */}
-          </S.BuildingTypeU>
-          <S.BuildingTypeU>
+          </S.UnBuildingType>
+          <S.UnBuildingType>
             {/* <Link href="/"> */}
             <a href="#">
-              <S.TextWrap>
+              <div className="textWrap">
                 <h2>오피스텔</h2>
                 <p>준비중</p>
-              </S.TextWrap>
-              <S.IconWrap>
+              </div>
+              <div className="iconWrap">
                 <MapsHomeWorkIcon fontSize="large" color="primary" />
-              </S.IconWrap>
+              </div>
             </a>
             {/* </Link> */}
-          </S.BuildingTypeU>
+          </S.UnBuildingType>
         </div>
       </S.Maps>
       <S.Registered>
-        <div>
+        <div className="inner">
           <h2>추천드리는 매물입니다.</h2>
-          <ul>
-            {randomFirebaseDatas.map((el) => (
-              <S.RegisteredItem key={el._id} onMouseEnter={() => readFirebaseData(el)}>
-                <Link href={`/buildings/${el.type}/${el._id}`}>
-                  <div className="imageWrap">
-                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={300} height={200} alt={el.type} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
-                  </div>
-                  <p className="buildingDesc">
-                    <span>
-                      {el.type}・{el.addressDetail}
-                    </span>
-                    <strong>
-                      매매 {isBillion(el.price)}
-                      {isTenMillion(el.price)} 원
-                    </strong>
-                    <span>
-                      {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
-                    </span>
-                  </p>
-                </Link>
-              </S.RegisteredItem>
-            ))}
-          </ul>
+          <div className="contents">
+            {randomFirebaseDatas.length !== 0 ? (
+              <S.RegisteredList>
+                {randomFirebaseDatas.map((el) => (
+                  <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
+                    <Link href={`/buildings/${el.type}/${el._id}`}>
+                      <div className="imageWrap">
+                        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} fill /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
+                      </div>
+                      <p className="buildingDesc">
+                        <span>
+                          {el.type}・{el.addressDetail}
+                        </span>
+                        <strong>
+                          매매 {isBillion(el.price)}
+                          {isTenMillion(el.price)} 원
+                        </strong>
+                        <span>
+                          {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
+                        </span>
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </S.RegisteredList>
+            ) : (
+              <LoadingSpinner size={100} />
+            )}
+          </div>
         </div>
       </S.Registered>
-      {/* <S.Option>
-        <div>
-          <ChartTest />
-        </div>
-      </S.Option> */}
     </S.Container>
   );
 }
