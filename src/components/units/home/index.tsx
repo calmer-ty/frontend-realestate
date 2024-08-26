@@ -12,11 +12,11 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
 import UnImageBasic from "../../commons/unImages/basic";
+import LoadingSpinner from "../../commons/loadingSpinner";
 
 import type { MouseEventHandler } from "react";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
-import LoadingSpinner from "../../commons/loadingSpinner";
 
 export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
@@ -95,9 +95,7 @@ export default function Home(): JSX.Element {
                 {randomFirebaseDatas.map((el) => (
                   <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
                     <Link href={`/buildings/${el.type}/${el._id}`}>
-                      <div className="imageWrap">
-                        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} fill /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
-                      </div>
+                      {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
                       <p className="buildingDesc">
                         <span>
                           {el.type}・{el.addressDetail}

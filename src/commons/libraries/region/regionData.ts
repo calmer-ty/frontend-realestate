@@ -37,9 +37,10 @@ export const regionData = async (city: string): Promise<IRegionData> => {
   try {
     const regionData = await regionApi(city);
     setRegionCache(cacheKey, regionData);
+
+    console.log("regionData~", regionData);
     return regionData;
   } catch (error) {
-    // console.error(`${city}의 지역 데이터를 가져오지 못했습니다:`, error);
     throw new Error(`${city}의 지역 데이터를 가져오는 데 실패했습니다`); // 에러를 throw하여 호출자에게 전달합니다
   }
 };

@@ -121,28 +121,25 @@ export const RegisteredList = styled.ul`
   width: 100%;
   > li {
     > a {
+      position: relative;
       display: flex;
       flex-direction: column;
       row-gap: 10px;
       /* 이미지 랩 */
-      .imageWrap {
-        width: 300px;
-        height: 200px;
-        position: relative;
-        > img {
-          object-fit: cover;
-        }
-        ::before {
-          content: "";
-          display: none;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-color: #000;
-          opacity: 0.3;
-          z-index: 1;
-        }
+      > img {
+        object-fit: cover;
       }
+      ::before {
+        content: "";
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
       > p.buildingDesc {
         display: flex;
         flex-direction: column;
@@ -152,10 +149,8 @@ export const RegisteredList = styled.ul`
         }
       }
       :hover {
-        .imageWrap {
-          ::before {
-            display: block;
-          }
+        ::before {
+          display: block;
         }
       }
     }

@@ -3,11 +3,11 @@ import styled from "@emotion/styled";
 export const Container = styled.article`
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 40px;
   height: 100%;
   width: 100%;
-  padding: 40px;
   max-width: 1024px;
+  padding: 60px 0;
 `;
 export const ImgContainer = styled.section`
   display: flex;
@@ -16,35 +16,37 @@ export const ImgContainer = styled.section`
 `;
 export const ImgInner = styled.figure`
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; /* 4개의 열 정의 */
-  grid-template-rows: 1fr 1fr; /* 2개의 행 정의 */
-  gap: 10px; /* 항목 사이의 간격 */
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  .imageWrap {
+  > img {
     position: relative;
-    background-color: #dedede;
-    > img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      object-fit: cover;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+  }
+
+  .subImgWrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    gap: 5px;
+    width: 507px;
+    height: 100%;
+    > div {
+      width: calc(50% - 5px);
+      height: calc(50% - 5px);
+      > img {
+        object-fit: cover;
+      }
     }
-  }
-  .imageWrap:first-of-type {
-    grid-column: span 2; /* 2열 차지 (50%) */
-    grid-row: span 2; /* 2행 차지 */
-  }
-  .imageWrap:not(:first-of-type) {
-    grid-column: span 1; /* 하나의 열 차지 */
-    grid-row: span 1; /* 하나의 행 차지 */
   }
 `;
 export const BuildingInfo = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
-  padding: 20px;
 `;
 export const InfoItem = styled.div`
   display: flex;

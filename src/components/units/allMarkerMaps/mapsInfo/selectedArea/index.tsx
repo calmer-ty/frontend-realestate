@@ -58,9 +58,7 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
               {matchedFirebaseData.map((el, index) => (
                 <li key={`${el.type}_${el.address}_${index}`}>
                   <Link href={`/buildings/${buildingType}/${el._id}`}>
-                    <div className="imageWrap">
-                      {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <UnImageBasic width="80px" height="80px" fontSize="24px" />}
-                    </div>
+                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <UnImageBasic width="80px" height="80px" fontSize="24px" />}
                     <p>
                       <strong>
                         매매 {isBillion(el.price)}
