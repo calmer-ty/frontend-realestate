@@ -38,7 +38,6 @@ export const regionData = async (city: string): Promise<IRegionData> => {
     const regionData = await regionApi(city);
     setRegionCache(cacheKey, regionData);
 
-    console.log("regionData~", regionData);
     return regionData;
   } catch (error) {
     throw new Error(`${city}의 지역 데이터를 가져오는 데 실패했습니다`); // 에러를 throw하여 호출자에게 전달합니다
@@ -52,8 +51,8 @@ export const regionAllData = async (): Promise<IRegionItem[]> => {
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
     const filteredRegionDatas = regionDatas.flatMap((data) =>
-      data.StanReginCd[1].row
-        .filter((el) => el.umd_cd === "000" && el.sgg_cd !== "000")
+      data?.StanReginCd[1]?.row
+        ?.filter((el) => el.umd_cd === "000" && el.sgg_cd !== "000")
         .map((el) => ({
           locatadd_nm: el.locatadd_nm,
           region_cd: el.region_cd.slice(0, 5),
