@@ -55,6 +55,5 @@
   },
   "resolutions": {
     "@types/react": "18"
-  },
-  "packageManager": "yarn@4.4.1"
+  }
 }
