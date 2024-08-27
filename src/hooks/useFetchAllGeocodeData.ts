@@ -25,7 +25,9 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
     setLoading(true);
     setError(null);
     try {
-      console.log("Making API request with params:", { buildingType });
+      const url = `/api/fetchAllGeocode`;
+      console.log("Making API request to:", url, "with params:", { buildingType });
+
       const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
