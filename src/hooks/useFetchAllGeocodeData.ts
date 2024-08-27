@@ -8,11 +8,9 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  console.log("useFetchAllGeocodeData buildingType: ", buildingType);
 
   const fetchData = useCallback(async () => {
     // buildingType이 없거나 빈 문자열인 경우 패칭을 하지 않도록 함
-    // if (typeof buildingType !== "string" || buildingType.trim() === "") {
     if (typeof buildingType !== "string") {
       console.warn("Invalid buildingType, skipping fetchData");
       return;
@@ -31,6 +29,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
         params: { buildingType },
       });
       setGeocodeResults(response.data);
+      console.log("API response data:", response.data);
     } catch (error) {
       setError(error as Error);
     } finally {
