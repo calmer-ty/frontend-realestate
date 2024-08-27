@@ -30,6 +30,7 @@ export default function Home(): JSX.Element {
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
+    console.log("Fetching data for buildingType:", buildingType);
     setCurrentBuildingType(buildingType);
   };
 
