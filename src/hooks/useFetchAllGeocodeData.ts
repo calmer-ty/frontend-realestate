@@ -25,12 +25,14 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
     setLoading(true);
     setError(null);
     try {
+      console.log("Making API request...");
       const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
-      setGeocodeResults(response.data);
       console.log("API response data:", response.data);
+      setGeocodeResults(response.data);
     } catch (error) {
+      console.error("Error fetching data:", error);
       setError(error as Error);
     } finally {
       setLoading(false);
