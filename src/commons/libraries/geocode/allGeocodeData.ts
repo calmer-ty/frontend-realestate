@@ -6,7 +6,7 @@ import type { IApartmentItem, IApartmentLocationData, IGeocodeEtcData } from "@/
 
 export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {
   let results: IApartmentLocationData[];
-
+  console.log("allGeocodeData buildingType: ", buildingType);
   // buildingType에 따른 데이터 호출
   switch (buildingType) {
     case "apartment":
