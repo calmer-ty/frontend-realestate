@@ -5,10 +5,10 @@ import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 import type { IGeocodeEtcData, IUseFetchAllGeocodeDataProps } from "@/src/commons/types";
 
 export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocodeDataProps => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  console.log("useFetchAllGeocodeData buildingType: ", buildingType);
 
   const fetchData = useCallback(async () => {
     // buildingType이 없거나 빈 문자열인 경우 패칭을 하지 않도록 함
@@ -27,7 +27,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get<IGeocodeEtcData[]>(`${apiUrl}/api/fetchAllGeocode`, {
+      const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
       setGeocodeResults(response.data);
@@ -36,7 +36,7 @@ export const useFetchAllGeocodeData = (buildingType: string): IUseFetchAllGeocod
     } finally {
       setLoading(false);
     }
-  }, [apiUrl, buildingType, setGeocodeResults, geocodeResults.length]);
+  }, [buildingType, setGeocodeResults, geocodeResults.length]);
 
   useEffect(() => {
     if (typeof buildingType === "string") {
