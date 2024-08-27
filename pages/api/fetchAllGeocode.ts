@@ -2,6 +2,7 @@ import { allGeocodeData } from "@/src/commons/libraries/geocode/allGeocodeData";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+  console.log("handler:", req.query);
   const { buildingType } = req.query; // 쿼리 문자열에서 buildingType을 추출합니다.
   try {
     const data = await allGeocodeData(buildingType as string); // 지역 데이터 처리 함수를 호출하고 결과를 기다립니다
