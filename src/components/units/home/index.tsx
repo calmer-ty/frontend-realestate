@@ -20,11 +20,13 @@ import * as S from "./styles";
 
 export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
+  const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
+  const { readFirebaseDatas } = useFirebase();
+
   // 데이터 프리로딩
   useFetchAllGeocodeData(currentBuildingType);
-  const { readFirebaseData, readFirebaseDatas } = useFirebase();
 
-  // 마우스 오버 시 데이터 설정
+  // 상단 버튼 선택 시 데이터 패치
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
@@ -32,13 +34,12 @@ export default function Home(): JSX.Element {
   };
 
   // firebaseDatas
-  const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
+      // 임시로 아파트만 랜덤 렌더링
       const datas = await readFirebaseDatas("apartment");
       setFirebaseDatas(datas);
     };
-
     void readBuildings();
   }, [readFirebaseDatas]);
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
@@ -93,7 +94,8 @@ export default function Home(): JSX.Element {
             {randomFirebaseDatas.length !== 0 ? (
               <S.RegisteredList>
                 {randomFirebaseDatas.map((el) => (
-                  <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
+                  // <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
+                  <li key={el._id}>
                     <Link href={`/buildings/${el.type}/${el._id}`}>
                       {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
                       <p className="buildingDesc">
