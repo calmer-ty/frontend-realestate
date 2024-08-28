@@ -4,8 +4,6 @@ import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 import type { IGeocodeEtcData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
-  console.log(buildingType);
-  console.log(typeof buildingType);
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -23,7 +21,6 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
       const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
-      console.log("API response data:", response.data);
       setGeocodeResults(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
