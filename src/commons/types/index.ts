@@ -126,7 +126,7 @@ export interface IUseAllMarkerProps {
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
   firebaseDatas: IFirebaseData[];
 }
-export interface IUseFetchAllGeocodeDataProps {
+export interface IUseFetchAllGeocodeProps {
   geocodeResults: IGeocodeEtcData[];
   loading: boolean;
   error: Error | null;

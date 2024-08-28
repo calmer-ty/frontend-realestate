@@ -6,10 +6,10 @@ import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import type { IBuildingParams } from "@/src/commons/types";
-import { useFetchAllGeocodeData } from "@/src/hooks/useFetchAllGeocodeData";
+import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
 
 function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
-  const { geocodeResults, loading, error } = useFetchAllGeocodeData(buildingType);
+  const { geocodeResults, loading, error } = useFetchAllGeocode(buildingType);
 
   if (loading) {
     return <LoadingSpinner size={100} />;

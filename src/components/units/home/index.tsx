@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useFetchAllGeocodeData } from "@/src/hooks/useFetchAllGeocodeData";
+import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
@@ -31,7 +31,7 @@ export default function Home(): JSX.Element {
   };
 
   // 데이터 프리로딩
-  useFetchAllGeocodeData(currentBuildingType);
+  useFetchAllGeocode(currentBuildingType);
 
   // firebaseDatas
   useEffect(() => {
