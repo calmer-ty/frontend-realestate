@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
-
 import type { IFirebaseData, IUseFirebaseProps } from "@/src/commons/types";
 
 export const useFirebase = (): IUseFirebaseProps => {

@@ -1,7 +1,6 @@
 import axios from "axios";
-import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate"; // 유틸리티 함수 가져오기
-
-import type { IApartmentData, IRegionItem } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
+import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
+import type { IApartmentData, IRegionItem } from "@/src/commons/types";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 

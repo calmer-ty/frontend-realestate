@@ -1,11 +1,9 @@
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
-
 import Link from "next/link";
 import Image from "next/image";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import UnImageBasic from "@/src/components/commons/unImages/basic";
-
 import type { ISelectedAreaProps } from "./types";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";

@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
-
-import { Button } from "@mui/material";
-
 import Image from "next/image";
+import { Button } from "@mui/material";
 
 export const FilePreview = styled.div`
   display: flex;

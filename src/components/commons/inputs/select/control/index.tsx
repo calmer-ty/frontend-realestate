@@ -3,9 +3,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Controller } from "react-hook-form";
 import { InputLabel } from "@mui/material";
-
 import type { ISelectControl } from "./types";
-// import * as S from "./styles";
 
 export default function SelectControl(props: ISelectControl): JSX.Element {
   return (

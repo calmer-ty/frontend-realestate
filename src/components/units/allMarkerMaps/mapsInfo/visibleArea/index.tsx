@@ -1,7 +1,5 @@
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
-
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 

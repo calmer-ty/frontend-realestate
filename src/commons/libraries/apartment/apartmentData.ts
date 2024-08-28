@@ -1,7 +1,7 @@
 import { regionAllData } from "../region/regionData";
+import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import type { IApartmentLocationData } from "@/src/commons/types";
-import { apartmentApi } from "./apartmentApi";
 
 export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
   try {

@@ -1,8 +1,7 @@
 import SelectedArea from "./selectedArea";
-
+import VisibleArea from "./visibleArea";
 import type { IMapsInfoProps } from "./types";
 import * as S from "./styles";
-import VisibleArea from "./visibleArea";
 
 export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   return (

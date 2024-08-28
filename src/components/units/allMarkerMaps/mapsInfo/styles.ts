@@ -1,6 +1,5 @@
 import { mediaQueries } from "@/src/commons/styles/styles";
 import { css } from "@emotion/react";
-
 import styled from "@emotion/styled";
 
 export const Container = styled.aside`

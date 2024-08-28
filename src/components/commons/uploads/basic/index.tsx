@@ -1,11 +1,8 @@
 import { useRef, useState } from "react";
-
+import { checkValidationImg } from "@/src/commons/libraries/validation";
 import AddIcon from "@mui/icons-material/Add";
 import ModalBasic from "../../modal/basic";
 import CloseIcon from "@mui/icons-material/Close";
-
-import { checkValidationImg } from "@/src/commons/libraries/validation";
-
 import type { ChangeEvent, RefObject } from "react";
 import type { IFileWithPreview, IUploadBasicProps } from "./types";
 import * as S from "./styles";

@@ -1,7 +1,6 @@
 import { apartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
-
 import type { IApartmentItem, IApartmentLocationData, IGeocodeEtcData } from "@/src/commons/types";
 
 export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcData[]> => {

@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const data = await selectGeocodeData(address); // 지역 데이터 처리 함수를 호출하고 결과를 기다립니다
+    const data = await selectGeocodeData(address);
     res.status(200).json(data); // 성공적으로 데이터를 받아 클라이언트에게 JSON 형태로 응답합니다
   } catch (error) {
     console.error("Error processing request:", error);

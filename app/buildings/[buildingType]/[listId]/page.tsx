@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import BuildingDetail from "@/src/components/units/buildings/detail";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-
-import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
+import BuildingDetail from "@/src/components/units/buildings/detail";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
 
 export default function BuildingDetailPage({ params }: { params: IBuildingListParams }): JSX.Element {
   const { buildingType, listId } = params;

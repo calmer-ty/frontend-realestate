@@ -1,6 +1,5 @@
-import { clusterStyle, markerStyle } from "@/src/commons/styles/styles";
 import { shortenCityName } from "./regex";
-
+import { clusterStyle, markerStyle } from "@/src/commons/styles/styles";
 import type { IFirebaseData, IMarkerData } from "@/src/commons/types";
 
 interface IGetMapInitOptionsProps {

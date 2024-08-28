@@ -1,6 +1,6 @@
-import type { IRegionData, IRegionItem } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
-import { getCachedRegionData, setRegionCache } from "./regionCache";
 import { regionApi } from "./regionApi";
+import { getCachedRegionData, setRegionCache } from "./regionCache";
+import type { IRegionData, IRegionItem } from "@/src/commons/types";
 
 // 지역 데이터를 가져올 도시 리스트
 const cities = [

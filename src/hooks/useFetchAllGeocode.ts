@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
-
 import type { IGeocodeEtcData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {

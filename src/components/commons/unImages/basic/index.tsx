@@ -1,5 +1,4 @@
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
-
 import type { IUnImageBasicProps } from "./types";
 import * as S from "./styles";
 
