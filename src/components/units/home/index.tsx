@@ -23,15 +23,15 @@ export default function Home(): JSX.Element {
   const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
   const { readFirebaseDatas } = useFirebase();
 
-  // 데이터 프리로딩
-  useFetchAllGeocodeData(currentBuildingType);
-
   // 상단 버튼 선택 시 데이터 패치
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     const buildingType = target.getAttribute("data-href") ?? "";
     setCurrentBuildingType(buildingType);
   };
+
+  // 데이터 프리로딩
+  useFetchAllGeocodeData(currentBuildingType);
 
   // firebaseDatas
   useEffect(() => {
