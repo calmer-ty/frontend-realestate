@@ -15,6 +15,7 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     return <LoadingSpinner size={100} />;
   }
   if (error !== null) {
+    console.error("Error loading data:", error);
     return <p>Error loading data: {error.message}</p>;
   }
 
