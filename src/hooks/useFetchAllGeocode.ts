@@ -38,10 +38,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
 
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType !== "") {
-      // 모바일 환경이거나 PC 환경일 때 fetchData 호출
-      if (isMobile() || !isMobile()) {
-        void fetchData();
-      }
+      void fetchData();
     }
   }, [buildingType, fetchData, loading]); // fetchData가 변경될 때도 실행됨
 
