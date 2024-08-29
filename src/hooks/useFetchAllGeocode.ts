@@ -8,6 +8,10 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
+  const isMobile = (): boolean => {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  };
+
   const fetchData = useCallback(async () => {
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
@@ -31,10 +35,13 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
   }, [buildingType, setGeocodeResults, geocodeResults.length]);
 
   useEffect(() => {
-    if (typeof buildingType === "string" && buildingType !== "") {
-      void fetchData();
+    if (typeof buildingType === "string" && buildingType !== "" && !loading) {
+      // 모바일 환경이거나 PC 환경일 때 fetchData 호출
+      if (isMobile() || !isMobile()) {
+        void fetchData();
+      }
     }
-  }, [buildingType, fetchData]); // fetchData가 변경될 때도 실행됨
+  }, [buildingType, fetchData, loading]); // fetchData가 변경될 때도 실행됨
 
   return { geocodeResults, loading, error };
 };
