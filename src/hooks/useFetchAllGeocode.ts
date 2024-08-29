@@ -8,11 +8,13 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const isMobile = (): boolean => {
-    return /Mobi|Android/i.test(navigator.userAgent);
-  };
-
   const fetchData = useCallback(async () => {
+    // buildingType이 비어있지 않을 때만 요청
+    if (typeof buildingType !== "string" && buildingType === "") {
+      console.log("buildingType이 비어있어 데이터를 요청하지 않습니다.");
+      return;
+    }
+
     // 이미 데이터가 있는 경우 패칭을 하지 않음
     if (geocodeResults.length > 0) {
       console.log("이미  geocodeResults 데이터가 있어서 재패치 하지 않습니다.");
@@ -35,7 +37,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
   }, [buildingType, setGeocodeResults, geocodeResults.length]);
 
   useEffect(() => {
-    if (typeof buildingType === "string" && buildingType !== "" && !loading) {
+    if (typeof buildingType === "string" && buildingType !== "") {
       // 모바일 환경이거나 PC 환경일 때 fetchData 호출
       if (isMobile() || !isMobile()) {
         void fetchData();
