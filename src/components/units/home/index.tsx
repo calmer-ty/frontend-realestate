@@ -49,7 +49,7 @@ export default function Home(): JSX.Element {
       <S.Maps>
         <div className="inner">
           <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
-            <Link href="/buildings/apartment">
+            <Link href="/buildings/apartment" prefetch={false}>
               <div className="textWrap">
                 <h2>아파트</h2>
                 <p>거래된 목록들이 지도에!</p>
