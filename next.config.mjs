@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   images: {
+    domains: ["firebasestorage.googleapis.com", "calmer96.store"],
     remotePatterns: [
       {
         protocol: "https",
