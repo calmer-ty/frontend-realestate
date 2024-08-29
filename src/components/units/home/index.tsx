@@ -97,7 +97,8 @@ export default function Home(): JSX.Element {
                   // <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
                   <li key={el._id}>
                     <Link href={`/buildings/${el.type}/${el._id}`}>
-                      {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
+                      {/* <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> */}
+                      {el.imageUrls?.[0] !== undefined ? <img src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
                       <p className="buildingDesc">
                         <span>
                           {el.type}・{el.addressDetail}
