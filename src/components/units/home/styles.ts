@@ -17,7 +17,7 @@ export const Container = styled.article`
       row-gap: 10px;
       height: 100%;
       margin: 0 auto;
-      max-width: 1280px;
+      max-width: 1024px;
     }
   }
 `;

@@ -42,7 +42,7 @@ export default function Home(): JSX.Element {
     };
     void readBuildings();
   }, [readFirebaseDatas]);
-  const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 4);
+  const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 3);
 
   return (
     <S.Container>
