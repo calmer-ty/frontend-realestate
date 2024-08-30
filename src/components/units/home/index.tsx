@@ -49,7 +49,7 @@ export default function Home(): JSX.Element {
       <S.Maps>
         <div className="inner">
           <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
-            <Link href="/buildings/apartment">
+            <Link href="/apartment">
               <div className="textWrap">
                 <h2>아파트</h2>
                 <p>거래된 목록들이 지도에!</p>
@@ -96,7 +96,7 @@ export default function Home(): JSX.Element {
                 {randomFirebaseDatas.map((el) => (
                   // <li key={el._id} onMouseEnter={() => readFirebaseData(el)}>
                   <li key={el._id}>
-                    <Link href={`/buildings/${el.type}/${el._id}`}>
+                    <Link href={`/${el.type}/${el._id}`}>
                       {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
                       <p className="buildingDesc">
                         <span>

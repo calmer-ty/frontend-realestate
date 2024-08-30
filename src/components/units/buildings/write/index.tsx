@@ -70,7 +70,7 @@ export default function BuildingWrite(): JSX.Element {
       // Firestore에 데이터 추가
       await createFirebaseData(formData, selectedTypeEng);
 
-      router.push(`/buildings/${selectedTypeEng}/`);
+      router.push(`/${selectedTypeEng}/`);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
