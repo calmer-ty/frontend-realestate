@@ -1,5 +1,3 @@
-import { mediaQueries } from "@/src/commons/styles/styles";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const Container = styled.aside`
@@ -10,8 +8,4 @@ export const Container = styled.aside`
   border-right: 1px solid #dedede;
   background-color: #fff;
   z-index: 1;
-
-  ${mediaQueries.largeDesktop(css`
-    flex: 2;
-  `)}
 `;
