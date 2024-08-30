@@ -37,6 +37,11 @@ button {
   min-width: 1024px;
   min-height: 100%;
 }
+@media screen and (max-width: 480px) {
+  #wrapper {
+    min-width: initial;
+  }
+}
 header {
   display: flex;
   justify-content: center;
