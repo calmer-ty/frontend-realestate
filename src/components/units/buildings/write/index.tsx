@@ -83,8 +83,8 @@ export default function BuildingWrite(): JSX.Element {
           <TitleUnderline label="매물 정보" />
           <S.InfoContent>
             <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
-            <S.InputWrap>
-              <S.AddressWrap>
+            <S.MapView>
+              <S.AddressSearch>
                 <S.InputWrap>
                   <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
                   <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
@@ -94,7 +94,7 @@ export default function BuildingWrite(): JSX.Element {
                 <S.InputWrap>
                   <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
                 </S.InputWrap>
-              </S.AddressWrap>
+              </S.AddressSearch>
               <S.MapsWrap>
                 {selectedAddress === "" ? (
                   <S.MapsCover>
@@ -105,9 +105,9 @@ export default function BuildingWrite(): JSX.Element {
                 ) : (
                   <></>
                 )}
-                <div id="map" style={{ width: "400px", height: "200px" }}></div>
+                <div id="map"></div>
               </S.MapsWrap>
-            </S.InputWrap>
+            </S.MapView>
             <S.InputWrap>
               <TextFieldBasic required role="input-area" type="number" step="0.01" label="매물 크기" register={register("area")} />
               <UnitBasic label="m²" />
@@ -152,7 +152,7 @@ export default function BuildingWrite(): JSX.Element {
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="사진 등록" desc="이미지 용량(5MB 이하), 파일 확장자(jpeg/png/webp)" />
+          <TitleUnderline label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
           <UploadBasic onFilesChange={setSelectedFiles} />
         </S.InfoContainer>
 
@@ -160,9 +160,6 @@ export default function BuildingWrite(): JSX.Element {
           <Button role="submit-button" type="submit" variant="contained">
             등록하기
           </Button>
-          {/* <Button onClick={onClickFetch} variant="outlined">
-            조회하기
-          </Button> */}
         </S.Footer>
       </S.Form>
     </>

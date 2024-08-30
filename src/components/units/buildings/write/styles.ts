@@ -1,3 +1,5 @@
+import { mediaQueries } from "@/src/commons/styles/styles";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const Form = styled.form`
@@ -27,16 +29,39 @@ export const InputWrap = styled.div`
   column-gap: 10px;
   width: 100%;
 `;
-export const AddressWrap = styled.div`
+
+export const AddressSearch = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  width: 50%;
   align-self: flex-start;
+  ${mediaQueries.mobile(css`
+    width: 100%;
+    flex-direction: column;
+  `)}
+`;
+export const MapView = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  ${mediaQueries.mobile(css`
+    flex-direction: column;
+  `)}
 `;
 export const MapsWrap = styled.div`
   position: relative;
-  width: 400px;
-  height: 200px;
+  width: 50%;
+  height: 100%;
+  ${mediaQueries.mobile(css`
+    width: 100%;
+  `)}
+  #map {
+    width: 100%;
+    height: 220px;
+  }
 `;
 export const MapsCover = styled.div`
   position: absolute;
@@ -45,8 +70,8 @@ export const MapsCover = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   border: 1px solid #dedede;
   background-color: #efefef;
   text-align: center;
