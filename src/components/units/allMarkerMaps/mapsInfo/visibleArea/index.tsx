@@ -1,33 +1,53 @@
+import { useEffect, useState } from "react";
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import type { IMarkerData } from "@/src/commons/types";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
+  const [select, setSelect] = useState(false);
+  const onClickInfo = (el: IMarkerData): void => {
+    console.log(el);
+    setSelect((prev) => !prev);
+  };
+
+  useEffect(() => {
+    setSelect(false);
+  }, [props.visibleMarkerDatas]);
+
   return (
     <S.VisibleArea>
       {props.visibleMarkerDatas.length !== 0 ? (
         <S.Visible>
-          <ul>
-            {props.visibleMarkerDatas.map((el, index) => {
-              const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
+          {!select && (
+            <ul>
+              {props.visibleMarkerDatas.map((el, index) => {
+                const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
 
-              return (
-                <li key={`${el.address}_${index}`}>
-                  <h2>
-                    매매 {isBillion(el.price)}&nbsp;
-                    {isTenMillion(el.price)}원
-                  </h2>
-                  <p>
-                    아파트・{el.buildingName}
-                    <br />
-                    {el.area}m² {el.floor}층
-                  </p>
-                  <div>{matchingFirebaseData && <>매물있음</>}</div>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li
+                    key={`${el.address}_${index}`}
+                    onClick={() => {
+                      onClickInfo(el);
+                    }}
+                  >
+                    <h2>
+                      매매 {isBillion(el.price)}&nbsp;
+                      {isTenMillion(el.price)}원
+                    </h2>
+                    <p>
+                      아파트・{el.buildingName}
+                      <br />
+                      {el.area}m² {el.floor}층
+                    </p>
+                    <div>{matchingFirebaseData && <>매물있음</>}</div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {select && <div>선택됨</div>}
         </S.Visible>
       ) : (
         <S.UnVisible>
