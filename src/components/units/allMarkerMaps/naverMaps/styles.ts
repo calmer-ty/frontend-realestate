@@ -11,4 +11,7 @@ export const containerStyle = css`
   ${mediaQueries.largeDesktop(css`
     flex: 2;
   `)}
+  ${mediaQueries.mobile(css`
+    flex: 1;
+  `)}
 `;

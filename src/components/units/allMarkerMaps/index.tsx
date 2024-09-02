@@ -32,8 +32,8 @@ export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMark
   return (
     <>
       <div css={mapStyle}>
-        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
         <NaverMaps geocodeResults={geocodeResults} />
+        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
       </div>
     </>
   );

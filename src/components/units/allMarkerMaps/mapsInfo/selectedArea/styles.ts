@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 // 클릭 된 건물 상세 정보
-export const SelectedArea = styled.section`
+export const SelectedArea = styled.article`
   display: flex;
   flex-direction: column;
   row-gap: 20px;

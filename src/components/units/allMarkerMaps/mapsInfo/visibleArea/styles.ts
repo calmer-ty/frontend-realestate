@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const VisibleArea = styled.section`
+export const VisibleArea = styled.article`
   height: 100%;
 `;
 export const Visible = styled.section`

@@ -6,3 +6,7 @@ export interface IMapsInfoProps {
   firebaseDatas: IFirebaseData[];
   buildingType: string;
 }
+
+export interface IScroll {
+  scroll: boolean;
+}
