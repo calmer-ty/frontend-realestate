@@ -20,7 +20,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
         {props.selectedMarkerData !== null ? (
           <SelectedArea selectedMarkerData={props.selectedMarkerData} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
         ) : (
-          <VisibleArea visibleMarkerDatas={props.visibleMarkerDatas} firebaseDatas={props.firebaseDatas} />
+          <VisibleArea visibleMarkerDatas={props.visibleMarkerDatas} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
         )}
       </S.Container>
     </>

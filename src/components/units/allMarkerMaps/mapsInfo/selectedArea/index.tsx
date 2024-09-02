@@ -15,7 +15,7 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
   );
 
   return (
-    <S.SelectedArea>
+    <S.Container>
       <S.BuildingInfo>
         <S.InfoWrap>
           <h2>{selectedMarkerData.buildingName}</h2>
@@ -83,6 +83,6 @@ export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
           </S.UnRegistered>
         )}
       </S.RegisteredInfo>
-    </S.SelectedArea>
+    </S.Container>
   );
 }
