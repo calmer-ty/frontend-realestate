@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectedArea from "./selectedArea";
 import VisibleArea from "./visibleArea";
 import type { IMapsInfoProps } from "./types";
@@ -8,9 +8,14 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const { selectedMarkerData, visibleMarkerDatas, buildingType, firebaseDatas } = props;
   const [scroll, setScroll] = useState(false);
 
+  useEffect(() => {
+    setScroll(true);
+  }, [selectedMarkerData]);
+
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
   };
+
   return (
     <>
       <S.TabButton className="tabBtn" type="button" onClick={onClickScroll}>

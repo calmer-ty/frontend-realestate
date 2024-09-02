@@ -7,14 +7,14 @@ import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  const { buildingType, firebaseDatas } = props;
+  const { buildingType, firebaseDatas, visibleMarkerDatas } = props;
   const [select, setSelect] = useState(false);
   const [selectedEl, setSelectedEl] = useState<IMarkerData | null>(null);
 
   useEffect(() => {
     setSelect(false);
     setSelectedEl(null);
-  }, [props.visibleMarkerDatas]);
+  }, [visibleMarkerDatas]);
 
   const onClickInfo = (el: IMarkerData): void => {
     console.log(el);
@@ -24,12 +24,12 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
 
   return (
     <S.Container>
-      {props.visibleMarkerDatas.length !== 0 ? (
+      {visibleMarkerDatas.length !== 0 ? (
         <S.Visible>
           {!select && (
             <ul>
-              {props.visibleMarkerDatas.map((el, index) => {
-                const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
+              {visibleMarkerDatas.map((el, index) => {
+                const matchingFirebaseData = firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
 
                 return (
                   <li
