@@ -5,6 +5,7 @@ import type { IMapsInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
+  const { selectedMarkerData, visibleMarkerDatas, buildingType, firebaseDatas } = props;
   const [scroll, setScroll] = useState(false);
 
   const onClickScroll = (): void => {
@@ -17,10 +18,10 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
         매물 탭
       </S.TabButton>
       <S.Container scroll={scroll}>
-        {props.selectedMarkerData !== null ? (
-          <SelectedArea selectedMarkerData={props.selectedMarkerData} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
+        {selectedMarkerData !== null ? (
+          <SelectedArea selectedMarkerData={selectedMarkerData} buildingType={buildingType} firebaseDatas={firebaseDatas} />
         ) : (
-          <VisibleArea visibleMarkerDatas={props.visibleMarkerDatas} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
+          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} buildingType={buildingType} firebaseDatas={firebaseDatas} />
         )}
       </S.Container>
     </>

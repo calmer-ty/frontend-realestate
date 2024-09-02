@@ -1,18 +1,12 @@
 import styled from "@emotion/styled";
 
 // 클릭 된 건물 상세 정보
-export const Container = styled.article`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-`;
 
 export const BuildingInfo = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
   padding: 15px;
-
   div > {
     h2 {
       font-size: 24px;
@@ -52,7 +46,6 @@ export const RegisteredInfo = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 `;
 
 export const Registered = styled.div`
@@ -85,9 +78,10 @@ export const Registered = styled.div`
 `;
 export const UnRegistered = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  row-gap: 10px;
+  margin-top: 80px;
 
   > p {
     text-align: center;

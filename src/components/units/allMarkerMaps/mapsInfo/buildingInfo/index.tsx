@@ -1,35 +1,36 @@
-// BuildingDetail.tsx
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
 import Link from "next/link";
 import Image from "next/image";
 import UnImageBasic from "@/src/components/commons/unImages/basic";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import type { IMarkerData, IFirebaseData } from "@/src/commons/types";
+import type { IFirebaseData } from "@/src/commons/types";
 import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
-export default function BuildingInfo({ selectedEl, firebaseDatas, buildingType, isSelected }: IBuildingInfoProps): JSX.Element {
+export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
+  const { selectedData, firebaseDatas, buildingType, isSelected } = props;
   const matchedFirebaseData: IFirebaseData[] = firebaseDatas.filter(
-    (el) => shortenCityName(selectedEl?.address ?? "") === el.address || shortenCityName(selectedEl?.address_road ?? "") === el.address
+    (el) => shortenCityName(selectedData?.address ?? "") === el.address || shortenCityName(selectedData?.address_road ?? "") === el.address
   );
 
+  console.log(selectedData);
   return (
     <>
-      {isSelected && selectedEl && (
+      {isSelected && selectedData != null && (
         <>
           <S.BuildingInfo>
             <S.InfoWrap>
-              <h2>{selectedEl.buildingName}</h2>
+              <h2>{selectedData.buildingName}</h2>
               <S.TextWrap>
-                <ChipSmall label="연식" /> {selectedEl.constructionYear}
+                <ChipSmall label="연식" /> {selectedData.constructionYear}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="지번" /> {selectedEl.address}
+                <ChipSmall label="지번" /> {selectedData.address}
               </S.TextWrap>
               <S.TextWrap>
                 <ChipSmall label="도로명" />
-                {selectedEl.address_road}
+                {selectedData.address_road}
               </S.TextWrap>
             </S.InfoWrap>
 
@@ -37,11 +38,11 @@ export default function BuildingInfo({ selectedEl, firebaseDatas, buildingType, 
               <h3>최근 실거래가</h3>
               <S.SelectedContent>
                 <strong>
-                  매매 {isBillion(selectedEl.price)}&nbsp;
-                  {isTenMillion(selectedEl.price)}원
+                  매매 {isBillion(selectedData.price)}&nbsp;
+                  {isTenMillion(selectedData.price)}원
                 </strong>
                 <p>
-                  {selectedEl.dealYear}.{selectedEl.dealMonth}.{selectedEl.dealDay}・{selectedEl.floor}층・{selectedEl.area}m²
+                  {selectedData.dealYear}.{selectedData.dealMonth}.{selectedData.dealDay}・{selectedData.floor}층・{selectedData.area}m²
                 </p>
               </S.SelectedContent>
             </S.InfoWrap>

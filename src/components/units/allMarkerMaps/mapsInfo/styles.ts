@@ -16,10 +16,6 @@ export const Container = styled.aside<IScroll>`
     mediaQueries.mobile(css`
       flex: ${props.scroll ? "3" : "0"};
     `)}
-  > article {
-    border-top: 2px solid #999;
-    /* padding: 15px; */
-  }
 `;
 
 export const TabButton = styled.button`
