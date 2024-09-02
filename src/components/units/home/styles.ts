@@ -21,7 +21,7 @@ export const Container = styled.article`
   position: relative;
   section {
     ${flexCenter}
-    height: 50%;
+
     .inner {
       ${flexBetween}
       min-width: 1024px;
@@ -34,9 +34,10 @@ export const Container = styled.article`
   }
 `;
 
-export const Maps = styled.section`
+// 맵 선택지
+export const MapOptions = styled.section`
   position: relative;
-
+  height: 50%;
   ::before {
     content: "";
     display: block;
@@ -46,8 +47,9 @@ export const Maps = styled.section`
     background: #fff url("/images/main.jpg") no-repeat center/cover;
     opacity: 0.2;
   }
+
   ${mediaQueries.mobile(css`
-    height: 100% !important;
+    height: 100%;
     .inner {
       flex-direction: column;
     }
@@ -59,14 +61,13 @@ const buildingTypeBase = css`
   width: 280px;
   height: 200px;
   border-radius: 10px;
-  cursor: pointer;
   background-color: #fff;
+  cursor: pointer;
 
   > a {
     ${flexCenter}
     width: 100%;
     height: 100%;
-
     .textWrap {
       display: flex;
       flex-direction: column;
@@ -85,18 +86,28 @@ const buildingTypeBase = css`
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
   }
 `;
+
+// 지도 선택 버튼
 export const BuildingType = styled.div`
   ${buildingTypeBase}
+
+  ${mediaQueries.mobile2(css`
+    height: 150px;
+  `)}
 `;
 export const UnBuildingType = styled.div`
   ${buildingTypeBase}
   background-color: #ccc;
+
+  ${mediaQueries.mobile2(css`
+    height: 150px;
+  `)}
 `;
 
+// 추천하는 매물 목록
 export const Registered = styled.section`
-  @media screen and (max-width: 480px) {
-    display: none !important;
-  }
+  height: 50%;
+
   .inner {
     flex-direction: column;
     > h2 {
@@ -109,6 +120,10 @@ export const Registered = styled.section`
     width: 100%;
     height: 300px;
   }
+
+  ${mediaQueries.mobile(css`
+    display: none !important;
+  `)}
 `;
 export const RegisteredList = styled.ul`
   ${flexBetween}

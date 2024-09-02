@@ -8,6 +8,11 @@ export const mediaQueries = {
       ${styles}
     }
   `,
+  mobile2: (styles: SerializedStyles) => css`
+    @media screen and (max-height: 768px) {
+      ${styles}
+    }
+  `,
   tablet: (styles: SerializedStyles) => css`
     @media screen and (max-width: 768px) {
       ${styles}

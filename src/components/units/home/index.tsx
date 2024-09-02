@@ -18,10 +18,6 @@ import type { MouseEventHandler } from "react";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-
 export default function Home(): JSX.Element {
   const [currentBuildingType, setCurrentBuildingType] = useState<string>("");
   const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
@@ -48,31 +44,10 @@ export default function Home(): JSX.Element {
   }, [readFirebaseDatas]);
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 3);
 
-  // const settings = {
-  //   infinite: true,
-  //   slidesToShow: 3,
-  //   slidesToScroll: 1,
-  //   // dots: true,
-  //   // autoplay: true,
-  //   // autoplaySpeed: 5000,
-
-  //   responsive: [
-  //     {
-  //       breakpoint: 480,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         // slidesToScroll: 3,
-  //         infinite: true,
-  //         dots: true,
-  //       },
-  //     },
-  //   ],
-  // };
   return (
     <S.Container>
-      <S.Maps>
+      <S.MapOptions>
         <div className="inner">
-          {/* <Slider {...settings}> */}
           <S.BuildingType data-href="apartment" onMouseEnter={fetchBuildingsData}>
             <Link href="/apartment">
               <div className="textWrap">
@@ -106,9 +81,8 @@ export default function Home(): JSX.Element {
               </div>
             </a>
           </S.UnBuildingType>
-          {/* </Slider> */}
         </div>
-      </S.Maps>
+      </S.MapOptions>
       <S.Registered>
         <div className="inner">
           <h2>추천드리는 매물입니다.</h2>
