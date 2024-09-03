@@ -16,6 +16,14 @@ interface IBuildingDetailProps {
 }
 
 export default function BuildingDetail({ buildingData }: IBuildingDetailProps): JSX.Element {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  console.log(buildingData.imageUrls);
   return (
     <>
       <Head>
@@ -24,25 +32,30 @@ export default function BuildingDetail({ buildingData }: IBuildingDetailProps): 
         <meta property="og:image" content={buildingData.imageUrls?.[0]} />
       </Head>
       <S.Container>
-        <S.ImgContainer>
-          <S.ImgInner>
-            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="mainImg" width={507} height={440} />
-            <div className="subImgWrap">
-              {[1, 2, 3, 4].map((index) => {
-                const el = buildingData.imageUrls?.[index];
-                return (
-                  <div key={`${el}_${index}`}>
-                    {el !== undefined ? (
-                      <Image src={el} alt={buildingData.address ?? "No address available"} width={248.5} height={215} />
-                    ) : (
-                      <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </S.ImgInner>
-        </S.ImgContainer>
+        <S.MViewContents {...settings}>
+          {buildingData.imageUrls?.map((el) => {
+            return (
+              <figure key={el}>
+                <Image src={el} alt={"buildImg"} fill />
+              </figure>
+            );
+          })}
+        </S.MViewContents>
+        <S.ViewContents>
+          <figure className="mainImg">
+            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="buildImg" fill />
+          </figure>
+          <div className="subImgWrap">
+            {[1, 2, 3, 4].map((index) => {
+              const el = buildingData.imageUrls?.[index];
+              return (
+                <figure key={`${el}_${index}`}>
+                  {el !== undefined ? <Image src={el} alt={"buildImg"} fill /> : <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
+                </figure>
+              );
+            })}
+          </div>
+        </S.ViewContents>
         <S.BuildingInfo>
           <S.InfoItem>
             <TitleUnderline label="가격 정보" />

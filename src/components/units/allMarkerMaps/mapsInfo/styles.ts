@@ -20,7 +20,7 @@ export const Container = styled.aside<IScroll>`
 
 export const TabButton = styled.button`
   display: none;
-  background-color: #fff;
+
   .stroke {
     width: 50px;
     height: 3px;
@@ -32,6 +32,9 @@ export const TabButton = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    margin: 0 15px;
+    padding: 4px 0 10px 0;
+    border-bottom: 2px solid #999;
+    background-color: #fff;
   `)}
 `;
