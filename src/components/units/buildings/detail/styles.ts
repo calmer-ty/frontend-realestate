@@ -1,4 +1,9 @@
 import styled from "@emotion/styled";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { mediaQueries } from "@/src/commons/styles/styles";
+import { css } from "@emotion/react";
 
 export const Container = styled.article`
   display: flex;
@@ -7,7 +12,7 @@ export const Container = styled.article`
   height: 100%;
   width: 100%;
   max-width: 1024px;
-  padding: 60px 0;
+  padding: 40px;
 `;
 export const ViewContents = styled.section`
   display: flex;
@@ -36,6 +41,32 @@ export const ViewContents = styled.section`
       height: 50%;
     }
   }
+
+  ${mediaQueries.mobile(css`
+    display: none;
+  `)}
+`;
+export const MViewContents = styled(Slider)`
+  height: 440px;
+  &.slick-slider {
+    display: none;
+  }
+  .slick-list,
+  .slick-track {
+    height: 440px;
+  }
+  figure {
+    height: 100%;
+    > img {
+      object-fit: cover;
+    }
+  }
+
+  ${mediaQueries.mobile(css`
+    &.slick-slider {
+      display: block;
+    }
+  `)}
 `;
 
 export const BuildingInfo = styled.section`

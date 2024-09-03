@@ -16,6 +16,14 @@ interface IBuildingDetailProps {
 }
 
 export default function BuildingDetail({ buildingData }: IBuildingDetailProps): JSX.Element {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+  console.log(buildingData.imageUrls);
   return (
     <>
       <Head>
@@ -24,16 +32,25 @@ export default function BuildingDetail({ buildingData }: IBuildingDetailProps): 
         <meta property="og:image" content={buildingData.imageUrls?.[0]} />
       </Head>
       <S.Container>
+        <S.MViewContents {...settings}>
+          {buildingData.imageUrls?.map((el) => {
+            return (
+              <figure key={el}>
+                <Image src={el} alt={"buildImg"} fill />
+              </figure>
+            );
+          })}
+        </S.MViewContents>
         <S.ViewContents>
           <figure className="mainImg">
-            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="mainImg" fill />
+            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="buildImg" fill />
           </figure>
           <div className="subImgWrap">
             {[1, 2, 3, 4].map((index) => {
               const el = buildingData.imageUrls?.[index];
               return (
                 <figure key={`${el}_${index}`}>
-                  {el !== undefined ? <Image src={el} alt={"subImg"} fill /> : <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
+                  {el !== undefined ? <Image src={el} alt={"buildImg"} fill /> : <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
                 </figure>
               );
             })}
