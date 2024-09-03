@@ -9,7 +9,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
-    setScroll(true);
+    setScroll(false);
   }, [selectedMarkerData]);
 
   const onClickScroll = (): void => {
@@ -20,7 +20,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
     <>
       <S.TabButton className="tabBtn" type="button" onClick={onClickScroll}>
         <div className="stroke"></div>
-        매물 탭
+        매물 보기
       </S.TabButton>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null ? (

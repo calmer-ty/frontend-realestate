@@ -79,7 +79,7 @@ export const BuildingInfo = styled.section`
   row-gap: 40px;
 
   ${mediaQueries.mobile(css`
-    padding: 0 20px;
+    padding: 20px;
   `)}
 `;
 export const InfoItem = styled.div`
