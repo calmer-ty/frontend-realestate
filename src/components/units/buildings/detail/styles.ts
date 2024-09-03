@@ -9,40 +9,35 @@ export const Container = styled.article`
   max-width: 1024px;
   padding: 60px 0;
 `;
-export const ImgContainer = styled.section`
+export const ViewContents = styled.section`
   display: flex;
+  column-gap: 10px;
   width: 100%;
   height: 440px;
-`;
-export const ImgInner = styled.figure`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  > img {
-    position: relative;
-    top: 0;
-    left: 0;
-    object-fit: cover;
-  }
 
+  figure {
+    position: relative;
+    > img {
+      object-fit: cover;
+    }
+  }
+  .mainImg {
+    width: 50%;
+  }
   .subImgWrap {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-content: space-between;
-    gap: 5px;
-    width: 507px;
-    height: 100%;
-    > div {
-      width: calc(50% - 5px);
-      height: calc(50% - 5px);
-      > img {
-        object-fit: cover;
-      }
+    width: 50%;
+    margin: -5px;
+    > figure {
+      padding: 5px;
+      width: 50%;
+      height: 50%;
     }
   }
 `;
+
 export const BuildingInfo = styled.section`
   display: flex;
   flex-direction: column;

@@ -24,25 +24,21 @@ export default function BuildingDetail({ buildingData }: IBuildingDetailProps): 
         <meta property="og:image" content={buildingData.imageUrls?.[0]} />
       </Head>
       <S.Container>
-        <S.ImgContainer>
-          <S.ImgInner>
-            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="mainImg" width={507} height={440} />
-            <div className="subImgWrap">
-              {[1, 2, 3, 4].map((index) => {
-                const el = buildingData.imageUrls?.[index];
-                return (
-                  <div key={`${el}_${index}`}>
-                    {el !== undefined ? (
-                      <Image src={el} alt={buildingData.address ?? "No address available"} width={248.5} height={215} />
-                    ) : (
-                      <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </S.ImgInner>
-        </S.ImgContainer>
+        <S.ViewContents>
+          <figure className="mainImg">
+            <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="mainImg" fill />
+          </figure>
+          <div className="subImgWrap">
+            {[1, 2, 3, 4].map((index) => {
+              const el = buildingData.imageUrls?.[index];
+              return (
+                <figure key={`${el}_${index}`}>
+                  {el !== undefined ? <Image src={el} alt={"subImg"} fill /> : <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
+                </figure>
+              );
+            })}
+          </div>
+        </S.ViewContents>
         <S.BuildingInfo>
           <S.InfoItem>
             <TitleUnderline label="가격 정보" />
