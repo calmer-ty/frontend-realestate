@@ -13,6 +13,10 @@ export const Container = styled.article`
   width: 100%;
   max-width: 1024px;
   padding: 40px;
+
+  ${mediaQueries.mobile(css`
+    padding: 0;
+  `)}
 `;
 export const ViewContents = styled.section`
   display: flex;
@@ -73,6 +77,10 @@ export const BuildingInfo = styled.section`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
+
+  ${mediaQueries.mobile(css`
+    padding: 0 20px;
+  `)}
 `;
 export const InfoItem = styled.div`
   display: flex;
