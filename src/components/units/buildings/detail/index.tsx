@@ -23,7 +23,6 @@ export default function BuildingDetail({ buildingData }: IBuildingDetailProps): 
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  console.log(buildingData.imageUrls);
   return (
     <>
       <Head>
