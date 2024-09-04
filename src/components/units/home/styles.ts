@@ -1,6 +1,7 @@
-import { mediaQueries } from "@/src/commons/styles/styles";
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles/styles";
 import { css } from "@emotion/react";
+import type { IBuildingTypeProps } from "./types";
 
 const flexCenter = css`
   display: flex;
@@ -57,6 +58,7 @@ export const MapOptions = styled.section`
 `;
 
 const buildingTypeBase = css`
+  ${flexCenter}
   position: relative;
   width: 280px;
   height: 200px;
@@ -68,18 +70,18 @@ const buildingTypeBase = css`
     ${flexCenter}
     width: 100%;
     height: 100%;
-    .textWrap {
-      display: flex;
-      flex-direction: column;
-      row-gap: 10px;
-      width: 160px;
-    }
+  }
+  .textWrap {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 160px;
+  }
 
-    .iconWrap {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-    }
+  .iconWrap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
   }
 
   &:hover {
@@ -88,8 +90,11 @@ const buildingTypeBase = css`
 `;
 
 // 지도 선택 버튼
-export const BuildingType = styled.div`
+export const BuildingType = styled.div<IBuildingTypeProps>`
   ${buildingTypeBase}
+  background-color: ${(props) => (props.isDisabled ? "#ccc" : "#ffffff")};
+  cursor: ${(props) => (props.isDisabled ? "not-allowed" : "pointer")};
+  pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
 
   ${mediaQueries.mobile2(css`
     height: 150px;
