@@ -3,7 +3,7 @@
 import { memo } from "react";
 import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
 
-import AllMarkerMaps from "@/src/components/units/allMarkerMaps";
+import AllMarkerMaps from "./allMarkerMaps";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import type { IBuildingParams } from "@/src/commons/types";
