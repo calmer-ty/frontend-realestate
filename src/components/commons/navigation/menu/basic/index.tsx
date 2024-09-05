@@ -1,10 +1,15 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import type { ReactNode } from "react";
 
-export default function BasicMenu(): JSX.Element {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+interface IMenuBasicProps {
+  children: ReactNode; // children prop 추가
+}
+
+export default function MenuBasic({ children }: IMenuBasicProps): JSX.Element {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
@@ -15,8 +20,9 @@ export default function BasicMenu(): JSX.Element {
 
   return (
     <div>
-      <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleClick}>
-        Dashboard
+      <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleClick} sx={{ minWidth: "36px" }}>
+        {/* Dashboard */}
+        <KeyboardArrowDownIcon />
       </Button>
       <Menu
         id="basic-menu"
@@ -27,9 +33,10 @@ export default function BasicMenu(): JSX.Element {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        {children}
+        {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
     </div>
   );

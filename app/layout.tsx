@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
+import ButtonAuth from "@/src/components/commons/buttons/auth";
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
                   </h1>
                   <nav>
                     <Link href="/new">방 내놓기</Link>
-                    <AuthButtons /> {/* 로그인 버튼 컴포넌트 추가 */}
+                    <ButtonAuth />
                   </nav>
                 </div>
               </header>
@@ -38,22 +39,5 @@ export default function RootLayout({
         </html>
       </AllGeocodeProvider>
     </SessionProvider>
-  );
-}
-
-function AuthButtons(): JSX.Element {
-  const { data: session } = useSession();
-
-  return (
-    <>
-      {session == null ? (
-        <button onClick={() => signIn("google")}>Login with Google</button>
-      ) : (
-        <div>
-          <p>Welcome, {session.user?.name}</p>
-          <button onClick={() => signOut()}>Sign out</button>
-        </div>
-      )}
-    </>
   );
 }
