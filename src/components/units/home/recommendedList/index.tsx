@@ -1,15 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import LoadingSpinner from "../../commons/loadingSpinner";
-import UnImageBasic from "../../commons/unImages/basic";
+import LoadingSpinner from "../../../commons/loadingSpinner";
+import UnImageBasic from "../../../commons/unImages/basic";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
-import type { IRecommendedListProps } from "./types";
+import type { IRecommendedListProps } from "../types";
 import * as S from "./styles";
 
 export default function RecommendedList({ firebaseDatas }: IRecommendedListProps): JSX.Element {
   const randomFirebaseDatas = firebaseDatas.sort(() => 0.5 - Math.random()).slice(0, 3);
   return (
-    <S.Registered>
+    <S.Container>
       <div className="inner">
         <h2>추천드리는 매물입니다.</h2>
         <div className="contents">
@@ -40,6 +40,6 @@ export default function RecommendedList({ firebaseDatas }: IRecommendedListProps
           )}
         </div>
       </div>
-    </S.Registered>
+    </S.Container>
   );
 }

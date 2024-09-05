@@ -2,8 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
 import type { MouseEventHandler } from "react";
-
-import type { IBuildingTypeItemProps } from "./types";
+import type { IBuildingTypeItemProps } from "../types";
 import * as S from "./styles";
 
 export default function BuildingTypeItem({ href, title, description, icon }: IBuildingTypeItemProps): JSX.Element {
@@ -19,7 +18,7 @@ export default function BuildingTypeItem({ href, title, description, icon }: IBu
   const isDisabled = href === undefined;
 
   return (
-    <S.BuildingType isDisabled={isDisabled} data-href={href} onMouseEnter={fetchBuildingsData}>
+    <S.Container isDisabled={isDisabled} data-href={href} onMouseEnter={fetchBuildingsData}>
       {isDisabled ? (
         <div className="textWrap">
           <h2>{title}</h2>
@@ -35,6 +34,6 @@ export default function BuildingTypeItem({ href, title, description, icon }: IBu
           <div className="iconWrap">{icon}</div>
         </Link>
       )}
-    </S.BuildingType>
+    </S.Container>
   );
 }

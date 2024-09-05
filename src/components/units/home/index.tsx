@@ -1,20 +1,17 @@
 "use client";
 
-// import Link from "next/link";
-// import Image from "next/image";
 import { useEffect, useState } from "react";
 
-// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 
-import BuildingTypeItem from "./BuildingTypeItem";
+import BuildingTypeItem from "./buildingTypeItem";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
 
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
-import RecommendedList from "./RecommendedList";
+import RecommendedList from "./recommendedList";
 
 export default function Home(): JSX.Element {
   const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
