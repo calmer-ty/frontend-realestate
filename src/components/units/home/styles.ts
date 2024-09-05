@@ -15,7 +15,6 @@ const flexBetween = css`
 export const Container = styled.article`
   ${flexBetween}
   flex-direction: column;
-  row-gap: 40px;
   width: 100%;
   height: 100%;
   position: relative;

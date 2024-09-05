@@ -3,10 +3,7 @@
 import Link from "next/link";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
-import {
-  SessionProvider,
-  // signIn, signOut, useSession
-} from "next-auth/react";
+import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
 import "./globals.css";
 
 export default function RootLayout({
@@ -45,18 +42,18 @@ export default function RootLayout({
 }
 
 function AuthButtons(): JSX.Element {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   return (
-    <div>
-      {/* {!session ? (
+    <>
+      {session == null ? (
         <button onClick={() => signIn("google")}>Login with Google</button>
       ) : (
         <div>
           <p>Welcome, {session.user?.name}</p>
           <button onClick={() => signOut()}>Sign out</button>
         </div>
-      )} */}
-    </div>
+      )}
+    </>
   );
 }

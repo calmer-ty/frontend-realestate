@@ -1,8 +1,18 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-// import type { Session } from "next-auth";
-// import type { JWT } from "next-auth/jwt";
+import type { Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
+interface ICustomUser {
+  id?: string | null;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
+interface ICustomSession extends Session {
+  user?: ICustomUser;
+}
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -13,13 +23,13 @@ export default NextAuth({
   // pages: {
   //   signIn: "/",
   // },
-  // callbacks: {
-  //   async session({ session, token }: { session: Session; token: JWT }) {
-  //     console.log("=== token ===", token);
-  //     if (token) {
-  //       session.user.id = token.sub;
-  //     }
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    async session({ session, token }: { session: ICustomSession; token: JWT }) {
+      console.log("=== token ===", token);
+      if (token != null && session.user != null) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
 });
