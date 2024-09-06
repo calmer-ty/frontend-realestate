@@ -6,21 +6,20 @@ import AuthButton from "@/src/components/commons/buttons/auth";
 import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import type { MouseEvent } from "react";
 
 export default function Nav(): JSX.Element {
+  const [open, setOpen] = useState(false);
   const { status } = useSession();
+
   const isAuthenticated = status === "authenticated";
 
-  const [open, setOpen] = useState(false);
-  const handleClose = (): void => {
-    setOpen(false); // 모달 닫기
-  };
-
-  const moveToBuildingNew = (e: MouseEvent<HTMLAnchorElement>): void => {
+  const moveToBuildingNew = (): void => {
     if (status === "unauthenticated") {
       setOpen(true);
     }
+  };
+  const handleClose = (): void => {
+    setOpen(false); // 모달 닫기
   };
 
   return (

@@ -1,35 +1,32 @@
 "use client";
 
-import { Alert, Button, TextField } from "@mui/material";
-import DaumPostcodeEmbed from "react-daum-postcode";
-import SelectControl from "@/src/components/commons/inputs/select/control";
-import BasicModal from "@/src/components/commons/modal/basic";
-import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
-import BasicUnit from "@/src/components/commons/units/basic";
-import UnderlineTitle from "@/src/components/commons/titles/underline";
-import ControlRadio from "@/src/components/commons/inputs/radio/control";
-import BasicUpload from "@/src/components/commons/uploads/basic";
-
+import BuildingInfo from "./buildingInfo";
+import DealInfo from "./dealInfo";
+import AddInfo from "./addInfo";
+import BuildingDesc from "./buildingDesc";
+import ImgUpload from "./imgUpload";
+import { Alert, Button } from "@mui/material";
+// import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { useSelectMarker } from "@/src/hooks/maps/useSelectMarker";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
-import { useAddressSearch } from "@/src/hooks/useAddressSearch";
+// import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
+import { useSession } from "next-auth/react";
 import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [open, setOpen] = useState(false);
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase(); // 훅 사용
+
+  // const { open: alertOpen, handleClose } = useAuthCheck();
 
   const getFirestoreCollectionName = (type: string | null): string => {
     switch (type) {
@@ -41,16 +38,6 @@ export default function BuildingWrite(): JSX.Element {
   };
   const selectedType = watch("type");
   const selectedTypeEng = getFirestoreCollectionName(selectedType);
-
-  // 모달 토글
-  const onToggle = (): void => {
-    setOpen((prev) => !prev);
-  };
-
-  // 주소 선택 기능
-  const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
-  // 선택된 마커
-  useSelectMarker(geocodeData);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
@@ -88,89 +75,19 @@ export default function BuildingWrite(): JSX.Element {
 
   return (
     <>
+      {/* 알림창 */}
       <BasicSnackbar open={alertOpen} close={handleClose}>
         <Alert onClose={handleClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>
+      {/* 폼 */}
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
-        <S.InfoContainer>
-          <UnderlineTitle label="매물 정보" />
-          <S.InfoContent>
-            <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
-            <S.MapView>
-              <S.AddressSearch>
-                <S.InputWrap>
-                  <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-                  <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
-                    <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-                  </BasicModal>
-                </S.InputWrap>
-                <S.InputWrap>
-                  <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
-                </S.InputWrap>
-              </S.AddressSearch>
-              <S.MapsWrap>
-                {selectedAddress === "" ? (
-                  <S.MapsCover>
-                    주소를 검색하면
-                    <br />
-                    해당 위치가 지도에 표시됩니다.
-                  </S.MapsCover>
-                ) : (
-                  <></>
-                )}
-                <div id="map"></div>
-              </S.MapsWrap>
-            </S.MapView>
-            <S.InputWrap>
-              <TextFieldBasic required role="input-area" type="number" step="0.01" label="매물 크기" register={register("area")} />
-              <BasicUnit label="m²" />
-              <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
-              <BasicUnit label="개" />
-            </S.InputWrap>
-          </S.InfoContent>
-        </S.InfoContainer>
-
-        <S.InfoContainer>
-          <UnderlineTitle label="거래 정보" />
-          <S.InfoContent>
-            <S.InputWrap>
-              <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
-              <BasicUnit label="만원" />
-            </S.InputWrap>
-            <S.InputWrap>
-              <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
-              <BasicUnit label="만원" />
-            </S.InputWrap>
-          </S.InfoContent>
-        </S.InfoContainer>
-
-        <S.InfoContainer>
-          <UnderlineTitle label="추가 정보" />
-          <S.InfoContent>
-            <S.InputWrap>
-              <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
-              <BasicUnit label="층" />
-            </S.InputWrap>
-            <S.InputWrap>
-              <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
-              <BasicUnit label="개" />
-            </S.InputWrap>
-            <ControlRadio label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
-          </S.InfoContent>
-        </S.InfoContainer>
-
-        <S.InfoContainer>
-          <UnderlineTitle label="매물 설명" />
-          <TextField id="outlined-multiline-flexible" label="설명 내용" multiline rows={5} {...register("desc")} />
-        </S.InfoContainer>
-
-        <S.InfoContainer>
-          <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
-          <BasicUpload onFilesChange={setSelectedFiles} />
-        </S.InfoContainer>
-
+        <BuildingInfo register={register} setValue={setValue} control={control} />
+        <DealInfo register={register} />
+        <AddInfo register={register} control={control} />
+        <BuildingDesc register={register} />
+        <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             등록하기
