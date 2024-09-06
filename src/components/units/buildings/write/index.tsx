@@ -1,23 +1,22 @@
 "use client";
 
+import { Button, TextField } from "@mui/material";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import SelectControl from "@/src/components/commons/inputs/select/control";
+import BasicModal from "@/src/components/commons/modal/basic";
+import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
+import BasicUnit from "@/src/components/commons/units/basic";
+import UnderlineTitle from "@/src/components/commons/titles/underline";
+import ControlRadio from "@/src/components/commons/inputs/radio/control";
+import BasicUpload from "@/src/components/commons/uploads/basic";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-
-import DaumPostcodeEmbed from "react-daum-postcode";
 import { useSelectMarker } from "@/src/hooks/maps/useSelectMarker";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAddressSearch } from "@/src/hooks/useAddressSearch";
-
-import { Button, TextField } from "@mui/material";
-import SelectControl from "@/src/components/commons/inputs/select/control";
-import ModalBasic from "@/src/components/commons/modal/basic";
-import TextFieldBasic from "@/src/components/commons/inputs/textField/basic";
-import UnitBasic from "@/src/components/commons/units/basic";
-import TitleUnderline from "@/src/components/commons/titles/underline";
-import RadioControl from "@/src/components/commons/inputs/radio/control";
-import UploadBasic from "@/src/components/commons/uploads/basic";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
@@ -80,16 +79,16 @@ export default function BuildingWrite(): JSX.Element {
     <>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <S.InfoContainer>
-          <TitleUnderline label="매물 정보" />
+          <UnderlineTitle label="매물 정보" />
           <S.InfoContent>
             <SelectControl required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
             <S.MapView>
               <S.AddressSearch>
                 <S.InputWrap>
                   <TextFieldBasic required role="input-address" label="주소" value={selectedAddress} register={register("address")} />
-                  <ModalBasic btnText="주소 찾기" open={open} onToggle={onToggle}>
+                  <BasicModal btnText="주소 찾기" open={open} onToggle={onToggle}>
                     <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
-                  </ModalBasic>
+                  </BasicModal>
                 </S.InputWrap>
                 <S.InputWrap>
                   <TextFieldBasic required role="input-addressDetail" label="상세 주소" register={register("addressDetail")} />
@@ -110,50 +109,50 @@ export default function BuildingWrite(): JSX.Element {
             </S.MapView>
             <S.InputWrap>
               <TextFieldBasic required role="input-area" type="number" step="0.01" label="매물 크기" register={register("area")} />
-              <UnitBasic label="m²" />
+              <BasicUnit label="m²" />
               <TextFieldBasic required role="input-roomCount" type="number" label="방 개수" register={register("roomCount")} />
-              <UnitBasic label="개" />
+              <BasicUnit label="개" />
             </S.InputWrap>
           </S.InfoContent>
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="거래 정보" />
+          <UnderlineTitle label="거래 정보" />
           <S.InfoContent>
             <S.InputWrap>
               <TextFieldBasic required role="input-price" type="number" label="매매가" register={register("price")} />
-              <UnitBasic label="만원" />
+              <BasicUnit label="만원" />
             </S.InputWrap>
             <S.InputWrap>
               <TextFieldBasic required role="input-manageCost" type="number" label="관리비" register={register("manageCost")} />
-              <UnitBasic label="만원" />
+              <BasicUnit label="만원" />
             </S.InputWrap>
           </S.InfoContent>
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="추가 정보" />
+          <UnderlineTitle label="추가 정보" />
           <S.InfoContent>
             <S.InputWrap>
               <TextFieldBasic required role="input-addressDetail" type="number" label="층" register={register("floor")} />
-              <UnitBasic label="층" />
+              <BasicUnit label="층" />
             </S.InputWrap>
             <S.InputWrap>
               <TextFieldBasic required role="input-bathroom" type="number" label="욕실 수" register={register("bathroomCount")} />
-              <UnitBasic label="개" />
+              <BasicUnit label="개" />
             </S.InputWrap>
-            <RadioControl label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
+            <ControlRadio label="엘리베이터" selectLabel1="없음" selectLabel2="있음" name="elevator" control={control} />
           </S.InfoContent>
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="매물 설명" />
+          <UnderlineTitle label="매물 설명" />
           <TextField id="outlined-multiline-flexible" label="설명 내용" multiline rows={5} {...register("desc")} />
         </S.InfoContainer>
 
         <S.InfoContainer>
-          <TitleUnderline label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
-          <UploadBasic onFilesChange={setSelectedFiles} />
+          <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
+          <BasicUpload onFilesChange={setSelectedFiles} />
         </S.InfoContainer>
 
         <S.Footer>

@@ -2,10 +2,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import type { IModalBasicProps } from "./types";
+import type { IBasicModalProps } from "./types";
 import { modalStyle, submitBtnStyle } from "./styles";
 
-export default function ModalBasic(props: IModalBasicProps): JSX.Element {
+export default function BasicModal(props: IBasicModalProps): JSX.Element {
   return (
     <>
       {props.btnText !== undefined ? (

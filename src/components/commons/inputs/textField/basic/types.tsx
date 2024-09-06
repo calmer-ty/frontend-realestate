@@ -1,6 +1,6 @@
 import type { UseFormRegisterReturn } from "react-hook-form";
 
-export interface ITextFieldBasic {
+export interface IBasicTextField {
   role: string;
   label: string;
   step?: string;

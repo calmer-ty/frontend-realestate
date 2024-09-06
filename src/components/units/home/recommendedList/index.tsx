@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import LoadingSpinner from "../../../commons/loadingSpinner";
-import UnImageBasic from "../../../commons/unImages/basic";
+import BasicUnImage from "../../../commons/unImages/basic";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import type { IRecommendedListProps } from "../types";
 import * as S from "./styles";
@@ -18,7 +18,7 @@ export default function RecommendedList({ firebaseDatas }: IRecommendedListProps
               {randomFirebaseDatas.map((el) => (
                 <li key={el._id}>
                   <Link href={`/${el.type}/${el._id}`}>
-                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <UnImageBasic width="300px" height="200px" fontSize="36px" />}
+                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <BasicUnImage width="300px" height="200px" fontSize="36px" />}
                     <p className="buildingDesc">
                       <span>
                         {el.type}・{el.addressDetail}

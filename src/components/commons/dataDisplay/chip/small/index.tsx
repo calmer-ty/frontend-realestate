@@ -1,6 +1,6 @@
 import { Chip } from "@mui/material";
-import type { IChipBasic } from "./types";
+import type { ISmallChip } from "./types";
 
-export default function ChipSmall(props: IChipBasic): JSX.Element {
+export default function SmallChip(props: ISmallChip): JSX.Element {
   return <Chip label={props.label} size="small" variant="outlined" />;
 }

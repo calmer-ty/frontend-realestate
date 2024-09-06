@@ -1,8 +1,8 @@
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
-import ChipSmall from "@/src/components/commons/dataDisplays/chip/small";
+import ChipSmall from "@/src/components/commons/dataDisplay/chip/small";
 import Link from "next/link";
 import Image from "next/image";
-import UnImageBasic from "@/src/components/commons/unImages/basic";
+import BasicUnImage from "@/src/components/commons/unImages/basic";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import type { IFirebaseData } from "@/src/commons/types";
 import type { IBuildingInfoProps } from "./types";
@@ -58,7 +58,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                   {matchedFirebaseData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${buildingType}/${el._id}`}>
-                        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <UnImageBasic width="80px" height="80px" fontSize="24px" />}
+                        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <BasicUnImage width="80px" height="80px" fontSize="24px" />}
                         <p>
                           <strong>
                             매매 {isBillion(el.price)}

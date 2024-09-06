@@ -1,7 +1,7 @@
 import type { Control } from "react-hook-form";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
-export interface ISelectControl {
+export interface IControlSelect {
   label: string;
   notice: string;
   selecteItems: string[];

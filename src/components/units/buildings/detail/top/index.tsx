@@ -1,5 +1,5 @@
 import Image from "next/image";
-import UnImageBasic from "@/src/components/commons/unImages/basic";
+import BasicUnImage from "@/src/components/commons/unImages/basic";
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
@@ -32,7 +32,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
             const el = buildingData.imageUrls?.[index];
             return (
               <figure key={`${el}_${index}`}>
-                {el !== undefined ? <Image src={el} alt={"buildImg"} fill /> : <UnImageBasic key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
+                {el !== undefined ? <Image src={el} alt={"buildImg"} fill /> : <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
               </figure>
             );
           })}

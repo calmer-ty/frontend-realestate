@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ButtonAuth from "@/src/components/commons/buttons/auth";
+import AuthButton from "@/src/components/commons/buttons/auth";
 // import { useState } from "react";
 import { useSession } from "next-auth/react";
 import type { MouseEvent } from "react";
@@ -28,7 +28,7 @@ export default function Nav(): JSX.Element {
       <Link href={isAuthenticated ? "/new" : "/"} onClick={onClickBuildingNew}>
         방 내놓기
       </Link>
-      <ButtonAuth />
+      <AuthButton />
     </nav>
   );
 }

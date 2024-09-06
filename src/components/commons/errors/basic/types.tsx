@@ -1,3 +1,3 @@
-export interface IErrorBasicProps {
+export interface IBasicErrorProps {
   text: string;
 }
