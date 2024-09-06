@@ -5,7 +5,7 @@ import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
-import Nav from "@/src/components/layout/header";
+import Nav from "@/src/components/layout/nav";
 
 export default function RootLayout({
   children,
