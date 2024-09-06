@@ -25,7 +25,7 @@ export default NextAuth({
   // },
   callbacks: {
     async session({ session, token }: { session: ICustomSession; token: JWT }) {
-      console.log("=== token ===", token);
+      // console.log("=== token ===", token);
       if (token != null && session.user != null) {
         session.user.id = token.sub;
       }
