@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Alert from "@mui/material/Alert";
 import AuthButton from "@/src/components/commons/buttons/auth";
-// import { useState } from "react";
+import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import type { MouseEvent } from "react";
 
@@ -10,25 +12,28 @@ export default function Nav(): JSX.Element {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
 
-  //   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleClose = (): void => {
+    setOpen(false); // 모달 닫기
+  };
 
-  const onClickBuildingNew = (e: MouseEvent<HTMLAnchorElement>): void => {
+  const moveToBuildingNew = (e: MouseEvent<HTMLAnchorElement>): void => {
     if (status === "unauthenticated") {
-      e.preventDefault(); // 인증되지 않은 사용자는 링크 이동을 막음
-      //   setIsModalOpen(true);
-      //   alert("로그인을 해주세요");
+      setOpen(true);
     }
   };
-  //   const handleModalClose = (): void => {
-  //     setIsModalOpen(false); // 모달 닫기
-  //   };
 
   return (
     <nav>
-      <Link href={isAuthenticated ? "/new" : "/"} onClick={onClickBuildingNew}>
+      <Link href={isAuthenticated ? "/new" : "/"} onClick={moveToBuildingNew}>
         방 내놓기
       </Link>
       <AuthButton />
+      <BasicSnackbar open={open} close={handleClose}>
+        <Alert onClose={handleClose} severity="warning">
+          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
+        </Alert>
+      </BasicSnackbar>
     </nav>
   );
 }

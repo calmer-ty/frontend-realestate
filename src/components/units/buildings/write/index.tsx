@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import SelectControl from "@/src/components/commons/inputs/select/control";
 import BasicModal from "@/src/components/commons/modal/basic";
@@ -10,9 +10,10 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import ControlRadio from "@/src/components/commons/inputs/radio/control";
 import BasicUpload from "@/src/components/commons/uploads/basic";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 import { useSelectMarker } from "@/src/hooks/maps/useSelectMarker";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
@@ -20,24 +21,16 @@ import { useAddressSearch } from "@/src/hooks/useAddressSearch";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
+import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [open, setOpen] = useState(false);
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase(); // 훅 사용
 
-  // 파일 상태
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-  // 모달창
-  const [open, setOpen] = useState(false);
-  const onToggle = (): void => {
-    setOpen((prev) => !prev);
-  };
-
-  // 셀렉터
-  const selectedType = watch("type");
   const getFirestoreCollectionName = (type: string | null): string => {
     switch (type) {
       case "아파트":
@@ -46,11 +39,16 @@ export default function BuildingWrite(): JSX.Element {
         return "";
     }
   };
+  const selectedType = watch("type");
   const selectedTypeEng = getFirestoreCollectionName(selectedType);
+
+  // 모달 토글
+  const onToggle = (): void => {
+    setOpen((prev) => !prev);
+  };
 
   // 주소 선택 기능
   const { selectedAddress, geocodeData, onCompleteAddressSearch } = useAddressSearch(setValue, onToggle);
-
   // 선택된 마커
   useSelectMarker(geocodeData);
 
@@ -74,9 +72,27 @@ export default function BuildingWrite(): JSX.Element {
       if (error instanceof Error) console.error(error.message);
     }
   };
+  // 구글 세션
+  const { status } = useSession();
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      setAlertOpen(true);
+    }
+  }, [status, router]);
+  const handleClose = (): void => {
+    setAlertOpen(false); // 모달 닫기
+    router.push("/");
+  };
 
   return (
     <>
+      <BasicSnackbar open={alertOpen} close={handleClose}>
+        <Alert onClose={handleClose} severity="warning">
+          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
+        </Alert>
+      </BasicSnackbar>
       <S.Form onSubmit={handleSubmit(onClickSubmit)}>
         <S.InfoContainer>
           <UnderlineTitle label="매물 정보" />
