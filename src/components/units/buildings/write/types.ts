@@ -1,5 +1,3 @@
-// import type { Firestore } from "firebase/firestore";
-
 export interface IWriteFormData {
   _id: string;
   type: string;
@@ -14,7 +12,3 @@ export interface IWriteFormData {
   bathroomCount: number;
   desc: string;
 }
-
-// export interface IWritePageProps {
-//   firestore: Firestore;
-// }

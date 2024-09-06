@@ -14,7 +14,6 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
     (el) => shortenCityName(selectedData?.address ?? "") === el.address || shortenCityName(selectedData?.address_road ?? "") === el.address
   );
 
-  console.log(selectedData);
   return (
     <>
       {isSelected && selectedData != null && (

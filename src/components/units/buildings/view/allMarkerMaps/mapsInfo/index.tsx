@@ -8,9 +8,15 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const { selectedMarkerData, visibleMarkerDatas, buildingType, firebaseDatas } = props;
   const [scroll, setScroll] = useState(false);
 
+  // 마커 선택시 탭 스크롤 업
+  useEffect(() => {
+    setScroll(true);
+  }, [selectedMarkerData]);
+
+  // 지도 이동시 탭 스크롤 다운
   useEffect(() => {
     setScroll(false);
-  }, [selectedMarkerData]);
+  }, [visibleMarkerDatas]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);

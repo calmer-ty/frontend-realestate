@@ -17,7 +17,6 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
   }, [visibleMarkerDatas]);
 
   const onClickInfo = (el: IMarkerData): void => {
-    console.log(el);
     setSelect((prev) => !prev);
     setSelectedEl(el); // 선택된 el을 상태에 저장
   };
