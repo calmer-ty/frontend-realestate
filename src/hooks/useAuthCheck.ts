@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import type { Session } from "next-auth";
 
 export const useAuthCheck = (): {
+  session: Session | null;
   open: boolean;
   handleClose: () => void;
 } => {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -18,6 +20,7 @@ export const useAuthCheck = (): {
   };
 
   return {
+    session,
     open,
     handleClose,
   };

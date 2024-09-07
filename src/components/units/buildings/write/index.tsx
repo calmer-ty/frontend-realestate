@@ -25,8 +25,10 @@ export default function BuildingWrite(): JSX.Element {
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase();
-  const { open, handleClose } = useAuthCheck();
+  const { session, open, handleClose } = useAuthCheck();
   const selectedType = getFirestoreCollectionName(watch("type"));
+
+  console.log((session?.user as { id?: string })?.id);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
@@ -38,6 +40,11 @@ export default function BuildingWrite(): JSX.Element {
       const formData = {
         ...data,
         imageUrls: downloadURLs,
+        user: {
+          name: session?.user?.name,
+          email: session?.user?.email,
+          _id: (session?.user as { id?: string })?.id,
+        },
       };
 
       // Firestore에 데이터 추가
