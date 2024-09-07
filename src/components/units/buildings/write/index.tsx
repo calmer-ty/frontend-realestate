@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
+import { getFirestoreCollectionName } from "@/src/commons/libraries/utils/firestoreCollection";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
@@ -25,20 +26,10 @@ export default function BuildingWrite(): JSX.Element {
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase();
   const { open, handleClose } = useAuthCheck();
-
-  const getFirestoreCollectionName = (type: string | null): string => {
-    switch (type) {
-      case "아파트":
-        return "apartment";
-      default:
-        return "";
-    }
-  };
-  const selectedType = watch("type");
-  const selectedTypeEng = getFirestoreCollectionName(selectedType);
+  const selectedType = getFirestoreCollectionName(watch("type"));
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
-  const onClickSubmit = async (data: IWriteFormData): Promise<void> => {
+  const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
       // 파일 업로드 및 다운로드 URL 가져오기
       const downloadURLs = await uploadFiles(selectedFiles);
@@ -50,9 +41,9 @@ export default function BuildingWrite(): JSX.Element {
       };
 
       // Firestore에 데이터 추가
-      await createFirebaseData(formData, selectedTypeEng);
+      await createFirebaseData(formData, selectedType);
 
-      router.push(`/${selectedTypeEng}/`);
+      router.push(`/${selectedType}/`);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -71,7 +62,7 @@ export default function BuildingWrite(): JSX.Element {
         </Alert>
       </BasicSnackbar>
       {/* 폼 */}
-      <S.Form onSubmit={handleSubmit(onClickSubmit)}>
+      <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
         <BuildingInfo register={register} setValue={setValue} control={control} />
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
