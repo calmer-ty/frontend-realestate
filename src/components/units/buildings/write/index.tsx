@@ -5,28 +5,26 @@ import DealInfo from "./dealInfo";
 import AddInfo from "./addInfo";
 import BuildingDesc from "./buildingDesc";
 import ImgUpload from "./imgUpload";
+import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { Alert, Button } from "@mui/material";
-// import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
-// import { useAuthCheck } from "@/src/hooks/useAuthCheck";
+import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
-import { useSession } from "next-auth/react";
-import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 
 export default function BuildingWrite(): JSX.Element {
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
-  const { createFirebaseData } = useFirebase(); // 훅 사용
-
-  // const { open: alertOpen, handleClose } = useAuthCheck();
+  const { createFirebaseData } = useFirebase();
+  const { open, handleClose } = useAuthCheck();
 
   const getFirestoreCollectionName = (type: string | null): string => {
     switch (type) {
@@ -59,25 +57,16 @@ export default function BuildingWrite(): JSX.Element {
       if (error instanceof Error) console.error(error.message);
     }
   };
-  // 구글 세션
-  const { status } = useSession();
-  const [alertOpen, setAlertOpen] = useState(false);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      setAlertOpen(true);
-    }
-  }, [status, router]);
-  const handleClose = (): void => {
-    setAlertOpen(false); // 모달 닫기
-    router.push("/");
+  const handleModalClose = (): void => {
+    handleClose(); // 모달 닫기
+    router.push("/"); // 라우팅 처리
   };
 
   return (
     <>
       {/* 알림창 */}
-      <BasicSnackbar open={alertOpen} close={handleClose}>
-        <Alert onClose={handleClose} severity="warning">
+      <BasicSnackbar open={open} close={handleModalClose}>
+        <Alert onClose={handleModalClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>
