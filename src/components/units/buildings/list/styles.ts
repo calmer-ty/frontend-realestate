@@ -12,16 +12,28 @@ export const Container = styled.article`
 export const Registered = styled.ul`
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 30px;
   li {
     display: flex;
+    align-items: center;
     column-gap: 10px;
-    .buildingInfos {
+    .infos {
       font-size: 17px;
       line-height: 1.6;
       .basic,
       .price {
         font-weight: bold;
+      }
+      .basic {
+        display: flex;
+        align-items: center;
+      }
+      .basic i {
+        margin: 0 10px;
+        display: inline-block;
+        width: 2px;
+        height: 18px;
+        background-color: #000;
       }
       .price {
         font-size: 20px;

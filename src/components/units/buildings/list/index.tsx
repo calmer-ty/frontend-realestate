@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+// import { Button } from "@mui/material";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import { useSession } from "next-auth/react";
@@ -36,10 +37,11 @@ export default function BuildingList(): JSX.Element {
             {filteredData.map((el, index) => (
               <li key={`${el._id}_${index}`}>
                 <p>{index}</p>
-                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} /> : <BasicUnImage width="200px" height="120px" />}
-                <div className="buildingInfos">
+                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" />}
+                <div className="infos">
                   <p className="basic">
-                    {el.type} | 방 {el.roomCount}개 | 욕실 {el.bathroomCount}개
+                    {el.type}
+                    <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                   </p>
                   <p className="price">
                     매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
