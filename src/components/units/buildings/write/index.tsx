@@ -15,6 +15,7 @@ import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { getFirestoreCollectionName } from "@/src/commons/libraries/utils/firestoreCollection";
+import { serverTimestamp } from "firebase/firestore";
 
 import type { IWriteFormData } from "./types";
 import * as S from "./styles";
@@ -43,6 +44,7 @@ export default function BuildingWrite(): JSX.Element {
           email: session?.user?.email,
           _id: session?.user?.id, // 타입 단언
         },
+        createdAt: serverTimestamp(), // 서버 시간 추가
       };
 
       // Firestore에 데이터 추가
