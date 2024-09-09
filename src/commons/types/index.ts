@@ -107,6 +107,7 @@ export interface IFirebaseData {
   area: number;
   price: number;
   roomCount: number;
+  bathroomCount: number;
   manageCost: number;
   imageUrls?: string[];
   desc: string;
