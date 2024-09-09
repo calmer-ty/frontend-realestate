@@ -28,8 +28,6 @@ export default function BuildingWrite(): JSX.Element {
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = getFirestoreCollectionName(watch("type"));
 
-  console.log((session?.user as { id?: string })?.id);
-
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
@@ -43,7 +41,7 @@ export default function BuildingWrite(): JSX.Element {
         user: {
           name: session?.user?.name,
           email: session?.user?.email,
-          _id: (session?.user as { id?: string })?.id,
+          _id: session?.user?.id, // 타입 단언
         },
       };
 

@@ -3,6 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { Button, MenuItem } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import BasicMenu from "@/src/components/commons/navigation/menu/basic";
+import Link from "next/link";
 
 export default function AuthButton(): JSX.Element {
   const { data: session } = useSession();
@@ -17,7 +18,9 @@ export default function AuthButton(): JSX.Element {
         <div style={{ display: "flex", alignItems: "center" }}>
           <p>Welcome, {session.user?.name}</p>
           <BasicMenu>
-            <MenuItem>내 매물 보기</MenuItem>
+            <MenuItem>
+              <Link href={"/list"}>내 매물 보기</Link>
+            </MenuItem>
             <MenuItem onClick={() => signOut()}>로그아웃</MenuItem>
           </BasicMenu>
         </div>
