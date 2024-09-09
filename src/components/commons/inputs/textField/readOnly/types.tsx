@@ -1,6 +1,6 @@
 import type { UseFormRegisterReturn } from "react-hook-form";
 
-export interface TextFieldReadOnlyProps {
+export interface IReadOnlyTextFieldProps {
   role: string;
   label: string;
   value: string;

@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
-import type { ITextFieldBasic } from "./types";
+import type { IBasicTextField } from "./types";
 
-export default function TextFieldBasic(props: ITextFieldBasic): JSX.Element {
+export default function BasicTextField(props: IBasicTextField): JSX.Element {
   return (
     <TextField
       id="outlined-basic"

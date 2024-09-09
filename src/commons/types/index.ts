@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
+import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
 // 지역코드
 export interface IRegionData {
@@ -106,9 +107,15 @@ export interface IFirebaseData {
   area: number;
   price: number;
   roomCount: number;
+  bathroomCount: number;
   manageCost: number;
   imageUrls?: string[];
   desc: string;
+  user: {
+    _id?: string;
+    name: string;
+    email: string;
+  };
 }
 
 // Hooks Type
@@ -135,7 +142,7 @@ export interface IUseFetchAllGeocodeProps {
 
 // firebase
 export interface IUseFirebaseProps {
-  createFirebaseData: (data: IFirebaseData, selectedTypeEng: string) => Promise<void>;
+  createFirebaseData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
   readFirebaseData: (data: IFirebaseData) => Promise<void>;
   readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
 }

@@ -1,8 +1,8 @@
 import { TextField } from "@mui/material";
-import type { TextFieldReadOnlyProps } from "./types";
+import type { IReadOnlyTextFieldProps } from "./types";
 import { style } from "./styles";
 
-export default function TextFieldReadOnly(props: TextFieldReadOnlyProps): JSX.Element {
+export default function ReadOnlyTextField(props: IReadOnlyTextFieldProps): JSX.Element {
   return (
     <TextField
       id="outlined-basic"

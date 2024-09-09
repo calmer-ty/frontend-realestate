@@ -1,7 +1,7 @@
-import type { ITitleUnderlineProps } from "./types";
+import type { IUnderlineTitleProps } from "./types";
 import * as S from "./styles";
 
-export default function TitleUnderline(props: ITitleUnderlineProps): JSX.Element {
+export default function UnderlineTitle(props: IUnderlineTitleProps): JSX.Element {
   return (
     <S.TitleWrap>
       <h2>{props.label}</h2>

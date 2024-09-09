@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import ButtonAuth from "@/src/components/commons/buttons/auth";
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
+import Nav from "@/src/components/layout/nav";
 
 export default function RootLayout({
   children,
@@ -25,10 +25,7 @@ export default function RootLayout({
                       <HomeWorkIcon color="primary" fontSize="large" />
                     </Link>
                   </h1>
-                  <nav>
-                    <Link href="/new">방 내놓기</Link>
-                    <ButtonAuth />
-                  </nav>
+                  <Nav />
                 </div>
               </header>
               <main>

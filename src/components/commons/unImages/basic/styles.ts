@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import type { IUnImageBasicProps } from "./types";
+import type { IBasicUnImageProps } from "./types";
 
-export const UnImage = styled.div<IUnImageBasicProps>`
+export const UnImage = styled.div<IBasicUnImageProps>`
   display: flex;
   justify-content: center;
   align-items: center;

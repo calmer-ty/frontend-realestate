@@ -1,13 +1,14 @@
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import BasicModal from "../../modal/basic";
+
 import { useRef, useState } from "react";
 import { checkValidationImg } from "@/src/commons/libraries/validation";
-import AddIcon from "@mui/icons-material/Add";
-import ModalBasic from "../../modal/basic";
-import CloseIcon from "@mui/icons-material/Close";
 import type { ChangeEvent, RefObject } from "react";
-import type { IFileWithPreview, IUploadBasicProps } from "./types";
+import type { IFileWithPreview, IBasicUploadProps } from "./types";
 import * as S from "./styles";
 
-export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.Element {
+export default function BasicUpload({ onFilesChange }: IBasicUploadProps): JSX.Element {
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -119,14 +120,14 @@ export default function UploadBasic({ onFilesChange }: IUploadBasicProps): JSX.E
       </div>
 
       {openModal && (
-        <ModalBasic
+        <BasicModal
           open={openModal}
           onToggle={() => {
             setOpenModal(false);
           }}
         >
           <p>{modalMessage}</p>
-        </ModalBasic>
+        </BasicModal>
       )}
     </>
   );

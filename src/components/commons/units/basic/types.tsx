@@ -1,3 +1,3 @@
-export interface IUnitBasicProps {
+export interface IBasicUnitProps {
   label: string;
 }
