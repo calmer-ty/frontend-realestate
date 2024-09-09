@@ -1,13 +1,14 @@
 "use client";
 
+import Image from "next/image";
+import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
-import Image from "next/image";
-import BasicUnImage from "@/src/components/commons/unImages/basic";
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
@@ -31,19 +32,26 @@ export default function BuildingList(): JSX.Element {
       {status === "authenticated" ? (
         <>
           <h2>{session.user.name} 님의 등록하신 매물 목록</h2>
-          <ul>
+          <S.Registered>
             {filteredData.map((el, index) => (
               <li key={`${el._id}_${index}`}>
                 <p>{index}</p>
-                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} /> : <BasicUnImage width="200px" height="100px" />}
-                <p>
-                  {el.type} | 방 {el.roomCount}개 | 욕실 {el.bathroomCount}개
-                </p>
-                <p>{el.address}</p>
-                <p>{el.addressDetail}</p>
+                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} /> : <BasicUnImage width="200px" height="120px" />}
+                <div className="buildingInfos">
+                  <p className="basic">
+                    {el.type} | 방 {el.roomCount}개 | 욕실 {el.bathroomCount}개
+                  </p>
+                  <p className="price">
+                    매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                  </p>
+                  <p className="address">
+                    {el.address} {el.addressDetail}
+                  </p>
+                  <p className="desc">{el.desc}</p>
+                </div>
               </li>
             ))}
-          </ul>
+          </S.Registered>
         </>
       ) : (
         <LoadingSpinner size={100} />
