@@ -1,5 +1,9 @@
-import type { FieldValue } from "firebase/firestore";
+import type { DocumentData, FieldValue } from "firebase/firestore";
 
+export interface IBuildingWrite {
+  isEdit: boolean;
+  docData?: DocumentData | undefined;
+}
 export interface IWriteFormData {
   _id: string;
   type: string;

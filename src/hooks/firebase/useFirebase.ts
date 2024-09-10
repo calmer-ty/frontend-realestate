@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import type { DocumentData } from "firebase/firestore";
 import type { IFirebaseData, IUseFirebaseProps } from "@/src/commons/types";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
@@ -21,16 +22,11 @@ export const useFirebase = (): IUseFirebaseProps => {
     }
   }, []);
 
-  const readFirebaseData = useCallback(async (data: IFirebaseData): Promise<void> => {
-    const docRef = doc(db, data.type, data._id);
+  const readFirebaseData = useCallback(async (collection: string, docId: string): Promise<DocumentData | undefined> => {
+    const docRef = doc(db, collection, docId);
     try {
       const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        // console.log("Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
+      return docSnap.data();
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

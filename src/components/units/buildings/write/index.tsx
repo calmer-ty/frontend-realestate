@@ -17,10 +17,10 @@ import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { getFirestoreCollectionName } from "@/src/commons/libraries/utils/firestoreCollection";
 import { serverTimestamp } from "firebase/firestore";
 
-import type { IWriteFormData } from "./types";
+import type { IBuildingWrite, IWriteFormData } from "./types";
 import * as S from "./styles";
 
-export default function BuildingWrite(): JSX.Element {
+export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
@@ -70,14 +70,14 @@ export default function BuildingWrite(): JSX.Element {
       </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} control={control} />
+        <BuildingInfo register={register} setValue={setValue} control={control} isEdit={props.isEdit} docData={props.docData} />
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
-            등록하기
+            {props.isEdit ? "수정" : "등록"}하기
           </Button>
         </S.Footer>
       </S.Form>

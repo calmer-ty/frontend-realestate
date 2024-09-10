@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const Container = styled.article`
   display: flex;
+  justify-content: center;
   flex-direction: column;
   height: 100%;
   padding: 40px 0;
@@ -12,11 +13,13 @@ export const Container = styled.article`
 export const Registered = styled.ul`
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  cursor: pointer;
   li {
     display: flex;
     align-items: center;
     column-gap: 10px;
+    position: relative;
+    padding: 20px;
     .infos {
       font-size: 17px;
       line-height: 1.6;
@@ -42,5 +45,15 @@ export const Registered = styled.ul`
         color: #bcbcbc;
       }
     }
+    /* &:hover {
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.3;
+      }
+    } */
   }
 `;

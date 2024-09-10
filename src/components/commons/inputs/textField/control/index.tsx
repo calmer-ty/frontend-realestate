@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
-import type { IBasicTextField } from "./types";
+import type { IControlTextField } from "./types";
 
-export default function BasicTextField(props: IBasicTextField): JSX.Element {
+export default function ControlTextField(props: IControlTextField): JSX.Element {
   return (
     <TextField
       id="outlined-basic"
@@ -11,7 +11,7 @@ export default function BasicTextField(props: IBasicTextField): JSX.Element {
       required={props.required}
       label={props.label}
       {...props.register}
-      defaultValue={props.defaultValue}
+      value={props.value}
       fullWidth
       InputLabelProps={{
         shrink: true, // label이 항상 위에 위치하도록 설정
