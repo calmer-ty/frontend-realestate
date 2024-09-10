@@ -111,10 +111,14 @@ export interface IFirebaseData {
   manageCost: number;
   imageUrls?: string[];
   desc: string;
-  user: {
-    _id?: string;
+  user?: {
+    _id: string;
     name: string;
     email: string;
+  };
+  createdAt?: {
+    seconds: number;
+    nanoseconds: number;
   };
 }
 

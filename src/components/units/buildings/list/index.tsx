@@ -1,22 +1,21 @@
 "use client";
 
 import Image from "next/image";
-// import { Button } from "@mui/material";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+// import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 import type { IFirebaseData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
-  const userId = session?.user?.id;
-
   const [buildingData, setBuildingData] = useState<IFirebaseData[]>([]); // 상태로 데이터를 저장
   const { readFirebaseDatas } = useFirebase();
+  const userId = (session?.user as { id?: string })?.id;
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -32,7 +31,7 @@ export default function BuildingList(): JSX.Element {
     <S.Container>
       {status === "authenticated" ? (
         <>
-          <h2>{session.user.name} 님의 등록하신 매물 목록</h2>
+          <h2>{session.user?.name} 님의 등록하신 매물 목록</h2>
           <S.Registered>
             {filteredData.map((el, index) => (
               <li key={`${el._id}_${index}`}>
@@ -51,6 +50,11 @@ export default function BuildingList(): JSX.Element {
                   </p>
                   <p className="desc">{el.desc}</p>
                 </div>
+                {/* <div className="ad">
+                  광고 정보
+                  {convertTimestamp(el.createdAt?.seconds).year}-{convertTimestamp(el.createdAt?.seconds).month}-{convertTimestamp(el.createdAt?.seconds).day}-
+                  {convertTimestamp(el.createdAt?.seconds).hours}:{convertTimestamp(el.createdAt?.seconds).minutes}:{convertTimestamp(el.createdAt?.seconds).seconds}
+                </div> */}
               </li>
             ))}
           </S.Registered>

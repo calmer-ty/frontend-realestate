@@ -1,3 +1,5 @@
+import type { FieldValue } from "firebase/firestore";
+
 export interface IWriteFormData {
   _id: string;
   type: string;
@@ -11,4 +13,5 @@ export interface IWriteFormData {
   manageCost: number;
   bathroomCount: number;
   desc: string;
+  createdAt: FieldValue;
 }

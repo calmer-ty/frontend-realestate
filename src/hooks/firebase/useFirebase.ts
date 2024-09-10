@@ -27,7 +27,7 @@ export const useFirebase = (): IUseFirebaseProps => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+        // console.log("Document data:", docSnap.data());
       } else {
         console.log("No such document!");
       }
@@ -40,7 +40,7 @@ export const useFirebase = (): IUseFirebaseProps => {
     try {
       const querySnapshot = await getDocs(collection(db, buildingType));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirebaseData);
-      console.log("Document datas:", datas);
+      // console.log("Document datas:", datas);
       return datas;
     } catch (error) {
       console.error("Error fetching buildings:", error);

@@ -42,7 +42,7 @@ export default function BuildingWrite(): JSX.Element {
         user: {
           name: session?.user?.name,
           email: session?.user?.email,
-          _id: session?.user?.id, // 타입 단언
+          _id: (session?.user as { id?: string })?.id, // 타입 단언
         },
         createdAt: serverTimestamp(), // 서버 시간 추가
       };
