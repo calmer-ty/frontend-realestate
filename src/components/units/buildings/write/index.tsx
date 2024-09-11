@@ -21,9 +21,10 @@ import type { IBuildingWrite, IWriteFormData } from "./types";
 import * as S from "./styles";
 
 export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
+  const { isEdit, docData } = props;
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const { register, handleSubmit, control, watch, setValue } = useForm<IWriteFormData>({});
+  const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase();
   const { session, open, handleClose } = useAuthCheck();
@@ -70,14 +71,14 @@ export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
       </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} control={control} isEdit={props.isEdit} docData={props.docData} />
-        <DealInfo register={register} />
-        <AddInfo register={register} control={control} />
+        <BuildingInfo register={register} setValue={setValue} control={control} isEdit={isEdit} docData={docData} />
+        <DealInfo register={register} isEdit={isEdit} docData={docData} />
+        <AddInfo register={register} control={control} isEdit={isEdit} docData={docData} />
         <BuildingDesc register={register} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
-            {props.isEdit ? "수정" : "등록"}하기
+            {isEdit ? "수정" : "등록"}하기
           </Button>
         </S.Footer>
       </S.Form>

@@ -1,6 +1,6 @@
 import DaumPostcodeEmbed from "react-daum-postcode";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
-import BasicSelect from "@/src/components/commons/inputs/select/basic";
+import ControlSelect from "@/src/components/commons/inputs/select/control";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
@@ -20,11 +20,10 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch(setValue, onToggle);
   useSelectMarker(geocodeData);
 
-  console.log(docData);
   return (
     <section>
       <UnderlineTitle label="매물 정보" />
-      <BasicSelect required label="매물유형" name="type" type={docData?.type} control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
+      <ControlSelect required label="매물유형" name="type" type={docData?.type} control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
       <S.MapView>
         <S.AddressSearch>
           <div className="inputUnit">
