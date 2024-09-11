@@ -8,8 +8,9 @@ import type { IControlRadioProps } from "./types";
 
 export default function ControlRadio(props: IControlRadioProps): JSX.Element {
   const { label, name, control, selectLabel1, selectLabel2, hasValue } = props;
-  console.log("hasValue", hasValue);
-  console.log("selectLabel1", selectLabel1);
+  // console.log("hasValue", typeof hasValue);
+  // console.log("selectLabel1", typeof selectLabel1);
+  // console.log("selectLabel1", typeof selectLabel2);
   return (
     <FormControl>
       <FormLabel id="demo-controlled-radio-buttons-group">{label}</FormLabel>
@@ -17,12 +18,18 @@ export default function ControlRadio(props: IControlRadioProps): JSX.Element {
         name={name}
         control={control}
         defaultValue={hasValue ?? ""}
-        render={({ field }) => (
-          <RadioGroup row aria-labelledby="demo-controlled-radio-buttons-group" value={field.value} onChange={field.onChange}>
-            <FormControlLabel value={selectLabel1} control={<Radio />} label={selectLabel1} />
-            <FormControlLabel value={selectLabel2} control={<Radio />} label={selectLabel2} />
-          </RadioGroup>
-        )}
+        render={({ field }) => {
+          // 디버깅 로그 추가
+          console.log("Controller field value:", field.value);
+          console.log("Controller field onChange:", field.onChange);
+          console.log("hasValue prop:", hasValue);
+          return (
+            <RadioGroup row aria-labelledby="demo-controlled-radio-buttons-group" value={field.value} onChange={field.onChange}>
+              <FormControlLabel value={selectLabel1} control={<Radio />} label={selectLabel1} />
+              <FormControlLabel value={selectLabel2} control={<Radio />} label={selectLabel2} />
+            </RadioGroup>
+          );
+        }}
       />
     </FormControl>
   );
