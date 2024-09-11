@@ -2,12 +2,11 @@ import { TextField } from "@mui/material";
 import type { IBasicTextField } from "./types";
 
 export default function BasicTextField(props: IBasicTextField): JSX.Element {
-  const { step, role, type, required, label, register, defaultValue, isEdit } = props;
+  const { step, type, required, label, register, defaultValue, isEdit } = props;
   return (
     <TextField
       id="outlined-basic"
       InputProps={{ inputProps: { step } }}
-      role={role}
       type={type}
       required={required}
       label={label}

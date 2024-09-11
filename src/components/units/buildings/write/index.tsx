@@ -74,7 +74,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
         <BuildingInfo register={register} setValue={setValue} control={control} editData={editData} />
         <DealInfo register={register} editData={editData} />
-        <AddInfo register={register} control={control} editData={editData} />
+        <AddInfo register={register} setValue={setValue} control={control} editData={editData} />
         <BuildingDesc register={register} editData={editData} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
