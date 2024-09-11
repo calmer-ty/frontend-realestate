@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import type { IControlRadioProps } from "./types";
 
 export default function ControlRadio(props: IControlRadioProps): JSX.Element {
-  const { label, name, control, selectLabel1, selectLabel2, hasValue } = props;
+  const { label, name, control, selectLabel1, selectLabel2, isEdit, hasValue } = props;
   // console.log("hasValue", typeof hasValue);
   // console.log("selectLabel1", typeof selectLabel1);
   // console.log("selectLabel1", typeof selectLabel2);
@@ -17,7 +17,7 @@ export default function ControlRadio(props: IControlRadioProps): JSX.Element {
       <Controller
         name={name}
         control={control}
-        defaultValue={hasValue ?? ""}
+        defaultValue={isEdit ? hasValue : ""}
         render={({ field }) => {
           // 디버깅 로그 추가
           console.log("Controller field value:", field.value);

@@ -8,4 +8,5 @@ export interface IControlRadioProps {
   selectLabel2: string;
   control: Control<IWriteFormData>;
   hasValue: string;
+  isEdit: boolean;
 }

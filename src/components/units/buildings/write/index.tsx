@@ -17,11 +17,12 @@ import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { serverTimestamp } from "firebase/firestore";
 
-import type { IBuildingWrite, IWriteFormData } from "./types";
+import type { IEditFormData, IWriteFormData } from "./types";
 import * as S from "./styles";
 
-export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
+export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { isEdit, docData } = props;
+  const editData: IEditFormData = { isEdit, docData };
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
@@ -71,10 +72,10 @@ export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
       </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} control={control} isEdit={isEdit} docData={docData} />
-        <DealInfo register={register} isEdit={isEdit} docData={docData} />
-        <AddInfo register={register} control={control} isEdit={isEdit} docData={docData} />
-        <BuildingDesc register={register} />
+        <BuildingInfo register={register} setValue={setValue} control={control} editData={editData} />
+        <DealInfo register={register} editData={editData} />
+        <AddInfo register={register} control={control} editData={editData} />
+        <BuildingDesc register={register} editData={editData} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
