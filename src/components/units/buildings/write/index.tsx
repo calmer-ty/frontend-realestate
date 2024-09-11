@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
-import { getFirestoreCollectionName } from "@/src/commons/libraries/utils/firestoreCollection";
+import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { serverTimestamp } from "firebase/firestore";
 
 import type { IBuildingWrite, IWriteFormData } from "./types";
@@ -27,7 +27,7 @@ export default function BuildingWrite(props: IBuildingWrite): JSX.Element {
   const { uploadFiles } = useFirebaseStorage();
   const { createFirebaseData } = useFirebase();
   const { session, open, handleClose } = useAuthCheck();
-  const selectedType = getFirestoreCollectionName(watch("type"));
+  const selectedType = korToEng(watch("type"));
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {

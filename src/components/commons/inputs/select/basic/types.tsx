@@ -8,4 +8,5 @@ export interface IControlSelect {
   required?: boolean;
   name: keyof IWriteFormData;
   control: Control<IWriteFormData>;
+  type: string;
 }
