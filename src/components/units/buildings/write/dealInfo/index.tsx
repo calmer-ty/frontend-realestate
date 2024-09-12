@@ -4,17 +4,17 @@ import BasicUnit from "@/src/components/commons/units/basic";
 import type { IDealInfoProps } from "./types";
 
 export default function DealInfo(props: IDealInfoProps): JSX.Element {
-  const { register, editData } = props;
+  const { register } = props;
 
   return (
     <section>
       <UnderlineTitle label="거래 정보" />
       <div className="inputUnit">
-        <BasicTextField required type="number" label="매매가" isEdit={editData.isEdit} defaultValue={editData.isEdit ? editData.docData?.price : ""} register={register("price")} />
+        <BasicTextField required type="number" name="price" label="매매가" register={register("price")} />
         <BasicUnit label="만원" />
       </div>
       <div className="inputUnit">
-        <BasicTextField required type="number" label="관리비" isEdit={editData.isEdit} defaultValue={editData.isEdit ? editData.docData?.manageCost : ""} register={register("manageCost")} />
+        <BasicTextField required type="number" name="manageCost" label="관리비" register={register("manageCost")} />
         <BasicUnit label="만원" />
       </div>
     </section>

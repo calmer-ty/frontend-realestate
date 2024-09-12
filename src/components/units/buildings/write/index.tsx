@@ -22,7 +22,7 @@ import * as S from "./styles";
 
 export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { isEdit, docData } = props;
-  const editData: IEditFormData = { isEdit, docData };
+  // const editData: IEditFormData = { isEdit, docData };
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
@@ -72,10 +72,10 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
       </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} control={control} editData={editData} />
-        <DealInfo register={register} editData={editData} />
-        <AddInfo register={register} setValue={setValue} control={control} editData={editData} />
-        <BuildingDesc register={register} editData={editData} />
+        <BuildingInfo register={register} setValue={setValue} docData={docData} control={control} />
+        <DealInfo register={register} setValue={setValue} docData={docData} />
+        <AddInfo register={register} setValue={setValue} docData={docData} control={control} />
+        <BuildingDesc register={register} setValue={setValue} docData={docData} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">

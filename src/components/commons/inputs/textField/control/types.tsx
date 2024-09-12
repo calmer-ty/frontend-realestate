@@ -1,8 +1,8 @@
 import type { UseFormRegisterReturn } from "react-hook-form";
 
 export interface IControlTextField {
-  role: string;
   label: string;
+  name: string;
   step?: string;
   type?: string;
   value?: string;

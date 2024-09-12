@@ -3,7 +3,7 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import type { IBuildingDescProps } from "./types";
 
 export default function BuildingDesc(props: IBuildingDescProps): JSX.Element {
-  const { register, editData } = props;
+  const { register } = props;
 
   return (
     <section>
@@ -13,9 +13,8 @@ export default function BuildingDesc(props: IBuildingDescProps): JSX.Element {
         label="설명 내용"
         multiline
         rows={5}
-        defaultValue={editData.isEdit ? editData.docData?.desc : ""}
         InputLabelProps={{
-          shrink: editData.isEdit, // label이 항상 위에 위치하도록 설정
+          shrink: true,
         }}
         {...register("desc")}
       />

@@ -4,12 +4,9 @@ import Select from "@mui/material/Select";
 import { Controller } from "react-hook-form";
 import { InputLabel } from "@mui/material";
 import type { IControlSelect } from "./types";
-// import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function ControlSelect(props: IControlSelect): JSX.Element {
-  const { required, label, name, notice, selecteItems, control, type } = props;
-
-  // const defaultValue = engToKor(type);
+  const { required, label, name, notice, selecteItems, control } = props;
 
   return (
     <FormControl fullWidth required={required}>
@@ -17,7 +14,7 @@ export default function ControlSelect(props: IControlSelect): JSX.Element {
       <Controller
         name={name}
         control={control}
-        defaultValue={type ?? ""}
+        defaultValue=""
         render={({ field }) => (
           <Select labelId="demo-simple-select-label" id="demo-simple-select" label={label} {...field}>
             <MenuItem value="">
