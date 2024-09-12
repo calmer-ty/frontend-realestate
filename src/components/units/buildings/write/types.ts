@@ -9,13 +9,16 @@ export interface IWriteFormData {
   type: string;
   address: string;
   addressDetail: string;
+  area: string;
+  roomCount: string;
+
+  price: string;
+  manageCost: string;
+
+  floor: string;
+  bathroomCount: string;
   elevator: string;
-  floor: number;
-  area: number;
-  roomCount: number;
-  price: number;
-  manageCost: number;
-  bathroomCount: number;
+
   desc: string;
   createdAt: FieldValue;
 }

@@ -8,13 +8,13 @@ import ImgUpload from "./imgUpload";
 import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { Alert, Button } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
-import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
+import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { serverTimestamp } from "firebase/firestore";
 
 import type { IEditFormData, IWriteFormData } from "./types";
@@ -30,6 +30,22 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { createFirebaseData } = useFirebase();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type"));
+
+  useEffect(() => {
+    const fields = [
+      { field: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
+      { field: "address", value: docData?.address },
+      { field: "addressDetail", value: docData?.addressDetail },
+      { field: "area", value: docData?.area },
+      { field: "roomCount", value: docData?.roomCount },
+    ];
+
+    fields.forEach(({ field, value }) => {
+      if (typeof value === "string") {
+        setValue(field as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
+      }
+    });
+  }, [docData, setValue]);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
@@ -62,6 +78,29 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
     router.push("/"); // 라우팅 처리
   };
 
+  // 파이어베이스의 데이터값 불러오는 로직
+  useEffect(() => {
+    const fields = [
+      { name: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
+      { name: "address", value: docData?.address },
+      { name: "addressDetail", value: docData?.addressDetail },
+      { name: "area", value: docData?.area },
+      { name: "roomCount", value: docData?.roomCount },
+      { name: "price", value: docData?.price },
+      { name: "manageCost", value: docData?.manageCost },
+      { name: "floor", value: docData?.floor },
+      { name: "bathroomCount", value: docData?.bathroomCount },
+      { name: "elevator", value: docData?.elevator },
+      { name: "desc", value: docData?.desc },
+    ];
+
+    fields.forEach(({ name, value }) => {
+      if (typeof value === "string") {
+        setValue(name as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
+      }
+    });
+  }, [docData, setValue]);
+
   return (
     <>
       {/* 알림창 */}
@@ -72,10 +111,10 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
       </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} docData={docData} control={control} />
-        <DealInfo register={register} setValue={setValue} docData={docData} />
-        <AddInfo register={register} setValue={setValue} docData={docData} control={control} />
-        <BuildingDesc register={register} setValue={setValue} docData={docData} />
+        <BuildingInfo register={register} setValue={setValue} control={control} />
+        <DealInfo register={register} />
+        <AddInfo register={register} control={control} />
+        <BuildingDesc register={register} />
         <ImgUpload onFilesChange={setSelectedFiles} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">

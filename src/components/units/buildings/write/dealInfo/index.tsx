@@ -10,11 +10,11 @@ export default function DealInfo(props: IDealInfoProps): JSX.Element {
     <section>
       <UnderlineTitle label="거래 정보" />
       <div className="inputUnit">
-        <BasicTextField required type="number" name="price" label="매매가" register={register("price")} />
+        <BasicTextField required type="number" label="매매가" register={register("price")} />
         <BasicUnit label="만원" />
       </div>
       <div className="inputUnit">
-        <BasicTextField required type="number" name="manageCost" label="관리비" register={register("manageCost")} />
+        <BasicTextField required type="number" label="관리비" register={register("manageCost")} />
         <BasicUnit label="만원" />
       </div>
     </section>
