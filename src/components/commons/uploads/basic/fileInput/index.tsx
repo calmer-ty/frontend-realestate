@@ -1,14 +1,11 @@
 import { checkValidationImg } from "@/src/commons/libraries/validation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
-import type { IFileWithPreview } from "../types";
 import type { ChangeEvent } from "react";
 import type { IFileInputProps } from "./types";
-// import * as S from "./styles";
 
 export default function FileInput(props: IFileInputProps): JSX.Element {
-  const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const readFileAsDataURL = (file: File): Promise<string> => {
@@ -31,7 +28,7 @@ export default function FileInput(props: IFileInputProps): JSX.Element {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
       const selectedFiles = Array.from(e.target.files);
-      const totalFilesCount = filePreviews.length + selectedFiles.length;
+      const totalFilesCount = props.filePreviews.length + selectedFiles.length;
 
       if (totalFilesCount > 5) {
         props.setModalMessage("이미지는 5개까지 업로드가 가능합니다.");
@@ -65,9 +62,9 @@ export default function FileInput(props: IFileInputProps): JSX.Element {
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
       const validFilePreviews = fileWithPreviews.filter((fileWithPreview) => fileWithPreview !== null);
-      const updatedFilePreviews = [...filePreviews, ...validFilePreviews];
+      const updatedFilePreviews = [...props.filePreviews, ...validFilePreviews];
 
-      setFilePreviews(updatedFilePreviews);
+      props.setFilePreviews(updatedFilePreviews);
       props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
     }
   };

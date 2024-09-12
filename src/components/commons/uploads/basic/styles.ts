@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { Button } from "@mui/material";
 
 export const FilePreview = styled.div`
   display: flex;
@@ -29,7 +28,4 @@ export const PrevCloseBtn = styled.button`
   height: 30px;
   background-color: #363636;
   color: #fff;
-`;
-export const UploadBtn = styled(Button)`
-  width: 160px;
 `;
