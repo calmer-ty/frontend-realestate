@@ -6,9 +6,10 @@ import { useRef, useState } from "react";
 import { checkValidationImg } from "@/src/commons/libraries/validation";
 import type { ChangeEvent, RefObject } from "react";
 import type { IFileWithPreview, IBasicUploadProps } from "./types";
+// import FileInput from "./fileInput";
 import * as S from "./styles";
 
-export default function BasicUpload({ onFilesChange }: IBasicUploadProps): JSX.Element {
+export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -78,14 +79,14 @@ export default function BasicUpload({ onFilesChange }: IBasicUploadProps): JSX.E
       const updatedFilePreviews = [...filePreviews, ...validFilePreviews];
 
       setFilePreviews(updatedFilePreviews);
-      onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+      props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
     }
   };
 
   const handleRemoveFile = (index: number): void => {
     const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
     setFilePreviews(updatedFilePreviews);
-    onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+    props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
     // 리셋 파일 입력 필드
     resetFileInput(fileInputRef);
   };
@@ -101,6 +102,7 @@ export default function BasicUpload({ onFilesChange }: IBasicUploadProps): JSX.E
         사진 추가
       </S.UploadBtn>
       <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
+      {/* <FileInput onFilesChange={props.onFilesChange} setOpenModal={setOpenModal} setModalMessage={setModalMessage} resetFileInput={resetFileInput} /> */}
       <div>
         <S.FilePreview>
           {filePreviews.map((fileWithPreview, index) => (
