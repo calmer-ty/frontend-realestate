@@ -68,7 +68,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
       // Firestore에 데이터 추가
       await createFirebaseData(formData, selectedType);
 
-      router.push(`/${selectedType}/`);
+      router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

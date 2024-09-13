@@ -15,7 +15,7 @@ export default function ControlRadio(props: IControlRadioProps): JSX.Element {
       <Controller
         name={name}
         control={control}
-        defaultValue=""
+        defaultValue={selectLabel1}
         render={({ field }) => {
           return (
             <RadioGroup row aria-labelledby="demo-controlled-radio-buttons-group" value={field.value} onChange={field.onChange}>
