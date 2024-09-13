@@ -3,10 +3,11 @@ import BasicUpload from "@/src/components/commons/uploads/basic";
 import type { IImgUploadProps } from "./types";
 
 export default function ImgUpload(props: IImgUploadProps): JSX.Element {
+  const { docData, onFilesChange } = props;
   return (
     <section>
       <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
-      <BasicUpload onFilesChange={props.onFilesChange} />
+      <BasicUpload docData={docData} onFilesChange={onFilesChange} />
     </section>
   );
 }

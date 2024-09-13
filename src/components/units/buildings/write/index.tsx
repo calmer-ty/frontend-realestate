@@ -22,7 +22,6 @@ import * as S from "./styles";
 
 export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { isEdit, docData } = props;
-  // const editData: IEditFormData = { isEdit, docData };
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
@@ -30,6 +29,8 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { createFirebaseData } = useFirebase();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type"));
+
+  console.log("docData: ", docData);
 
   useEffect(() => {
     const fields = [
@@ -75,7 +76,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   };
   const handleModalClose = (): void => {
     handleClose(); // 모달 닫기
-    router.push("/"); // 라우팅 처리
+    router.push("/");
   };
 
   // 파이어베이스의 데이터값 불러오는 로직
@@ -115,7 +116,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload onFilesChange={setSelectedFiles} />
+        <ImgUpload onFilesChange={setSelectedFiles} docData={docData} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기

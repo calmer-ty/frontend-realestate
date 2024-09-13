@@ -38,7 +38,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
   };
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const onFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
       const selectedFiles = Array.from(e.target.files);
       const totalFilesCount = filePreviews.length + selectedFiles.length;
@@ -82,7 +82,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  const handleRemoveFile = (index: number): void => {
+  const onRemoveFile = (index: number): void => {
     const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
     setFilePreviews(updatedFilePreviews);
     props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
@@ -102,8 +102,8 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       >
         사진 추가
       </Button>
-      <input type="file" multiple ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-      <FilePreviewList filePreviews={filePreviews} onRemoveFile={handleRemoveFile} />
+      <input type="file" multiple ref={fileInputRef} onChange={onFileChange} style={{ display: "none" }} />
+      <FilePreviewList filePreviews={filePreviews} onRemoveFile={onRemoveFile} />
       {openModal && (
         <BasicModal
           open={openModal}
