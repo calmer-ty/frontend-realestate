@@ -4,14 +4,15 @@ import BuildingWrite from "@/src/components/units/buildings/write";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { DocumentData } from "firebase/firestore";
+// import type { DocumentData } from "firebase/firestore";
+import type { IFirebaseData } from "@/src/commons/types";
 
 export default function BuildingsEditPage(): JSX.Element {
   const pathname = usePathname();
   const buildingType = pathname?.split("/")[1];
   const docId = pathname?.split("/")[2];
 
-  const [docData, setDocData] = useState<DocumentData | undefined>();
+  const [docData, setDocData] = useState<IFirebaseData>();
   const { readFirebaseData } = useFirebase();
 
   useEffect(() => {

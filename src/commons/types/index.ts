@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
-import type { DocumentData } from "firebase/firestore";
+// import type { DocumentData } from "firebase/firestore";
 
 // 지역코드
 export interface IRegionData {
@@ -142,13 +142,12 @@ export interface IUseFetchAllGeocodeProps {
   geocodeResults: IGeocodeEtcData[];
   loading: boolean;
   error: Error | null;
-  // fetchData: () => Promise<void>;
 }
 
 // firebase
 export interface IUseFirebaseProps {
   createFirebaseData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
-  readFirebaseData: (collection: string, docId: string) => Promise<DocumentData | undefined>;
+  readFirebaseData: (collection: string, docId: string) => Promise<IFirebaseData | undefined>;
   readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
 }
 

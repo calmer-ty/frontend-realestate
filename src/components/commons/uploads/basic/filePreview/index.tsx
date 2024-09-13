@@ -4,8 +4,8 @@ import type { IFilePreviewListProps } from "./types";
 import * as S from "./styles";
 
 export default function FilePreviewList(props: IFilePreviewListProps): JSX.Element {
-  console.log("props.docData?.imageUrls:", props.docData?.imageUrls);
-  console.log("props.filePreviews", props.filePreviews);
+  // console.log("props.docData?.imageUrls:", props.docData?.imageUrls);
+  // console.log("props.filePreviews", props.filePreviews);
   return (
     <S.FilePreview>
       {/* {props.docData?.imageUrls.map((imageUrl, index) => (
