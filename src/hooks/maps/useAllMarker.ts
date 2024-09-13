@@ -4,8 +4,6 @@ import { createMarkerClusteringOptions, loadScript, markerIconContent } from "@/
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
 
 export const useAllMarker = (props: IUseAllMarkerProps): void => {
-  // const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
-
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null);
 

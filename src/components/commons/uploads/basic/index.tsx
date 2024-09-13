@@ -103,7 +103,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         사진 추가
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onFileChange} style={{ display: "none" }} />
-      <FilePreviewList filePreviews={filePreviews} onRemoveFile={onRemoveFile} />
+      <FilePreviewList filePreviews={filePreviews} onRemoveFile={onRemoveFile} docData={props.docData} />
       {openModal && (
         <BasicModal
           open={openModal}

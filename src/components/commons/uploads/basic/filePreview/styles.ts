@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 
 export const FilePreview = styled.div`
   display: flex;
@@ -12,11 +11,7 @@ export const PrevWrap = styled.div`
   width: 200px;
   height: 150px;
 `;
-export const PrevImg = styled(Image)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+
 export const PrevCloseBtn = styled.button`
   position: absolute;
   top: 8px;
