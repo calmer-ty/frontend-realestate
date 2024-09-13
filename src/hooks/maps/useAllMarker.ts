@@ -4,7 +4,7 @@ import { createMarkerClusteringOptions, loadScript, markerIconContent } from "@/
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
 
 export const useAllMarker = (props: IUseAllMarkerProps): void => {
-  const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
+  // const { geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas } = props;
 
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null);
@@ -17,7 +17,7 @@ export const useAllMarker = (props: IUseAllMarkerProps): void => {
         position: new window.naver.maps.LatLng(latitude, longitude),
         map: null, // Set map to null initially
         icon: {
-          content: markerIconContent(buildingsData, firebaseDatas),
+          content: markerIconContent(buildingsData, props.firebaseDatas),
         },
       };
 
@@ -26,12 +26,12 @@ export const useAllMarker = (props: IUseAllMarkerProps): void => {
       marker.set("data", markerData);
 
       window.naver.maps.Event.addListener(marker, "click", () => {
-        setSelectedMarkerData(markerData);
+        props.setSelectedMarkerData(markerData);
       });
 
       return marker;
     },
-    [firebaseDatas, setSelectedMarkerData]
+    [props]
   );
 
   const updateVisibleMarkers = useCallback(
@@ -41,7 +41,7 @@ export const useAllMarker = (props: IUseAllMarkerProps): void => {
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      geocodeResults.forEach((coord) => {
+      props.geocodeResults.forEach((coord) => {
         if (coord !== undefined) {
           const { latitude, longitude } = coord;
           const position = new window.naver.maps.LatLng(latitude, longitude);
@@ -62,10 +62,10 @@ export const useAllMarker = (props: IUseAllMarkerProps): void => {
       markerClusteringRef.current = createMarkerClusteringOptions(map, markersRef.current);
 
       const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
-      setVisibleMarkerDatas(markerDataArray);
-      setSelectedMarkerData(null);
+      props.setVisibleMarkerDatas(markerDataArray);
+      props.setSelectedMarkerData(null);
     },
-    [geocodeResults, createMarker, setSelectedMarkerData, setVisibleMarkerDatas]
+    [props, createMarker]
   );
 
   const loadClusterScript = useCallback(

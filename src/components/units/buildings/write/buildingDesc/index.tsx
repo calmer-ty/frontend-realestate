@@ -3,8 +3,6 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import type { IBuildingDescProps } from "./types";
 
 export default function BuildingDesc(props: IBuildingDescProps): JSX.Element {
-  const { register } = props;
-
   return (
     <section>
       <UnderlineTitle label="매물 설명" />
@@ -16,7 +14,7 @@ export default function BuildingDesc(props: IBuildingDescProps): JSX.Element {
         InputLabelProps={{
           shrink: true,
         }}
-        {...register("desc")}
+        {...props.register("desc")}
       />
     </section>
   );

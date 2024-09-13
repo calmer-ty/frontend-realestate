@@ -6,17 +6,15 @@ import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import type { IControlSelect } from "./types";
 
 export default function BasicSelect(props: IControlSelect): JSX.Element {
-  const { label, notice, selecteItems, required, type } = props;
-
   return (
-    <FormControl fullWidth required={required}>
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+    <FormControl fullWidth required={props.required}>
+      <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
 
-      <Select labelId="demo-simple-select-label" id="demo-simple-select" label={label} value={engToKor(type)}>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select" label={props.label} value={engToKor(props.type)}>
         <MenuItem value="">
-          <em>{notice}</em>
+          <em>{props.notice}</em>
         </MenuItem>
-        {selecteItems.map((el, index) => (
+        {props.selecteItems.map((el, index) => (
           <MenuItem key={`${el}_${index}`} value={el}>
             {el}
           </MenuItem>

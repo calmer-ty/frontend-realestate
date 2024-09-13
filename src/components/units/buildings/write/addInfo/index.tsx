@@ -5,20 +5,18 @@ import ControlRadio from "@/src/components/commons/inputs/radio/control";
 import type { IAddInfoProps } from "./types";
 
 export default function AddInfo(props: IAddInfoProps): JSX.Element {
-  const { register, control } = props;
-
   return (
     <section>
       <UnderlineTitle label="추가 정보" />
       <div className="inputUnit">
-        <BasicTextField required type="number" label="층" register={register("floor")} />
+        <BasicTextField required type="number" label="층" register={props.register("floor")} />
         <BasicUnit label="층" />
       </div>
       <div className="inputUnit">
-        <BasicTextField required type="number" label="욕실 수" register={register("bathroomCount")} />
+        <BasicTextField required type="number" label="욕실 수" register={props.register("bathroomCount")} />
         <BasicUnit label="개" />
       </div>
-      <ControlRadio label="엘리베이터" name="elevator" selectLabel1={"없음"} selectLabel2={"있음"} control={control} />
+      <ControlRadio label="엘리베이터" name="elevator" selectLabel1={"없음"} selectLabel2={"있음"} control={props.control} />
     </section>
   );
 }

@@ -5,18 +5,17 @@ import type { IMapsInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
-  const { selectedMarkerData, visibleMarkerDatas, buildingType, firebaseDatas } = props;
   const [scroll, setScroll] = useState(false);
 
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
     setScroll(true);
-  }, [selectedMarkerData]);
+  }, [props.selectedMarkerData]);
 
   // 지도 이동시 탭 스크롤 다운
   useEffect(() => {
     setScroll(false);
-  }, [visibleMarkerDatas]);
+  }, [props.visibleMarkerDatas]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
@@ -29,10 +28,10 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
         매물 보기
       </S.TabButton>
       <S.Container scroll={scroll}>
-        {selectedMarkerData !== null ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} buildingType={buildingType} firebaseDatas={firebaseDatas} />
+        {props.selectedMarkerData !== null ? (
+          <SelectedArea selectedMarkerData={props.selectedMarkerData} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
         ) : (
-          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} buildingType={buildingType} firebaseDatas={firebaseDatas} />
+          <VisibleArea visibleMarkerDatas={props.visibleMarkerDatas} buildingType={props.buildingType} firebaseDatas={props.firebaseDatas} />
         )}
       </S.Container>
     </>

@@ -9,27 +9,26 @@ import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { selectedData, firebaseDatas, buildingType, isSelected } = props;
-  const matchedFirebaseData: IFirebaseData[] = firebaseDatas.filter(
-    (el) => shortenCityName(selectedData?.address ?? "") === el.address || shortenCityName(selectedData?.address_road ?? "") === el.address
+  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
+    (el) => shortenCityName(props.selectedData?.address ?? "") === el.address || shortenCityName(props.selectedData?.address_road ?? "") === el.address
   );
 
   return (
     <>
-      {isSelected && selectedData != null && (
+      {props.isSelected && props.selectedData != null && (
         <>
           <S.BuildingInfo>
             <S.InfoWrap>
-              <h2>{selectedData.buildingName}</h2>
+              <h2>{props.selectedData.buildingName}</h2>
               <S.TextWrap>
-                <ChipSmall label="연식" /> {selectedData.constructionYear}
+                <ChipSmall label="연식" /> {props.selectedData.constructionYear}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="지번" /> {selectedData.address}
+                <ChipSmall label="지번" /> {props.selectedData.address}
               </S.TextWrap>
               <S.TextWrap>
                 <ChipSmall label="도로명" />
-                {selectedData.address_road}
+                {props.selectedData.address_road}
               </S.TextWrap>
             </S.InfoWrap>
 
@@ -37,11 +36,11 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
               <h3>최근 실거래가</h3>
               <S.SelectedContent>
                 <strong>
-                  매매 {isBillion(selectedData.price)}&nbsp;
-                  {isTenMillion(selectedData.price)}원
+                  매매 {isBillion(props.selectedData.price)}&nbsp;
+                  {isTenMillion(props.selectedData.price)}원
                 </strong>
                 <p>
-                  {selectedData.dealYear}.{selectedData.dealMonth}.{selectedData.dealDay}・{selectedData.floor}층・{selectedData.area}m²
+                  {props.selectedData.dealYear}.{props.selectedData.dealMonth}.{props.selectedData.dealDay}・{props.selectedData.floor}층・{props.selectedData.area}m²
                 </p>
               </S.SelectedContent>
             </S.InfoWrap>
@@ -57,7 +56,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                 <ul className="buildingList">
                   {matchedFirebaseData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
-                      <Link href={`/${buildingType}/${el._id}`}>
+                      <Link href={`/${props.buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <BasicUnImage width="80px" height="80px" fontSize="24px" />}
                         <p>
                           <strong>

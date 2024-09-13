@@ -6,21 +6,19 @@ import { InputLabel } from "@mui/material";
 import type { IControlSelect } from "./types";
 
 export default function ControlSelect(props: IControlSelect): JSX.Element {
-  const { required, label, name, notice, selecteItems, control } = props;
-
   return (
-    <FormControl fullWidth required={required}>
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+    <FormControl fullWidth required={props.required}>
+      <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
       <Controller
-        name={name}
-        control={control}
+        name={props.name}
+        control={props.control}
         defaultValue=""
         render={({ field }) => (
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" label={label} {...field}>
+          <Select labelId="demo-simple-select-label" id="demo-simple-select" label={props.label} {...field}>
             <MenuItem value="">
-              <em>{notice}</em>
+              <em>{props.notice}</em>
             </MenuItem>
-            {selecteItems.map((el, index) => (
+            {props.selecteItems.map((el, index) => (
               <MenuItem key={`${el}_${index}`} value={el}>
                 {el}
               </MenuItem>

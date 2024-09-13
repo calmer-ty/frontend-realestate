@@ -7,14 +7,13 @@ import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  const { buildingType, firebaseDatas, visibleMarkerDatas } = props;
   const [select, setSelect] = useState(false);
   const [selectedEl, setSelectedEl] = useState<IMarkerData | null>(null);
 
   useEffect(() => {
     setSelect(false);
     setSelectedEl(null);
-  }, [visibleMarkerDatas]);
+  }, [props.visibleMarkerDatas]);
 
   const onClickInfo = (el: IMarkerData): void => {
     setSelect((prev) => !prev);
@@ -23,12 +22,12 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
 
   return (
     <S.Container>
-      {visibleMarkerDatas.length !== 0 ? (
+      {props.visibleMarkerDatas.length !== 0 ? (
         <S.Visible>
           {!select && (
             <ul>
-              {visibleMarkerDatas.map((el, index) => {
-                const matchingFirebaseData = firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
+              {props.visibleMarkerDatas.map((el, index) => {
+                const matchingFirebaseData = props.firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
 
                 return (
                   <li
@@ -52,7 +51,7 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
               })}
             </ul>
           )}
-          {selectedEl !== null && <BuildingInfo selectedData={selectedEl} firebaseDatas={firebaseDatas} buildingType={buildingType} isSelected={select} />}
+          {selectedEl !== null && <BuildingInfo selectedData={selectedEl} firebaseDatas={props.firebaseDatas} buildingType={props.buildingType} isSelected={select} />}
         </S.Visible>
       ) : (
         <S.UnVisible>

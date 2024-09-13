@@ -2,16 +2,15 @@ import { TextField } from "@mui/material";
 import type { IBasicTextField } from "./types";
 
 export default function BasicTextField(props: IBasicTextField): JSX.Element {
-  const { label, type, required, step, register } = props;
   return (
     <TextField
       id="outlined-basic"
-      type={type}
-      required={required}
-      label={label}
+      type={props.type}
+      required={props.required}
+      label={props.label}
       fullWidth
-      {...register}
-      InputProps={{ inputProps: { step } }}
+      {...props.register}
+      InputProps={{ inputProps: { step: props.step } }}
       InputLabelProps={{
         shrink: true, // label이 항상 위에 위치하도록 설정
       }}

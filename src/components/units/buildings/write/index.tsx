@@ -21,7 +21,6 @@ import type { IEditFormData, IWriteFormData } from "./types";
 import * as S from "./styles";
 
 export default function BuildingWrite(props: IEditFormData): JSX.Element {
-  const { isEdit, docData } = props;
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
@@ -29,24 +28,6 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   const { createFirebaseData } = useFirebase();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type"));
-
-  console.log("docData: ", docData);
-
-  useEffect(() => {
-    const fields = [
-      { field: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
-      { field: "address", value: docData?.address },
-      { field: "addressDetail", value: docData?.addressDetail },
-      { field: "area", value: docData?.area },
-      { field: "roomCount", value: docData?.roomCount },
-    ];
-
-    fields.forEach(({ field, value }) => {
-      if (typeof value === "string") {
-        setValue(field as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
-      }
-    });
-  }, [docData, setValue]);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
@@ -82,17 +63,17 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
     const fields = [
-      { name: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
-      { name: "address", value: docData?.address },
-      { name: "addressDetail", value: docData?.addressDetail },
-      { name: "area", value: docData?.area },
-      { name: "roomCount", value: docData?.roomCount },
-      { name: "price", value: docData?.price },
-      { name: "manageCost", value: docData?.manageCost },
-      { name: "floor", value: docData?.floor },
-      { name: "bathroomCount", value: docData?.bathroomCount },
-      { name: "elevator", value: docData?.elevator },
-      { name: "desc", value: docData?.desc },
+      { name: "type", value: typeof props.docData?.type === "string" ? engToKor(props.docData?.type) : undefined },
+      { name: "address", value: props.docData?.address },
+      { name: "addressDetail", value: props.docData?.addressDetail },
+      { name: "area", value: props.docData?.area },
+      { name: "roomCount", value: props.docData?.roomCount },
+      { name: "price", value: props.docData?.price },
+      { name: "manageCost", value: props.docData?.manageCost },
+      { name: "floor", value: props.docData?.floor },
+      { name: "bathroomCount", value: props.docData?.bathroomCount },
+      { name: "elevator", value: props.docData?.elevator },
+      { name: "desc", value: props.docData?.desc },
     ];
 
     fields.forEach(({ name, value }) => {
@@ -100,7 +81,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
         setValue(name as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
       }
     });
-  }, [docData, setValue]);
+  }, [props.docData, setValue]);
 
   return (
     <>
@@ -116,10 +97,10 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload onFilesChange={setSelectedFiles} docData={docData} />
+        <ImgUpload onFilesChange={setSelectedFiles} docData={props.docData} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
-            {isEdit ? "수정" : "등록"}하기
+            {props.isEdit ? "수정" : "등록"}하기
           </Button>
         </S.Footer>
       </S.Form>
