@@ -132,6 +132,13 @@ export interface IUseAddressSearchProps {
 }
 
 // maps
+declare global {
+  interface Window {
+    naver: any;
+    MarkerClustering: any;
+  }
+}
+
 export interface IUseAllMarkerProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
@@ -142,6 +149,10 @@ export interface IUseFetchAllGeocodeProps {
   geocodeResults: IGeocodeEtcData[];
   loading: boolean;
   error: Error | null;
+}
+export interface IUseMapsLoaderProps {
+  mapId: string;
+  onMapLoaded: (map: any) => void;
 }
 
 // firebase

@@ -4,7 +4,6 @@ import BuildingWrite from "@/src/components/units/buildings/write";
 import { useFirebase } from "@/src/hooks/firebase/useFirebase";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-// import type { DocumentData } from "firebase/firestore";
 import type { IFirebaseData } from "@/src/commons/types";
 
 export default function BuildingsEditPage(): JSX.Element {

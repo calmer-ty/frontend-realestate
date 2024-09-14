@@ -20,7 +20,7 @@ import { serverTimestamp } from "firebase/firestore";
 import type { IEditFormData, IWriteFormData } from "./types";
 import * as S from "./styles";
 
-export default function BuildingWrite(props: IEditFormData): JSX.Element {
+export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
@@ -63,17 +63,17 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
     const fields = [
-      { name: "type", value: typeof props.docData?.type === "string" ? engToKor(props.docData?.type) : undefined },
-      { name: "address", value: props.docData?.address },
-      { name: "addressDetail", value: props.docData?.addressDetail },
-      { name: "area", value: props.docData?.area },
-      { name: "roomCount", value: props.docData?.roomCount },
-      { name: "price", value: props.docData?.price },
-      { name: "manageCost", value: props.docData?.manageCost },
-      { name: "floor", value: props.docData?.floor },
-      { name: "bathroomCount", value: props.docData?.bathroomCount },
-      { name: "elevator", value: props.docData?.elevator },
-      { name: "desc", value: props.docData?.desc },
+      { name: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
+      { name: "address", value: docData?.address },
+      { name: "addressDetail", value: docData?.addressDetail },
+      { name: "area", value: docData?.area },
+      { name: "roomCount", value: docData?.roomCount },
+      { name: "price", value: docData?.price },
+      { name: "manageCost", value: docData?.manageCost },
+      { name: "floor", value: docData?.floor },
+      { name: "bathroomCount", value: docData?.bathroomCount },
+      { name: "elevator", value: docData?.elevator },
+      { name: "desc", value: docData?.desc },
     ];
 
     fields.forEach(({ name, value }) => {
@@ -81,7 +81,7 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
         setValue(name as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
       }
     });
-  }, [props.docData, setValue]);
+  }, [docData, setValue]);
 
   return (
     <>
@@ -97,10 +97,10 @@ export default function BuildingWrite(props: IEditFormData): JSX.Element {
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload onFilesChange={setSelectedFiles} docData={props.docData} />
+        <ImgUpload onFilesChange={setSelectedFiles} docData={docData} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
-            {props.isEdit ? "수정" : "등록"}하기
+            {isEdit ? "수정" : "등록"}하기
           </Button>
         </S.Footer>
       </S.Form>

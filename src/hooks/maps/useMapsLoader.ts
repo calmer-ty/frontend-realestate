@@ -1,17 +1,6 @@
 import { useEffect } from "react";
 import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/naverMaps";
-
-declare global {
-  interface Window {
-    naver: any;
-    MarkerClustering: any;
-  }
-}
-
-interface IUseMapsLoaderProps {
-  mapId: string;
-  onMapLoaded: (map: any) => void;
-}
+import type { IUseMapsLoaderProps } from "@/src/commons/types";
 
 export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
@@ -39,5 +28,5 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
     };
 
     loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
-  }, [mapId, ncpClientId, onMapLoaded]);
+  }, [mapId, onMapLoaded, ncpClientId]);
 };
