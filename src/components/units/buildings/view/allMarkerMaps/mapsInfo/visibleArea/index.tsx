@@ -6,7 +6,7 @@ import type { IMarkerData } from "@/src/commons/types";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
-export default function VisibleArea({ buildingType, firebaseDatas, visibleMarkerDatas }: IVisibleAreaProps): JSX.Element {
+export default function VisibleArea({ buildingType, firestoreDatas, visibleMarkerDatas }: IVisibleAreaProps): JSX.Element {
   const [select, setSelect] = useState(false);
   const [selectedEl, setSelectedEl] = useState<IMarkerData | null>(null);
 
@@ -27,7 +27,7 @@ export default function VisibleArea({ buildingType, firebaseDatas, visibleMarker
           {!select && (
             <ul>
               {visibleMarkerDatas.map((el, index) => {
-                const matchingFirebaseData = firebaseDatas.some((firebaseData) => shortenCityName(el.address) === firebaseData.address);
+                const matchingfirestoreData = firestoreDatas.some((firestoreData) => shortenCityName(el.address) === firestoreData.address);
 
                 return (
                   <li
@@ -45,13 +45,13 @@ export default function VisibleArea({ buildingType, firebaseDatas, visibleMarker
                       <br />
                       {el.area}m² {el.floor}층
                     </p>
-                    <div>{matchingFirebaseData && <>매물있음</>}</div>
+                    <div>{matchingfirestoreData && <>매물있음</>}</div>
                   </li>
                 );
               })}
             </ul>
           )}
-          {selectedEl !== null && <BuildingInfo selectedData={selectedEl} firebaseDatas={firebaseDatas} buildingType={buildingType} isSelected={select} />}
+          {selectedEl !== null && <BuildingInfo selectedData={selectedEl} firestoreDatas={firestoreDatas} buildingType={buildingType} isSelected={select} />}
         </S.Visible>
       ) : (
         <S.UnVisible>

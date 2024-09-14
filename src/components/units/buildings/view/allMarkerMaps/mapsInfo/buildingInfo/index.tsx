@@ -4,12 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import type { IFirebaseData } from "@/src/commons/types";
+import type { IFirestoreData } from "@/src/commons/types";
 import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const matchedFirebaseData: IFirebaseData[] = props.firebaseDatas.filter(
+  const matchedFirestoreData: IFirestoreData[] = props.firestoreDatas.filter(
     (el) => shortenCityName(props.selectedData?.address ?? "") === el.address || shortenCityName(props.selectedData?.address_road ?? "") === el.address
   );
 
@@ -48,13 +48,13 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
 
           {/* 등록된 건물 정보 */}
           <S.RegisteredInfo>
-            {matchedFirebaseData.length > 0 ? (
+            {matchedFirestoreData.length > 0 ? (
               <S.Registered>
                 <h3>
-                  총 <strong>{matchedFirebaseData.length}</strong>개의 매물이 있습니다
+                  총 <strong>{matchedFirestoreData.length}</strong>개의 매물이 있습니다
                 </h3>
                 <ul className="buildingList">
-                  {matchedFirebaseData.map((el, index) => (
+                  {matchedFirestoreData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${props.buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <BasicUnImage width="80px" height="80px" fontSize="24px" />}

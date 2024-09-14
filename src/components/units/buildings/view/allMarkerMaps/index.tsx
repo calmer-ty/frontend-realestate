@@ -1,39 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
-
 import MapsInfo from "./mapsInfo";
 import NaverMaps from "./naverMaps";
-
+import { useEffect, useState } from "react";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
-import { useFirebase } from "@/src/hooks/firebase/useFirebase";
-
-import type { IFirebaseData, IMarkerData } from "@/src/commons/types";
+import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import type { IFirestoreData, IMarkerData } from "@/src/commons/types";
 import type { IAllMarkerMapsProps } from "./types";
-
 import { mapStyle } from "./styles";
 
 export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMarkerMapsProps): JSX.Element {
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
-  const { readFirebaseDatas } = useFirebase();
+  const { readFirestoreDatas } = useFirestore();
 
-  const [firebaseDatas, setFirebaseDatas] = useState<IFirebaseData[]>([]);
+  const [firestoreDatas, setFirestoreDatas] = useState<IFirestoreData[]>([]);
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
-      const datas = await readFirebaseDatas("apartment");
-      setFirebaseDatas(datas);
+      const datas = await readFirestoreDatas("apartment");
+      setFirestoreDatas(datas);
     };
 
     void readBuildings();
-  }, [readFirebaseDatas]);
+  }, [readFirestoreDatas]);
 
-  useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firebaseDatas });
+  useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
 
   return (
     <>
       <div css={mapStyle}>
         <NaverMaps geocodeResults={geocodeResults} />
-        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firebaseDatas={firebaseDatas} buildingType={buildingType} />
+        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firestoreDatas={firestoreDatas} buildingType={buildingType} />
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { createMarkerClusteringOptions, loadScript, markerIconContent } from "@/src/commons/libraries/utils/naverMaps";
 import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
 
-export const useAllMarker = ({ firebaseDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
+export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any | null>(null);
 
@@ -15,7 +15,7 @@ export const useAllMarker = ({ firebaseDatas, geocodeResults, setSelectedMarkerD
         position: new window.naver.maps.LatLng(latitude, longitude),
         map: null, // Set map to null initially
         icon: {
-          content: markerIconContent(buildingsData, firebaseDatas),
+          content: markerIconContent(buildingsData, firestoreDatas),
         },
       };
 
@@ -29,7 +29,7 @@ export const useAllMarker = ({ firebaseDatas, geocodeResults, setSelectedMarkerD
 
       return marker;
     },
-    [firebaseDatas, setSelectedMarkerData]
+    [firestoreDatas, setSelectedMarkerData]
   );
 
   const updateVisibleMarkers = useCallback(

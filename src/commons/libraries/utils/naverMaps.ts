@@ -1,6 +1,6 @@
 import { shortenCityName } from "./regex";
 import { clusterStyle, markerStyle } from "@/src/commons/styles/styles";
-import type { IFirebaseData, IMarkerData } from "@/src/commons/types";
+import type { IFirestoreData, IMarkerData } from "@/src/commons/types";
 
 interface IGetMapInitOptionsProps {
   center: any;
@@ -36,28 +36,20 @@ export const getMapInitOptions: () => IGetMapInitOptionsProps = () => ({
   },
 });
 
-export const markerIconContent = (buildingsData: IMarkerData, firebaseDatas: IFirebaseData[]): string => {
-  const matchedFirebaseData = firebaseDatas.find(
-    (firebaseData) => firebaseData.address === shortenCityName(buildingsData.address) || firebaseData.address === shortenCityName(buildingsData.address_road)
+export const markerIconContent = (buildingsData: IMarkerData, firestoreDatas: IFirestoreData[]): string => {
+  const matchedFirestoreData = firestoreDatas.find(
+    (firestoreData) => firestoreData.address === shortenCityName(buildingsData.address) || firestoreData.address === shortenCityName(buildingsData.address_road)
   );
   let price = (buildingsData.price / 10000).toFixed(1);
   price = price.endsWith(".0") ? price.slice(0, -2) : price;
 
   // 공통 스타일
-  const area = ` <div style="${matchedFirebaseData !== undefined ? markerStyle.topAreaActive : markerStyle.topArea}">${Math.round(buildingsData.area * 0.3025)}평</div>`;
+  const area = ` <div style="${matchedFirestoreData !== undefined ? markerStyle.topAreaActive : markerStyle.topArea}">${Math.round(buildingsData.area * 0.3025)}평</div>`;
   const priceDisplay = `<div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${price}억</strong></div>`;
-  const arrow = `<div style="${matchedFirebaseData !== undefined ? markerStyle.arrowActive : markerStyle.arrow}"></div>`;
+  const arrow = `<div style="${matchedFirestoreData !== undefined ? markerStyle.arrowActive : markerStyle.arrow}"></div>`;
 
-  // if (matchedFirebaseData !== undefined) {
-  //   return `
-  //     <div style="${markerStyle.containerActive}">
-  //       <div style="${markerStyle.topAreaActive}">${Math.round(buildingsData.area * 0.3025)}평</div>
-  //       <div style="${markerStyle.bottomArea}"><span style="${markerStyle.bottom_unit1}">매</span> <strong>${price}억</strong></div>
-  //       <div style="${markerStyle.arrowActive}"></div>
-  //     </div>`;
-  // } else {
   return `
-      <div style="${matchedFirebaseData !== undefined ? markerStyle.containerActive : markerStyle.container}">
+      <div style="${matchedFirestoreData !== undefined ? markerStyle.containerActive : markerStyle.container}">
         ${area}
         ${priceDisplay}
         ${arrow}

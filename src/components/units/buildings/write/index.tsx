@@ -11,8 +11,8 @@ import { Alert, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useFirebase } from "@/src/hooks/firebase/useFirebase";
-import { useFirebaseStorage } from "@/src/hooks/firebase/useFirebaseStorage";
+import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { useStorage } from "@/src/hooks/firestore/useStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { serverTimestamp } from "firebase/firestore";
@@ -24,8 +24,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const router = useRouter();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { register, handleSubmit, watch, setValue, control } = useForm<IWriteFormData>({});
-  const { uploadFiles } = useFirebaseStorage();
-  const { createFirebaseData } = useFirebase();
+  const { uploadFiles } = useStorage();
+  const { createFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type"));
 
@@ -48,7 +48,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       };
 
       // Firestore에 데이터 추가
-      await createFirebaseData(formData, selectedType);
+      await createFirestoreData(formData, selectedType);
 
       router.push("/list");
     } catch (error) {

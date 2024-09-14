@@ -1,31 +1,31 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { useFirebase } from "@/src/hooks/firebase/useFirebase";
+import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 // import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
-import type { IFirebaseData } from "@/src/commons/types";
+import type { IFirestoreData } from "@/src/commons/types";
 import * as S from "./styles";
-import Link from "next/link";
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
-  const [buildingData, setBuildingData] = useState<IFirebaseData[]>([]); // 상태로 데이터를 저장
-  const { readFirebaseDatas } = useFirebase();
+  const [buildingData, setBuildingData] = useState<IFirestoreData[]>([]); // 상태로 데이터를 저장
+  const { readFirestoreDatas } = useFirestore();
   const userId = (session?.user as { id?: string })?.id;
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       const collections = ["apartment", "house", "officetel"];
       try {
-        const dataPromises = collections.map((collection) => readFirebaseDatas(collection));
+        const dataPromises = collections.map((collection) => readFirestoreDatas(collection));
         const results = await Promise.all(dataPromises);
         const allData = results.flat(); // 모든 데이터를 평탄화하여 병합
-        // const data = await readFirebaseDatas(collections);
+        // const data = await readFirestoreDatas(collections);
         // setBuildingData(data);
         setBuildingData(allData);
       } catch (error) {
@@ -33,7 +33,7 @@ export default function BuildingList(): JSX.Element {
       }
     };
     void fetchData();
-  }, [readFirebaseDatas]);
+  }, [readFirestoreDatas]);
 
   const filteredData = buildingData.filter((el) => el.user?._id === userId);
   console.log(filteredData);

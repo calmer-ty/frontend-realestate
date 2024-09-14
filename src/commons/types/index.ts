@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
-// import type { DocumentData } from "firebase/firestore";
 
 // 지역코드
 export interface IRegionData {
@@ -99,7 +98,7 @@ export interface IMarkerData {
 }
 
 // firebase
-export interface IFirebaseData {
+export interface IFirestoreData {
   _id: string;
   type: string;
   address: string;
@@ -143,7 +142,7 @@ export interface IUseAllMarkerProps {
   geocodeResults: IGeocodeEtcData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
-  firebaseDatas: IFirebaseData[];
+  firestoreDatas: IFirestoreData[];
 }
 export interface IUseFetchAllGeocodeProps {
   geocodeResults: IGeocodeEtcData[];
@@ -156,13 +155,13 @@ export interface IUseMapsLoaderProps {
 }
 
 // firebase
-export interface IUseFirebaseProps {
-  createFirebaseData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
-  readFirebaseData: (collection: string, docId: string) => Promise<IFirebaseData | undefined>;
-  readFirebaseDatas: (buildingType: string) => Promise<IFirebaseData[]>;
+export interface IuseFirestoreProps {
+  createFirestoreData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
+  readFirestoreData: (collection: string, docId: string) => Promise<IFirestoreData | undefined>;
+  readFirestoreDatas: (buildingType: string) => Promise<IFirestoreData[]>;
 }
 
-export interface IUseFirebaseStorageProps {
+export interface IuseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
 }

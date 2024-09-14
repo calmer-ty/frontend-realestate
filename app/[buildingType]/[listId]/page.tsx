@@ -5,11 +5,11 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import BuildingDetail from "@/src/components/units/buildings/detail";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
-import type { IBuildingListParams, IFirebaseData } from "@/src/commons/types";
+import type { IBuildingListParams, IFirestoreData } from "@/src/commons/types";
 
 export default function BuildingDetailPage({ params }: { params: IBuildingListParams }): JSX.Element {
   const { buildingType, listId } = params;
-  const [buildingData, setBuildingData] = useState<IFirebaseData | null>(null);
+  const [buildingData, setBuildingData] = useState<IFirestoreData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function BuildingDetailPage({ params }: { params: IBuildingListPa
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setBuildingData(docSnap.data() as IFirebaseData);
+          setBuildingData(docSnap.data() as IFirestoreData);
         } else {
           console.log("No such document!");
         }
