@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/naverMaps";
 import type { IUseMapsLoaderProps } from "@/src/commons/types";
 
-export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void => {
+export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
 
   useEffect(() => {
@@ -19,8 +19,16 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
         return;
       }
 
+      // 지도 컨테이너가 존재하는지 확인하는 콘솔 로그 추가
+      const mapContainer = document.getElementById("map");
+      if (mapContainer == null) {
+        console.error("지도 컨테이너가 렌더링되지 않았습니다.");
+        return;
+      }
+      console.log("지도 컨테이너가 렌더링되었습니다:", mapContainer);
+
       try {
-        const map = new window.naver.maps.Map(mapId, getMapInitOptions());
+        const map = new window.naver.maps.Map("map", getMapInitOptions());
         onMapLoaded(map);
       } catch (error) {
         console.error("네이버 지도를 초기화하는 데 실패했습니다:", error);
@@ -28,5 +36,5 @@ export const useMapsLoader = ({ mapId, onMapLoaded }: IUseMapsLoaderProps): void
     };
 
     loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
-  }, [mapId, onMapLoaded, ncpClientId]);
+  }, [onMapLoaded, ncpClientId]);
 };

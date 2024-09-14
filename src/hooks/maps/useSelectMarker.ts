@@ -18,7 +18,6 @@ export const useSelectMarker = (props: IGeocodeData | null): void => {
     }
   };
   useMapsLoader({
-    mapId: "map",
     onMapLoaded,
   });
 };

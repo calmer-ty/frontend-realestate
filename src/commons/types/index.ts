@@ -150,7 +150,7 @@ export interface IUseFetchAllGeocodeProps {
   error: Error | null;
 }
 export interface IUseMapsLoaderProps {
-  mapId: string;
+  // mapId: string;
   onMapLoaded: (map: any) => void;
 }
 

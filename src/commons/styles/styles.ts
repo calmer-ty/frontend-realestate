@@ -37,7 +37,7 @@ export const mediaQueries = {
 
 // useAllMarkerMaps 안에 들어가는 마커
 const containerCommon = `
-  min-width: 58px;
+  min-width: 67px;
   display: flex;
   flex-direction: column;
   align-items: center;

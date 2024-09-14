@@ -5,7 +5,8 @@ import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/com
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
-  const markerClusteringRef = useRef<any | null>(null);
+  const markerClusteringRef = useRef<any>(null);
+  const isClusterScriptLoadedRef = useRef(false);
 
   const createMarker = useCallback(
     (coord: IGeocodeEtcData) => {
@@ -32,7 +33,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     [firestoreDatas, setSelectedMarkerData]
   );
 
-  const updateVisibleMarkers = useCallback(
+  const updateMarkers = useCallback(
     (map: any) => {
       const mapBounds = map.getBounds();
 
@@ -40,7 +41,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       markersRef.current = [];
 
       geocodeResults.forEach((coord) => {
-        if (coord !== undefined) {
+        if (coord != null) {
           const { latitude, longitude } = coord;
           const position = new window.naver.maps.LatLng(latitude, longitude);
 
@@ -54,7 +55,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
         }
       });
 
-      if (markerClusteringRef.current !== null) {
+      if (markerClusteringRef.current != null) {
         markerClusteringRef.current.setMap(null);
       }
       markerClusteringRef.current = createMarkerClusteringOptions(map, markersRef.current);
@@ -68,16 +69,26 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
 
   const loadClusterScript = useCallback(
     (map: any) => {
+      if (isClusterScriptLoadedRef.current) {
+        console.log("클러스터 스크립트가 이미 로드되었습니다.");
+        window.naver.maps.Event.addListener(map, "idle", () => {
+          updateMarkers(map);
+        });
+        updateMarkers(map);
+        return;
+      }
+
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
-        console.log("Cluster script loaded and executing");
+        console.log("클러스터를 실행합니다.");
+        isClusterScriptLoadedRef.current = true; // 스크립트가 로드되었음을 기록
         window.naver.maps.Event.addListener(map, "idle", () => {
-          updateVisibleMarkers(map);
+          updateMarkers(map);
         });
-        updateVisibleMarkers(map);
+        updateMarkers(map);
       });
     },
-    [updateVisibleMarkers]
+    [updateMarkers]
   );
 
   const onMapLoaded = useCallback(
@@ -86,5 +97,5 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     },
     [loadClusterScript]
   );
-  useMapsLoader({ mapId: "map", onMapLoaded });
+  useMapsLoader({ onMapLoaded });
 };
