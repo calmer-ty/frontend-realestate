@@ -41,7 +41,6 @@ export const useFirestore = (): IuseFirestoreProps => {
     try {
       const querySnapshot = await getDocs(collection(db, buildingType));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirestoreData);
-      // console.log("Document datas:", datas);
       return datas;
     } catch (error) {
       console.error("Error fetching buildings:", error);

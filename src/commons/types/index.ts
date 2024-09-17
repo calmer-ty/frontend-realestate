@@ -103,14 +103,15 @@ export interface IFirestoreData {
   type: string;
   address: string;
   addressDetail: string;
-  floor: number;
   area: number;
-  price: number;
   roomCount: number;
-  bathroomCount: number;
+  price: number;
   manageCost: number;
-  imageUrls?: string[];
+  floor: number;
+  bathroomCount: number;
+  elevator: string;
   desc: string;
+  imageUrls?: string[];
   user?: {
     _id: string;
     name: string;

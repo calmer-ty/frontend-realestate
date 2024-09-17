@@ -1,8 +1,9 @@
-import type { DocumentData, FieldValue } from "firebase/firestore";
+import type { IFirestoreData } from "@/src/commons/types";
+import type { FieldValue } from "firebase/firestore";
 
 export interface IEditFormData {
   isEdit: boolean;
-  docData?: DocumentData | undefined;
+  docData?: IFirestoreData | undefined;
 }
 export interface IWriteFormData {
   _id: string;

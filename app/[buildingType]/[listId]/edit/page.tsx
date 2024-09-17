@@ -19,6 +19,7 @@ export default function BuildingsEditPage(): JSX.Element {
       if (buildingType === undefined || docId === undefined) return;
       try {
         const data = await readFirestoreData(buildingType, docId); // 반환값의 타입을 확인
+        console.log(data);
         setDocData(data); // 받아온 데이터를 상태에 저장
       } catch (error) {
         console.error("Error fetching Firebase data:", error);
