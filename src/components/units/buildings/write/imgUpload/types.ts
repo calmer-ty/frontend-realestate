@@ -1,7 +1,7 @@
-import type { DocumentData } from "firebase/firestore";
+import type { IFirestoreData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 
 export interface IImgUploadProps {
-  docData?: DocumentData | undefined;
+  docData?: IFirestoreData | undefined;
   onFilesChange: Dispatch<SetStateAction<File[]>>;
 }

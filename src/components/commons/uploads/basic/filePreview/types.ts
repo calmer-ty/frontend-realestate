@@ -1,8 +1,9 @@
-import type { DocumentData } from "firebase/firestore";
 import type { IFileWithPreview } from "../types";
+// import type { IFirestoreData } from "@/src/commons/types";
 
 export interface IFilePreviewListProps {
-  docData?: DocumentData | undefined;
+  // docData?: IFirestoreData | undefined;
+  fileImages: string[];
   filePreviews: IFileWithPreview[];
-  onRemoveFile: (index: number) => void;
+  onRemoveFile: (index: number, type: "existing" | "new") => void;
 }

@@ -3,17 +3,27 @@ import AddIcon from "@mui/icons-material/Add";
 import BasicModal from "../../modal/basic";
 import FilePreviewList from "./filePreview";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { checkValidationImg } from "@/src/commons/libraries/validation";
 import type { ChangeEvent, RefObject } from "react";
 import type { IFileWithPreview, IBasicUploadProps } from "./types";
 
 export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
+  const [fileImages, setFileImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  console.log(props.docData?.imageUrls);
+  console.log(fileImages);
 
   const [openModal, setOpenModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
+  // 이미지 데이터 값을 리딩
+  useEffect(() => {
+    if (props.docData?.imageUrls !== undefined) {
+      setFileImages(props.docData.imageUrls);
+    }
+  }, [props.docData?.imageUrls]);
 
   const resetFileInput = (inputRef: RefObject<HTMLInputElement>): void => {
     if (inputRef.current !== null) {
@@ -82,12 +92,28 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  const onRemoveFile = (index: number): void => {
-    const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
-    setFilePreviews(updatedFilePreviews);
-    props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
-    // 리셋 파일 입력 필드
-    resetFileInput(fileInputRef);
+  // const onRemoveFile = (index: number): void => {
+  //   const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
+  //   setFilePreviews(updatedFilePreviews);
+  //   props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+  //   // 리셋 파일 입력 필드
+  //   resetFileInput(fileInputRef);
+  // };
+
+  const onRemoveFile = (index: number, type: "existing" | "new"): void => {
+    if (type === "existing") {
+      // console.log(props.docData?.imageUrls);
+      // 기존 이미지 삭제 로직:
+      const updatedImages = props.docData?.imageUrls?.filter((_, i) => i !== index) ?? [];
+      console.log(updatedImages);
+      setFileImages(updatedImages);
+    } else if (type === "new") {
+      // 새로 추가된 이미지 삭제 로직: 로컬 상태에서 제거
+      const updatedFilePreviews = filePreviews.filter((_, i) => i !== index);
+      console.log(updatedFilePreviews);
+      // 상태 업데이트 함수 호출
+      setFilePreviews(updatedFilePreviews);
+    }
   };
 
   return (
@@ -103,7 +129,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         사진 추가
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onFileChange} style={{ display: "none" }} />
-      <FilePreviewList filePreviews={filePreviews} onRemoveFile={onRemoveFile} docData={props.docData} />
+      <FilePreviewList fileImages={fileImages} filePreviews={filePreviews} onRemoveFile={onRemoveFile} />
       {openModal && (
         <BasicModal
           open={openModal}

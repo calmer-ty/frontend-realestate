@@ -1,10 +1,10 @@
-import type { DocumentData } from "firebase/firestore";
+import type { IFirestoreData } from "@/src/commons/types";
 
 export interface IFileWithPreview {
   file: File;
   previewUrl: string;
 }
 export interface IBasicUploadProps {
-  docData?: DocumentData | undefined;
+  docData?: IFirestoreData | undefined;
   onFilesChange: (files: File[]) => void;
 }
