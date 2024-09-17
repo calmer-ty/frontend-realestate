@@ -25,7 +25,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
       </S.MViewContents>
       <S.ViewContents>
         <figure className="mainImg">
-          <Image src={buildingData.imageUrls?.[0] ?? "No address available"} alt="buildImg" fill />
+          {buildingData.imageUrls?.[0] !== undefined ? <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill /> : <BasicUnImage width="100%" height="100%" fontSize="36px" />}
         </figure>
         <div className="subImgWrap">
           {[1, 2, 3, 4].map((index) => {

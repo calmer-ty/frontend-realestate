@@ -48,7 +48,7 @@ export default function BuildingList(): JSX.Element {
               <li key={`${el._id}_${index}`}>
                 <Link href={`/${el.type}/${el._id}/edit/`}>
                   <p>{index}</p>
-                  {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" />}
+                  {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" fontSize="28px" />}
                   <div className="infos">
                     <p className="basic">
                       {el.type}

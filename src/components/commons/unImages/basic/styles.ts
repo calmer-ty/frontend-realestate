@@ -6,7 +6,7 @@ export const UnImage = styled.div<IBasicUnImageProps>`
   justify-content: center;
   align-items: center;
   background-color: #dedede;
-  width: ${(props) => props.width ?? "80px"};
-  height: ${(props) => props.height ?? "80px"};
-  font-size: ${(props) => props.fontSize ?? "16px"};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  font-size: ${(props) => props.fontSize};
 `;
