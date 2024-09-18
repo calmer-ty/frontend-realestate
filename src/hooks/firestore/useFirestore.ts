@@ -2,10 +2,10 @@ import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
-import type { IFirestoreData, IuseFirestoreProps } from "@/src/commons/types";
+import type { IFirestoreData, IUseFirestoreProps } from "@/src/commons/types";
 import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
-export const useFirestore = (): IuseFirestoreProps => {
+export const useFirestore = (): IUseFirestoreProps => {
   const createFirestoreData = useCallback(async (data: IWriteFormData, selectedType: string): Promise<void> => {
     try {
       const docRef = await addDoc(collection(db, selectedType), {
@@ -21,6 +21,17 @@ export const useFirestore = (): IuseFirestoreProps => {
       if (error instanceof Error) console.error(error.message);
     }
   }, []);
+
+  // const updateFirestoreData = useCallback(async (field: string, value: any, selectedType: string, docId: string): Promise<void> => {
+  //   const docRef = doc(db, selectedType, docId);
+  //   try {
+  //     await updateDoc(docRef, {
+  //       [field]: value,
+  //     });
+  //   } catch (error) {
+  //     if (error instanceof Error) console.error(error.message);
+  //   }
+  // }, []);
 
   const readFirestoreData = useCallback(async (collection: string, docId: string) => {
     const docRef = doc(db, collection, docId);
@@ -50,6 +61,7 @@ export const useFirestore = (): IuseFirestoreProps => {
 
   return {
     createFirestoreData,
+    // updateFirestoreData,
     readFirestoreData,
     readFirestoreDatas,
   };

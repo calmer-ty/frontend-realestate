@@ -6,20 +6,18 @@ export interface IEditFormData {
   docData?: IFirestoreData | undefined;
 }
 export interface IWriteFormData {
-  _id: string;
+  _id?: string;
+  createdAt?: FieldValue;
+
   type: string;
   address: string;
   addressDetail: string;
-  area: string;
-  roomCount: string;
-
-  price: string;
-  manageCost: string;
-
-  floor: string;
-  bathroomCount: string;
+  area: number;
+  roomCount: number;
+  price: number;
+  manageCost: number;
+  floor: number;
+  bathroomCount: number;
   elevator: string;
-
   desc: string;
-  createdAt: FieldValue;
 }

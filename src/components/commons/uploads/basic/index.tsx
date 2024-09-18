@@ -12,8 +12,6 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [filePreviews, setFilePreviews] = useState<IFileWithPreview[]>([]);
   const [fileImages, setFileImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  console.log(props.docData?.imageUrls);
-  console.log(fileImages);
 
   const [openModal, setOpenModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");

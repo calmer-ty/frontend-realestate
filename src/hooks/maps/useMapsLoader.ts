@@ -25,7 +25,7 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
         console.error("지도 컨테이너가 렌더링되지 않았습니다.");
         return;
       }
-      console.log("지도 컨테이너가 렌더링되었습니다:", mapContainer);
+      // console.log("지도 컨테이너가 렌더링되었습니다:", mapContainer);
 
       try {
         const map = new window.naver.maps.Map("map", getMapInitOptions());

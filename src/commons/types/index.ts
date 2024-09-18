@@ -156,8 +156,9 @@ export interface IUseMapsLoaderProps {
 }
 
 // firebase
-export interface IuseFirestoreProps {
+export interface IUseFirestoreProps {
   createFirestoreData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
+  // updateFirestoreData: (field: string, value: any, selectedType: string, docId: string) => Promise<void>;
   readFirestoreData: (collection: string, docId: string) => Promise<IFirestoreData | undefined>;
   readFirestoreDatas: (buildingType: string) => Promise<IFirestoreData[]>;
 }
