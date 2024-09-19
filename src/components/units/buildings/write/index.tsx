@@ -47,29 +47,12 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   } = useForm<IWriteFormData>({
     defaultValues: initialValues, // 초기값 설정
   });
-
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { uploadFiles } = useStorage();
-  const { createFirestoreData } = useFirestore();
+  const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type"));
-
-  const currentValues = getValues(); // 현재 값
-  // const updatedValues = {};
-  // console.log("getValues / 현재 값: ", currentValues);
-  console.log("초기 값: ", initialValues);
-
-  Object.keys(dirtyFields).forEach((field) => {
-    // if (currentValues[field] !== initialValues[field]) {
-    //   updatedValues[field] = currentValues[field]; // 실제로 변경된 값만 추가
-    // }
-    // console.log(currentValues[field]);
-
-    // console.log("dirtyFields / 각각의 수정된 필드 - 한번만 수정되면 안사라짐: ", field);
-    const fieldKey = field as keyof IWriteFormData;
-
-    console.log("currentValues[field] : ", fieldKey, currentValues[fieldKey]);
-  });
+  const currentValues = watch(); // 현재 값
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
@@ -89,7 +72,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
     fields.forEach(({ name, value }) => {
       if (typeof value === "string") {
-        setValue(name as keyof IWriteFormData, value); // 타입 단언으로 간단하게 처리
+        setValue(name, value);
       }
     });
   }, [docData, setValue]);
@@ -97,10 +80,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
-      // 파일 업로드 및 다운로드 URL 가져오기
+      // 데이터에 파일 다운로드 URL 추가
       const downloadURLs = await uploadFiles(selectedFiles);
 
-      // 데이터에 파일 다운로드 URL 추가
       const formData = {
         ...data,
         imageUrls: downloadURLs,
@@ -112,34 +94,46 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         createdAt: serverTimestamp(), // 서버 시간 추가
       };
 
-      // Firestore에 데이터 추가
       await createFirestoreData(formData, selectedType);
-
+      alert("매물 등록이 완료되었습니다.");
       router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   };
 
-  // const handleFormUpdate = async (data: IWriteFormData): Promise<void> => {
-  //   try {
-  //     // // 파일 업로드 및 다운로드 URL 가져오기
-  //     // const downloadURLs = await uploadFiles(selectedFiles);
+  const handleFormUpdate = async (): Promise<void> => {
+    try {
+      //  파일 업로드 및 다운로드 URL 가져오기
+      //  const downloadURLs = await uploadFiles(selectedFiles);
 
-  //     // 데이터에 파일 다운로드 URL 추가
-  //     const formData = {
-  //       ...data,
-  //       createdAt: serverTimestamp(), // 서버 시간 추가
-  //     };
+      const updatedValues = {};
 
-  //     // Firestore에 데이터 추가
-  //     await createFirestoreData(formData, selectedType);
+      console.log("Initial Values: ", initialValues);
+      console.log("Current Values: ", getValues());
 
-  //     router.push("/list");
-  //   } catch (error) {
-  //     if (error instanceof Error) console.error(error.message);
-  //   }
-  // };
+      Object.keys(dirtyFields).forEach((field) => {
+        const fieldKey = field;
+        const currentValue = currentValues[fieldKey];
+
+        console.log("Field Key: ", fieldKey);
+        console.log("currentValue: ", currentValue);
+        console.log("initialValues[fieldKey]: ", initialValues[fieldKey]);
+
+        if (currentValue !== initialValues[fieldKey]) {
+          updatedValues[fieldKey] = currentValue;
+        }
+      });
+
+      console.log("Updated Values: ", updatedValues); // 여기서 업데이트된 필드를 확인
+
+      await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
+      alert("매물 수정이 완료되었습니다.");
+      router.push("/list");
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  };
 
   const handleModalClose = (): void => {
     handleClose(); // 모달 닫기
@@ -155,7 +149,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         </Alert>
       </BasicSnackbar>
       {/* 폼 */}
-      <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
+      <S.Form onSubmit={handleSubmit(isEdit ? handleFormUpdate : handleFormSubmit)}>
         <BuildingInfo register={register} setValue={setValue} control={control} />
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />

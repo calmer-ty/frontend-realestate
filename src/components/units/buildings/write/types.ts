@@ -21,3 +21,16 @@ export interface IWriteFormData {
   elevator: string;
   desc: string;
 }
+// export interface IFormInputData {
+//   type: string;
+//   address: string;
+//   addressDetail: string;
+//   area: number;
+//   roomCount: number;
+//   price: number;
+//   manageCost: number;
+//   floor: number;
+//   bathroomCount: number;
+//   elevator: string;
+//   desc: string;
+// }
