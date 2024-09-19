@@ -17,7 +17,8 @@ import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { serverTimestamp } from "firebase/firestore";
 
-import type { IEditFormData, IWriteFormData } from "./types";
+import type { IEditFormData } from "./types";
+import type { IWriteFormData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
@@ -56,25 +57,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
-    const fields = [
-      { name: "type", value: typeof docData?.type === "string" ? engToKor(docData?.type) : undefined },
-      { name: "address", value: docData?.address },
-      { name: "addressDetail", value: docData?.addressDetail },
-      { name: "area", value: docData?.area },
-      { name: "roomCount", value: docData?.roomCount },
-      { name: "price", value: docData?.price },
-      { name: "manageCost", value: docData?.manageCost },
-      { name: "floor", value: docData?.floor },
-      { name: "bathroomCount", value: docData?.bathroomCount },
-      { name: "elevator", value: docData?.elevator },
-      { name: "desc", value: docData?.desc },
-    ];
-
-    fields.forEach(({ name, value }) => {
-      if (typeof value === "string") {
-        setValue(name, value);
+    if (docData !== undefined) {
+      Object.entries(docData).forEach(([key, value]) => {
+        if (typeof value === "string" || typeof value === "number") {
+          setValue(key as keyof IWriteFormData, value);
+        }
+      });
+      if (typeof docData.type === "string") {
+        const convertedType = engToKor(docData.type);
+        setValue("type", convertedType);
       }
-    });
+    }
   }, [docData, setValue]);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
@@ -107,20 +100,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       //  파일 업로드 및 다운로드 URL 가져오기
       //  const downloadURLs = await uploadFiles(selectedFiles);
 
-      const updatedValues = {};
+      const updatedValues: Partial<IWriteFormData> = {};
 
       console.log("Initial Values: ", initialValues);
       console.log("Current Values: ", getValues());
 
       Object.keys(dirtyFields).forEach((field) => {
-        const fieldKey = field;
+        const fieldKey = field as keyof IWriteFormData;
         const currentValue = currentValues[fieldKey];
+        const initialValue = initialValues[fieldKey];
 
-        console.log("Field Key: ", fieldKey);
-        console.log("currentValue: ", currentValue);
-        console.log("initialValues[fieldKey]: ", initialValues[fieldKey]);
-
-        if (currentValue !== initialValues[fieldKey]) {
+        if (currentValue !== undefined && currentValue !== initialValue) {
           updatedValues[fieldKey] = currentValue;
         }
       });

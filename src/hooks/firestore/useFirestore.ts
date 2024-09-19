@@ -2,8 +2,7 @@ import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
-import type { IFirestoreData, IUseFirestoreProps } from "@/src/commons/types";
-import type { IFormInputData, IWriteFormData } from "@/src/components/units/buildings/write/types";
+import type { IWriteFormData, IFirestoreData, IUseFirestoreProps } from "@/src/commons/types";
 
 export const useFirestore = (): IUseFirestoreProps => {
   const createFirestoreData = useCallback(async (data: IWriteFormData, selectedType: string): Promise<void> => {
@@ -22,7 +21,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const updateFirestoreData = useCallback(async (data: Partial<IFormInputData>, selectedType: string, docId: string): Promise<void> => {
+  const updateFirestoreData = useCallback(async (data: Partial<IWriteFormData>, selectedType: string, docId: string): Promise<void> => {
     const docRef = doc(db, selectedType, docId);
     try {
       await updateDoc(docRef, data);

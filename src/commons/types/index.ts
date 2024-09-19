@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
-import type { IFormInputData, IWriteFormData } from "@/src/components/units/buildings/write/types";
+import type { IFormInputData } from "@/src/components/units/buildings/write/types";
 
 // 지역코드
 export interface IRegionData {
@@ -121,6 +121,21 @@ export interface IFirestoreData {
     seconds: number;
     nanoseconds: number;
   };
+}
+
+// Write
+export interface IWriteFormData {
+  type: string;
+  address: string;
+  addressDetail: string;
+  area: number;
+  roomCount: number;
+  price: number;
+  manageCost: number;
+  floor: number;
+  bathroomCount: number;
+  elevator: string;
+  desc: string;
 }
 
 // Hooks Type
