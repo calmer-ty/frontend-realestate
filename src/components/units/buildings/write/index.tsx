@@ -37,35 +37,27 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     desc: docData?.desc ?? "",
   };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    control,
-    formState: { dirtyFields },
-  } = useForm<IWriteFormData>({
+  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
     defaultValues: initialValues, // 초기값 설정
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
-  const selectedType = korToEng(watch("type"));
-  const currentValues = watch(); // 현재 값
+  const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
     if (docData !== undefined) {
       Object.entries(docData).forEach(([key, value]) => {
-        if (typeof value === "string" || typeof value === "number") {
+        const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
+        if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) {
           setValue(key as keyof IWriteFormData, value);
         }
       });
       if (typeof docData.type === "string") {
-        const convertedType = engToKor(docData.type);
-        setValue("type", convertedType);
+        // docData type을 한글로 하여 폼에 뿌림
+        setValue("type", engToKor(docData.type));
       }
     }
   }, [docData, setValue]);
@@ -95,29 +87,38 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
+  // console.log("currentValues: ", currentValues);
   const handleFormUpdate = async (): Promise<void> => {
     try {
       //  파일 업로드 및 다운로드 URL 가져오기
       //  const downloadURLs = await uploadFiles(selectedFiles);
 
+      const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
       const updatedValues: Partial<IWriteFormData> = {};
 
-      console.log("Initial Values: ", initialValues);
-      console.log("Current Values: ", getValues());
-
-      Object.keys(dirtyFields).forEach((field) => {
-        const fieldKey = field as keyof IWriteFormData;
-        const currentValue = currentValues[fieldKey];
+      Object.entries(currentValues).forEach(([key, currentValue]) => {
+        console.log(currentValue);
+        const fieldKey = key as keyof IWriteFormData;
         const initialValue = initialValues[fieldKey];
 
-        if (currentValue !== undefined && currentValue !== initialValue) {
-          updatedValues[fieldKey] = currentValue;
+        // type 키는 초기값을 불러올 시 한글로 변하므로 다시 변환시켜줌
+        if (fieldKey === "type" && typeof currentValue === "string") {
+          currentValue = korToEng(currentValue);
+        }
+        // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
+        if (currentValue != null && currentValue !== initialValue) {
+          updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
         }
       });
 
-      console.log("Updated Values: ", updatedValues); // 여기서 업데이트된 필드를 확인
+      // if (Object.keys(updatedValues).length === 0) {
+      //   alert("변경된 사항이 없습니다.");
+      //   return;
+      // }
+      // console.log(Object.keys(updatedValues));
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
+      console.log("selectedType: ", selectedType);
       alert("매물 수정이 완료되었습니다.");
       router.push("/list");
     } catch (error) {
