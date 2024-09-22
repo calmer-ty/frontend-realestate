@@ -1,6 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
-import type { IFormInputData } from "@/src/components/units/buildings/write/types";
 
 // 지역코드
 export interface IRegionData {
@@ -128,12 +127,12 @@ export interface IWriteFormData {
   type: string;
   address: string;
   addressDetail: string;
-  area: number;
-  roomCount: number;
-  price: number;
-  manageCost: number;
-  floor: number;
-  bathroomCount: number;
+  area: number | null;
+  roomCount: number | null;
+  price: number | null;
+  manageCost: number | null;
+  floor: number | null;
+  bathroomCount: number | null;
   elevator: string;
   desc: string;
 }
@@ -173,7 +172,7 @@ export interface IUseMapsLoaderProps {
 // firebase
 export interface IUseFirestoreProps {
   createFirestoreData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
-  updateFirestoreData: (data: Partial<IFormInputData>, selectedType: string, docId: string) => Promise<void>;
+  updateFirestoreData: (data: Partial<IWriteFormData>, selectedType: string, docId: string) => Promise<void>;
   readFirestoreData: (collection: string, docId: string) => Promise<IFirestoreData | undefined>;
   readFirestoreDatas: (buildingType: string) => Promise<IFirestoreData[]>;
 }

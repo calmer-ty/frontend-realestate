@@ -27,12 +27,12 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     type: docData?.type ?? "",
     address: docData?.address ?? "",
     addressDetail: docData?.addressDetail ?? "",
-    area: docData?.area ?? 0,
-    roomCount: docData?.roomCount ?? 0,
-    price: docData?.price ?? 0,
-    manageCost: docData?.manageCost ?? 0,
-    floor: docData?.floor ?? 0,
-    bathroomCount: docData?.bathroomCount ?? 0,
+    area: docData?.area ?? null,
+    roomCount: docData?.roomCount ?? null,
+    price: docData?.price ?? null,
+    manageCost: docData?.manageCost ?? null,
+    floor: docData?.floor ?? null,
+    bathroomCount: docData?.bathroomCount ?? null,
     elevator: docData?.elevator ?? "",
     desc: docData?.desc ?? "",
   };
@@ -87,7 +87,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  // console.log("currentValues: ", currentValues);
   const handleFormUpdate = async (): Promise<void> => {
     try {
       //  파일 업로드 및 다운로드 URL 가져오기
@@ -97,7 +96,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const updatedValues: Partial<IWriteFormData> = {};
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
-        console.log(currentValue);
         const fieldKey = key as keyof IWriteFormData;
         const initialValue = initialValues[fieldKey];
 
@@ -111,14 +109,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         }
       });
 
-      // if (Object.keys(updatedValues).length === 0) {
-      //   alert("변경된 사항이 없습니다.");
-      //   return;
-      // }
-      // console.log(Object.keys(updatedValues));
-
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
-      console.log("selectedType: ", selectedType);
       alert("매물 수정이 완료되었습니다.");
       router.push("/list");
     } catch (error) {
