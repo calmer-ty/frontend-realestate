@@ -45,6 +45,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
+  // console.log("selectedFiles: ", selectedFiles);
+  // console.log("imageUrls: ", docData?.imageUrls);
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
@@ -67,7 +69,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     try {
       // 데이터에 파일 다운로드 URL 추가
       const downloadURLs = await uploadFiles(selectedFiles);
-
+      console.log("downloadURLs: ", downloadURLs);
       const formData = {
         ...data,
         imageUrls: downloadURLs,
@@ -87,10 +89,13 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
+  const defaultFiles = docData?.imageUrls;
+  console.log("defaultFiles: ", defaultFiles);
+  console.log("selectedFiles: ", selectedFiles);
   const handleFormUpdate = async (): Promise<void> => {
     try {
       //  파일 업로드 및 다운로드 URL 가져오기
-      //  const downloadURLs = await uploadFiles(selectedFiles);
+      // const downloadURLs = await uploadFiles(selectedFiles);
 
       const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
       const updatedValues: Partial<IWriteFormData> = {};
