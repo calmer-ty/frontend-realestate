@@ -35,6 +35,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     bathroomCount: docData?.bathroomCount ?? null,
     elevator: docData?.elevator ?? "",
     desc: docData?.desc ?? "",
+    imageUrls: docData?.imageUrls ?? [],
   };
 
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
@@ -45,8 +46,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
-  // console.log("selectedFiles: ", selectedFiles);
-  // console.log("imageUrls: ", docData?.imageUrls);
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
@@ -89,19 +88,27 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  const defaultFiles = docData?.imageUrls;
-  console.log("defaultFiles: ", defaultFiles);
-  console.log("selectedFiles: ", selectedFiles);
+  const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
+  // console.log("currentValues: ", currentValues);
   const handleFormUpdate = async (): Promise<void> => {
     try {
       //  파일 업로드 및 다운로드 URL 가져오기
-      // const downloadURLs = await uploadFiles(selectedFiles);
-
-      const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
+      const downloadURLs = await uploadFiles(selectedFiles);
+      const defaultFiles = docData?.imageUrls;
+      const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
+      const isFileChanged = defaultFiles !== currentFiles;
+      console.log("defaultFiles: ", defaultFiles);
+      console.log("currentFiles: ", currentFiles);
+      console.log("isFileChanged", isFileChanged);
       const updatedValues: Partial<IWriteFormData> = {};
+      if (Object.keys(updatedValues).length === 0 && defaultFiles === currentFiles) {
+        alert("수정된 내역이 없습니다");
+        return;
+      }
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteFormData;
+        console.log("fieldKey", fieldKey);
         const initialValue = initialValues[fieldKey];
 
         // type 키는 초기값을 불러올 시 한글로 변하므로 다시 변환시켜줌
@@ -111,6 +118,10 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
         if (currentValue != null && currentValue !== initialValue) {
           updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
+        }
+
+        if (defaultFiles !== currentFiles) {
+          updatedValues.imageUrls = currentFiles;
         }
       });
 

@@ -135,6 +135,7 @@ export interface IWriteFormData {
   bathroomCount: number | null;
   elevator: string;
   desc: string;
+  imageUrls: string[];
 }
 
 // Hooks Type
