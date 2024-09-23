@@ -1,6 +1,6 @@
 import type { IFirestoreData } from "@/src/commons/types";
 
-export interface IFileWithPreview {
+export interface IFiles {
   file: File;
   previewUrl: string;
 }

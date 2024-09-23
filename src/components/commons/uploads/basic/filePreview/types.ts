@@ -1,9 +1,7 @@
-import type { IFileWithPreview } from "../types";
-// import type { IFirestoreData } from "@/src/commons/types";
+import type { IFiles } from "../types";
 
-export interface IFilePreviewListProps {
-  // docData?: IFirestoreData | undefined;
-  fileImages: string[];
-  filePreviews: IFileWithPreview[];
+export interface IFilePreviewProps {
+  fileUrls: string[];
+  files: IFiles[];
   onRemoveFile: (index: number, type: "existing" | "new") => void;
 }

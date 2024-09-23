@@ -1,13 +1,10 @@
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
-import type { IFilePreviewListProps } from "./types";
+import type { IFilePreviewProps } from "./types";
 import * as S from "./styles";
 
-export default function FilePreviewList(props: IFilePreviewListProps): JSX.Element {
-  const combinedImages = [
-    ...(props.fileImages.map((image) => ({ url: image, isExisting: true })) ?? []),
-    ...props.filePreviews.map((fileWithPreview) => ({ url: fileWithPreview.previewUrl, isExisting: false })),
-  ];
+export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
+  const combinedImages = [...(props.fileUrls.map((fileUrl) => ({ url: fileUrl, isExisting: true })) ?? []), ...props.files.map((file) => ({ url: file.previewUrl, isExisting: false }))];
 
   return (
     <S.FilePreview>
@@ -21,7 +18,7 @@ export default function FilePreviewList(props: IFilePreviewListProps): JSX.Eleme
               if (image.isExisting) {
                 props.onRemoveFile(index, "existing");
               } else {
-                props.onRemoveFile(index - (props.fileImages?.length ?? 0), "new");
+                props.onRemoveFile(index - (props.fileUrls?.length ?? 0), "new");
               }
             }}
           >
