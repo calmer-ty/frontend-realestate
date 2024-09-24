@@ -4,22 +4,30 @@ import type { IFilePreviewProps } from "./types";
 import * as S from "./styles";
 
 export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
-  const combinedImages = [...(props.fileUrls.map((fileUrl) => ({ url: fileUrl, isExisting: true })) ?? []), ...props.files.map((file) => ({ url: file.previewUrl, isExisting: false }))];
-
   return (
     <S.FilePreview>
-      {combinedImages.map((image, index) => (
+      {/* 기존의 등록된 이미지 Url */}
+      {props.fileUrls.map((el, index) => (
         <S.PrevWrap key={`new-${index}`}>
-          <Image src={image.url} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
+          <Image src={el} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn
             type="button"
             onClick={() => {
-              // 구분 정보를 참조하여 삭제 처리
-              if (image.isExisting) {
-                props.onRemoveFile(index, "existing");
-              } else {
-                props.onRemoveFile(index - (props.fileUrls?.length ?? 0), "new");
-              }
+              props.onRemoveFile(index);
+            }}
+          >
+            <CloseIcon />
+          </S.PrevCloseBtn>
+        </S.PrevWrap>
+      ))}
+      {/* 새로 추가되는 이미지 파일 */}
+      {props.files.map((el, index) => (
+        <S.PrevWrap key={`new-${index}`}>
+          <Image src={el.previewUrl} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
+          <S.PrevCloseBtn
+            type="button"
+            onClick={() => {
+              props.onRemoveFile(index);
             }}
           >
             <CloseIcon />

@@ -96,10 +96,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const downloadURLs = await uploadFiles(selectedFiles);
       const defaultFiles = docData?.imageUrls;
       const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
-      const isFileChanged = defaultFiles !== currentFiles;
-      console.log("defaultFiles: ", defaultFiles);
-      console.log("currentFiles: ", currentFiles);
-      console.log("isFileChanged", isFileChanged);
+
       const updatedValues: Partial<IWriteFormData> = {};
       if (Object.keys(updatedValues).length === 0 && defaultFiles === currentFiles) {
         alert("수정된 내역이 없습니다");
