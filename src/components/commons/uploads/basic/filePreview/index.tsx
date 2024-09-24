@@ -8,12 +8,12 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
     <S.FilePreview>
       {/* 기존의 등록된 이미지 Url */}
       {props.fileUrls.map((el, index) => (
-        <S.PrevWrap key={`new-${index}`}>
+        <S.PrevWrap key={`${el}-${index}`}>
           <Image src={el} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn
             type="button"
             onClick={() => {
-              props.onRemoveFile(index);
+              props.onRemoveFile(index, "url");
             }}
           >
             <CloseIcon />
@@ -22,12 +22,12 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
       ))}
       {/* 새로 추가되는 이미지 파일 */}
       {props.files.map((el, index) => (
-        <S.PrevWrap key={`new-${index}`}>
-          <Image src={el.previewUrl} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
+        <S.PrevWrap key={`${el.fileUrl}-${index}`}>
+          <Image src={el.fileUrl} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn
             type="button"
             onClick={() => {
-              props.onRemoveFile(index);
+              props.onRemoveFile(index, "file");
             }}
           >
             <CloseIcon />

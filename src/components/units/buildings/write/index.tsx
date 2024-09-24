@@ -46,7 +46,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
-
+  console.log("selectedFiles: ", selectedFiles);
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
     if (docData !== undefined) {
@@ -105,7 +105,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteFormData;
-        console.log("fieldKey", fieldKey);
         const initialValue = initialValues[fieldKey];
 
         // type 키는 초기값을 불러올 시 한글로 변하므로 다시 변환시켜줌
@@ -149,7 +148,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload onFilesChange={setSelectedFiles} docData={docData} />
+        <ImgUpload setSelectedFiles={setSelectedFiles} docData={docData} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기

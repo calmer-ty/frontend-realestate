@@ -1,25 +1,21 @@
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import BasicModal from "../../modal/basic";
 import FilePreview from "./filePreview";
 
 import { useEffect, useRef, useState } from "react";
-import { checkValidationImg } from "@/src/commons/libraries/validation";
 import type { ChangeEvent, RefObject } from "react";
 import type { IFiles, IBasicUploadProps } from "./types";
 
 export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
-  const [pendingFiles, setFiles] = useState<IFiles[]>([]);
-  const [uploadedImageUrls, setFileUrls] = useState<string[]>([]);
+  const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]); // 업로드된 파일 url
+  const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
     if (props.docData?.imageUrls !== undefined) {
-      setFileUrls(props.docData.imageUrls);
+      setUploadedImageUrls(props.docData.imageUrls);
     }
   }, [props.docData?.imageUrls]);
 
@@ -29,7 +25,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  const readFileAsDataURL = (file: File): Promise<string> => {
+  const readFileAsURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -46,33 +42,35 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
   };
 
-  const onFileChange = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+    console.log(" ===== check =====");
     if (e.target.files !== null) {
       const targetFiles = Array.from(e.target.files);
-      const totalFilesCount = pendingFiles.length + targetFiles.length;
+      // const totalFilesCount = pendingFiles.length + targetFiles.length;
 
-      if (totalFilesCount > 5) {
-        setModalMessage("이미지는 5개까지 업로드가 가능합니다.");
-        setOpenModal(true);
-        // 리셋 파일 입력 필드
-        resetFileInput(fileInputRef);
-        return;
-      }
+      // if (totalFilesCount > 5) {
+      //   setModalMessage("이미지는 5개까지 업로드가 가능합니다.");
+      //   setOpenModal(true);
+      //   // 리셋 파일 입력 필드
+      //   resetFileInput(fileInputRef);
+      //   return;
+      // }
 
-      const fileWithPreviews = await Promise.all(
+      // 여러 파일이 올라가기에 all로 해준다
+      const fileWithFileUrls = await Promise.all(
         targetFiles.map(async (file) => {
-          const isValid = await checkValidationImg(file, setModalMessage, setOpenModal);
-          if (!isValid) {
-            // 리셋 파일 입력 필드
-            resetFileInput(fileInputRef);
-            return null; // 유효하지 않은 파일은 null로 처리
-          }
+          //   const isValid = await checkValidationImg(file, setModalMessage, setOpenModal);
+          //  if (!isValid) {
+          //     // 리셋 파일 입력 필드
+          //     resetFileInput(fileInputRef);
+          //     return null; // 유효하지 않은 파일은 null로 처리
+          //   }
 
           try {
-            const previewUrl = await readFileAsDataURL(file);
+            const fileUrl = await readFileAsURL(file);
             return {
               file,
-              previewUrl,
+              fileUrl,
             };
           } catch (error) {
             console.error("Error reading file:", error);
@@ -80,57 +78,45 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
           }
         })
       );
+      console.log("fileWithFileUrls: ", fileWithFileUrls);
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const validFiles = fileWithPreviews.filter((fileWithPreview) => fileWithPreview !== null);
-      const updatedFilePreviews = [...pendingFiles, ...validFiles];
+      const updatedFiles = [...pendingFiles, ...fileWithFileUrls];
+      const validFiles = updatedFiles.filter((file) => file !== null);
 
-      setFiles(updatedFilePreviews);
-      props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+      setPendingFiles(validFiles);
+      props.setSelectedFiles(validFiles.map((validFile) => validFile.file));
     }
   };
 
   // 기존 일회성
   // const onRemoveFile = (index: number): void => {
-  //   const updatedFilePreviews = files.filter((_, i) => i !== index);
-  //   console.log("updatedFilePreviews: ", updatedFilePreviews);
-  //   setFiles(updatedFilePreviews);
-  //   props.onFilesChange(updatedFilePreviews.map((fileWithPreview) => fileWithPreview.file));
+  //   const updatedFiles = pendingFiles.filter((_, i) => i !== index);
+  //   console.log("updatedFiles: ", updatedFiles);
+  //   setPendingFiles(updatedFiles);
+  //   props.setSelectedFiles(updatedFiles.map((updatedFile) => updatedFile.file));
   //   // 리셋 파일 입력 필드
   //   resetFileInput(fileInputRef);
   // };
-
-  // const onRemoveFile = (index: number, type: "existed" | "new"): void => {
-  //   // 기존 이미지 삭제 로직: 로컬 상태에서 제거
-  //   setClickedIndexes((prev) => {
-  //     const updatedIndexes = Array.from(new Set([...prev, index]));
-  //     return updatedIndexes;
-  //   });
-  //   if (type === "existed") {
-  //     console.log("clickedIndexes: ", clickedIndexes);
-  //   } else if (type === "new") {
-  //     // 새로 추가된 이미지 삭제 로직: 로컬 상태에서 제거
-  //     const updatedFilePreviews = files.filter((_, i) => i !== index);
-  //     setFiles(updatedFilePreviews);
-  //   }
-  // };
-
-  const [, setClickedIndexes] = useState<number[]>([]);
-  const onRemoveFile = (index: number): void => {
+  const onRemoveFile = (index: number, type: "url" | "file"): void => {
     setClickedIndexes((prev) => {
       const updatedIndexes = Array.from(new Set([...prev, index])); // 중복 제거
       return updatedIndexes;
     });
-
-    // URL 제거 로직 추가
-    const updatedUrls = uploadedImageUrls.filter((_, i) => i !== index);
-    setFileUrls(updatedUrls);
-    console.log("Updated Urls: ", updatedUrls); // 상태 확인
-
-    // 파일 제거 로직 추가
-    const updatedFiles = pendingFiles.filter((_, i) => i !== index);
-    setFiles(updatedFiles);
-    console.log("Updated files: ", updatedFiles); // 상태 확인
+    if (type === "url") {
+      // firestore 이미지 preview url 로직 추가
+      const updatedUrls = uploadedImageUrls.filter((_, i) => i !== index);
+      setUploadedImageUrls(updatedUrls);
+      console.log("Updated Urls: ", updatedUrls); // 상태 확인
+    } else if (type === "file") {
+      // 새로 추가하는 이미지 preview 로직 추가
+      const updatedFiles = pendingFiles.filter((_, i) => i !== index);
+      setPendingFiles(updatedFiles);
+      // setSelectedFiles을 업데이트 해주어야 지울떄도 업로드 목록에서 사라짐
+      props.setSelectedFiles(updatedFiles.map((updatedFile) => updatedFile.file));
+      resetFileInput(fileInputRef);
+      console.log("Updated files: ", updatedFiles); // 상태 확인
+    }
   };
 
   return (
@@ -145,18 +131,8 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       >
         사진 추가
       </Button>
-      <input type="file" multiple ref={fileInputRef} onChange={onFileChange} style={{ display: "none" }} />
+      <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
       <FilePreview fileUrls={uploadedImageUrls} files={pendingFiles} onRemoveFile={onRemoveFile} />
-      {openModal && (
-        <BasicModal
-          open={openModal}
-          onToggle={() => {
-            setOpenModal(false);
-          }}
-        >
-          <p>{modalMessage}</p>
-        </BasicModal>
-      )}
     </>
   );
 }

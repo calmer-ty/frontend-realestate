@@ -3,5 +3,5 @@ import type { Dispatch, SetStateAction } from "react";
 
 export interface IImgUploadProps {
   docData?: IFirestoreData | undefined;
-  onFilesChange: Dispatch<SetStateAction<File[]>>;
+  setSelectedFiles: Dispatch<SetStateAction<File[]>>;
 }
