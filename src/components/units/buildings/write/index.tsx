@@ -104,10 +104,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       // const defaultFiles = uploadedFileUrls;
       // const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
       const currentFileUrls = [...uploadedFileUrls, ...downloadURLs];
+      console.log("currentFileUrls + uploadedFileUrls Boolean: ", currentFileUrls === uploadedFileUrls);
+      console.log("currentFileUrls: ", currentFileUrls);
+      console.log("uploadedFileUrls: ", uploadedFileUrls);
 
       const updatedValues: Partial<IWriteFormData> = {};
-      if (Object.keys(updatedValues).length === 0 && uploadedFileUrls === currentFileUrls) {
-        alert("수정된 내역이 없습니다");
+      // if (Object.keys(updatedValues).length === 0) {
+      //   alert("수정된 내역이 없습니다 (form)");
+      //   return;
+      // }
+      if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
+        alert("수정된 내역이 없습니다 (image)");
         return;
       }
 
@@ -124,9 +131,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
         }
 
-        if (uploadedFileUrls !== currentFileUrls) {
-          updatedValues.imageUrls = currentFileUrls;
-        }
+        // if (uploadedFileUrls !== currentFileUrls) {
+        //   updatedValues.imageUrls = currentFileUrls;
+        // }
       });
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
