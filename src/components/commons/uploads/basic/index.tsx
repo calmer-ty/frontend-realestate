@@ -7,15 +7,15 @@ import type { ChangeEvent, RefObject } from "react";
 import type { IFiles, IBasicUploadProps } from "./types";
 
 export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]); // 업로드된 파일 url
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]); // 업로드된 파일 url
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
     if (props.docData?.imageUrls !== undefined) {
-      setUploadedImageUrls(props.docData.imageUrls);
+      setUploadedFileUrls(props.docData.imageUrls);
     }
   }, [props.docData?.imageUrls]);
 
@@ -25,6 +25,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
+  // 파일리더가 이미지를 읽기 위해 사용하는 함수
   const readFileAsURL = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -42,8 +43,8 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
   };
 
+  // 이미지 파일을 업데이트하는 기능
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
-    console.log(" ===== check =====");
     if (e.target.files !== null) {
       const targetFiles = Array.from(e.target.files);
       // const totalFilesCount = pendingFiles.length + targetFiles.length;
@@ -78,7 +79,6 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
           }
         })
       );
-      console.log("fileWithFileUrls: ", fileWithFileUrls);
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
       const updatedFiles = [...pendingFiles, ...fileWithFileUrls];
@@ -105,9 +105,10 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
     if (type === "url") {
       // firestore 이미지 preview url 로직 추가
-      const updatedUrls = uploadedImageUrls.filter((_, i) => i !== index);
-      setUploadedImageUrls(updatedUrls);
-      console.log("Updated Urls: ", updatedUrls); // 상태 확인
+      const updatedFileUrls = uploadedFileUrls.filter((_, i) => i !== index);
+      setUploadedFileUrls(updatedFileUrls);
+      props.setuploadedFileUrls(updatedFileUrls.map((updatedFileUrl) => updatedFileUrl));
+      // console.log("Updated Urls: ", updatedUrls); // 상태 확인
     } else if (type === "file") {
       // 새로 추가하는 이미지 preview 로직 추가
       const updatedFiles = pendingFiles.filter((_, i) => i !== index);
@@ -115,7 +116,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       // setSelectedFiles을 업데이트 해주어야 지울떄도 업로드 목록에서 사라짐
       props.setSelectedFiles(updatedFiles.map((updatedFile) => updatedFile.file));
       resetFileInput(fileInputRef);
-      console.log("Updated files: ", updatedFiles); // 상태 확인
+      // console.log("Updated files: ", updatedFiles); // 상태 확인
     }
   };
 
@@ -132,7 +133,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         사진 추가
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
-      <FilePreview fileUrls={uploadedImageUrls} files={pendingFiles} onRemoveFile={onRemoveFile} />
+      <FilePreview fileUrls={uploadedFileUrls} files={pendingFiles} onRemoveFile={onRemoveFile} />
     </>
   );
 }

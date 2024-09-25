@@ -37,16 +37,16 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     desc: docData?.desc ?? "",
     imageUrls: docData?.imageUrls ?? [],
   };
-
-  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
-    defaultValues: initialValues, // 초기값 설정
-  });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploadedFileUrls, setuploadedFileUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
+  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
+    defaultValues: initialValues, // 초기값 설정
+  });
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
-  console.log("selectedFiles: ", selectedFiles);
+
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
     if (docData !== undefined) {
@@ -62,6 +62,13 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       }
     }
   }, [docData, setValue]);
+  // 이미지 Url uploadedFileUrls 스테이트에 초기화
+  useEffect(() => {
+    if (docData?.imageUrls !== undefined) {
+      setuploadedFileUrls(docData.imageUrls);
+    }
+  }, [docData]);
+  console.log(uploadedFileUrls);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
@@ -88,17 +95,18 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
   // console.log("currentValues: ", currentValues);
   const handleFormUpdate = async (): Promise<void> => {
     try {
-      //  파일 업로드 및 다운로드 URL 가져오기
+      const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
       const downloadURLs = await uploadFiles(selectedFiles);
-      const defaultFiles = docData?.imageUrls;
-      const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
+
+      // const defaultFiles = uploadedFileUrls;
+      // const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
+      const currentFileUrls = [...uploadedFileUrls, ...downloadURLs];
 
       const updatedValues: Partial<IWriteFormData> = {};
-      if (Object.keys(updatedValues).length === 0 && defaultFiles === currentFiles) {
+      if (Object.keys(updatedValues).length === 0 && uploadedFileUrls === currentFileUrls) {
         alert("수정된 내역이 없습니다");
         return;
       }
@@ -116,8 +124,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
         }
 
-        if (defaultFiles !== currentFiles) {
-          updatedValues.imageUrls = currentFiles;
+        if (uploadedFileUrls !== currentFileUrls) {
+          updatedValues.imageUrls = currentFileUrls;
         }
       });
 
@@ -148,7 +156,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload setSelectedFiles={setSelectedFiles} docData={docData} />
+        <ImgUpload setSelectedFiles={setSelectedFiles} setuploadedFileUrls={setuploadedFileUrls} docData={docData} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기
