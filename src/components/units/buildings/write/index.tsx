@@ -109,14 +109,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       console.log("uploadedFileUrls: ", uploadedFileUrls);
 
       const updatedValues: Partial<IWriteFormData> = {};
-      // if (Object.keys(updatedValues).length === 0) {
-      //   alert("수정된 내역이 없습니다 (form)");
-      //   return;
-      // }
-      if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
-        alert("수정된 내역이 없습니다 (image)");
-        return;
-      }
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteFormData;
@@ -135,6 +127,15 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         //   updatedValues.imageUrls = currentFileUrls;
         // }
       });
+
+      // if (Object.keys(updatedValues).length === 0) {
+      //   alert("수정된 내역이 없습니다 (form)");
+      //   return;
+      // }
+      if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
+        alert("수정된 내역이 없습니다 (image)");
+        return;
+      }
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
       alert("매물 수정이 완료되었습니다.");

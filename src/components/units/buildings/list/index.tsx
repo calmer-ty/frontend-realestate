@@ -25,8 +25,6 @@ export default function BuildingList(): JSX.Element {
         const dataPromises = collections.map((collection) => readFirestoreDatas(collection));
         const results = await Promise.all(dataPromises);
         const allData = results.flat(); // 모든 데이터를 평탄화하여 병합
-        // const data = await readFirestoreDatas(collections);
-        // setBuildingData(data);
         setBuildingData(allData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -36,7 +34,6 @@ export default function BuildingList(): JSX.Element {
   }, [readFirestoreDatas]);
 
   const filteredData = buildingData.filter((el) => el.user?._id === userId);
-  console.log(filteredData);
 
   return (
     <S.Container>
