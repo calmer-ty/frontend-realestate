@@ -1,4 +1,3 @@
-import type { IFirestoreData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 
 export interface IFiles {
@@ -6,7 +5,7 @@ export interface IFiles {
   fileUrl: string;
 }
 export interface IBasicUploadProps {
-  docData?: IFirestoreData | undefined;
+  imageUrls: string[] | undefined;
   setSelectedFiles: Dispatch<SetStateAction<File[]>>;
-  setuploadedFileUrls: Dispatch<SetStateAction<string[]>>;
+  setUploadedFileUrls: Dispatch<SetStateAction<string[]>>;
 }

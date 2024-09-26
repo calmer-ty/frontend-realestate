@@ -7,7 +7,7 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
   return (
     <S.FilePreview>
       {/* 기존의 등록된 이미지 Url */}
-      {props.fileUrls.map((el, index) => (
+      {props.previewFileUrls.map((el, index) => (
         <S.PrevWrap key={`${el}-${index}`}>
           <Image src={el} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn
@@ -21,7 +21,7 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
         </S.PrevWrap>
       ))}
       {/* 새로 추가되는 이미지 파일 */}
-      {props.files.map((el, index) => (
+      {props.pendingFiles.map((el, index) => (
         <S.PrevWrap key={`${el.fileUrl}-${index}`}>
           <Image src={el.fileUrl} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn

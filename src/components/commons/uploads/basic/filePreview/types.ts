@@ -1,7 +1,7 @@
 import type { IFiles } from "../types";
 
 export interface IFilePreviewProps {
-  fileUrls: string[];
-  files: IFiles[];
+  pendingFiles: IFiles[];
+  previewFileUrls: string[];
   onRemoveFile: (index: number, type: "url" | "file") => void;
 }

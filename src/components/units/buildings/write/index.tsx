@@ -38,7 +38,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     imageUrls: docData?.imageUrls ?? [],
   };
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [uploadedFileUrls, setuploadedFileUrls] = useState<string[]>([]);
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
@@ -52,7 +52,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     if (docData !== undefined) {
       Object.entries(docData).forEach(([key, value]) => {
         const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
-        if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) {
+        if ((!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) || (Array.isArray(value) && value.every((item) => typeof item === "string"))) {
           setValue(key as keyof IWriteFormData, value);
         }
       });
@@ -62,23 +62,23 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       }
     }
   }, [docData, setValue]);
+
   // 이미지 Url uploadedFileUrls 스테이트에 초기화
   useEffect(() => {
     if (docData?.imageUrls !== undefined) {
-      setuploadedFileUrls(docData.imageUrls);
+      setUploadedFileUrls(docData.imageUrls);
     }
   }, [docData]);
-  console.log(uploadedFileUrls);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
   const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
     try {
       // 데이터에 파일 다운로드 URL 추가
-      const downloadURLs = await uploadFiles(selectedFiles);
-      console.log("downloadURLs: ", downloadURLs);
+      const selectImageUrls = await uploadFiles(selectedFiles);
+      console.log("selectImageUrls: ", selectImageUrls);
       const formData = {
         ...data,
-        imageUrls: downloadURLs,
+        imageUrls: selectImageUrls,
         user: {
           name: session?.user?.name,
           email: session?.user?.email,
@@ -99,15 +99,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const handleFormUpdate = async (): Promise<void> => {
     try {
       const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
-      const downloadURLs = await uploadFiles(selectedFiles);
+      const selectImageUrls = await uploadFiles(selectedFiles);
 
-      // const defaultFiles = uploadedFileUrls;
-      // const currentFiles = [...(docData?.imageUrls ?? []), ...downloadURLs];
-      const currentFileUrls = [...uploadedFileUrls, ...downloadURLs];
-      console.log("currentFileUrls + uploadedFileUrls Boolean: ", currentFileUrls === uploadedFileUrls);
-      console.log("currentFileUrls: ", currentFileUrls);
-      console.log("uploadedFileUrls: ", uploadedFileUrls);
-
+      const currentFileUrls = [...uploadedFileUrls, ...selectImageUrls];
       const updatedValues: Partial<IWriteFormData> = {};
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
@@ -123,19 +117,19 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
         }
 
-        // if (uploadedFileUrls !== currentFileUrls) {
-        //   updatedValues.imageUrls = currentFileUrls;
-        // }
+        if (uploadedFileUrls !== currentFileUrls) {
+          updatedValues.imageUrls = currentFileUrls;
+        }
       });
 
       // if (Object.keys(updatedValues).length === 0) {
       //   alert("수정된 내역이 없습니다 (form)");
       //   return;
       // }
-      if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
-        alert("수정된 내역이 없습니다 (image)");
-        return;
-      }
+      // if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
+      //   alert("수정된 내역이 없습니다 (image)");
+      //   return;
+      // }
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
       alert("매물 수정이 완료되었습니다.");
@@ -164,7 +158,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload setSelectedFiles={setSelectedFiles} setuploadedFileUrls={setuploadedFileUrls} docData={docData} />
+        <ImgUpload setSelectedFiles={setSelectedFiles} setUploadedFileUrls={setUploadedFileUrls} imageUrls={docData?.imageUrls} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기
