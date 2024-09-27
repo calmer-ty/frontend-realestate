@@ -35,10 +35,10 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     bathroomCount: docData?.bathroomCount ?? null,
     elevator: docData?.elevator ?? "",
     desc: docData?.desc ?? "",
-    imageUrls: docData?.imageUrls ?? [],
+    // imageUrls: docData?.imageUrls ?? [],
   };
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session, open, handleClose } = useAuthCheck();
@@ -52,7 +52,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     if (docData !== undefined) {
       Object.entries(docData).forEach(([key, value]) => {
         const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
-        if ((!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) || (Array.isArray(value) && value.every((item) => typeof item === "string"))) {
+        // || (Array.isArray(value) && value.every((item) => typeof item === "string"))
+        if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) {
           setValue(key as keyof IWriteFormData, value);
         }
       });
@@ -66,7 +67,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   // 이미지 Url uploadedFileUrls 스테이트에 초기화
   useEffect(() => {
     if (docData?.imageUrls !== undefined) {
-      setUploadedFileUrls(docData.imageUrls);
+      setUploadedImageUrls(docData.imageUrls);
     }
   }, [docData]);
 
@@ -95,14 +96,14 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  // console.log("currentValues: ", currentValues);
   const handleFormUpdate = async (): Promise<void> => {
     try {
       const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
-      const selectImageUrls = await uploadFiles(selectedFiles);
-
-      const currentFileUrls = [...uploadedFileUrls, ...selectImageUrls];
       const updatedValues: Partial<IWriteFormData> = {};
+
+      // 이미지 변수
+      const selectImageUrls = await uploadFiles(selectedFiles);
+      const currentImageUrls = [...uploadedImageUrls, ...selectImageUrls];
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteFormData;
@@ -117,10 +118,21 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
         }
 
-        if (uploadedFileUrls !== currentFileUrls) {
-          updatedValues.imageUrls = currentFileUrls;
-        }
+        // if (uploadedImageUrls !== currentImageUrls) {
+        //   updatedValues.imageUrls = currentImageUrls;
+        // }
       });
+
+      // if (selectedFiles.length > 0) {
+      //   console.log("currentFileUrls: ", currentImageUrls);
+      //   console.log("selectedFiles.length: ", selectedFiles.length);
+      // }
+      if (selectedFiles.length === 0) {
+        console.log("uploadedImageUrls: ", uploadedImageUrls);
+        console.log("currentImageUrls: ", currentImageUrls);
+        alert("수정된 내역이 없습니다 (image)");
+        return;
+      }
 
       // if (Object.keys(updatedValues).length === 0) {
       //   alert("수정된 내역이 없습니다 (form)");
@@ -158,7 +170,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />
-        <ImgUpload setSelectedFiles={setSelectedFiles} setUploadedFileUrls={setUploadedFileUrls} imageUrls={docData?.imageUrls} />
+        <ImgUpload setSelectedFiles={setSelectedFiles} setUploadedImageUrls={setUploadedImageUrls} imageUrls={docData?.imageUrls} />
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기

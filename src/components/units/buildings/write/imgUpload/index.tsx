@@ -6,7 +6,7 @@ export default function ImgUpload(props: IImgUploadProps): JSX.Element {
   return (
     <section>
       <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
-      <BasicUpload imageUrls={props.imageUrls} setSelectedFiles={props.setSelectedFiles} setUploadedFileUrls={props.setUploadedFileUrls} />
+      <BasicUpload imageUrls={props.imageUrls} setSelectedFiles={props.setSelectedFiles} setUploadedImageUrls={props.setUploadedImageUrls} />
     </section>
   );
 }

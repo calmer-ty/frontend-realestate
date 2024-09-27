@@ -7,7 +7,7 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
   return (
     <S.FilePreview>
       {/* 기존의 등록된 이미지 Url */}
-      {props.previewFileUrls.map((el, index) => (
+      {props.imageUrls.map((el, index) => (
         <S.PrevWrap key={`${el}-${index}`}>
           <Image src={el} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} />
           <S.PrevCloseBtn

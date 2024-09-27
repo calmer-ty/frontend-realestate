@@ -7,16 +7,15 @@ import type { ChangeEvent, RefObject } from "react";
 import type { IFiles, IBasicUploadProps } from "./types";
 
 export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
-  const [previewFileUrls, setPreviewFileUrls] = useState<string[]>([]); // 업로드된 파일 url
+  const [imageUrls, setImageUrls] = useState<string[]>([]); // 업로드된 파일 url
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  console.log("previewFileUrls: ", previewFileUrls);
   // 이미지 데이터 값을 리딩
   useEffect(() => {
     if (props.imageUrls !== undefined) {
-      setPreviewFileUrls(props.imageUrls);
+      setImageUrls(props.imageUrls);
     }
   }, [props.imageUrls]);
 
@@ -106,9 +105,9 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
     if (type === "url") {
       // firestore 이미지 preview url 로직 추가
-      const updatedFileUrls = previewFileUrls.filter((_, i) => i !== index);
-      setPreviewFileUrls(updatedFileUrls);
-      props.setUploadedFileUrls(updatedFileUrls.map((el) => el));
+      const updatedFileUrls = imageUrls.filter((_, i) => i !== index);
+      setImageUrls(updatedFileUrls);
+      props.setUploadedImageUrls(updatedFileUrls.map((el) => el));
       // console.log("Updated Urls: ", updatedUrls); // 상태 확인
     } else if (type === "file") {
       // 새로 추가하는 이미지 preview 로직 추가
@@ -134,7 +133,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         사진 추가
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
-      <FilePreview previewFileUrls={previewFileUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
+      <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
     </>
   );
 }
