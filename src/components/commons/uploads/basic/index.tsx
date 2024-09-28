@@ -1,7 +1,7 @@
-import { Alert, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FilePreview from "./filePreview";
-import BasicSnackbar from "../../feedback/snackbar/basic";
+// import BasicSnackbar from "../../feedback/snackbar/basic";
 
 import { useEffect, useRef, useState } from "react";
 // import { checkValidationImg } from "@/src/commons/libraries/validation";
@@ -13,6 +13,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // const [alertOpen, setAlertOpen] = useState(false);
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
@@ -122,10 +123,9 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  const [open, setOpen] = useState(false);
-  const handleClose = (): void => {
-    setOpen(false); // 모달 닫기
-  };
+  // const alertClose = (): void => {
+  //   setAlertOpen(false);
+  // };
   return (
     <>
       <Button
@@ -141,11 +141,11 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
       <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
 
-      <BasicSnackbar open={open} close={handleClose}>
-        <Alert onClose={handleClose} severity="warning">
+      {/* <BasicSnackbar open={alertOpen} close={alertClose}>
+        <Alert onClose={alertClose} severity="warning">
           이미지 업로드 조건을 참고해~!
         </Alert>
-      </BasicSnackbar>
+      </BasicSnackbar> */}
     </>
   );
 }

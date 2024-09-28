@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import type { Session } from "next-auth";
+import type { IUseAuthCheck } from "../commons/types";
 
-export const useAuthCheck = (): {
-  session: Session | null;
-  open: boolean;
-  handleClose: () => void;
-} => {
+export const useAuthCheck = (): IUseAuthCheck => {
   const { status, data: session } = useSession();
-  const [open, setOpen] = useState(false);
+  const [auth, setAuth] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      setOpen(true);
+      setAuth(true);
     }
   }, [status]);
-  const handleClose = (): void => {
-    setOpen(false);
+  const handleUnAuth = (): void => {
+    setAuth(false);
   };
 
   return {
     session,
-    open,
-    handleClose,
+    auth,
+    handleUnAuth,
   };
 };

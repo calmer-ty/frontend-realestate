@@ -8,17 +8,18 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 export default function Nav(): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
 
+  const alertClose = (): void => {
+    setAlertOpen(false);
+  };
+
   const moveToBuildingNew = (): void => {
     if (status === "unauthenticated") {
-      setOpen(true);
+      setAlertOpen(true);
     }
-  };
-  const handleClose = (): void => {
-    setOpen(false); // 모달 닫기
   };
 
   return (
@@ -28,8 +29,8 @@ export default function Nav(): JSX.Element {
       </Link>
       <AuthButton />
       {/* 알림창 */}
-      <BasicSnackbar open={open} close={handleClose}>
-        <Alert onClose={handleClose} severity="warning">
+      <BasicSnackbar open={alertOpen} close={alertClose}>
+        <Alert onClose={alertClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>

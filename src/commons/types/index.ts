@@ -1,7 +1,8 @@
+import type { Session } from "next-auth";
 import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
 
-// 지역코드
+// 지역코드 API
 export interface IRegionData {
   StanReginCd: Array<{
     row: IRegionItem[];
@@ -16,7 +17,7 @@ export interface IRegionItem {
   umd_cd?: string;
   sgg_cd?: string;
 }
-// 아파트
+// 아파트 API
 export interface IApartmentData {
   response: {
     body: {
@@ -48,7 +49,7 @@ export interface IApartmentLocationData {
   locatadd_nm: string;
 }
 
-// Geocode
+// Geocode API
 export interface IGeocodeCoord {
   addresses: Array<{
     x: string; // 경도
@@ -61,15 +62,11 @@ export interface IGeocodeCoord {
 export interface IGeocodeData {
   latitude: number;
   longitude: number;
-  // roadAddress: string;
-  // jibunAddress: string;
 }
 export interface IGeocodeEtcData {
   latitude: number;
   longitude: number;
-  // roadAddress: string;
-  // jibunAddress: string;
-
+  //
   address: string;
   address_road: string;
   buildingName: string;
@@ -82,7 +79,7 @@ export interface IGeocodeEtcData {
   constructionYear: number;
 }
 
-// marker
+// map API marker
 export interface IMarkerData {
   address: string;
   address_road: string;
@@ -96,7 +93,7 @@ export interface IMarkerData {
   constructionYear: number;
 }
 
-// firebase
+// firestore
 export interface IFirestoreData {
   _id: string;
   type: string;
@@ -122,7 +119,7 @@ export interface IFirestoreData {
   };
 }
 
-// Write
+// Write Form
 export interface IWriteFormData {
   type: string;
   address: string;
@@ -135,11 +132,10 @@ export interface IWriteFormData {
   bathroomCount: number | null;
   elevator: string;
   desc: string;
-  // imageUrls: string[];
 }
 
 // Hooks Type
-// address
+// address search
 export interface IUseAddressSearchProps {
   selectedAddress: string;
   geocodeData: IGeocodeData | null;
@@ -166,7 +162,6 @@ export interface IUseFetchAllGeocodeProps {
   error: Error | null;
 }
 export interface IUseMapsLoaderProps {
-  // mapId: string;
   onMapLoaded: (map: any) => void;
 }
 
@@ -190,4 +185,11 @@ export interface IBuildingParams {
 export interface IBuildingListParams {
   buildingType: string;
   listId: string;
+}
+
+// Google Auth
+export interface IUseAuthCheck {
+  session: Session | null;
+  auth: boolean;
+  handleUnAuth: () => void;
 }

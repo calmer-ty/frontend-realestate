@@ -35,13 +35,12 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     bathroomCount: docData?.bathroomCount ?? null,
     elevator: docData?.elevator ?? "",
     desc: docData?.desc ?? "",
-    // imageUrls: docData?.imageUrls ?? [],
   };
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
-  const { session, open, handleClose } = useAuthCheck();
+  const { session, auth, handleUnAuth } = useAuthCheck();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
     defaultValues: initialValues, // 초기값 설정
   });
@@ -52,7 +51,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     if (docData !== undefined) {
       Object.entries(docData).forEach(([key, value]) => {
         const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
-        // || (Array.isArray(value) && value.every((item) => typeof item === "string"))
         if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) {
           setValue(key as keyof IWriteFormData, value);
         }
@@ -156,8 +154,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  const handleModalClose = (): void => {
-    handleClose(); // 모달 닫기
+  const alertClose = (): void => {
+    handleUnAuth(); // 모달 닫기
     router.push("/");
   };
 
@@ -178,8 +176,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       </S.Form>
 
       {/* 알림창 */}
-      <BasicSnackbar open={open} close={handleModalClose}>
-        <Alert onClose={handleModalClose} severity="warning">
+      <BasicSnackbar open={auth} close={alertClose}>
+        <Alert onClose={alertClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>
