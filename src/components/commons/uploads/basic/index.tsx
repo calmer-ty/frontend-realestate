@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
+import { Button, Alert } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FilePreview from "./filePreview";
-// import BasicSnackbar from "../../feedback/snackbar/basic";
+import BasicSnackbar from "../../feedback/snackbar/basic";
 
 import { useEffect, useRef, useState } from "react";
 // import { checkValidationImg } from "@/src/commons/libraries/validation";
@@ -13,7 +13,8 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  // const [alertOpen, setAlertOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState("");
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
@@ -84,11 +85,18 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       );
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const updateFiles = [...pendingFiles, ...fileWithFileUrls];
-      const validFiles = updateFiles.filter((file) => file !== null);
+      const updateFiles = [...pendingFiles, ...fileWithFileUrls.filter((file) => file !== null)];
+      // const validFiles = updateFiles.filter((file) => file !== null);
+      console.log("validFiles: ", updateFiles);
+      if (imageUrls.length + updateFiles.length > 5) {
+        setAlertOpen(true);
+        setAlertText("이미지는 최대 5개까지 업로드가 가능합니다.");
+        resetFileInput(fileInputRef);
+        return;
+      }
 
-      setPendingFiles(validFiles);
-      props.setSelectedFiles(validFiles.map((validFile) => validFile.file));
+      setPendingFiles(updateFiles);
+      props.setSelectedFiles(updateFiles.map((updateFile) => updateFile.file));
     }
   };
 
@@ -123,9 +131,9 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  // const alertClose = (): void => {
-  //   setAlertOpen(false);
-  // };
+  const alertClose = (): void => {
+    setAlertOpen(false);
+  };
   return (
     <>
       <Button
@@ -140,12 +148,12 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
       <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
-
-      {/* <BasicSnackbar open={alertOpen} close={alertClose}>
+      {/* 알림창 */}
+      <BasicSnackbar open={alertOpen} close={alertClose}>
         <Alert onClose={alertClose} severity="warning">
-          이미지 업로드 조건을 참고해~!
+          {alertText}
         </Alert>
-      </BasicSnackbar> */}
+      </BasicSnackbar>
     </>
   );
 }

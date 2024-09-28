@@ -40,11 +40,15 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
-  const { session, auth, handleUnAuth } = useAuthCheck();
+  const { session } = useAuthCheck();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
     defaultValues: initialValues, // 초기값 설정
   });
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState<"error" | "info" | "success" | "warning">("info");
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
@@ -87,7 +91,10 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       };
 
       await createFirestoreData(formData, selectedType);
-      alert("매물 등록이 완료되었습니다.");
+      setAlertOpen(true);
+      setAlertText("매물 등록이 완료되었습니다.");
+      setAlertSeverity("success");
+      // alert("매물 등록이 완료되었습니다.");
       router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
@@ -134,7 +141,10 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
       console.log("currentImageUrls: ", currentImageUrls);
       if (currentImageUrls.length > 5) {
-        alert("이미지는 5개까지 업로드가 가능합니다.");
+        setAlertOpen(true);
+        setAlertText("이미지는 5개까지 업로드가 가능합니다.");
+        setAlertSeverity("warning");
+        // alert("이미지는 5개까지 업로드가 가능합니다.");
         return;
       }
       // if (Object.keys(updatedValues).length === 0) {
@@ -147,16 +157,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       // }
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
-      alert("매물 수정이 완료되었습니다.");
-      router.push("/list");
+      setAlertOpen(true);
+      setAlertText("매물 수정이 완료되었습니다.");
+      setAlertSeverity("success");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   };
 
   const alertClose = (): void => {
-    handleUnAuth(); // 모달 닫기
-    router.push("/");
+    // handleUnAuth(); // 모달 닫기
+    router.push("/list");
   };
 
   return (
@@ -176,9 +187,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       </S.Form>
 
       {/* 알림창 */}
-      <BasicSnackbar open={auth} close={alertClose}>
-        <Alert onClose={alertClose} severity="warning">
-          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
+      <BasicSnackbar open={alertOpen} close={alertClose}>
+        <Alert onClose={alertClose} severity={alertSeverity}>
+          {alertText}
         </Alert>
       </BasicSnackbar>
     </>
