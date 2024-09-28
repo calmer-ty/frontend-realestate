@@ -1,8 +1,10 @@
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FilePreview from "./filePreview";
+import BasicSnackbar from "../../feedback/snackbar/basic";
 
 import { useEffect, useRef, useState } from "react";
+// import { checkValidationImg } from "@/src/commons/libraries/validation";
 import type { ChangeEvent, RefObject } from "react";
 import type { IFiles, IBasicUploadProps } from "./types";
 
@@ -60,7 +62,7 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       // 여러 파일이 올라가기에 all로 해준다
       const fileWithFileUrls = await Promise.all(
         targetFiles.map(async (file) => {
-          //   const isValid = await checkValidationImg(file, setModalMessage, setOpenModal);
+          // const isValid = await checkValidationImg(file, setModalMessage, setOpenModal);
           //  if (!isValid) {
           //     // 리셋 파일 입력 필드
           //     resetFileInput(fileInputRef);
@@ -120,6 +122,10 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
+  const [open, setOpen] = useState(false);
+  const handleClose = (): void => {
+    setOpen(false); // 모달 닫기
+  };
   return (
     <>
       <Button
@@ -134,6 +140,12 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       </Button>
       <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
       <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
+
+      <BasicSnackbar open={open} close={handleClose}>
+        <Alert onClose={handleClose} severity="warning">
+          이미지 업로드 조건을 참고해~!
+        </Alert>
+      </BasicSnackbar>
     </>
   );
 }
