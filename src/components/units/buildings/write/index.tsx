@@ -127,13 +127,18 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       //   console.log("currentFileUrls: ", currentImageUrls);
       //   console.log("selectedFiles.length: ", selectedFiles.length);
       // }
-      if (selectedFiles.length === 0) {
-        console.log("uploadedImageUrls: ", uploadedImageUrls);
-        console.log("currentImageUrls: ", currentImageUrls);
-        alert("수정된 내역이 없습니다 (image)");
+      // if (selectedFiles.length === 0) {
+      //   console.log("uploadedImageUrls: ", uploadedImageUrls);
+      //   console.log("currentImageUrls: ", currentImageUrls);
+      //   alert("수정된 내역이 없습니다 (image)");
+      //   return;
+      // }
+
+      console.log("currentImageUrls: ", currentImageUrls);
+      if (currentImageUrls.length > 5) {
+        alert("이미지는 5개까지 업로드가 가능합니다.");
         return;
       }
-
       // if (Object.keys(updatedValues).length === 0) {
       //   alert("수정된 내역이 없습니다 (form)");
       //   return;
@@ -158,12 +163,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
   return (
     <>
-      {/* 알림창 */}
-      <BasicSnackbar open={open} close={handleModalClose}>
-        <Alert onClose={handleModalClose} severity="warning">
-          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
-        </Alert>
-      </BasicSnackbar>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(isEdit ? handleFormUpdate : handleFormSubmit)}>
         <BuildingInfo register={register} setValue={setValue} control={control} />
@@ -177,6 +176,13 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           </Button>
         </S.Footer>
       </S.Form>
+
+      {/* 알림창 */}
+      <BasicSnackbar open={open} close={handleModalClose}>
+        <Alert onClose={handleModalClose} severity="warning">
+          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
+        </Alert>
+      </BasicSnackbar>
     </>
   );
 }

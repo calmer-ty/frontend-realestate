@@ -83,8 +83,8 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       );
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const updatedFiles = [...pendingFiles, ...fileWithFileUrls];
-      const validFiles = updatedFiles.filter((file) => file !== null);
+      const updateFiles = [...pendingFiles, ...fileWithFileUrls];
+      const validFiles = updateFiles.filter((file) => file !== null);
 
       setPendingFiles(validFiles);
       props.setSelectedFiles(validFiles.map((validFile) => validFile.file));

@@ -10,7 +10,6 @@ import { useSession } from "next-auth/react";
 export default function Nav(): JSX.Element {
   const [open, setOpen] = useState(false);
   const { status } = useSession();
-
   const isAuthenticated = status === "authenticated";
 
   const moveToBuildingNew = (): void => {
@@ -28,6 +27,7 @@ export default function Nav(): JSX.Element {
         방 내놓기
       </Link>
       <AuthButton />
+      {/* 알림창 */}
       <BasicSnackbar open={open} close={handleClose}>
         <Alert onClose={handleClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
