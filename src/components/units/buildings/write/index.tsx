@@ -35,7 +35,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     bathroomCount: docData?.bathroomCount ?? null,
     elevator: docData?.elevator ?? "",
     desc: docData?.desc ?? "",
+    imageUrls: docData?.imageUrls ?? [],
   };
+  // console.log("docData: ", docData);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
@@ -55,7 +57,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     if (docData !== undefined) {
       Object.entries(docData).forEach(([key, value]) => {
         const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
-        if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number")) {
+        if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number" || (Array.isArray(value) && value.every((item) => typeof item === "string")))) {
           setValue(key as keyof IWriteFormData, value);
         }
       });
@@ -78,7 +80,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     try {
       // 데이터에 파일 다운로드 URL 추가
       const selectImageUrls = await uploadFiles(selectedFiles);
-      console.log("selectImageUrls: ", selectImageUrls);
       const formData = {
         ...data,
         imageUrls: selectImageUrls,
@@ -118,56 +119,53 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         if (fieldKey === "type" && typeof currentValue === "string") {
           currentValue = korToEng(currentValue);
         }
-        // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
-        if (currentValue != null && currentValue !== initialValue) {
-          updatedValues[fieldKey] = currentValue; // 여기서 타입 단언 필요 시 추가
-        }
 
-        // if (uploadedImageUrls !== currentImageUrls) {
-        //   updatedValues.imageUrls = currentImageUrls;
-        // }
+        // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
+        if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
+          // const updatedKey = updatedValues[fieldKey];
+          updatedValues[fieldKey] = currentValue;
+          console.log("key: ", key);
+          console.log("currentValue ===initialValue: ", key, currentValue === initialValue);
+        }
+        if (JSON.stringify(uploadedImageUrls) !== JSON.stringify(currentImageUrls)) {
+          updatedValues.imageUrls = [...currentImageUrls];
+        }
       });
 
-      // if (selectedFiles.length > 0) {
-      //   console.log("currentFileUrls: ", currentImageUrls);
-      //   console.log("selectedFiles.length: ", selectedFiles.length);
-      // }
-      // if (selectedFiles.length === 0) {
-      //   console.log("uploadedImageUrls: ", uploadedImageUrls);
-      //   console.log("currentImageUrls: ", currentImageUrls);
-      //   alert("수정된 내역이 없습니다 (image)");
-      //   return;
-      // }
-
-      console.log("currentImageUrls: ", currentImageUrls);
       if (currentImageUrls.length > 5) {
         setAlertOpen(true);
         setAlertText("이미지는 5개까지 업로드가 가능합니다.");
-        setAlertSeverity("warning");
-        // alert("이미지는 5개까지 업로드가 가능합니다.");
+        setAlertSeverity("info");
         return;
       }
-      // if (Object.keys(updatedValues).length === 0) {
-      //   alert("수정된 내역이 없습니다 (form)");
-      //   return;
-      // }
-      // if (JSON.stringify(uploadedFileUrls) === JSON.stringify(currentFileUrls)) {
-      //   alert("수정된 내역이 없습니다 (image)");
-      //   return;
-      // }
+
+      // console.log("uploadedImageUrls", JSON.stringify(uploadedImageUrls) === JSON.stringify(currentImageUrls));
+      // console.log("updatedValues).length === 0", Object.keys(updatedValues));
+      if (Object.keys(updatedValues).length === 0) {
+        setAlertOpen(true);
+        setAlertText("수정된 내역이 없습니다. O");
+        setAlertSeverity("info");
+        return;
+      } else if (JSON.stringify(uploadedImageUrls) === JSON.stringify(currentImageUrls)) {
+        setAlertOpen(true);
+        setAlertText("수정된 내역이 없습니다. I");
+        setAlertSeverity("info");
+        return;
+      }
 
       await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
       setAlertOpen(true);
       setAlertText("매물 수정이 완료되었습니다.");
       setAlertSeverity("success");
+      // router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   };
 
   const alertClose = (): void => {
-    // handleUnAuth(); // 모달 닫기
-    router.push("/list");
+    setAlertOpen(false);
+    // router.push("/list");
   };
 
   return (

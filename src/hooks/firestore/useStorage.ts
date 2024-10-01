@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/src/commons/libraries/firebase/firebaseApp";
-import type { IuseStorageProps } from "@/src/commons/types";
+import type { IUseStorageProps } from "@/src/commons/types";
 
-export const useStorage = (): IuseStorageProps => {
+export const useStorage = (): IUseStorageProps => {
   const [uploading, setUploading] = useState(false);
 
   const uploadFiles = async (files: File[]): Promise<string[]> => {

@@ -132,6 +132,7 @@ export interface IWriteFormData {
   bathroomCount: number | null;
   elevator: string;
   desc: string;
+  imageUrls: string[];
 }
 
 // Hooks Type
@@ -173,7 +174,7 @@ export interface IUseFirestoreProps {
   readFirestoreDatas: (buildingType: string) => Promise<IFirestoreData[]>;
 }
 
-export interface IuseStorageProps {
+export interface IUseStorageProps {
   uploadFiles: (files: File[]) => Promise<string[]>;
   uploading: boolean;
 }
