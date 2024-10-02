@@ -9,51 +9,49 @@ export const Container = styled.article`
   h2 {
     margin-bottom: 20px;
   }
+  h3 {
+    font-size: 18px;
+  }
 `;
-export const Registered = styled.ul`
+export const BuildingList = styled.ul`
+  overflow-y: scroll;
   display: flex;
+  row-gap: 20px;
   flex-direction: column;
-  cursor: pointer;
+  max-height: 1060px;
   li {
     display: flex;
-    align-items: center;
-    column-gap: 10px;
-    position: relative;
-    padding: 20px;
-    .infos {
-      font-size: 17px;
-      line-height: 1.6;
-      .basic,
-      .price {
-        font-weight: bold;
-      }
-      .basic {
-        display: flex;
-        align-items: center;
-      }
-      .basic i {
-        margin: 0 10px;
-        display: inline-block;
-        width: 2px;
-        height: 18px;
-        background-color: #000;
-      }
-      .price {
-        font-size: 20px;
-      }
-      .desc {
-        color: #bcbcbc;
-      }
+    flex-direction: column;
+    border: 1px solid #e7e7e7;
+
+    .topContents {
+      display: flex;
+      justify-content: flex-end;
+      column-gap: 10px;
+      padding: 5px 20px;
+      background-color: #fafafa;
     }
-    /* &:hover {
-      &::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: #000;
-        opacity: 0.3;
-      }
-    } */
+    .bottomContents {
+      display: flex;
+      align-items: center;
+      column-gap: 20px;
+      padding: 20px;
+    }
   }
+`;
+export const BuildingInfo = styled.div`
+  width: 250px;
+
+  .price {
+    margin-top: 6px;
+    font-size: 20px;
+  }
+  .desc {
+    color: #bcbcbc;
+  }
+`;
+export const BuildingAd = styled.div`
+  height: 100%;
+  background-color: #efefef;
+  padding: 10px;
 `;
