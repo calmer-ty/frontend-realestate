@@ -8,7 +8,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
-// import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
+import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
+
 import type { IFirestoreData } from "@/src/commons/types";
 import * as S from "./styles";
 
@@ -17,6 +18,8 @@ export default function BuildingList(): JSX.Element {
   const [buildingData, setBuildingData] = useState<IFirestoreData[]>([]); // 상태로 데이터를 저장
   const { readFirestoreDatas } = useFirestore();
   const userId = (session?.user as { id?: string })?.id;
+
+  // 시간
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -43,28 +46,38 @@ export default function BuildingList(): JSX.Element {
           <S.Registered>
             {filteredData.map((el, index) => (
               <li key={`${el._id}_${index}`}>
-                <Link href={`/${el.type}/${el._id}/edit/`}>
+                <div className="topContents">
+                  <Link href={`/${el.type}/${el._id}/edit/`}>수정</Link>
+                  <button type="button">삭제</button>
+                </div>
+                <div className="bottomContents">
                   <p>{index}</p>
                   {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" fontSize="28px" />}
-                  <div className="infos">
-                    <p className="basic">
-                      {el.type}
-                      <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-                    </p>
-                    <p className="price">
-                      매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
-                    </p>
+                  <S.RegisteredInfo>
+                    <h3>
+                      <p>
+                        {el.type}
+                        <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
+                      </p>
+                      <p className="price">
+                        매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                      </p>
+                    </h3>
                     <p className="address">
                       {el.address} {el.addressDetail}
                     </p>
                     <p className="desc">{el.desc}</p>
-                  </div>
-                  {/* <div className="ad">
-                  광고 정보
-                  {convertTimestamp(el.createdAt?.seconds).year}-{convertTimestamp(el.createdAt?.seconds).month}-{convertTimestamp(el.createdAt?.seconds).day}-
-                  {convertTimestamp(el.createdAt?.seconds).hours}:{convertTimestamp(el.createdAt?.seconds).minutes}:{convertTimestamp(el.createdAt?.seconds).seconds}
-                </div> */}
-                </Link>
+                  </S.RegisteredInfo>
+                  <S.RegisteredAd>
+                    <h3>광고 정보</h3>
+                    <p>
+                      {(() => {
+                        const { year, month, day, hours, minutes, seconds } = convertTimestamp(el.createdAt?.seconds ?? 0);
+                        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                      })()}
+                    </p>
+                  </S.RegisteredAd>
+                </div>
               </li>
             ))}
           </S.Registered>
