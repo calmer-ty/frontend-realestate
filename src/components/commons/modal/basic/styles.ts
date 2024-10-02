@@ -16,7 +16,7 @@ export const modalStyle = {
     cursor: "pointer",
   },
 };
-export const submitBtnStyle = {
-  minWidth: "max-content",
-  height: "100%",
-};
+// export const submitBtnStyle = {
+//   minWidth: "max-content",
+//   height: "100%",
+// };
