@@ -30,7 +30,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const deleteFirestoreData = useCallback(async (data: Partial<IWriteFormData>, selectedType: string, docId: string): Promise<void> => {
+  const deleteFirestoreData = useCallback(async (selectedType: string, docId: string): Promise<void> => {
     try {
       await deleteDoc(doc(db, selectedType, docId));
     } catch (error) {

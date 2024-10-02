@@ -4,43 +4,58 @@ import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import BasicModal from "@/src/components/commons/modal/basic";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
 import type { IFirestoreData } from "@/src/commons/types";
 import * as S from "./styles";
-import BasicModal from "@/src/components/commons/modal/basic";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
   const [buildingData, setBuildingData] = useState<IFirestoreData[]>([]); // 상태로 데이터를 저장
-  const { readFirestoreDatas } = useFirestore();
+  const { deleteFirestoreData, readFirestoreDatas } = useFirestore();
   const userId = (session?.user as { id?: string })?.id;
 
-  // 모달
-  const [open, setOpen] = useState(false);
-  const onToggle = (): void => {
-    setOpen((prev) => !prev);
-  };
+  const fetchData = useCallback(async (): Promise<void> => {
+    const collections = ["apartment", "house", "officetel"];
+    try {
+      const dataPromises = collections.map((collection) => readFirestoreDatas(collection));
+      const results = await Promise.all(dataPromises);
+      const allData = results.flat(); // 모든 데이터를 평탄화하여 병합
+      setBuildingData(allData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [readFirestoreDatas]);
 
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const collections = ["apartment", "house", "officetel"];
-      try {
-        const dataPromises = collections.map((collection) => readFirestoreDatas(collection));
-        const results = await Promise.all(dataPromises);
-        const allData = results.flat(); // 모든 데이터를 평탄화하여 병합
-        setBuildingData(allData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     void fetchData();
-  }, [readFirestoreDatas]);
+  }, [fetchData]);
+
+  // 삭제 모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedBuilding, setSelectedBuilding] = useState<IFirestoreData | null>(null);
+
+  const onModalToggle = (): void => {
+    setModalOpen((prev) => !prev);
+  };
+  const onDeleteModalOpen = (building: IFirestoreData): void => {
+    setSelectedBuilding(building); // 클릭된 매물 데이터 저장
+    setModalOpen(true); // 모달 열기
+  };
+  const onDeleteBuildingItem = (): void => {
+    if (selectedBuilding !== null) {
+      void deleteFirestoreData(selectedBuilding.type, selectedBuilding._id);
+      setModalOpen(false);
+      void fetchData();
+    }
+  };
 
   const filteredData = buildingData.filter((el) => el.user?._id === userId);
 
@@ -54,11 +69,16 @@ export default function BuildingList(): JSX.Element {
               {filteredData.map((el, index) => (
                 <li key={`${el._id}_${index}`}>
                   <div className="topContents">
-                    <Button variant="outlined" onClick={onToggle}>
-                      {/* 삭제 */}
-                      <Link href={`/${el.type}/${el._id}/edit/`}>수정</Link>
-                    </Button>
-                    <Button variant="outlined" onClick={onToggle}>
+                    <Link href={`/${el.type}/${el._id}/edit/`}>
+                      <Button variant="outlined">수정</Button>
+                    </Link>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        onDeleteModalOpen(el);
+                      }}
+                    >
                       삭제
                     </Button>
                   </div>
@@ -102,8 +122,24 @@ export default function BuildingList(): JSX.Element {
           <LoadingSpinner size={100} />
         )}
       </S.Container>
-      <BasicModal open={open} onToggle={onToggle}>
-        삭제???
+
+      {/* 매물 삭제 모달 */}
+      <BasicModal open={modalOpen} onToggle={onModalToggle}>
+        {selectedBuilding !== null ? (
+          <>
+            <h2>이 매물을 삭제하시겠습니까? </h2>
+            <p>
+              {engToKor(selectedBuilding.type)} - {selectedBuilding.address}
+              {selectedBuilding.addressDetail}
+            </p>
+            <Button type="button" variant="outlined" onClick={onModalToggle}>
+              취소
+            </Button>
+            <Button variant="contained" color="error" onClick={onDeleteBuildingItem}>
+              삭제
+            </Button>
+          </>
+        ) : null}
       </BasicModal>
     </>
   );
