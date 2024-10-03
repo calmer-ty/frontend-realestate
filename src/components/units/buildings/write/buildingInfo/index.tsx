@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 import ControlSelect from "@/src/components/commons/inputs/select/control";
@@ -10,15 +11,16 @@ import { useAddressSearch } from "@/src/hooks/useAddressSearch";
 import { useSelectMarker } from "@/src/hooks/maps/useSelectMarker";
 import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
-import { Button } from "@mui/material";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const [open, setOpen] = useState(false);
-  const onToggle = (): void => {
-    setOpen((prev) => !prev);
+  const [modalOpen, setModalOpen] = useState(false);
+  const onModalToggle = (): void => {
+    setModalOpen((prev) => !prev);
   };
 
-  const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch(props.setValue, onToggle);
+  const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch(props.setValue, props.getValues, onModalToggle);
+  // console.log("selectedAddress: ", selectedAddress);
+  // console.log("geocodeData: ", geocodeData);
   useSelectMarker(geocodeData);
 
   return (
@@ -29,8 +31,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
         <S.MapView>
           <S.AddressSearch>
             <div className="inputUnit">
-              <ControlTextField required label="주소" register={props.register("address")} />
-              <Button variant="outlined" onClick={onToggle}>
+              <ControlTextField required readOnly label="주소" register={props.register("address")} />
+              <Button sx={{ flexShrink: 0 }} variant="outlined" onClick={onModalToggle}>
                 주소 찾기
               </Button>
             </div>
@@ -60,7 +62,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
           </div>
         </S.TwinInputWrap>
       </section>
-      <BasicModal open={open} onToggle={onToggle}>
+      <BasicModal open={modalOpen} onToggle={onModalToggle}>
         <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
       </BasicModal>
     </>

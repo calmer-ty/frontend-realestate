@@ -7,5 +7,6 @@ export interface IBasicTextField {
   step?: string;
   defaultValue?: string;
   required?: boolean;
+  readOnly?: boolean;
   register?: UseFormRegisterReturn;
 }

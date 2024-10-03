@@ -33,7 +33,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     manageCost: docData?.manageCost ?? null,
     floor: docData?.floor ?? null,
     bathroomCount: docData?.bathroomCount ?? null,
-    elevator: docData?.elevator ?? "",
+    elevator: docData?.elevator ?? "없음",
     desc: docData?.desc ?? "",
     imageUrls: docData?.imageUrls ?? [],
   };
@@ -127,7 +127,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           console.log("key: ", key);
           console.log("currentValue ===initialValue: ", key, currentValue === initialValue);
         }
-        if (JSON.stringify(uploadedImageUrls) !== JSON.stringify(currentImageUrls)) {
+        if (JSON.stringify(initialValues.imageUrls) !== JSON.stringify(currentImageUrls)) {
           updatedValues.imageUrls = [...currentImageUrls];
         }
       });
@@ -139,16 +139,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         return;
       }
 
-      // console.log("uploadedImageUrls", JSON.stringify(uploadedImageUrls) === JSON.stringify(currentImageUrls));
-      // console.log("updatedValues).length === 0", Object.keys(updatedValues));
-      if (Object.keys(updatedValues).length === 0) {
+      if (Object.keys(updatedValues).length === 0 && JSON.stringify(initialValues.imageUrls) === JSON.stringify(currentImageUrls)) {
         setAlertOpen(true);
-        setAlertText("수정된 내역이 없습니다. O");
-        setAlertSeverity("info");
-        return;
-      } else if (JSON.stringify(uploadedImageUrls) === JSON.stringify(currentImageUrls)) {
-        setAlertOpen(true);
-        setAlertText("수정된 내역이 없습니다. I");
+        setAlertText("수정된 내역이 없습니다.");
         setAlertSeverity("info");
         return;
       }
@@ -165,14 +158,14 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
   const alertClose = (): void => {
     setAlertOpen(false);
-    // router.push("/list");
+    router.push("/list");
   };
 
   return (
     <>
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(isEdit ? handleFormUpdate : handleFormSubmit)}>
-        <BuildingInfo register={register} setValue={setValue} control={control} />
+        <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <DealInfo register={register} />
         <AddInfo register={register} control={control} />
         <BuildingDesc register={register} />

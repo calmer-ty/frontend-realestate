@@ -11,7 +11,7 @@ export default function ControlTextField(props: IControlTextField): JSX.Element 
       {...props.register}
       value={props.value}
       fullWidth
-      InputProps={{ inputProps: { step: props.step } }}
+      InputProps={{ inputProps: { step: props.step }, readOnly: props.readOnly }}
       InputLabelProps={{
         shrink: true, // label이 항상 위에 위치하도록 설정
       }}

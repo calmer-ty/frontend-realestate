@@ -6,5 +6,6 @@ export interface IControlTextField {
   type?: string;
   value?: string;
   required?: boolean;
+  readOnly?: boolean;
   register?: UseFormRegisterReturn;
 }
