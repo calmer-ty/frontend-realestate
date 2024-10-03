@@ -5,7 +5,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import type { IBasicMenuProps } from "./types";
 
 export default function BasicMenu({ children }: IBasicMenuProps): JSX.Element {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);

@@ -9,7 +9,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 export default function AuthButton(): JSX.Element {
   const { data: session } = useSession();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);

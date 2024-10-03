@@ -11,7 +11,7 @@ export default function BuildingsEditPage(): JSX.Element {
   const buildingType = pathname?.split("/")[1];
   const docId = pathname?.split("/")[2];
 
-  const [docData, setDocData] = useState<IFirestoreData>();
+  const [docData, setDocData] = useState<IFirestoreData | undefined>(undefined);
   const { readFirestoreData } = useFirestore();
 
   useEffect(() => {
