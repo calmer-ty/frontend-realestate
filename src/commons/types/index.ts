@@ -117,6 +117,10 @@ export interface IFirestoreData {
     seconds: number;
     nanoseconds: number;
   };
+  deletedAt?: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
 
 // Write Form
@@ -169,6 +173,7 @@ export interface IUseMapsLoaderProps {
 // firebase
 export interface IUseFirestoreProps {
   createFirestoreData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
+  archiveFirestoreData: (building: IFirestoreData) => Promise<void>;
   updateFirestoreData: (data: Partial<IWriteFormData>, selectedType: string, docId: string) => Promise<void>;
   deleteFirestoreData: (selectedType: string, docId: string) => Promise<void>;
   readFirestoreData: (collection: string, docId: string) => Promise<IFirestoreData | undefined>;

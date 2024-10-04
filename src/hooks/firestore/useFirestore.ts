@@ -1,15 +1,16 @@
 import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
 import type { IWriteFormData, IFirestoreData, IUseFirestoreProps } from "@/src/commons/types";
 
 export const useFirestore = (): IUseFirestoreProps => {
-  const createFirestoreData = useCallback(async (data: IWriteFormData, selectedType: string): Promise<void> => {
+  const createFirestoreData = useCallback(async (data: IWriteFormData, selectedType: string) => {
     try {
       const docRef = await addDoc(collection(db, selectedType), {
         ...data,
         type: selectedType,
+        createdAt: serverTimestamp(), // 서버 시간 추가
       });
 
       // 문서 ID를 포함한 데이터로 업데이트
@@ -21,7 +22,23 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const updateFirestoreData = useCallback(async (data: Partial<IWriteFormData>, selectedType: string, docId: string): Promise<void> => {
+  const archiveFirestoreData = useCallback(async (building: IFirestoreData) => {
+    try {
+      const docRef = await addDoc(collection(db, `deleted_${building.type}`), {
+        ...building,
+        deletedAt: serverTimestamp(), // 삭제된 시간 기록
+      });
+      // 문서 ID를 포함한 데이터로 업데이트
+      await updateDoc(docRef, {
+        _id: docRef.id,
+      });
+      console.log(`Building ${building._id} archived.`);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  }, []);
+
+  const updateFirestoreData = useCallback(async (data: Partial<IWriteFormData>, selectedType: string, docId: string) => {
     const docRef = doc(db, selectedType, docId);
     try {
       await updateDoc(docRef, data);
@@ -30,7 +47,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const deleteFirestoreData = useCallback(async (selectedType: string, docId: string): Promise<void> => {
+  const deleteFirestoreData = useCallback(async (selectedType: string, docId: string) => {
     try {
       await deleteDoc(doc(db, selectedType, docId));
     } catch (error) {
@@ -53,7 +70,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const readFirestoreDatas = useCallback(async (buildingType: string): Promise<IFirestoreData[]> => {
+  const readFirestoreDatas = useCallback(async (buildingType: string) => {
     try {
       const querySnapshot = await getDocs(collection(db, buildingType));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirestoreData);
@@ -66,6 +83,7 @@ export const useFirestore = (): IUseFirestoreProps => {
 
   return {
     createFirestoreData,
+    archiveFirestoreData,
     updateFirestoreData,
     deleteFirestoreData,
     readFirestoreData,
