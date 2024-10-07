@@ -11,7 +11,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
   const createMarker = useCallback(
     (coord: IGeocodeEtcData) => {
       const { latitude, longitude, ...buildingsData } = coord;
-
+      if (buildingsData === undefined) return;
       const markerOptions = {
         position: new window.naver.maps.LatLng(latitude, longitude),
         map: null, // Set map to null initially

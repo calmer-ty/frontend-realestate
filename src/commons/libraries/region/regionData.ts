@@ -56,8 +56,8 @@ export const regionAllData = async (): Promise<IRegionItem[]> => {
       return rows
         .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000") // Type predicate 사용
         .map((el) => ({
-          locatadd_nm: el.locatadd_nm ?? "", // 기본값 설정
-          region_cd: el.region_cd?.slice(0, 5) ?? "", // 기본값 설정
+          locatadd_nm: el.locatadd_nm ?? "값 없음", // 기본값 설정
+          region_cd: el.region_cd?.slice(0, 5) ?? "값 없음", // 기본값 설정
         }));
     });
 

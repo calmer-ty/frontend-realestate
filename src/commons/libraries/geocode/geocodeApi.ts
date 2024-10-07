@@ -11,13 +11,14 @@ export const geocodeApi = async (address: string): Promise<IGeocodeData | null> 
       },
     });
 
-    if (response.data.addresses.length > 0) {
-      const { x, y } = response.data.addresses[0];
+    const addresses = response.data.addresses ?? [];
+    if (addresses.length > 0) {
+      const { x, y } = addresses[0];
       return {
-        latitude: parseFloat(y),
-        longitude: parseFloat(x),
-        // roadAddress,
-        // jibunAddress,
+        latitude: parseFloat(y ?? "값 없음"),
+        longitude: parseFloat(x ?? "값 없음"),
+        // roadAddress
+        // jibunAddress
       };
     } else {
       console.log(`geocodeApi: 주소 ${address}에 대한 지오코딩 결과 없음`);

@@ -10,7 +10,7 @@ export default function BuildingTypeItem({ href, title, description, icon }: IBu
   const fetchBuildingsData: MouseEventHandler<HTMLDivElement> = async (event) => {
     const target = event.currentTarget;
     console.log(target);
-    const buildingType = target.getAttribute("data-href") ?? "";
+    const buildingType = target.getAttribute("data-href") ?? "값 없음";
     setCurrentBuildingType(buildingType);
   };
 

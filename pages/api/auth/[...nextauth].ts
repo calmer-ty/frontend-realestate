@@ -16,8 +16,8 @@ interface ICustomSession extends Session {
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "",
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "클라이언트 아이디 없음",
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "클라이언트 비밀번호 없음",
     }),
   ],
   // pages: {

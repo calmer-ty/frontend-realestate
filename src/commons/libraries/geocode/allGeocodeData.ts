@@ -33,10 +33,10 @@ export const allGeocodeData = async (buildingType: string): Promise<IGeocodeEtcD
 
         const itemDatas = {
           // streetNumber: item.지번,
-          address: `${location} ${item.법정동.trim()} ${filteredDongMainCode}${filteredDongSubCode}`,
-          address_road: `${location} ${item.도로명.trim()} ${Number(item.도로명건물본번호코드).toString()}${filteredRoadSubCode}`,
+          address: `${location} ${item.법정동 ?? "값 없음".trim()} ${filteredDongMainCode}${filteredDongSubCode}`,
+          address_road: `${location} ${item.도로명 ?? "값 없음".trim()} ${Number(item.도로명건물본번호코드).toString()}${filteredRoadSubCode}`,
           buildingName: item.아파트,
-          price: Number(item.거래금액.replace(/,/g, "")),
+          price: Number(item.거래금액?.replace(/,/g, "")),
           area: item.전용면적,
           floor: item.층,
           dealYear: item.년,

@@ -27,7 +27,7 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
           {!select && (
             <ul>
               {visibleMarkerDatas.map((el, index) => {
-                const matchingfirestoreData = firestoreDatas.some((firestoreData) => shortenCityName(el.address) === firestoreData.address);
+                const matchingFirestoreData = firestoreDatas.some((firestoreData) => shortenCityName(el.address ?? "값 없음") === firestoreData.address);
 
                 return (
                   <li
@@ -37,15 +37,15 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
                     }}
                   >
                     <h2>
-                      매매 {isBillion(el.price)}&nbsp;
-                      {isTenMillion(el.price)}원
+                      매매 {isBillion(el.price ?? NaN)}&nbsp;
+                      {isTenMillion(el.price ?? NaN)}원
                     </h2>
                     <p>
                       아파트・{el.buildingName}
                       <br />
                       {el.area}m² {el.floor}층
                     </p>
-                    <div>{matchingfirestoreData && <>매물있음</>}</div>
+                    <div>{matchingFirestoreData && <>매물있음</>}</div>
                   </li>
                 );
               })}

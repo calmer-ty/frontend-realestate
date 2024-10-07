@@ -10,7 +10,7 @@ import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const matchedFirestoreData: IFirestoreData[] = props.firestoreDatas.filter(
-    (el) => shortenCityName(props.selectedData?.address ?? "") === el.address || shortenCityName(props.selectedData?.address_road ?? "") === el.address
+    (el) => shortenCityName(props.selectedData?.address ?? "값 없음") === el.address || shortenCityName(props.selectedData?.address_road ?? "값 없음") === el.address
   );
 
   return (
@@ -36,8 +36,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
               <h3>최근 실거래가</h3>
               <S.SelectedContent>
                 <strong>
-                  매매 {isBillion(props.selectedData.price)}&nbsp;
-                  {isTenMillion(props.selectedData.price)}원
+                  매매 {isBillion(props.selectedData.price ?? NaN)}&nbsp;
+                  {isTenMillion(props.selectedData.price ?? NaN)}원
                 </strong>
                 <p>
                   {props.selectedData.dealYear}.{props.selectedData.dealMonth}.{props.selectedData.dealDay}・{props.selectedData.floor}층・{props.selectedData.area}m²
@@ -57,7 +57,11 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                   {matchedFirestoreData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${props.buildingType}/${el._id}`}>
-                        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} width={80} height={80} alt={el._id} /> : <BasicUnImage width="80px" height="80px" fontSize="24px" />}
+                        {el.imageUrls?.[0] !== undefined ? (
+                          <Image src={el.imageUrls?.[0] ?? "값 없음"} width={80} height={80} alt={el._id} />
+                        ) : (
+                          <BasicUnImage width="80px" height="80px" fontSize="24px" />
+                        )}
                         <p>
                           <strong>
                             매매 {isBillion(el.price)}

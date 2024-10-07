@@ -24,7 +24,6 @@ export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMark
   }, [readFirestoreDatas]);
 
   useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
-
   return (
     <>
       <div css={mapStyle}>

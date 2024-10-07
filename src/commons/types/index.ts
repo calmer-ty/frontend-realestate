@@ -21,78 +21,77 @@ export interface IRegionItem {
 
 // 아파트 API
 export interface IApartmentData {
-  response: {
-    body: {
-      items: {
-        item: IApartmentItem[]; // Item 배열 형태로 정의
+  response?: {
+    body?: {
+      items?: {
+        item?: IApartmentItem[]; // Item 배열 형태로 정의
       };
     };
   };
 }
 export interface IApartmentItem {
-  법정동: string;
-  법정동본번코드: string;
-  법정동부번코드: string;
-  도로명: string;
-  도로명건물본번호코드: string;
-  도로명건물부번호코드: string;
-  아파트: string;
+  법정동?: string;
+  법정동본번코드?: string;
+  법정동부번코드?: string;
+  도로명?: string;
+  도로명건물본번호코드?: string;
+  도로명건물부번호코드?: string;
+  아파트?: string;
 
-  거래금액: string;
-  전용면적: number;
-  층: number;
-  년: string;
-  월: string;
-  일: string;
-  건축년도: number;
+  거래금액?: string;
+  전용면적?: number;
+  층?: number;
+  년?: string;
+  월?: string;
+  일?: string;
+  건축년도?: number;
 }
 export interface IApartmentLocationData {
-  datas: IApartmentData;
-  locatadd_nm: string;
+  datas?: IApartmentData;
+  locatadd_nm?: string;
 }
 
 // Geocode API
 export interface IGeocodeCoord {
-  addresses: Array<{
-    x: string; // 경도
-    y: string; // 위도
+  addresses?: Array<{
+    x?: string; // 경도
+    y?: string; // 위도
     // roadAddress: string;
     // jibunAddress: string;
   }>;
 }
 
 export interface IGeocodeData {
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
 }
 export interface IGeocodeEtcData {
-  latitude: number;
-  longitude: number;
-  //
-  address: string;
-  address_road: string;
-  buildingName: string;
-  price: number;
-  area: number;
-  floor: number;
-  dealYear: string;
-  dealMonth: string;
-  dealDay: string;
-  constructionYear: number;
+  latitude?: number;
+  longitude?: number;
+  address?: string;
+  address_road?: string;
+  buildingName?: string;
+  price?: number;
+  area?: number;
+  floor?: number;
+  dealYear?: string;
+  dealMonth?: string;
+  dealDay?: string;
+  constructionYear?: number;
 }
 
 // map API marker
 export interface IMarkerData {
-  address: string;
-  address_road: string;
-  buildingName: string;
-  price: number;
-  area: number;
-  floor: number;
-  dealYear: string;
-  dealMonth: string;
-  dealDay: string;
-  constructionYear: number;
+  address?: string;
+  address_road?: string;
+  buildingName?: string;
+  price?: number;
+  area?: number;
+  floor?: number;
+  dealYear?: string;
+  dealMonth?: string;
+  dealDay?: string;
+  constructionYear?: number;
 }
 
 // firestore

@@ -132,7 +132,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}
@@ -196,7 +196,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}
@@ -260,7 +260,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}

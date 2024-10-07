@@ -18,7 +18,11 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
               {randomFirestoreDatas.map((el) => (
                 <li key={el._id}>
                   <Link href={`/${el.type}/${el._id}`}>
-                    {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.type} width={300} height={200} /> : <BasicUnImage width="300px" height="200px" fontSize="36px" />}
+                    {el.imageUrls?.[0] !== undefined ? (
+                      <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.type} width={300} height={200} />
+                    ) : (
+                      <BasicUnImage width="300px" height="200px" fontSize="36px" />
+                    )}
                     <p className="buildingDesc">
                       <span>
                         {el.type}・{el.addressDetail}

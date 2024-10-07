@@ -24,7 +24,7 @@ export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
 
         const apartmentLocationData: IApartmentLocationData = {
           datas,
-          locatadd_nm: result.locatadd_nm,
+          locatadd_nm: result.locatadd_nm ?? "값 없음",
         };
 
         // 데이터를 캐시에 저장합니다
