@@ -4,19 +4,21 @@ import type { Address } from "react-daum-postcode";
 
 // 지역코드 API
 export interface IRegionData {
-  StanReginCd: Array<{
-    row: IRegionItem[];
-    head: Array<{
-      totalCount: number;
-    }>;
-  }>;
+  StanReginCd?: [
+    { head?: IRegionHead[] }, // 첫 번째 요소는 head
+    { row?: IRegionItem[] } // 두 번째 요소는 row
+  ];
+}
+export interface IRegionHead {
+  totalCount?: number;
 }
 export interface IRegionItem {
-  locatadd_nm: string;
-  region_cd: string;
+  locatadd_nm?: string;
+  region_cd?: string;
   umd_cd?: string;
   sgg_cd?: string;
 }
+
 // 아파트 API
 export interface IApartmentData {
   response: {

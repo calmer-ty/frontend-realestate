@@ -50,14 +50,17 @@ export const regionAllData = async (): Promise<IRegionItem[]> => {
     const promises = cities.map((city) => regionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
-    const filteredRegionDatas = regionDatas.flatMap((data) =>
-      data?.StanReginCd[1]?.row
-        ?.filter((el) => el.umd_cd === "000" && el.sgg_cd !== "000")
+    const filteredRegionDatas = regionDatas.flatMap((data) => {
+      const rows = data?.StanReginCd?.[1]?.row ?? [];
+
+      return rows
+        .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000") // Type predicate 사용
         .map((el) => ({
-          locatadd_nm: el.locatadd_nm,
-          region_cd: el.region_cd.slice(0, 5),
-        }))
-    );
+          locatadd_nm: el.locatadd_nm ?? "", // 기본값 설정
+          region_cd: el.region_cd?.slice(0, 5) ?? "", // 기본값 설정
+        }));
+    });
+
     return filteredRegionDatas; // 모든 도시의 지역 데이터 배열을 반환합니다
   } catch (error) {
     console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
