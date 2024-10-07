@@ -13,20 +13,23 @@ export default function ListItem(props: IListItem): JSX.Element {
     <S.ListItem>
       {props.data.map((el, index) => (
         <li key={`${el._id}_${index}`}>
-          <div className="topContents">
-            <Link href={`/${el.type}/${el._id}/edit/`}>
-              <Button variant="outlined">수정</Button>
-            </Link>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => {
-                props.onDeleteModalOpen?.(el);
-              }}
-            >
-              삭제
-            </Button>
-          </div>
+          {props.isDeleted && (
+            <div className="topContents">
+              <Link href={`/${el.type}/${el._id}/edit/`}>
+                <Button variant="outlined">수정</Button>
+              </Link>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => {
+                  props.onDeleteModalOpen?.(el);
+                }}
+              >
+                삭제
+              </Button>
+            </div>
+          )}
+
           <div className="bottomContents">
             <p>{index}</p>
             {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" fontSize="28px" />}
