@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import type { IMarkerData } from "@/src/commons/types";
+import type { IMapMarker } from "@/src/commons/types";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea({ buildingType, firestoreDatas, visibleMarkerDatas }: IVisibleAreaProps): JSX.Element {
   const [select, setSelect] = useState(false);
-  const [selectedEl, setSelectedEl] = useState<IMarkerData | null>(null);
+  const [selectedEl, setSelectedEl] = useState<IMapMarker | null>(null);
 
   useEffect(() => {
     setSelect(false);
     setSelectedEl(null);
   }, [visibleMarkerDatas]);
 
-  const onClickInfo = (el: IMarkerData): void => {
+  const onClickInfo = (el: IMapMarker): void => {
     setSelect((prev) => !prev);
     setSelectedEl(el); // 선택된 el을 상태에 저장
   };

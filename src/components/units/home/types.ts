@@ -1,4 +1,4 @@
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 import type { ReactNode } from "react";
 
 export interface IBuildingTypeItemProps {
@@ -11,5 +11,5 @@ export interface IBuildingTypeProps {
   isDisabled: boolean;
 }
 export interface IRecommendedListProps {
-  firestoreDatas: IFirestoreData[];
+  firestoreDatas: IFirestore[];
 }

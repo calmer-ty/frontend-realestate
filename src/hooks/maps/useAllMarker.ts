@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { createMarkerClusteringOptions, loadScript, markerIconContent } from "@/src/commons/libraries/utils/naverMaps";
-import type { IGeocodeEtcData, IMarkerData, IUseAllMarkerProps } from "@/src/commons/types";
+import type { IGeocodeEtc, IMapMarker, IUseAllMarkerProps } from "@/src/commons/types";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
@@ -9,7 +9,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
   const isClusterScriptLoadedRef = useRef(false);
 
   const createMarker = useCallback(
-    (coord: IGeocodeEtcData) => {
+    (coord: IGeocodeEtc) => {
       const { latitude, longitude, ...buildingsData } = coord;
       if (buildingsData === undefined) return;
       const markerOptions = {
@@ -21,7 +21,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       };
 
       const marker = new window.naver.maps.Marker(markerOptions);
-      const markerData: IMarkerData = buildingsData;
+      const markerData: IMapMarker = buildingsData;
       marker.set("data", markerData);
 
       window.naver.maps.Event.addListener(marker, "click", () => {

@@ -4,16 +4,16 @@ import NaverMaps from "./naverMaps";
 import { useEffect, useState } from "react";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
-import type { IFirestoreData, IMarkerData } from "@/src/commons/types";
+import type { IFirestore, IMapMarker } from "@/src/commons/types";
 import type { IAllMarkerMapsProps } from "./types";
 import { mapStyle } from "./styles";
 
 export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMarkerMapsProps): JSX.Element {
-  const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMarkerData[]>([]);
-  const [selectedMarkerData, setSelectedMarkerData] = useState<IMarkerData | null>(null);
+  const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMapMarker[]>([]);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IMapMarker | null>(null);
   const { readFirestoreDatas } = useFirestore();
 
-  const [firestoreDatas, setFirestoreDatas] = useState<IFirestoreData[]>([]);
+  const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
       const datas = await readFirestoreDatas("apartment");

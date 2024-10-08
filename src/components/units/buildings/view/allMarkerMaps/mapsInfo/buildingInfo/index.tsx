@@ -4,12 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const matchedFirestoreData: IFirestoreData[] = props.firestoreDatas.filter(
+  const matchedFirestoreData: IFirestore[] = props.firestoreDatas.filter(
     (el) => shortenCityName(props.selectedData?.address ?? "값 없음") === el.address || shortenCityName(props.selectedData?.address_road ?? "값 없음") === el.address
   );
 

@@ -17,12 +17,12 @@ import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import type { IEditFormData } from "./types";
-import type { IWriteFormData } from "@/src/commons/types";
+import type { IWriteForm } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const router = useRouter();
-  const initialValues: IWriteFormData = {
+  const initialValues: IWriteForm = {
     type: docData?.type ?? "",
     address: docData?.address ?? "",
     addressDetail: docData?.addressDetail ?? "",
@@ -42,7 +42,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { uploadFiles } = useStorage();
   const { createFirestoreData, updateFirestoreData } = useFirestore();
   const { session } = useAuthCheck();
-  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteFormData>({
+  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues, // 초기값 설정
   });
   const selectedType = korToEng(watch("type")); // 셀렉트 폼에서 가져온 데이터의 타입을 한글로
@@ -57,7 +57,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       Object.entries(docData).forEach(([key, value]) => {
         const excludedKeys = ["_id", "user", "createdAt"]; // 제외할 키 추가
         if (!excludedKeys.includes(key) && (typeof value === "string" || typeof value === "number" || (Array.isArray(value) && value.every((item) => typeof item === "string")))) {
-          setValue(key as keyof IWriteFormData, value);
+          setValue(key as keyof IWriteForm, value);
         }
       });
       if (typeof docData.type === "string") {
@@ -75,7 +75,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   }, [docData]);
 
   // 등록 버튼 클릭 시 데이터를 Firestore에 추가하는 함수입니다
-  const handleFormSubmit = async (data: IWriteFormData): Promise<void> => {
+  const handleFormSubmit = async (data: IWriteForm): Promise<void> => {
     try {
       // 데이터에 파일 다운로드 URL 추가
       const selectImageUrls = await uploadFiles(selectedFiles);
@@ -103,14 +103,14 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const handleFormUpdate = async (): Promise<void> => {
     try {
       const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
-      const updatedValues: Partial<IWriteFormData> = {};
+      const updatedValues: Partial<IWriteForm> = {};
 
       // 이미지 변수
       const selectImageUrls = await uploadFiles(selectedFiles);
       const currentImageUrls = [...uploadedImageUrls, ...selectImageUrls];
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
-        const fieldKey = key as keyof IWriteFormData;
+        const fieldKey = key as keyof IWriteForm;
         const initialValue = initialValues[fieldKey];
 
         // type 키는 초기값을 불러올 시 한글로 변하므로 다시 변환시켜줌

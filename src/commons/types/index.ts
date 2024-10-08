@@ -20,7 +20,7 @@ export interface IRegionItem {
 }
 
 // 아파트 API
-export interface IApartmentData {
+export interface IApartment {
   response?: {
     body?: {
       items?: {
@@ -46,8 +46,8 @@ export interface IApartmentItem {
   일?: string;
   건축년도?: number;
 }
-export interface IApartmentLocationData {
-  datas?: IApartmentData;
+export interface IApartmentLocation {
+  datas?: IApartment;
   locatadd_nm?: string;
 }
 
@@ -65,7 +65,7 @@ export interface IGeocodeData {
   latitude?: number;
   longitude?: number;
 }
-export interface IGeocodeEtcData {
+export interface IGeocodeEtc {
   latitude?: number;
   longitude?: number;
   address?: string;
@@ -81,7 +81,7 @@ export interface IGeocodeEtcData {
 }
 
 // map API marker
-export interface IMarkerData {
+export interface IMapMarker {
   address?: string;
   address_road?: string;
   buildingName?: string;
@@ -95,7 +95,7 @@ export interface IMarkerData {
 }
 
 // firestore
-export interface IFirestoreData {
+export interface IFirestore {
   _id?: string;
   type?: string;
   address?: string;
@@ -125,7 +125,7 @@ export interface IFirestoreData {
 }
 
 // Write Form
-export interface IWriteFormData {
+export interface IWriteForm {
   type: string;
   address: string;
   addressDetail: string;
@@ -157,13 +157,13 @@ declare global {
 }
 
 export interface IUseAllMarkerProps {
-  geocodeResults: IGeocodeEtcData[];
-  setSelectedMarkerData: Dispatch<SetStateAction<IMarkerData | null>>;
-  setVisibleMarkerDatas: Dispatch<SetStateAction<IMarkerData[]>>;
-  firestoreDatas: IFirestoreData[];
+  geocodeResults: IGeocodeEtc[];
+  setSelectedMarkerData: Dispatch<SetStateAction<IMapMarker | null>>;
+  setVisibleMarkerDatas: Dispatch<SetStateAction<IMapMarker[]>>;
+  firestoreDatas: IFirestore[];
 }
 export interface IUseFetchAllGeocodeProps {
-  geocodeResults: IGeocodeEtcData[];
+  geocodeResults: IGeocodeEtc[];
   loading: boolean;
   error: Error | null;
 }
@@ -173,12 +173,12 @@ export interface IUseMapsLoaderProps {
 
 // firebase
 export interface IUseFirestoreProps {
-  createFirestoreData: (data: IWriteFormData, selectedTypeEng: string) => Promise<void>;
-  archiveFirestoreData: (building: IFirestoreData) => Promise<void>;
-  updateFirestoreData: (data: Partial<IWriteFormData>, selectedType: string, docId: string) => Promise<void>;
+  createFirestoreData: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
+  archiveFirestoreData: (building: IFirestore) => Promise<void>;
+  updateFirestoreData: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
   deleteFirestoreData: (selectedType: string, docId: string) => Promise<void>;
-  readFirestoreData: (collection: string, docId: string) => Promise<IFirestoreData | undefined>;
-  readFirestoreDatas: (buildingType: string) => Promise<IFirestoreData[]>;
+  readFirestoreData: (collection: string, docId: string) => Promise<IFirestore | undefined>;
+  readFirestoreDatas: (buildingType: string) => Promise<IFirestore[]>;
 }
 
 export interface IUseStorageProps {

@@ -1,9 +1,9 @@
 import { regionAllData } from "../region/regionData";
 import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
-import type { IApartmentLocationData } from "@/src/commons/types";
+import type { IApartmentLocation } from "@/src/commons/types";
 
-export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
+export const apartmentData = async (): Promise<IApartmentLocation[]> => {
   try {
     // 지역 데이터를 가져옵니다
     const regionResults = await regionAllData();
@@ -22,7 +22,7 @@ export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
         const response = await apartmentApi(result);
         const datas = response;
 
-        const apartmentLocationData: IApartmentLocationData = {
+        const apartmentLocationData: IApartmentLocation = {
           datas,
           locatadd_nm: result.locatadd_nm ?? "값 없음",
         };
@@ -37,7 +37,7 @@ export const apartmentData = async (): Promise<IApartmentLocationData[]> => {
     });
 
     // 모든 지역에 대한 데이터를 비동기적으로 가져와서 반환합니다
-    const dataPromises: IApartmentLocationData[] = await Promise.all(apartmentDataPromises);
+    const dataPromises: IApartmentLocation[] = await Promise.all(apartmentDataPromises);
 
     return dataPromises;
   } catch (error) {

@@ -1,10 +1,10 @@
+import type { IWriteForm } from "@/src/commons/types";
 import type { Control } from "react-hook-form";
-import type { IWriteFormData } from "@/src/components/units/buildings/write/types";
 
 export interface IControlRadioProps {
   label: string;
-  name: keyof IWriteFormData;
+  name: keyof IWriteForm;
   selectLabel1: string;
   selectLabel2: string;
-  control: Control<IWriteFormData>;
+  control: Control<IWriteForm>;
 }

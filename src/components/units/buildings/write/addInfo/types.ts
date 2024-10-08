@@ -1,7 +1,7 @@
 import type { Control, UseFormRegister } from "react-hook-form";
-import type { IWriteFormData } from "../types";
+import type { IWriteForm } from "@/src/commons/types";
 
 export interface IAddInfoProps {
-  register: UseFormRegister<IWriteFormData>;
-  control: Control<IWriteFormData, any>;
+  register: UseFormRegister<IWriteForm>;
+  control: Control<IWriteForm, any>;
 }

@@ -2,10 +2,10 @@ import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
-import type { IWriteFormData, IFirestoreData, IUseFirestoreProps } from "@/src/commons/types";
+import type { IWriteForm, IFirestore, IUseFirestoreProps } from "@/src/commons/types";
 
 export const useFirestore = (): IUseFirestoreProps => {
-  const createFirestoreData = useCallback(async (data: IWriteFormData, selectedType: string) => {
+  const createFirestoreData = useCallback(async (data: IWriteForm, selectedType: string) => {
     try {
       const docRef = await addDoc(collection(db, selectedType), {
         ...data,
@@ -22,7 +22,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const archiveFirestoreData = useCallback(async (building: IFirestoreData) => {
+  const archiveFirestoreData = useCallback(async (building: IFirestore) => {
     try {
       const docRef = await addDoc(collection(db, `deleted_${building.type}`), {
         ...building,
@@ -38,7 +38,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const updateFirestoreData = useCallback(async (data: Partial<IWriteFormData>, selectedType: string, docId: string) => {
+  const updateFirestoreData = useCallback(async (data: Partial<IWriteForm>, selectedType: string, docId: string) => {
     const docRef = doc(db, selectedType, docId);
     try {
       await updateDoc(docRef, data);
@@ -73,7 +73,7 @@ export const useFirestore = (): IUseFirestoreProps => {
   const readFirestoreDatas = useCallback(async (buildingType: string) => {
     try {
       const querySnapshot = await getDocs(collection(db, buildingType));
-      const datas = querySnapshot.docs.map((el) => el.data() as IFirestoreData);
+      const datas = querySnapshot.docs.map((el) => el.data() as IFirestore);
       return datas;
     } catch (error) {
       console.error("Error fetching buildings:", error);

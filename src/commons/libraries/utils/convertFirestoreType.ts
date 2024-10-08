@@ -1,7 +1,7 @@
 import type { DocumentData } from "firebase/firestore";
-import type { IFirestoreData } from "../../types";
+import type { IFirestore } from "@/src/commons/types";
 
-export const convertFirestoreData = (data: DocumentData): IFirestoreData => {
+export const convertFirestoreData = (data: DocumentData): IFirestore => {
   return {
     _id: data._id as string,
     type: data.type as string,

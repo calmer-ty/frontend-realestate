@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 
-import type { IGeocodeEtcData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
+import type { IGeocodeEtc, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
@@ -13,7 +13,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     const fetchData = async (): Promise<void> => {
       try {
         setLoading(true);
-        const response = await axios.get<IGeocodeEtcData[]>("/api/fetchAllGeocode?buildingType=apartment");
+        const response = await axios.get<IGeocodeEtc[]>("/api/fetchAllGeocode?buildingType=apartment");
         const data = response.data; // 이미 파싱된 데이터
         setGeocodeResults(data);
       } catch (err) {

@@ -4,14 +4,14 @@ import BuildingWrite from "@/src/components/units/buildings/write";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 
 export default function BuildingsEditPage(): JSX.Element {
   const pathname = usePathname();
   const buildingType = pathname?.split("/")[1];
   const docId = pathname?.split("/")[2];
 
-  const [docData, setDocData] = useState<IFirestoreData | undefined>(undefined);
+  const [docData, setDocData] = useState<IFirestore | undefined>(undefined);
   const { readFirestoreData } = useFirestore();
 
   useEffect(() => {

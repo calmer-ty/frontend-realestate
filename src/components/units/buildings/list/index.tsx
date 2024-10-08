@@ -21,16 +21,16 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import type { SyntheticEvent } from "react";
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 import ListItem from "./item";
 
 const DEADLINE = 86400;
 
 export default function BuildingList(): JSX.Element {
-  const [buildings, setBuildings] = useState<IFirestoreData[]>([]);
+  const [buildings, setBuildings] = useState<IFirestore[]>([]);
   const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
-  const [deletedBuildings, setDeletedBuildings] = useState<IFirestoreData[]>([]);
+  const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
   const archivedIds = useRef(new Set());
   const { archiveFirestoreData, deleteFirestoreData, readFirestoreDatas } = useFirestore();
   const { data: session, status } = useSession();
@@ -41,7 +41,7 @@ export default function BuildingList(): JSX.Element {
   const fetchData = useCallback(async (): Promise<void> => {
     const collections = ["apartment", "house", "office"];
     const deletedCollections = ["deleted_apartment"];
-    const fetchCollections = async (collections: string[]): Promise<IFirestoreData[]> => {
+    const fetchCollections = async (collections: string[]): Promise<IFirestore[]> => {
       const promises = collections.map((collection) => readFirestoreDatas(collection));
       const results = await Promise.all(promises);
       return results.flat();
@@ -82,12 +82,12 @@ export default function BuildingList(): JSX.Element {
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedBuilding, setSelectedBuilding] = useState<IFirestoreData | null>(null);
+  const [selectedBuilding, setSelectedBuilding] = useState<IFirestore | null>(null);
 
   const onModalToggle = (): void => {
     setModalOpen((prev) => !prev);
   };
-  const onDeleteModalOpen = (building: IFirestoreData): void => {
+  const onDeleteModalOpen = (building: IFirestore): void => {
     setSelectedBuilding(building); // 클릭된 매물 데이터 저장
     setModalOpen(true); // 모달 열기
   };

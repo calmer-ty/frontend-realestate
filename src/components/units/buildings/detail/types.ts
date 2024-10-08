@@ -1,5 +1,5 @@
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 
 export interface IBuildingDetailProps {
-  buildingData: IFirestoreData;
+  buildingData: IFirestore;
 }

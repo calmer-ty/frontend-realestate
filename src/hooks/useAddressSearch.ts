@@ -2,9 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import type { Address } from "react-daum-postcode";
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import type { IGeocodeData, IUseAddressSearchProps, IWriteFormData } from "@/src/commons/types";
+import type { IGeocodeData, IUseAddressSearchProps, IWriteForm } from "@/src/commons/types";
 
-export const useAddressSearch = (setValue: UseFormSetValue<IWriteFormData>, getValues: UseFormGetValues<IWriteFormData>, onModalToggle: () => void): IUseAddressSearchProps => {
+export const useAddressSearch = (setValue: UseFormSetValue<IWriteForm>, getValues: UseFormGetValues<IWriteForm>, onModalToggle: () => void): IUseAddressSearchProps => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [geocodeData, setGeocodeData] = useState<IGeocodeData | null>(null);
   const currentAddress = getValues("address");

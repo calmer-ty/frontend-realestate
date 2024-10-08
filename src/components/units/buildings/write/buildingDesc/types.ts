@@ -1,6 +1,6 @@
 import type { UseFormRegister } from "react-hook-form";
-import type { IWriteFormData } from "../types";
+import type { IWriteForm } from "@/src/commons/types";
 
 export interface IBuildingDescProps {
-  register: UseFormRegister<IWriteFormData>;
+  register: UseFormRegister<IWriteForm>;
 }

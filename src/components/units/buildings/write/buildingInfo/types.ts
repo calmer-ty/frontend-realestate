@@ -1,9 +1,9 @@
-import type { IWriteFormData } from "@/src/commons/types";
 import type { Control, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import type { IWriteForm } from "@/src/commons/types";
 
 export interface IBuildingInfoProps {
-  register: UseFormRegister<IWriteFormData>;
-  setValue: UseFormSetValue<IWriteFormData>;
-  getValues: UseFormGetValues<IWriteFormData>;
-  control: Control<IWriteFormData, any>;
+  register: UseFormRegister<IWriteForm>;
+  setValue: UseFormSetValue<IWriteForm>;
+  getValues: UseFormGetValues<IWriteForm>;
+  control: Control<IWriteForm, any>;
 }

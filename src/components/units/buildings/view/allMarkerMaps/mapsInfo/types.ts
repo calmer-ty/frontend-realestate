@@ -1,9 +1,9 @@
-import type { IFirestoreData, IMarkerData } from "@/src/commons/types";
+import type { IFirestore, IMapMarker } from "@/src/commons/types";
 
 export interface IMapsInfoProps {
-  visibleMarkerDatas: IMarkerData[];
-  selectedMarkerData: IMarkerData | null;
-  firestoreDatas: IFirestoreData[];
+  visibleMarkerDatas: IMapMarker[];
+  selectedMarkerData: IMapMarker | null;
+  firestoreDatas: IFirestore[];
   buildingType: string;
 }
 

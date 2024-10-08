@@ -1,7 +1,7 @@
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 
 export interface IListItem {
   isDeleted: boolean;
-  data: IFirestoreData[];
-  onDeleteModalOpen?: (building: IFirestoreData) => void;
+  data: IFirestore[];
+  onDeleteModalOpen?: (building: IFirestore) => void;
 }

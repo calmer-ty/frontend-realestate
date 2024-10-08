@@ -1,6 +1,6 @@
-import type { IGeocodeEtcData } from "@/src/commons/types";
+import type { IGeocodeEtc } from "@/src/commons/types";
 
 export interface IAllMarkerMapsProps {
   buildingType: string;
-  geocodeResults: IGeocodeEtcData[];
+  geocodeResults: IGeocodeEtc[];
 }

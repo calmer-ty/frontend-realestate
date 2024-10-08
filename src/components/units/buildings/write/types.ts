@@ -1,6 +1,6 @@
-import type { IFirestoreData } from "@/src/commons/types";
+import type { IFirestore } from "@/src/commons/types";
 
 export interface IEditFormData {
   isEdit: boolean;
-  docData?: IFirestoreData | undefined;
+  docData?: IFirestore | undefined;
 }

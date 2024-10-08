@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import type { SetStateAction, Dispatch, ReactNode } from "react";
-import type { IGeocodeEtcData } from "@/src/commons/types";
+import type { IGeocodeEtc } from "@/src/commons/types";
 
 interface IAllGeocodeContextProps {
-  geocodeResults: IGeocodeEtcData[];
-  setGeocodeResults: Dispatch<SetStateAction<IGeocodeEtcData[]>>;
+  geocodeResults: IGeocodeEtc[];
+  setGeocodeResults: Dispatch<SetStateAction<IGeocodeEtc[]>>;
 }
 
 // GeocodeContext를 생성하고 기본값을 설정합니다.
@@ -12,7 +12,7 @@ const AllGeocodeContext = createContext<IAllGeocodeContextProps | undefined>(und
 
 // Provider 컴포넌트를 정의합니다. 이 컴포넌트는 자식 컴포넌트에게 Context를 제공합니다.
 export const AllGeocodeProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const [geocodeResults, setGeocodeResults] = useState<IGeocodeEtcData[]>([]);
+  const [geocodeResults, setGeocodeResults] = useState<IGeocodeEtc[]>([]);
 
   return <AllGeocodeContext.Provider value={{ geocodeResults, setGeocodeResults }}>{children}</AllGeocodeContext.Provider>;
 };

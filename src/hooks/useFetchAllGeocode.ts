@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
-import type { IGeocodeEtcData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
+import type { IGeocodeEtc, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
@@ -24,7 +24,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get<IGeocodeEtcData[]>(`/api/fetchAllGeocode`, {
+      const response = await axios.get<IGeocodeEtc[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
       setGeocodeResults(response.data);
