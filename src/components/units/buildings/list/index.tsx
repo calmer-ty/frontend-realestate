@@ -61,7 +61,7 @@ export default function BuildingList(): JSX.Element {
   };
   const onDeleteBuildingItem = (): void => {
     if (selectedBuilding !== null) {
-      void deleteFirestoreData(selectedBuilding.type, selectedBuilding._id);
+      void deleteFirestoreData(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음");
       setModalOpen(false);
       void fetchData();
     }
@@ -132,7 +132,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}
@@ -143,7 +143,7 @@ export default function BuildingList(): JSX.Element {
                                 <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                               </p>
                               <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
                               </p>
                             </h3>
                             <p className="address">
@@ -196,7 +196,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}
@@ -207,7 +207,7 @@ export default function BuildingList(): JSX.Element {
                                 <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                               </p>
                               <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
                               </p>
                             </h3>
                             <p className="address">
@@ -260,7 +260,7 @@ export default function BuildingList(): JSX.Element {
                         <div className="bottomContents">
                           <p>{index}</p>
                           {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address} width={200} height={120} />
+                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
                           ) : (
                             <BasicUnImage width="200px" height="120px" fontSize="28px" />
                           )}
@@ -271,7 +271,7 @@ export default function BuildingList(): JSX.Element {
                                 <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                               </p>
                               <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
                               </p>
                             </h3>
                             <p className="address">
@@ -317,7 +317,7 @@ export default function BuildingList(): JSX.Element {
           <>
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {engToKor(selectedBuilding.type)} - {selectedBuilding.address}
+              {engToKor(selectedBuilding.type ?? "값 없음")} - {selectedBuilding.address}
               {selectedBuilding.addressDetail}
             </p>
             <Button type="button" variant="outlined" onClick={onModalToggle}>

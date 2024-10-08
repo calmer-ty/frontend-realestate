@@ -58,14 +58,14 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${props.buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? (
-                          <Image src={el.imageUrls?.[0] ?? "값 없음"} width={80} height={80} alt={el._id} />
+                          <Image src={el.imageUrls?.[0] ?? "값 없음"} width={80} height={80} alt={el._id ?? "값 없음"} />
                         ) : (
                           <BasicUnImage width="80px" height="80px" fontSize="24px" />
                         )}
                         <p>
                           <strong>
-                            매매 {isBillion(el.price)}
-                            {isTenMillion(el.price)}원
+                            매매 {isBillion(el.price ?? NaN)}
+                            {isTenMillion(el.price ?? NaN)}원
                           </strong>
                           <br />
                           {el.type}・{el.addressDetail}

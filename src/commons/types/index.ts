@@ -96,18 +96,18 @@ export interface IMarkerData {
 
 // firestore
 export interface IFirestoreData {
-  _id: string;
-  type: string;
-  address: string;
-  addressDetail: string;
-  area: number;
-  roomCount: number;
-  price: number;
-  manageCost: number;
-  floor: number;
-  bathroomCount: number;
-  elevator: string;
-  desc: string;
+  _id?: string;
+  type?: string;
+  address?: string;
+  addressDetail?: string;
+  area?: number;
+  roomCount?: number;
+  price?: number;
+  manageCost?: number;
+  floor?: number;
+  bathroomCount?: number;
+  elevator?: string;
+  desc?: string;
   imageUrls?: string[];
   user?: {
     _id: string;
