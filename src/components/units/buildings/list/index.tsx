@@ -73,7 +73,7 @@ export default function BuildingList(): JSX.Element {
         archivedIds.current.add(el._id); // 아카이브된 ID 추가
 
         // 여기서 deleteFirestoreData를 호출하여 원본 데이터 삭제
-        deleteFirestoreData(el.type, el._id).catch((error) => {
+        deleteFirestoreData(el.type ?? "값 없음", el._id ?? "값 없음").catch((error) => {
           console.error(`Error deleting document ${el._id}:`, error);
         });
       }
@@ -94,16 +94,13 @@ export default function BuildingList(): JSX.Element {
 
   const onDeleteBuildingItem = (): void => {
     if (selectedBuilding !== null) {
-<<<<<<< HEAD
-      void deleteFirestoreData(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음");
-=======
       // 1. 먼저 상태를 클라이언트에서 업데이트 (성능 최적화)
       setBuildings((prev) => prev.filter((el) => el._id !== selectedBuilding._id));
 
       // 3. 삭제된 데이터에 저장
       void archiveFirestoreData(selectedBuilding);
       // 4. Firestore에서 데이터 삭제 및 동기화
-      void deleteFirestoreData(selectedBuilding.type, selectedBuilding._id)
+      void deleteFirestoreData(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음")
         .then(() => {
           // 3. Firestore와 동기화 후 데이터를 다시 가져오면 좋음
           void fetchData();
@@ -113,7 +110,6 @@ export default function BuildingList(): JSX.Element {
         });
 
       // 모달 닫기
->>>>>>> feature/buildings-list
       setModalOpen(false);
     }
   };
@@ -337,10 +333,7 @@ export default function BuildingList(): JSX.Element {
                         </div>
                       </li>
                     ))}
-                  </S.BuildingList>
-=======
                   </S.BuildingList> */}
->>>>>>> feature/buildings-list
                 </TabPanel>
               </TabContext>
             </Box>
