@@ -1,16 +1,17 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import BasicUnImage from "@/src/components/commons/unImages/basic";
+// import Link from "next/link";
+// import Image from "next/image";
+// import BasicUnImage from "@/src/components/commons/unImages/basic";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import BasicModal from "@/src/components/commons/modal/basic";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
-import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
+// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+// import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 // 탭
 import Box from "@mui/material/Box";
@@ -19,26 +20,38 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
+import type { SyntheticEvent } from "react";
 import type { IFirestoreData } from "@/src/commons/types";
 import * as S from "./styles";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
+import ListItem from "./item";
+
+const DEADLINE = 86400;
 
 export default function BuildingList(): JSX.Element {
   const [buildings, setBuildings] = useState<IFirestoreData[]>([]);
-  const [expiredBuildings, setExpiredBuildings] = useState<IFirestoreData[]>([]); // 기한이 지난 매물 상태
-
-  const { deleteFirestoreData, readFirestoreDatas } = useFirestore();
+  const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
+  const [deletedBuildings, setDeletedBuildings] = useState<IFirestoreData[]>([]);
+  const archivedIds = useRef(new Set());
+  const { archiveFirestoreData, deleteFirestoreData, readFirestoreDatas } = useFirestore();
   const { data: session, status } = useSession();
 
   const userId = (session?.user as { id?: string })?.id;
-  const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
 
+  // Firestore fetch
   const fetchData = useCallback(async (): Promise<void> => {
-    const collections = ["apartment", "house", "officetel"];
+    const collections = ["apartment", "house", "office"];
+    const deletedCollections = ["deleted_apartment"];
+    const fetchCollections = async (collections: string[]): Promise<IFirestoreData[]> => {
+      const promises = collections.map((collection) => readFirestoreDatas(collection));
+      const results = await Promise.all(promises);
+      return results.flat();
+    };
     try {
-      const dataPromises = collections.map((collection) => readFirestoreDatas(collection));
-      const results = await Promise.all(dataPromises);
-      setBuildings(results.flat());
+      const buildings = await fetchCollections(collections);
+      const deletedBuildings = await fetchCollections(deletedCollections);
+
+      setBuildings(buildings);
+      setDeletedBuildings(deletedBuildings);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -47,6 +60,25 @@ export default function BuildingList(): JSX.Element {
   useEffect(() => {
     void fetchData();
   }, [fetchData]);
+
+  // 매물 리스트 데이터 렌더링
+  useEffect(() => {
+    const currentDate = Math.floor(Date.now() / 1000); // 현재 날짜를 초 단위로
+
+    filteredBuildings.forEach((el) => {
+      const createdAtSeconds = el.createdAt?.seconds ?? 0;
+      if (currentDate > createdAtSeconds + DEADLINE && !archivedIds.current.has(el._id)) {
+        // 삭제된 데이터 아카이브 및 원본 삭제
+        void archiveFirestoreData(el);
+        archivedIds.current.add(el._id); // 아카이브된 ID 추가
+
+        // 여기서 deleteFirestoreData를 호출하여 원본 데이터 삭제
+        deleteFirestoreData(el.type, el._id).catch((error) => {
+          console.error(`Error deleting document ${el._id}:`, error);
+        });
+      }
+    });
+  }, [filteredBuildings, archiveFirestoreData, deleteFirestoreData]);
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
@@ -59,41 +91,36 @@ export default function BuildingList(): JSX.Element {
     setSelectedBuilding(building); // 클릭된 매물 데이터 저장
     setModalOpen(true); // 모달 열기
   };
+
   const onDeleteBuildingItem = (): void => {
     if (selectedBuilding !== null) {
+<<<<<<< HEAD
       void deleteFirestoreData(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음");
+=======
+      // 1. 먼저 상태를 클라이언트에서 업데이트 (성능 최적화)
+      setBuildings((prev) => prev.filter((el) => el._id !== selectedBuilding._id));
+
+      // 3. 삭제된 데이터에 저장
+      void archiveFirestoreData(selectedBuilding);
+      // 4. Firestore에서 데이터 삭제 및 동기화
+      void deleteFirestoreData(selectedBuilding.type, selectedBuilding._id)
+        .then(() => {
+          // 3. Firestore와 동기화 후 데이터를 다시 가져오면 좋음
+          void fetchData();
+        })
+        .catch((error) => {
+          console.error(`Error deleting document ${selectedBuilding._id}:`, error);
+        });
+
+      // 모달 닫기
+>>>>>>> feature/buildings-list
       setModalOpen(false);
-      void fetchData();
     }
   };
 
-  useEffect(() => {
-    const currentDate = Math.floor(Date.now() / 1000); // 현재 날짜를 초 단위로
-
-    filteredBuildings.forEach((el) => {
-      const createdAtSeconds = el.createdAt?.seconds ?? 0;
-      if (currentDate > createdAtSeconds + 3) {
-        // 새로운 상태가 이전 상태와 다른 경우에만 업데이트
-        setExpiredBuildings((prev) => {
-          if (!prev.some((expired) => expired._id === el._id)) {
-            return [...prev, el];
-          }
-          return prev; // 중복되는 경우 상태를 변경하지 않음
-        });
-      }
-      // deleteFirestoreData(el.type, el._id).catch((error) => {
-      //   console.error(`Error deleting document ${el._id}:`, error);
-      // });
-    });
-  }, [
-    filteredBuildings,
-    // deleteFirestoreData
-  ]);
-
   // 탭 로직
   const [tabValue, setTabValue] = useState("1");
-
-  const onChangeTabs = (event: React.SyntheticEvent, tabNewValue: string): void => {
+  const onChangeTabs = (event: SyntheticEvent, tabNewValue: string): void => {
     setTabValue(tabNewValue);
   };
 
@@ -106,13 +133,13 @@ export default function BuildingList(): JSX.Element {
               <TabContext value={tabValue}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList onChange={onChangeTabs} aria-label="lab API tabs example">
-                    <Tab label="전체" value="1" />
-                    <Tab label="광고중" value="2" />
-                    <Tab label="광고종료" value="3" />
+                    <Tab label="광고중" value="1" />
+                    <Tab label="광고종료" value="2" />
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  <S.BuildingList>
+                  <ListItem isDeleted={false} data={filteredBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+                  {/* <S.BuildingList>
                     {filteredBuildings.map((el, index) => (
                       <li key={`${el._id}_${index}`}>
                         <div className="topContents">
@@ -153,7 +180,7 @@ export default function BuildingList(): JSX.Element {
                           </S.BuildingInfo>
                           <S.BuildingAd>
                             <h3>광고 정보</h3>
-
+                        
                             <p>
                               <span>광고 기한 </span>
                               {(() => {
@@ -173,11 +200,12 @@ export default function BuildingList(): JSX.Element {
                         </div>
                       </li>
                     ))}
-                  </S.BuildingList>
+                  </S.BuildingList> */}
                 </TabPanel>
                 <TabPanel value="2">
-                  <S.BuildingList>
-                    {filteredBuildings.map((el, index) => (
+                  <ListItem isDeleted={true} data={deletedBuildings} />
+                  {/* <S.BuildingList>
+                    {deletedBuildings.map((el, index) => (
                       <li key={`${el._id}_${index}`}>
                         <div className="topContents">
                           <Link href={`/${el.type}/${el._id}/edit/`}>
@@ -217,17 +245,24 @@ export default function BuildingList(): JSX.Element {
                           </S.BuildingInfo>
                           <S.BuildingAd>
                             <h3>광고 정보</h3>
-
-                            <p>
-                              <span>광고 기한 </span>
+                            <p className="adEnd">
+                              <span>광고 종료: </span>
                               {(() => {
-                                const createdAtSeconds = el.createdAt?.seconds ?? 0;
-                                const { year, month, day } = convertTimestamp(createdAtSeconds + 2592000);
-                                return `${year}-${month}-${day}`;
+                                const deletedAtSeconds = el.deletedAt?.seconds ?? 0;
+                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(deletedAtSeconds);
+                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                               })()}
                             </p>
                             <p>
-                              <span>광고 시작 </span>
+                              <span>광고 기한: </span>~
+                              {(() => {
+                                const createdAtSeconds = el.createdAt?.seconds ?? 0;
+                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(createdAtSeconds + DEADLINE);
+                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                              })()}
+                            </p>
+                            <p>
+                              <span>광고 시작: </span>
                               {(() => {
                                 const { year, month, day, hours, minutes, seconds } = convertTimestamp(el.createdAt?.seconds ?? 0);
                                 return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
@@ -237,6 +272,7 @@ export default function BuildingList(): JSX.Element {
                         </div>
                       </li>
                     ))}
+<<<<<<< HEAD
                   </S.BuildingList>
                 </TabPanel>
                 <TabPanel value="3">
@@ -302,6 +338,9 @@ export default function BuildingList(): JSX.Element {
                       </li>
                     ))}
                   </S.BuildingList>
+=======
+                  </S.BuildingList> */}
+>>>>>>> feature/buildings-list
                 </TabPanel>
               </TabContext>
             </Box>

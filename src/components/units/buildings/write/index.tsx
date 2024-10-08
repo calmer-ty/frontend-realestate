@@ -15,7 +15,6 @@ import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { useStorage } from "@/src/hooks/firestore/useStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
-import { serverTimestamp } from "firebase/firestore";
 
 import type { IEditFormData } from "./types";
 import type { IWriteFormData } from "@/src/commons/types";
@@ -88,7 +87,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           email: session?.user?.email,
           _id: (session?.user as { id?: string })?.id, // 타입 단언
         },
-        createdAt: serverTimestamp(), // 서버 시간 추가
       };
 
       await createFirestoreData(formData, selectedType);
