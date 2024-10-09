@@ -1,7 +1,7 @@
 import { useMapsLoader } from "./useMapsLoader";
-import type { IGeocodeData } from "@/src/commons/types";
+import type { IGeocode } from "@/src/commons/types";
 
-export const useSelectMarker = (props: IGeocodeData): void => {
+export const useSelectMarker = (props: IGeocode): void => {
   const onMapLoaded = (map: any): void => {
     if (props != null) {
       const markerPosition = new window.naver.maps.LatLng(props.latitude, props.longitude);

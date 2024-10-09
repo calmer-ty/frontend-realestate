@@ -2,16 +2,16 @@ import axios from "axios";
 import { useState } from "react";
 import type { Address } from "react-daum-postcode";
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import type { IGeocodeData, IUseAddressSearchProps, IWriteForm } from "@/src/commons/types";
+import type { IGeocode, IUseAddressSearchProps, IWriteForm } from "@/src/commons/types";
 
 export const useAddressSearch = (setValue: UseFormSetValue<IWriteForm>, getValues: UseFormGetValues<IWriteForm>, onModalToggle: () => void): IUseAddressSearchProps => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
-  const [geocodeData, setGeocodeData] = useState<IGeocodeData | null>(null);
+  const [geocodeData, setGeocodeData] = useState<IGeocode | null>(null);
   const currentAddress = getValues("address");
 
   const fetchGeocode = async (address: string): Promise<void> => {
     try {
-      const response = await axios.get<IGeocodeData>(`/api/fetchSelectGeocode?address=${encodeURIComponent(address)}`);
+      const response = await axios.get<IGeocode>(`/api/fetchSelectGeocode?address=${encodeURIComponent(address)}`);
       setGeocodeData(response.data);
     } catch (error) {
       console.error("Error fetching geocode data:", error);

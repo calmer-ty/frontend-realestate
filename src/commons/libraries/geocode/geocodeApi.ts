@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { IGeocodeCoord, IGeocodeData } from "@/src/commons/types";
+import type { IGeocodeCoord, IGeocode } from "@/src/commons/types";
 
-export const geocodeApi = async (address: string): Promise<IGeocodeData | null> => {
+export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
   try {
     const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
     const response = await axios.get<IGeocodeCoord>(apiUrl, {

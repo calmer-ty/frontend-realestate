@@ -1,6 +1,6 @@
 import { regionApi } from "./regionApi";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
-import type { IRegionData, IRegionItem } from "@/src/commons/types";
+import type { IRegion, IRegionItem } from "@/src/commons/types";
 
 // 지역 데이터를 가져올 도시 리스트
 const cities = [
@@ -24,7 +24,7 @@ const cities = [
 ];
 
 // 특정 도시의 지역 데이터를 가져오는 함수
-export const regionData = async (city: string): Promise<IRegionData> => {
+export const regionData = async (city: string): Promise<IRegion> => {
   const cacheKey = `region_${city}`;
   const cachedData = getCachedRegionData(cacheKey);
 

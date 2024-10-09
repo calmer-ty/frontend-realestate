@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
 
 // 지역코드 API
-export interface IRegionData {
+export interface IRegion {
   StanReginCd?: [
     { head?: IRegionHead[] }, // 첫 번째 요소는 head
     { row?: IRegionItem[] } // 두 번째 요소는 row
@@ -61,7 +61,7 @@ export interface IGeocodeCoord {
   }>;
 }
 
-export interface IGeocodeData {
+export interface IGeocode {
   latitude?: number;
   longitude?: number;
 }
@@ -144,7 +144,7 @@ export interface IWriteForm {
 // address search
 export interface IUseAddressSearchProps {
   selectedAddress: string;
-  geocodeData: IGeocodeData | null;
+  geocodeData: IGeocode | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
 
