@@ -1,20 +1,21 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
+
 import { Button } from "@mui/material";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import BasicModal from "@/src/components/commons/modal/basic";
 import ListItem from "./item";
-// 탭
+// 탭 MUI
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
-import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
+// TYPE
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
@@ -23,11 +24,11 @@ const DEADLINE = 86400;
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
-  const userId = (session?.user as { id?: string })?.id;
+  const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
   const [buildings, setBuildings] = useState<IFirestore[]>([]);
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
+  const userId = (session?.user as { id?: string })?.id;
   const archivedIds = useRef(new Set());
-  const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
   const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
 
   // Firestore fetch

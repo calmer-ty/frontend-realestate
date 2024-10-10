@@ -5,8 +5,7 @@ export const ListItem = styled.ul`
   display: flex;
   row-gap: 20px;
   flex-direction: column;
-  width: 920px;
-  height: 1020px;
+  height: calc(100vh - 240px);
   li {
     display: flex;
     flex-direction: column;
@@ -31,10 +30,13 @@ export const ListItem = styled.ul`
   }
 `;
 export const BuildingInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
   width: 250px;
 
   .price {
-    margin-top: 6px;
+    margin-top: 4px;
     font-size: 20px;
   }
   .desc {

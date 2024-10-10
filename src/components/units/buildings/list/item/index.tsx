@@ -7,6 +7,7 @@ import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 import type { IListItem } from "./types";
 import * as S from "./styles";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function ListItem(props: IListItem): JSX.Element {
   return (
@@ -40,8 +41,7 @@ export default function ListItem(props: IListItem): JSX.Element {
             <S.BuildingInfo>
               <h3>
                 <p>
-                  {el.type}
-                  <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
+                  {engToKor(el.type ?? "값 없음")} - <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                 </p>
                 <p className="price">
                   매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
