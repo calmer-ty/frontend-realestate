@@ -173,12 +173,12 @@ export interface IUseMapsLoaderProps {
 
 // firebase
 export interface IUseFirestoreProps {
-  createFirestoreData: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
-  archiveFirestoreData: (building: IFirestore) => Promise<void>;
-  updateFirestoreData: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
-  deleteFirestoreData: (selectedType: string, docId: string) => Promise<void>;
-  readFirestoreData: (collection: string, docId: string) => Promise<IFirestore | undefined>;
-  readFirestoreDatas: (buildingType: string) => Promise<IFirestore[]>;
+  createFirestore: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
+  archiveFirestore: (building: IFirestore) => Promise<void>;
+  updateFirestore: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
+  deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
+  readFirestore: (collection: string, docId: string) => Promise<IFirestore | undefined>;
+  readFirestores: (buildingType: string) => Promise<IFirestore[]>;
 }
 
 export interface IUseStorageProps {

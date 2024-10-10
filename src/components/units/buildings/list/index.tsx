@@ -32,7 +32,7 @@ export default function BuildingList(): JSX.Element {
   const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
   const archivedIds = useRef(new Set());
-  const { archiveFirestoreData, deleteFirestoreData, readFirestoreDatas } = useFirestore();
+  const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
   const { data: session, status } = useSession();
 
   const userId = (session?.user as { id?: string })?.id;
@@ -42,7 +42,7 @@ export default function BuildingList(): JSX.Element {
     const collections = ["apartment", "house", "office"];
     const deletedCollections = ["deleted_apartment"];
     const fetchCollections = async (collections: string[]): Promise<IFirestore[]> => {
-      const promises = collections.map((collection) => readFirestoreDatas(collection));
+      const promises = collections.map((collection) => readFirestores(collection));
       const results = await Promise.all(promises);
       return results.flat();
     };
@@ -55,7 +55,7 @@ export default function BuildingList(): JSX.Element {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [readFirestoreDatas]);
+  }, [readFirestores]);
 
   useEffect(() => {
     void fetchData();
@@ -69,16 +69,16 @@ export default function BuildingList(): JSX.Element {
       const createdAtSeconds = el.createdAt?.seconds ?? 0;
       if (currentDate > createdAtSeconds + DEADLINE && !archivedIds.current.has(el._id)) {
         // 삭제된 데이터 아카이브 및 원본 삭제
-        void archiveFirestoreData(el);
+        void archiveFirestore(el);
         archivedIds.current.add(el._id); // 아카이브된 ID 추가
 
-        // 여기서 deleteFirestoreData를 호출하여 원본 데이터 삭제
-        deleteFirestoreData(el.type ?? "값 없음", el._id ?? "값 없음").catch((error) => {
+        // 여기서 deleteFirestore를 호출하여 원본 데이터 삭제
+        deleteFirestore(el.type ?? "값 없음", el._id ?? "값 없음").catch((error) => {
           console.error(`Error deleting document ${el._id}:`, error);
         });
       }
     });
-  }, [filteredBuildings, archiveFirestoreData, deleteFirestoreData]);
+  }, [filteredBuildings, archiveFirestore, deleteFirestore]);
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,9 +98,9 @@ export default function BuildingList(): JSX.Element {
       setBuildings((prev) => prev.filter((el) => el._id !== selectedBuilding._id));
 
       // 3. 삭제된 데이터에 저장
-      void archiveFirestoreData(selectedBuilding);
+      void archiveFirestore(selectedBuilding);
       // 4. Firestore에서 데이터 삭제 및 동기화
-      void deleteFirestoreData(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음")
+      void deleteFirestore(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음")
         .then(() => {
           // 3. Firestore와 동기화 후 데이터를 다시 가져오면 좋음
           void fetchData();

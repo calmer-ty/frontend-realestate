@@ -40,7 +40,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
-  const { createFirestoreData, updateFirestoreData } = useFirestore();
+  const { createFirestore, updateFirestore } = useFirestore();
   const { session } = useAuthCheck();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues, // 초기값 설정
@@ -89,7 +89,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         },
       };
 
-      await createFirestoreData(formData, selectedType);
+      await createFirestore(formData, selectedType);
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -144,7 +144,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         return;
       }
 
-      await updateFirestoreData(updatedValues, selectedType, docData?._id ?? "");
+      await updateFirestore(updatedValues, selectedType, docData?._id ?? "");
       setAlertOpen(true);
       setAlertText("매물 수정이 완료되었습니다.");
       setAlertSeverity("success");

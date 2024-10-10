@@ -11,17 +11,17 @@ import { mapStyle } from "./styles";
 export default function AllMarkerMaps({ buildingType, geocodeResults }: IAllMarkerMapsProps): JSX.Element {
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMapMarker[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IMapMarker | null>(null);
-  const { readFirestoreDatas } = useFirestore();
+  const { readFirestores } = useFirestore();
 
   const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
-      const datas = await readFirestoreDatas("apartment");
+      const datas = await readFirestores("apartment");
       setFirestoreDatas(datas);
     };
 
     void readBuildings();
-  }, [readFirestoreDatas]);
+  }, [readFirestores]);
 
   useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
   return (

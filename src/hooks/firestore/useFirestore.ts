@@ -5,7 +5,7 @@ import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFires
 import type { IWriteForm, IFirestore, IUseFirestoreProps } from "@/src/commons/types";
 
 export const useFirestore = (): IUseFirestoreProps => {
-  const createFirestoreData = useCallback(async (data: IWriteForm, selectedType: string) => {
+  const createFirestore = useCallback(async (data: IWriteForm, selectedType: string) => {
     try {
       const docRef = await addDoc(collection(db, selectedType), {
         ...data,
@@ -22,7 +22,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const archiveFirestoreData = useCallback(async (building: IFirestore) => {
+  const archiveFirestore = useCallback(async (building: IFirestore) => {
     try {
       const docRef = await addDoc(collection(db, `deleted_${building.type}`), {
         ...building,
@@ -38,7 +38,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const updateFirestoreData = useCallback(async (data: Partial<IWriteForm>, selectedType: string, docId: string) => {
+  const updateFirestore = useCallback(async (data: Partial<IWriteForm>, selectedType: string, docId: string) => {
     const docRef = doc(db, selectedType, docId);
     try {
       await updateDoc(docRef, data);
@@ -47,7 +47,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const deleteFirestoreData = useCallback(async (selectedType: string, docId: string) => {
+  const deleteFirestore = useCallback(async (selectedType: string, docId: string) => {
     try {
       await deleteDoc(doc(db, selectedType, docId));
     } catch (error) {
@@ -55,7 +55,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const readFirestoreData = useCallback(async (collection: string, docId: string) => {
+  const readFirestore = useCallback(async (collection: string, docId: string) => {
     const docRef = doc(db, collection, docId);
     try {
       const docSnap = await getDoc(docRef);
@@ -70,7 +70,7 @@ export const useFirestore = (): IUseFirestoreProps => {
     }
   }, []);
 
-  const readFirestoreDatas = useCallback(async (buildingType: string) => {
+  const readFirestores = useCallback(async (buildingType: string) => {
     try {
       const querySnapshot = await getDocs(collection(db, buildingType));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirestore);
@@ -82,11 +82,11 @@ export const useFirestore = (): IUseFirestoreProps => {
   }, []);
 
   return {
-    createFirestoreData,
-    archiveFirestoreData,
-    updateFirestoreData,
-    deleteFirestoreData,
-    readFirestoreData,
-    readFirestoreDatas,
+    createFirestore,
+    archiveFirestore,
+    updateFirestore,
+    deleteFirestore,
+    readFirestore,
+    readFirestores,
   };
 };

@@ -11,17 +11,17 @@ import * as S from "./styles";
 
 export default function Home(): JSX.Element {
   const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
-  const { readFirestoreDatas } = useFirestore();
+  const { readFirestores } = useFirestore();
 
   // firestoreDatas
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
       // 임시로 아파트만 랜덤 렌더링
-      const datas = await readFirestoreDatas("apartment");
+      const datas = await readFirestores("apartment");
       setFirestoreDatas(datas);
     };
     void readBuildings();
-  }, [readFirestoreDatas]);
+  }, [readFirestores]);
 
   return (
     <S.Container>
