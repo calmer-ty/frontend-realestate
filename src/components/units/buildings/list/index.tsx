@@ -1,18 +1,9 @@
 "use client";
 
-// import Link from "next/link";
-// import Image from "next/image";
-// import BasicUnImage from "@/src/components/commons/unImages/basic";
+import { Button } from "@mui/material";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import BasicModal from "@/src/components/commons/modal/basic";
-import { Button } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
-// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
-// import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-
+import ListItem from "./item";
 // 탭
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -20,22 +11,24 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
+import { useSession } from "next-auth/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
-import ListItem from "./item";
 
 const DEADLINE = 86400;
 
 export default function BuildingList(): JSX.Element {
+  const { data: session, status } = useSession();
+  const userId = (session?.user as { id?: string })?.id;
   const [buildings, setBuildings] = useState<IFirestore[]>([]);
-  const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
   const archivedIds = useRef(new Set());
   const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
-  const { data: session, status } = useSession();
-
-  const userId = (session?.user as { id?: string })?.id;
+  const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
 
   // Firestore fetch
   const fetchData = useCallback(async (): Promise<void> => {
@@ -135,205 +128,9 @@ export default function BuildingList(): JSX.Element {
                 </Box>
                 <TabPanel value="1">
                   <ListItem isDeleted={false} data={filteredBuildings} onDeleteModalOpen={onDeleteModalOpen} />
-                  {/* <S.BuildingList>
-                    {filteredBuildings.map((el, index) => (
-                      <li key={`${el._id}_${index}`}>
-                        <div className="topContents">
-                          <Link href={`/${el.type}/${el._id}/edit/`}>
-                            <Button variant="outlined">수정</Button>
-                          </Link>
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={() => {
-                              onDeleteModalOpen(el);
-                            }}
-                          >
-                            삭제
-                          </Button>
-                        </div>
-                        <div className="bottomContents">
-                          <p>{index}</p>
-                          {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
-                          ) : (
-                            <BasicUnImage width="200px" height="120px" fontSize="28px" />
-                          )}
-                          <S.BuildingInfo>
-                            <h3>
-                              <p>
-                                {el.type}
-                                <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-                              </p>
-                              <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
-                              </p>
-                            </h3>
-                            <p className="address">
-                              {el.address} {el.addressDetail}
-                            </p>
-                            <p className="desc">{el.desc}</p>
-                          </S.BuildingInfo>
-                          <S.BuildingAd>
-                            <h3>광고 정보</h3>
-                        
-                            <p>
-                              <span>광고 기한 </span>
-                              {(() => {
-                                const createdAtSeconds = el.createdAt?.seconds ?? 0;
-                                const { year, month, day } = convertTimestamp(createdAtSeconds + 2592000);
-                                return `${year}-${month}-${day}`;
-                              })()}
-                            </p>
-                            <p>
-                              <span>광고 시작 </span>
-                              {(() => {
-                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(el.createdAt?.seconds ?? 0);
-                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                              })()}
-                            </p>
-                          </S.BuildingAd>
-                        </div>
-                      </li>
-                    ))}
-                  </S.BuildingList> */}
                 </TabPanel>
                 <TabPanel value="2">
                   <ListItem isDeleted={true} data={deletedBuildings} />
-                  {/* <S.BuildingList>
-                    {deletedBuildings.map((el, index) => (
-                      <li key={`${el._id}_${index}`}>
-                        <div className="topContents">
-                          <Link href={`/${el.type}/${el._id}/edit/`}>
-                            <Button variant="outlined">수정</Button>
-                          </Link>
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={() => {
-                              onDeleteModalOpen(el);
-                            }}
-                          >
-                            삭제
-                          </Button>
-                        </div>
-                        <div className="bottomContents">
-                          <p>{index}</p>
-                          {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
-                          ) : (
-                            <BasicUnImage width="200px" height="120px" fontSize="28px" />
-                          )}
-                          <S.BuildingInfo>
-                            <h3>
-                              <p>
-                                {el.type}
-                                <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-                              </p>
-                              <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
-                              </p>
-                            </h3>
-                            <p className="address">
-                              {el.address} {el.addressDetail}
-                            </p>
-                            <p className="desc">{el.desc}</p>
-                          </S.BuildingInfo>
-                          <S.BuildingAd>
-                            <h3>광고 정보</h3>
-                            <p className="adEnd">
-                              <span>광고 종료: </span>
-                              {(() => {
-                                const deletedAtSeconds = el.deletedAt?.seconds ?? 0;
-                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(deletedAtSeconds);
-                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                              })()}
-                            </p>
-                            <p>
-                              <span>광고 기한: </span>~
-                              {(() => {
-                                const createdAtSeconds = el.createdAt?.seconds ?? 0;
-                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(createdAtSeconds + DEADLINE);
-                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                              })()}
-                            </p>
-                            <p>
-                              <span>광고 시작: </span>
-                              {(() => {
-                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(el.createdAt?.seconds ?? 0);
-                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                              })()}
-                            </p>
-                          </S.BuildingAd>
-                        </div>
-                      </li>
-                    ))}
-<<<<<<< HEAD
-                  </S.BuildingList>
-                </TabPanel>
-                <TabPanel value="3">
-                  <S.BuildingList>
-                    {expiredBuildings.map((el, index) => (
-                      <li key={`${el._id}_${index}`}>
-                        <div className="topContents">
-                          <Link href={`/${el.type}/${el._id}/edit/`}>
-                            <Button variant="outlined">수정</Button>
-                          </Link>
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={() => {
-                              onDeleteModalOpen(el);
-                            }}
-                          >
-                            삭제
-                          </Button>
-                        </div>
-                        <div className="bottomContents">
-                          <p>{index}</p>
-                          {el.imageUrls?.[0] !== undefined ? (
-                            <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.address ?? "값 없음"} width={200} height={120} />
-                          ) : (
-                            <BasicUnImage width="200px" height="120px" fontSize="28px" />
-                          )}
-                          <S.BuildingInfo>
-                            <h3>
-                              <p>
-                                {el.type}
-                                <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-                              </p>
-                              <p className="price">
-                                매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
-                              </p>
-                            </h3>
-                            <p className="address">
-                              {el.address} {el.addressDetail}
-                            </p>
-                            <p className="desc">{el.desc}</p>
-                          </S.BuildingInfo>
-                          <S.BuildingAd>
-                            <h3>광고 정보</h3>
-
-                            <p>
-                              <span>광고 기한 </span>
-                              {(() => {
-                                const createdAtSeconds = el.createdAt?.seconds ?? 0;
-                                const { year, month, day } = convertTimestamp(createdAtSeconds + 2592000);
-                                return `${year}-${month}-${day}`;
-                              })()}
-                            </p>
-                            <p>
-                              <span>광고 시작 </span>
-                              {(() => {
-                                const { year, month, day, hours, minutes, seconds } = convertTimestamp(el.createdAt?.seconds ?? 0);
-                                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                              })()}
-                            </p>
-                          </S.BuildingAd>
-                        </div>
-                      </li>
-                    ))}
-                  </S.BuildingList> */}
                 </TabPanel>
               </TabContext>
             </Box>

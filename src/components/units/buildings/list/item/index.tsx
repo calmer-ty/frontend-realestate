@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@mui/material";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
+import { Button } from "@mui/material";
+
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
-
 import type { IListItem } from "./types";
 import * as S from "./styles";
 
@@ -13,7 +13,7 @@ export default function ListItem(props: IListItem): JSX.Element {
     <S.ListItem>
       {props.data.map((el, index) => (
         <li key={`${el._id}_${index}`}>
-          {props.isDeleted && (
+          {!props.isDeleted && (
             <div className="topContents">
               <Link href={`/${el.type}/${el._id}/edit/`}>
                 <Button variant="outlined">수정</Button>
@@ -32,7 +32,11 @@ export default function ListItem(props: IListItem): JSX.Element {
 
           <div className="bottomContents">
             <p>{index}</p>
-            {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0] ?? ""} alt={el.address} width={200} height={120} /> : <BasicUnImage width="200px" height="120px" fontSize="28px" />}
+            {el.imageUrls?.[0] !== undefined ? (
+              <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? "값 없음"} width={200} height={120} />
+            ) : (
+              <BasicUnImage width="200px" height="120px" fontSize="28px" />
+            )}
             <S.BuildingInfo>
               <h3>
                 <p>
@@ -40,7 +44,7 @@ export default function ListItem(props: IListItem): JSX.Element {
                   <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                 </p>
                 <p className="price">
-                  매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price)}원
+                  매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
                 </p>
               </h3>
               <p className="address">
