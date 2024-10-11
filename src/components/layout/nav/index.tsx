@@ -7,6 +7,9 @@ import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
+import * as S from "./styles";
+import { Button } from "@mui/material";
+
 export default function Nav(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
   const { status } = useSession();
@@ -23,9 +26,9 @@ export default function Nav(): JSX.Element {
   };
 
   return (
-    <nav>
+    <S.Nav>
       <Link href={isAuthenticated ? "/new" : "/"} onClick={moveToBuildingNew}>
-        방 내놓기
+        <Button variant="contained">방 내놓기</Button>
       </Link>
       <AuthButton />
       {/* 알림창 */}
@@ -34,6 +37,6 @@ export default function Nav(): JSX.Element {
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>
-    </nav>
+    </S.Nav>
   );
 }

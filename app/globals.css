@@ -42,28 +42,6 @@ button {
     min-width: initial;
   }
 }
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  background-color: #fff;
-  border-bottom: 1px solid #dedede;
-}
-#header-inner {
-  display: flex;
-  justify-content: space-between;
-
-  width: 100%;
-  margin: 0 20px;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  column-gap: 20px;
-}
 
 main {
   display: flex;
