@@ -15,8 +15,6 @@ const flexBetween = css`
 export const Container = styled.article`
   ${flexBetween}
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   position: relative;
   section {
     ${flexCenter}
@@ -34,7 +32,6 @@ export const Container = styled.article`
 // 맵 선택지
 export const MapOptions = styled.section`
   position: relative;
-  width: 100%;
   height: 50%;
   ::before {
     content: "";

@@ -2,8 +2,8 @@
 
 import { AllGeocodeProvider } from "@/src/commons/context/allGeocodeProvider";
 import { SessionProvider } from "next-auth/react";
-import "./globals.css";
 import Header from "@/src/components/layout/header";
+import "./globals.css";
 
 export default function RootLayout({
   children,

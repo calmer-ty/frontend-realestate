@@ -4,11 +4,11 @@ import Link from "next/link";
 import Alert from "@mui/material/Alert";
 import AuthButton from "@/src/components/commons/buttons/auth";
 import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 import * as S from "./styles";
-import { Button } from "@mui/material";
 
 export default function Nav(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
