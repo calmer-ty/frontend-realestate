@@ -1,11 +1,14 @@
 "use client";
+
 import BuildingTypeItem from "./buildingTypeItem";
 import RecommendedList from "./recommendedList";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
+
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 

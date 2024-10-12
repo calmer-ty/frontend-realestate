@@ -3,10 +3,8 @@ import styled from "@emotion/styled";
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   row-gap: 40px;
-  height: 100%;
-  width: 100%;
   padding: 40px;
   max-width: 1024px;
   > section {

@@ -27,7 +27,7 @@ export default function BuildingTypeItem({ href, title, description, icon }: IBu
           <div className="iconWrap">{icon}</div>
         </div>
       ) : (
-        <Link href={`/${href}` ?? "#"}>
+        <Link href={`/${href}`}>
           <div className="textWrap">
             <h2>{title}</h2>
             <p>{description}</p>

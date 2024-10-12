@@ -3,21 +3,19 @@ import { mediaQueries } from "@/src/commons/styles/styles";
 import { css } from "@emotion/react";
 
 export const Container = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 50%;
 
   .inner {
+    display: flex;
     flex-direction: column;
+    width: 1024px;
     > h2 {
       width: 100%;
       margin-bottom: 20px;
     }
-  }
-  .contents {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 300px;
   }
 
   ${mediaQueries.mobile(css`
@@ -27,7 +25,6 @@ export const Container = styled.section`
 export const RegisteredList = styled.ul`
   display: flex;
   justify-content: space-between;
-  width: 100%;
   > li {
     > a {
       display: flex;

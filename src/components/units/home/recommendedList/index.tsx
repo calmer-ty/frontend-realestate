@@ -12,41 +12,41 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
 
   return (
     <S.Container>
+      {/* <div className="inner"> */}
       <div className="inner">
         <h2>추천드리는 매물입니다.</h2>
-        <div className="contents">
-          {randomFirestores.length !== 0 ? (
-            <S.RegisteredList>
-              {randomFirestores.map((el) => (
-                <li key={el._id}>
-                  <Link href={`/${el.type}/${el._id}`}>
-                    {el.imageUrls?.[0] !== undefined ? (
-                      <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.type ?? "값 없음"} width={300} height={200} />
-                    ) : (
-                      <BasicUnImage width="300px" height="200px" fontSize="36px" />
-                    )}
-                    <p className="buildingDesc">
-                      <span>
-                        {el.type}・{el.addressDetail}
-                      </span>
-                      <strong>
-                        매매 {isBillion(el.price ?? NaN)}
-                        {isTenMillion(el.price ?? NaN)} 원
-                      </strong>
-                      <span>
-                        {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
-                      </span>
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </S.RegisteredList>
-          ) : (
-            <div>추천드릴 매물이 없습니다</div>
-            // <LoadingSpinner size={100} />
-          )}
-        </div>
+        {randomFirestores.length !== 0 ? (
+          <S.RegisteredList>
+            {randomFirestores.map((el) => (
+              <li key={el._id}>
+                <Link href={`/${el.type}/${el._id}`}>
+                  {el.imageUrls?.[0] !== undefined ? (
+                    <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.type ?? "값 없음"} width={300} height={200} />
+                  ) : (
+                    <BasicUnImage width="300px" height="200px" fontSize="36px" />
+                  )}
+                  <p className="buildingDesc">
+                    <span>
+                      {el.type}・{el.addressDetail}
+                    </span>
+                    <strong>
+                      매매 {isBillion(el.price ?? NaN)}
+                      {isTenMillion(el.price ?? NaN)} 원
+                    </strong>
+                    <span>
+                      {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
+                    </span>
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </S.RegisteredList>
+        ) : (
+          <div>추천드릴 매물이 없습니다</div>
+          // <LoadingSpinner size={100} />
+        )}
       </div>
+      {/* </div> */}
     </S.Container>
   );
 }

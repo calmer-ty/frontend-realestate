@@ -2,37 +2,27 @@ import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles/styles";
 import { css } from "@emotion/react";
 
-const flexCenter = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const flexBetween = css`
-  display: flex;
-  justify-content: space-between;
-`;
-
 export const Container = styled.article`
-  ${flexBetween}
+  display: flex;
   flex-direction: column;
-  position: relative;
-  section {
-    ${flexCenter}
-    .inner {
-      ${flexBetween}
-      min-width: 1024px;
-      ${mediaQueries.mobile(css`
-        min-width: initial;
-        row-gap: 60px;
-      `)}
-    }
-  }
+  width: 100%;
+  height: calc(100vh - 60px);
 `;
 
 // 맵 선택지
 export const MapOptions = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
+
   height: 50%;
+
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    width: 1024px;
+  }
   ::before {
     content: "";
     display: block;
