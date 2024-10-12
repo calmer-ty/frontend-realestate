@@ -12,7 +12,6 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
 
   return (
     <S.Container>
-      {/* <div className="inner"> */}
       <div className="inner">
         <h2>추천드리는 매물입니다.</h2>
         {randomFirestores.length !== 0 ? (
@@ -46,7 +45,6 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
           // <LoadingSpinner size={100} />
         )}
       </div>
-      {/* </div> */}
     </S.Container>
   );
 }

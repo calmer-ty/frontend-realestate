@@ -12,6 +12,7 @@ export const Container = styled.section`
     display: flex;
     flex-direction: column;
     width: 1024px;
+    padding: 20px;
     > h2 {
       width: 100%;
       margin-bottom: 20px;

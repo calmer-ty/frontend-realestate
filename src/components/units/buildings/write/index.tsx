@@ -94,7 +94,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
       // alert("매물 등록이 완료되었습니다.");
-      router.push("/list");
+      // router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -120,7 +120,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
         // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
         if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
-          // const updatedKey = updatedValues[fieldKey];
           updatedValues[fieldKey] = currentValue;
           console.log("key: ", key);
           console.log("currentValue ===initialValue: ", key, currentValue === initialValue);
@@ -148,7 +147,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       setAlertOpen(true);
       setAlertText("매물 수정이 완료되었습니다.");
       setAlertSeverity("success");
-      // router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

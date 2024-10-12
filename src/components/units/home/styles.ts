@@ -15,13 +15,13 @@ export const MapOptions = styled.section`
   justify-content: center;
   align-items: center;
   position: relative;
-
   height: 50%;
 
   .inner {
     display: flex;
     justify-content: space-between;
     width: 1024px;
+    padding: 20px;
   }
   ::before {
     content: "";
@@ -37,6 +37,8 @@ export const MapOptions = styled.section`
     height: 100%;
     .inner {
       flex-direction: column;
+      align-items: center;
+      row-gap: 40px;
     }
   `)}
 `;
