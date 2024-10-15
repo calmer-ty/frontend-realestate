@@ -48,10 +48,7 @@ var MarkerClustering = function (options) {
   this._mapRelations = null;
   this._markerRelations = [];
 
-  this.setOptions(
-    naver.maps.Util.extend({}, this.DEFAULT_OPTIONS, options),
-    true
-  );
+  this.setOptions(naver.maps.Util.extend({}, this.DEFAULT_OPTIONS, options), true);
   this.setMap(options.map || null);
 };
 
@@ -59,11 +56,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
   onAdd: function () {
     var map = this.getMap();
 
-    this._mapRelations = naver.maps.Event.addListener(
-      map,
-      "idle",
-      naver.maps.Util.bind(this._onIdle, this)
-    );
+    this._mapRelations = naver.maps.Event.addListener(map, "idle", naver.maps.Util.bind(this._onIdle, this));
 
     if (this.getMarkers().length > 0) {
       this._createClusters();
@@ -338,13 +331,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
 
       closestCluster.addMarker(marker);
 
-      this._markerRelations.push(
-        naver.maps.Event.addListener(
-          marker,
-          "dragend",
-          naver.maps.Util.bind(this._onDragEnd, this)
-        )
-      );
+      this._markerRelations.push(naver.maps.Event.addListener(marker, "dragend", naver.maps.Util.bind(this._onDragEnd, this)));
     }
   },
 
