@@ -13,8 +13,8 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
           <li>
             <h3>매물 가격</h3>
             <span>
-              매매 {isBillion(buildingData.price)}&nbsp;
-              {isTenMillion(buildingData.price)} 원
+              매매 {isBillion(buildingData.price ?? NaN)}&nbsp;
+              {isTenMillion(buildingData.price ?? NaN)} 원
             </span>
           </li>
           <li>
@@ -29,7 +29,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <S.InfoList>
           <li>
             <h3>건물 형태</h3>
-            <span>{engToKor(buildingData.type)}</span>
+            <span>{engToKor(buildingData.type ?? "")}</span>
           </li>
           <li>
             <h3>건물 이름</h3>

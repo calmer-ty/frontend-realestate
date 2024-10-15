@@ -19,6 +19,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   };
 
   const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch(props.setValue, props.getValues, onModalToggle);
+
   useSelectMarker(geocodeData);
 
   return (
