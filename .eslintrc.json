@@ -17,7 +17,7 @@
   "plugins": ["react"],
   "settings": {
     "react": {
-      "version": "detect" // 추가된 부분
+      "version": "detect" // 추가된 부분 -  import React from 'react'를 추가해야하는 규칙 해제
     }
   },
   "rules": {
@@ -27,13 +27,4 @@
     "@typescript-eslint/unbound-method": "off",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }]
   }
-  // "overrides": [
-  //   {
-  //     "files": ["/commons/naverMap/markerClustering.js"],
-  //     "rules": {
-  //       "eslint-disable-next-line": "off" // 해당 파일을 무시하는 규칙을 추가할 수 있음
-  //       // 필요한 경우 다른 규칙들도 추가할 수 있음
-  //     }
-  //   }
-  // ]
 }
