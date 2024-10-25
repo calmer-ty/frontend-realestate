@@ -12,6 +12,7 @@
       ],
       "predeploy": [
         "yarn --cwd ./functions lint",
+        "yarn build",
         "yarn --cwd ./functions build"
       ]
     }
