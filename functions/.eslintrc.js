@@ -32,6 +32,6 @@ module.exports = {
     "indent": ["error", 2],
     // 추가
     "object-curly-spacing": ["error", "always"],
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": ["error", "unix"],
   },
 };
