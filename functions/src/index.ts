@@ -7,11 +7,8 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import { onRequest } from "firebase-functions/v2/https";
+// import { onRequest } from "firebase-functions/v2/https";
 // import * as logger from "firebase-functions/logger";
-
-// 추가
-import next from "next";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -22,13 +19,21 @@ import next from "next";
 // });
 
 // 추가
-const nextjsServer = next({
-  dev: false, // 배포 환경에서는 false로 설정
-  conf: { distDir: ".next" }, // Next.js 빌드 파일 디렉토리
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import next from "next";
+
+admin.initializeApp();
+
+const isDev = process.env.NODE_ENV !== "production";
+const nextServer = next({
+  dev: isDev,
+  conf: { distDir: ".next" },
 });
 
-const handle = nextjsServer.getRequestHandler();
+const handle = nextServer.getRequestHandler();
 
-export const nextjsFunc = onRequest((req, res) => {
-  return nextjsServer.prepare().then(() => handle(req, res));
+export const nextApp = functions.https.onRequest(async (req, res) => {
+  await nextServer.prepare();
+  handle(req, res);
 });

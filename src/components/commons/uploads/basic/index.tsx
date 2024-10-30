@@ -48,7 +48,9 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   };
 
   // 이미지 파일을 업데이트하는 기능
-  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const onChangeFile = async (
+    e: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
     if (e.target.files !== null) {
       const targetFiles = Array.from(e.target.files);
       // const totalFilesCount = pendingFiles.length + targetFiles.length;
@@ -84,10 +86,13 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         })
       );
 
+      const validFileUrls = fileWithFileUrls.filter(
+        (file): file is IFiles => file !== null
+      );
+
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
-      const updateFiles = [...pendingFiles, ...fileWithFileUrls.filter((file) => file !== null)];
-      // const validFiles = updateFiles.filter((file) => file !== null);
-      console.log("validFiles: ", updateFiles);
+      const updateFiles = [...pendingFiles, ...validFileUrls];
+
       if (imageUrls.length + updateFiles.length > 5) {
         setAlertOpen(true);
         setAlertText("이미지는 최대 5개까지 업로드가 가능합니다.");
@@ -119,7 +124,6 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       const updatedFileUrls = imageUrls.filter((_, i) => i !== index);
       setImageUrls(updatedFileUrls);
       props.setUploadedImageUrls(updatedFileUrls.map((el) => el));
-      // console.log("Updated Urls: ", updatedUrls); // 상태 확인
     } else if (type === "file") {
       // 새로 추가하는 이미지 preview 로직 추가
       const updatedFiles = pendingFiles.filter((_, i) => i !== index);
@@ -127,7 +131,6 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       // setSelectedFiles을 업데이트 해주어야 지울떄도 업로드 목록에서 사라짐
       props.setSelectedFiles(updatedFiles.map((el) => el.file));
       resetFileInput(fileInputRef);
-      // console.log("Updated files: ", updatedFiles); // 상태 확인
     }
   };
 
@@ -146,8 +149,18 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       >
         사진 추가
       </Button>
-      <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
-      <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
+      <input
+        type="file"
+        multiple
+        ref={fileInputRef}
+        onChange={onChangeFile}
+        style={{ display: "none" }}
+      />
+      <FilePreview
+        imageUrls={imageUrls}
+        pendingFiles={pendingFiles}
+        onRemoveFile={onRemoveFile}
+      />
       {/* 알림창 */}
       <BasicSnackbar open={alertOpen} close={alertClose}>
         <Alert onClose={alertClose} severity="warning">

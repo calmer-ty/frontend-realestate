@@ -13,7 +13,7 @@
       "predeploy": [
         "yarn --cwd ./functions lint",
         "yarn build",
-        "yarn --cwd ./functions build"
+        "xcopy /E /I .next functions\\.next"
       ]
     }
   ],
@@ -23,7 +23,7 @@
     "rewrites": [
       {
         "source": "**",
-        "function": "nextjsFunc"
+        "function": "nextApp"
       }
     ]
   }
