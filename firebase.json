@@ -10,11 +10,7 @@
         "firebase-debug.*.log",
         "*.local"
       ],
-      "predeploy": [
-        "yarn --cwd ./functions lint",
-        "yarn build",
-        "xcopy /E /I .next functions\\.next"
-      ]
+      "predeploy": ["yarn --cwd ./functions lint"]
     }
   ],
   "hosting": {
