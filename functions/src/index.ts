@@ -33,7 +33,7 @@ const nextServer = next({
 
 const handle = nextServer.getRequestHandler();
 
-export const nextApp = onRequest(async (req, res) => {
+export const nextjsFunc = onRequest(async (req, res) => {
   await nextServer.prepare();
   handle(req, res);
 });

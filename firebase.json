@@ -19,7 +19,7 @@
     "rewrites": [
       {
         "source": "**",
-        "function": "nextApp"
+        "function": "nextjsFunc"
       }
     ]
   }
