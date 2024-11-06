@@ -20,6 +20,7 @@ export const apartmentData = async (): Promise<IApartmentLocation[]> => {
       // 캐시에 없는 경우 실제 데이터를 요청합니다
       try {
         const response = await apartmentApi(result);
+        console.log("response:::::", response);
         const datas = response;
 
         const apartmentLocationData: IApartmentLocation = {

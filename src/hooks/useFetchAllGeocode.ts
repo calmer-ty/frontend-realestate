@@ -4,6 +4,7 @@ import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 import type { IGeocodeEtc, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
+  console.log("buildingType:::", buildingType);
   const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -40,7 +41,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     if (typeof buildingType === "string" && buildingType !== "") {
       void fetchData();
     }
-  }, [buildingType, fetchData, loading]); // fetchData가 변경될 때도 실행됨
+  }, [buildingType, fetchData]); // fetchData가 변경될 때도 실행됨
 
   return { geocodeResults, loading, error };
 };
