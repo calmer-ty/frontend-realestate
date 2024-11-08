@@ -1,4 +1,4 @@
-import { regionAllData } from "../region/regionData";
+import { getAllRegionData } from "../region/regionData";
 import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import type { IApartmentLocation } from "@/src/commons/types";
@@ -6,7 +6,7 @@ import type { IApartmentLocation } from "@/src/commons/types";
 export const apartmentData = async (): Promise<IApartmentLocation[]> => {
   try {
     // 지역 데이터를 가져옵니다
-    const regionResults = await regionAllData();
+    const regionResults = await getAllRegionData();
 
     const apartmentDataPromises = regionResults.map(async (result) => {
       const cacheKey = `apartment_${result.region_cd}`;
@@ -20,11 +20,10 @@ export const apartmentData = async (): Promise<IApartmentLocation[]> => {
       // 캐시에 없는 경우 실제 데이터를 요청합니다
       try {
         const response = await apartmentApi(result);
-        console.log("response:::::", response);
-        const datas = response;
+        // const datas = response;
 
         const apartmentLocationData: IApartmentLocation = {
-          datas,
+          response,
           locatadd_nm: result.locatadd_nm ?? "값 없음",
         };
 

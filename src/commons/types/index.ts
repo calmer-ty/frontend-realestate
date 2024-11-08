@@ -47,7 +47,7 @@ export interface IApartmentItem {
   건축년도?: number;
 }
 export interface IApartmentLocation {
-  datas?: IApartment;
+  response?: IApartment;
   locatadd_nm?: string;
 }
 
