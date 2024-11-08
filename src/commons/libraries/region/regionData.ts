@@ -28,7 +28,10 @@ const getRegionData = async (city: string): Promise<IRegion> => {
   const cacheKey = `region_${city}`;
   const cachedData = getCachedRegionData(cacheKey);
 
-  if (cachedData !== undefined) return cachedData;
+  if (cachedData !== undefined) {
+    // console.log(`지역 코드 ${result.region_cd}에 대한 아파트 데이터 캐시 히트`);
+    return cachedData;
+  }
 
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   try {
