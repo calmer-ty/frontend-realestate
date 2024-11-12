@@ -3,7 +3,7 @@ import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import { Button } from "@mui/material";
 
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 import type { IListItem } from "./types";
 import * as S from "./styles";

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-// import LoadingSpinner from "../../../commons/loadingSpinner";
+
 import BasicUnImage from "../../../commons/unImages/basic";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 
 import type { IRecommendedListProps } from "../types";
 import * as S from "./styles";

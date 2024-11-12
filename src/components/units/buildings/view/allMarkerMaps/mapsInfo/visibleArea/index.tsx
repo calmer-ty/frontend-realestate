@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
+import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 import type { IMapMarker } from "@/src/commons/types";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
@@ -27,7 +30,7 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
           {!select && (
             <ul>
               {visibleMarkerDatas.map((el, index) => {
-                const matchingFirestoreData = firestoreDatas.some((firestoreData) => shortenCityName(el.address ?? "값 없음") === firestoreData.address);
+                const matchingFirestoreData = firestoreDatas.some((firestoreData) => getShortenedCityName(el.address ?? "값 없음") === firestoreData.address);
 
                 return (
                   <li

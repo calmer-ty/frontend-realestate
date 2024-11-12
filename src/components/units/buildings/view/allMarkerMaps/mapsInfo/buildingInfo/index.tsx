@@ -1,16 +1,19 @@
-import { isBillion, isTenMillion, shortenCityName } from "@/src/commons/libraries/utils/regex";
+import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+
 import ChipSmall from "@/src/components/commons/dataDisplay/chip/small";
 import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 import type { IFirestore } from "@/src/commons/types";
 import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const matchedFirestoreData: IFirestore[] = props.firestoreDatas.filter(
-    (el) => shortenCityName(props.selectedData?.address ?? "값 없음") === el.address || shortenCityName(props.selectedData?.address_road ?? "값 없음") === el.address
+    (el) => getShortenedCityName(props.selectedData?.address ?? "값 없음") === el.address || getShortenedCityName(props.selectedData?.address_road ?? "값 없음") === el.address
   );
 
   return (

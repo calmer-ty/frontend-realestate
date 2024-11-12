@@ -1,4 +1,4 @@
-import { shortenCityName } from "./regex";
+import { getShortenedCityName } from "./cityNameShortener";
 import { clusterStyle, markerStyle } from "@/src/commons/styles/styles";
 import type { IFirestore, IMapMarker } from "@/src/commons/types";
 
@@ -39,7 +39,7 @@ export const getMapInitOptions: () => IGetMapInitOptionsProps = () => ({
 
 export const markerIconContent = (buildingsData: IMapMarker, firestoreDatas: IFirestore[]): string => {
   const matchedFirestoreData = firestoreDatas.find(
-    (firestoreData) => firestoreData.address === shortenCityName(buildingsData.address ?? "값 없음") || firestoreData.address === shortenCityName(buildingsData.address_road ?? "값 없음")
+    (firestoreData) => firestoreData.address === getShortenedCityName(buildingsData.address ?? "값 없음") || firestoreData.address === getShortenedCityName(buildingsData.address_road ?? "값 없음")
   );
   let price = ((buildingsData.price ?? NaN) / 10000).toFixed(1);
   price = price.endsWith(".0") ? price.slice(0, -2) : price;

@@ -1,6 +1,6 @@
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/regex";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
