@@ -1,13 +1,14 @@
-export function convertTimestamp(seconds: number): {
+interface ITimestamp {
   year: number;
   month: string;
   day: string;
   hours: string;
   minutes: string;
   seconds: string;
-} {
-  const date = new Date(seconds * 1000);
+}
 
+export function convertTimestamp(seconds: number): ITimestamp {
+  const date = new Date(seconds * 1000);
   const padZero = (num: number): string => num.toString().padStart(2, "0");
 
   return {

@@ -124,6 +124,14 @@ export interface IFirestore {
   };
 }
 
+// maps
+declare global {
+  interface Window {
+    naver: any;
+    MarkerClustering: any;
+  }
+}
+
 // Write Form
 export interface IWriteForm {
   type: string;
@@ -146,14 +154,6 @@ export interface IUseAddressSearchProps {
   selectedAddress: string;
   geocodeData: IGeocode | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
-}
-
-// maps
-declare global {
-  interface Window {
-    naver: any;
-    MarkerClustering: any;
-  }
 }
 
 export interface IUseAllMarkerProps {

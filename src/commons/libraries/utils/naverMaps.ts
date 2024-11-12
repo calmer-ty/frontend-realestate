@@ -2,6 +2,12 @@ import { shortenCityName } from "./regex";
 import { clusterStyle, markerStyle } from "@/src/commons/styles/styles";
 import type { IFirestore, IMapMarker } from "@/src/commons/types";
 
+interface IClusterIcon {
+  content: string;
+  size: any;
+  anchor: any;
+}
+
 interface IGetMapInitOptionsProps {
   center: any;
   zoom: number;
@@ -10,11 +16,6 @@ interface IGetMapInitOptionsProps {
     position: any;
     style: any;
   };
-}
-interface IClusterIcon {
-  content: string;
-  size: any;
-  anchor: any;
 }
 
 export const loadScript = (src: string, onLoad: () => void): void => {
@@ -54,7 +55,6 @@ export const markerIconContent = (buildingsData: IMapMarker, firestoreDatas: IFi
         ${priceDisplay}
         ${arrow}
       </div>`;
-  // }
 };
 
 // 클러스터
