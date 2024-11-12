@@ -1,6 +1,7 @@
 import { getAllRegionData } from "../region/regionData";
 import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
+import { DEFAULT_STRING_VALUE } from "../utils/constants";
 import type { IApartmentLocation } from "@/src/commons/types";
 
 export const getApartmentData = async (): Promise<IApartmentLocation[]> => {
@@ -21,7 +22,7 @@ export const getApartmentData = async (): Promise<IApartmentLocation[]> => {
         const response = await apartmentApi(region);
         const apartmentLocationData: IApartmentLocation = {
           response,
-          locatadd_nm: region.locatadd_nm ?? "값 없음",
+          locatadd_nm: region.locatadd_nm ?? DEFAULT_STRING_VALUE,
         };
         setApartmentCache(cacheKey, apartmentLocationData);
         return apartmentLocationData;

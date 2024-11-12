@@ -1,5 +1,6 @@
 import { regionApi } from "./regionApi";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
+import { DEFAULT_STRING_VALUE } from "../utils/constants";
 import type { IRegion, IRegionItem } from "@/src/commons/types";
 
 // 지역 데이터를 가져올 도시 리스트
@@ -54,8 +55,8 @@ export const getAllRegionData = async (): Promise<IRegionItem[]> => {
       return rows
         .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000")
         .map((el) => ({
-          locatadd_nm: el.locatadd_nm ?? "값 없음", // 기본값 설정
-          region_cd: el.region_cd?.slice(0, 5) ?? "값 없음", // 기본값 설정
+          locatadd_nm: el.locatadd_nm ?? DEFAULT_STRING_VALUE, // 기본값 설정
+          region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
         }));
     });
   } catch (error) {

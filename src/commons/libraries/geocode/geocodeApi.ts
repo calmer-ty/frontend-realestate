@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DEFAULT_STRING_VALUE } from "../utils/constants";
 import type { IGeocodeCoord, IGeocode } from "@/src/commons/types";
 
 export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
@@ -15,8 +16,8 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
     if (addresses.length > 0) {
       const { x, y } = addresses[0];
       return {
-        latitude: parseFloat(y ?? "값 없음"),
-        longitude: parseFloat(x ?? "값 없음"),
+        latitude: parseFloat(y ?? DEFAULT_STRING_VALUE),
+        longitude: parseFloat(x ?? DEFAULT_STRING_VALUE),
         // roadAddress
         // jibunAddress
       };

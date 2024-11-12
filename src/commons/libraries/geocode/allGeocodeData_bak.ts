@@ -1,6 +1,7 @@
 import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
+import { DEFAULT_STRING_VALUE } from "../utils/constants";
 import type { IApartmentItem, IApartmentLocation, IGeocodeEtc } from "@/src/commons/types";
 
 export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeEtc[]> => {
@@ -33,8 +34,8 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeE
 
         const itemDatas = {
           // streetNumber: item.지번,
-          address: `${location} ${item.법정동 ?? "값 없음".trim()} ${filteredDongMainCode}${filteredDongSubCode}`,
-          address_road: `${location} ${item.도로명 ?? "값 없음".trim()} ${Number(item.도로명건물본번호코드).toString()}${filteredRoadSubCode}`,
+          address: `${location} ${item.법정동 ?? DEFAULT_STRING_VALUE.trim()} ${filteredDongMainCode}${filteredDongSubCode}`,
+          address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${filteredRoadSubCode}`,
           buildingName: item.아파트,
           price: Number(item.거래금액?.replace(/,/g, "")),
           area: item.전용면적,

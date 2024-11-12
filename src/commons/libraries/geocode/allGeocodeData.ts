@@ -1,6 +1,7 @@
 import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
+import { DEFAULT_STRING_VALUE } from "../utils/constants";
 import type { IApartmentItem, IApartmentLocation, IGeocodeEtc } from "@/src/commons/types";
 
 // TYPE
@@ -31,8 +32,8 @@ const createItemData = (item: IApartmentItem, location: string): ICreateItemData
   const roadSubCode = filterCode(Number(item.도로명건물부번호코드), "-");
 
   return {
-    address: `${location} ${item.법정동 ?? "값 없음".trim()} ${dongMainCode}${dongSubCode}`,
-    address_road: `${location} ${item.도로명 ?? "값 없음".trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
+    address: `${location} ${item.법정동 ?? DEFAULT_STRING_VALUE.trim()} ${dongMainCode}${dongSubCode}`,
+    address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
     buildingName: item.아파트,
     price: Number(item.거래금액?.replace(/,/g, "")),
     area: item.전용면적,
@@ -56,7 +57,7 @@ const getGeocodeData = async (itemData: IGeocodeEtc): Promise<IGeocodeEtc | null
   }
 
   try {
-    const geocodeResult = await geocodeApi(itemData.address ?? "값 없음");
+    const geocodeResult = await geocodeApi(itemData.address ?? DEFAULT_STRING_VALUE);
     if (geocodeResult !== null) {
       const result = {
         ...itemData,
@@ -95,7 +96,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeE
     results?.flatMap((result) => {
       const dataItems: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
       return dataItems.map(async (item) => {
-        const itemData = createItemData(item, result.locatadd_nm ?? "값 없음");
+        const itemData = createItemData(item, result.locatadd_nm ?? DEFAULT_STRING_VALUE);
         return await getGeocodeData(itemData);
       });
     }) ?? [];
