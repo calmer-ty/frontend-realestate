@@ -4,8 +4,9 @@ import Head from "next/head";
 
 import BuildingDetailTop from "./top";
 import BuildingDetailBottom from "./bottom";
-import * as S from "./styles";
+
 import type { IBuildingDetailProps } from "./types";
+import * as S from "./styles";
 
 export default function BuildingDetail({ buildingData }: IBuildingDetailProps): JSX.Element {
   return (
