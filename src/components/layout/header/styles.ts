@@ -8,4 +8,5 @@ export const Header = styled.header`
   height: 60px;
   padding: 0 20px;
   border-bottom: 1px solid #dedede;
+  flex-shrink: 0;
 `;

@@ -10,7 +10,7 @@ export const Container = styled.article`
   padding: 40px;
 
   ${mediaQueries.mobile(css`
-    width: 480px;
+    width: 100%;
     padding: 0;
   `)}
 `;
