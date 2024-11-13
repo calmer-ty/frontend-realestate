@@ -4,6 +4,13 @@ import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
 export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps): JSX.Element {
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
   const settings = {
     dots: true,
     infinite: true,
@@ -16,6 +23,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
     <>
       <S.MViewContents {...settings}>
         {buildingData.imageUrls?.map((el) => {
+          console.log("el", el);
           return (
             <figure key={el}>
               <Image src={el} alt={"buildImg"} fill />

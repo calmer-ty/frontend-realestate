@@ -6,9 +6,11 @@ export const Container = styled.article`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
+  width: 1024px;
   padding: 40px;
 
   ${mediaQueries.mobile(css`
+    width: 480px;
     padding: 0;
   `)}
 `;

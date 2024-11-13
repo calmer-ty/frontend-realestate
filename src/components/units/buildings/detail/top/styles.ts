@@ -26,11 +26,12 @@ export const ViewContents = styled.section`
     flex-wrap: wrap;
     justify-content: space-between;
     width: 50%;
-    margin: -5px;
+    margin: -4px;
     > figure {
-      padding: 5px;
-      width: 50%;
-      height: 50%;
+      margin: 4px;
+      /* flex-basis: calc(50% - 10px); */
+      width: calc(50% - 8px);
+      height: calc(50% - 8px);
     }
   }
 
@@ -41,16 +42,16 @@ export const ViewContents = styled.section`
 export const MViewContents = styled(Slider)`
   height: 440px;
   &.slick-slider {
-    display: none;
+    /* display: none; */
   }
   .slick-list,
   .slick-track {
     height: 440px;
   }
   figure {
-    height: 100%;
+    /* height: 100%; */
     > img {
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
