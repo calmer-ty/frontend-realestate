@@ -1,5 +1,6 @@
 import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
 
 import ChipSmall from "@/src/components/commons/dataDisplay/chip/small";
 import Link from "next/link";
@@ -13,7 +14,7 @@ import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const matchedFirestoreData: IFirestore[] = props.firestoreDatas.filter(
-    (el) => getShortenedCityName(props.selectedData?.address ?? "값 없음") === el.address || getShortenedCityName(props.selectedData?.address_road ?? "값 없음") === el.address
+    (el) => getShortenedCityName(props.selectedData?.address ?? DEFAULT_STRING_VALUE) === el.address || getShortenedCityName(props.selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
   );
 
   return (
@@ -39,8 +40,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
               <h3>최근 실거래가</h3>
               <S.SelectedContent>
                 <strong>
-                  매매 {isBillion(props.selectedData.price ?? NaN)}&nbsp;
-                  {isTenMillion(props.selectedData.price ?? NaN)}원
+                  매매 {isBillion(props.selectedData.price ?? DEFAULT_NUMBER_VALUE)}&nbsp;
+                  {isTenMillion(props.selectedData.price ?? DEFAULT_NUMBER_VALUE)}원
                 </strong>
                 <p>
                   {props.selectedData.dealYear}.{props.selectedData.dealMonth}.{props.selectedData.dealDay}・{props.selectedData.floor}층・{props.selectedData.area}m²
@@ -61,14 +62,14 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${props.buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? (
-                          <Image src={el.imageUrls?.[0] ?? "값 없음"} width={80} height={80} alt={el._id ?? "값 없음"} />
+                          <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} width={80} height={80} alt={el._id ?? DEFAULT_STRING_VALUE} />
                         ) : (
                           <BasicUnImage width="80px" height="80px" fontSize="24px" />
                         )}
                         <p>
                           <strong>
-                            매매 {isBillion(el.price ?? NaN)}
-                            {isTenMillion(el.price ?? NaN)}원
+                            매매 {isBillion(el.price ?? DEFAULT_NUMBER_VALUE)}
+                            {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)}원
                           </strong>
                           <br />
                           {el.type}・{el.addressDetail}

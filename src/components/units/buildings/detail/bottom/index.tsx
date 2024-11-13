@@ -1,6 +1,9 @@
-import UnderlineTitle from "@/src/components/commons/titles/underline";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/libraries/utils/constants";
+
+import UnderlineTitle from "@/src/components/commons/titles/underline";
+
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
@@ -13,8 +16,8 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
           <li>
             <h3>매물 가격</h3>
             <span>
-              매매 {isBillion(buildingData.price ?? NaN)}&nbsp;
-              {isTenMillion(buildingData.price ?? NaN)} 원
+              매매 {isBillion(buildingData.price ?? DEFAULT_NUMBER_VALUE)}&nbsp;
+              {isTenMillion(buildingData.price ?? DEFAULT_NUMBER_VALUE)} 원
             </span>
           </li>
           <li>

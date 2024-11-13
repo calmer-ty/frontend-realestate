@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
 
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
@@ -30,7 +31,7 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
           {!select && (
             <ul>
               {visibleMarkerDatas.map((el, index) => {
-                const matchingFirestoreData = firestoreDatas.some((firestoreData) => getShortenedCityName(el.address ?? "값 없음") === firestoreData.address);
+                const matchingFirestoreData = firestoreDatas.some((firestoreData) => getShortenedCityName(el.address ?? DEFAULT_STRING_VALUE) === firestoreData.address);
 
                 return (
                   <li
@@ -40,8 +41,8 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
                     }}
                   >
                     <h2>
-                      매매 {isBillion(el.price ?? NaN)}&nbsp;
-                      {isTenMillion(el.price ?? NaN)}원
+                      매매 {isBillion(el.price ?? DEFAULT_NUMBER_VALUE)}&nbsp;
+                      {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)}원
                     </h2>
                     <p>
                       아파트・{el.buildingName}

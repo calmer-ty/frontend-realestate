@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firestore/useFirestore";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
 
 import { Button } from "@mui/material";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
@@ -67,7 +68,7 @@ export default function BuildingList(): JSX.Element {
         archivedIds.current.add(el._id); // 아카이브된 ID 추가
 
         // 여기서 deleteFirestore를 호출하여 원본 데이터 삭제
-        deleteFirestore(el.type ?? "값 없음", el._id ?? "값 없음").catch((error) => {
+        deleteFirestore(el.type ?? DEFAULT_STRING_VALUE, el._id ?? DEFAULT_STRING_VALUE).catch((error) => {
           console.error(`Error deleting document ${el._id}:`, error);
         });
       }
@@ -94,7 +95,7 @@ export default function BuildingList(): JSX.Element {
       // 3. 삭제된 데이터에 저장
       void archiveFirestore(selectedBuilding);
       // 4. Firestore에서 데이터 삭제 및 동기화
-      void deleteFirestore(selectedBuilding.type ?? "값 없음", selectedBuilding._id ?? "값 없음")
+      void deleteFirestore(selectedBuilding.type ?? DEFAULT_STRING_VALUE, selectedBuilding._id ?? DEFAULT_STRING_VALUE)
         .then(() => {
           // 3. Firestore와 동기화 후 데이터를 다시 가져오면 좋음
           void fetchData();
@@ -147,7 +148,7 @@ export default function BuildingList(): JSX.Element {
           <>
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {engToKor(selectedBuilding.type ?? "값 없음")} - {selectedBuilding.address}
+              {engToKor(selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {selectedBuilding.address}
               {selectedBuilding.addressDetail}
             </p>
             <Button type="button" variant="outlined" onClick={onModalToggle}>

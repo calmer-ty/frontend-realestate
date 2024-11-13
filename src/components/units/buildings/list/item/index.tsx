@@ -1,13 +1,15 @@
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
+
 import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 import { Button } from "@mui/material";
 
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 import type { IListItem } from "./types";
 import * as S from "./styles";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function ListItem(props: IListItem): JSX.Element {
   return (
@@ -34,17 +36,17 @@ export default function ListItem(props: IListItem): JSX.Element {
           <div className="bottomContents">
             <p>{index}</p>
             {el.imageUrls?.[0] !== undefined ? (
-              <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? "값 없음"} width={200} height={120} />
+              <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} />
             ) : (
               <BasicUnImage width="200px" height="120px" fontSize="28px" />
             )}
             <S.BuildingInfo>
               <h3>
                 <p>
-                  {engToKor(el.type ?? "값 없음")} - <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
+                  {engToKor(el.type ?? DEFAULT_STRING_VALUE)} - <i></i>방 {el.roomCount}개, 욕실 {el.bathroomCount}개
                 </p>
                 <p className="price">
-                  매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? NaN)}원
+                  매매 {el.price === 0 ? `${isBillion(el.price)}억` : ""} {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)}원
                 </p>
               </h3>
               <p className="address">

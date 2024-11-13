@@ -1,8 +1,9 @@
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+
 import Link from "next/link";
 import Image from "next/image";
-
 import BasicUnImage from "../../../commons/unImages/basic";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 
 import type { IRecommendedListProps } from "../types";
 import * as S from "./styles";
@@ -20,7 +21,7 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
               <li key={el._id}>
                 <Link href={`/${el.type}/${el._id}`}>
                   {el.imageUrls?.[0] !== undefined ? (
-                    <Image src={el.imageUrls?.[0] ?? "값 없음"} alt={el.type ?? "값 없음"} width={300} height={200} />
+                    <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} alt={el.type ?? DEFAULT_STRING_VALUE} width={300} height={200} />
                   ) : (
                     <BasicUnImage width="300px" height="200px" fontSize="36px" />
                   )}
@@ -29,8 +30,8 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
                       {el.type}・{el.addressDetail}
                     </span>
                     <strong>
-                      매매 {isBillion(el.price ?? NaN)}
-                      {isTenMillion(el.price ?? NaN)} 원
+                      매매 {isBillion(el.price ?? DEFAULT_NUMBER_VALUE)}
+                      {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)} 원
                     </strong>
                     <span>
                       {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
