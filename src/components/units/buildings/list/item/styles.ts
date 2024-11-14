@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
 
 export const ListItem = styled.ul`
+  overflow-y: hidden;
   overflow-y: scroll;
   display: flex;
   row-gap: 20px;
   flex-direction: column;
+  min-width: 930px;
   height: calc(100vh - 240px);
   li {
     display: flex;
@@ -17,7 +19,6 @@ export const ListItem = styled.ul`
       align-items: center;
       column-gap: 10px;
       height: 48px;
-      /* padding: 5px 20px; */
       padding: 0 20px;
       background-color: #fafafa;
     }

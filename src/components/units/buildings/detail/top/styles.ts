@@ -56,24 +56,5 @@ export const MViewContents = styled(Slider)`
     &.slick-slider {
       display: block;
     }
-  `)}/* height: 50%;
-  &.slick-slider {
-    display: none;
-  }
-  .slick-list,
-  .slick-track {
-    height: 440px;
-  }
-  figure {
-    height: 100%;
-    > img {
-      object-fit: contain;
-    }
-  }
-
-  ${mediaQueries.mobile(css`
-    &.slick-slider {
-      display: block;
-    }
-  `)} */
+  `)}
 `;
