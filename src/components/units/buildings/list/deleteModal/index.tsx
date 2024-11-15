@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import BasicModal from "@/src/components/commons/modal/basic";
 
 import type { IDeleteModalProps } from "./types";
+import * as S from "./styles";
 
 export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
   const onModalToggle = (): void => {
@@ -37,19 +38,23 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
   return (
     <BasicModal open={props.modalOpen} onToggle={onModalToggle}>
       {props.selectedBuilding !== null ? (
-        <>
-          <h2>이 매물을 삭제하시겠습니까? </h2>
-          <p>
-            {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address}
-            {props.selectedBuilding.addressDetail}
-          </p>
-          <Button type="button" variant="outlined" onClick={onModalToggle}>
-            취소
-          </Button>
-          <Button variant="contained" color="error" onClick={onDeleteBuildingItem}>
-            삭제
-          </Button>
-        </>
+        <S.ModalInner>
+          <div className="top">
+            <h2>이 매물을 삭제하시겠습니까? </h2>
+            <p>
+              {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address}
+              {props.selectedBuilding.addressDetail}
+            </p>
+          </div>
+          <div className="buttonWrap">
+            <Button type="button" variant="outlined" onClick={onModalToggle}>
+              취소
+            </Button>
+            <Button variant="contained" color="error" onClick={onDeleteBuildingItem}>
+              삭제
+            </Button>
+          </div>
+        </S.ModalInner>
       ) : null}
     </BasicModal>
   );
