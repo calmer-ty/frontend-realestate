@@ -6,24 +6,25 @@ import * as S from "./styles";
 export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps): JSX.Element {
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  console.log("buildingData: ", buildingData);
   return (
     <>
-      <S.MViewContents {...settings}>
+      <S.MobileView {...settings}>
         {buildingData.imageUrls?.map((el) => {
-          console.log("el", el);
           return (
             <figure key={el}>
               <Image src={el} alt={"buildImg"} layout="responsive" width={100} height={50} />
             </figure>
           );
         })}
-      </S.MViewContents>
-      <S.ViewContents>
+      </S.MobileView>
+      <S.PCView>
         <figure className="mainImg">
           {buildingData.imageUrls?.[0] !== undefined ? <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill /> : <BasicUnImage width="100%" height="100%" fontSize="36px" />}
         </figure>
@@ -37,7 +38,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
             );
           })}
         </div>
-      </S.ViewContents>
+      </S.PCView>
     </>
   );
 }

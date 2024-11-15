@@ -6,7 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { mediaQueries } from "@/src/commons/styles/styles";
 import { css } from "@emotion/react";
 
-export const ViewContents = styled.section`
+export const PCView = styled.section`
+  /* 공통 */
   display: flex;
   column-gap: 10px;
   width: 100%;
@@ -18,6 +19,8 @@ export const ViewContents = styled.section`
       object-fit: cover;
     }
   }
+
+  /* 메인 서브 이미지 */
   .mainImg {
     width: 50%;
   }
@@ -38,17 +41,19 @@ export const ViewContents = styled.section`
     display: none;
   `)}
 `;
+
 // 모바일용 슬랙
-export const MViewContents = styled(Slider)`
+export const MobileView = styled(Slider)`
   &.slick-slider {
     display: none;
-  }
-  figure {
-    position: relative;
-    height: 400px;
-    > img {
-      height: 100% !important;
-      object-fit: cover; /* 이미지의 비율을 유지하며 꽉 채우기 */
+
+    figure {
+      position: relative;
+      height: 400px;
+      > img {
+        height: 100% !important;
+        object-fit: cover;
+      }
     }
   }
 
