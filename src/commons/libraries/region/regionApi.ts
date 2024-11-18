@@ -5,17 +5,16 @@ const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
-  console.log("city::: ", city);
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   // const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
-  const reginCdUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=xml&pageNo=1&numOfRows=3&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=xml&pageNo=1&numOfRows=3&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   try {
     // totalCount 가져오기
     const response = await axios.get<IRegion>(reginCdUrl);
     const totalCount = Math.round(response?.data?.StanReginCd?.[0]?.head?.[0]?.totalCount ?? 0);
-    console.log("response::: ", response);
     // console.log("response?.data?.StanReginCd?.[0]?.head?.[0]?: ", response?.data?.StanReginCd?.[0]?.RESULT);
 
+    // 이 부분에서 문제가 생기는 듯 함
     const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${totalCount}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
     const finalResponse = await axios.get<IRegion>(finalReginCdUrl);
     console.log("Second request response: ", finalResponse.data);
