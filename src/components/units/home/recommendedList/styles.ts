@@ -12,6 +12,7 @@ export const Container = styled.section`
     display: flex;
     flex-direction: column;
     width: 1024px;
+    height: 390px;
     padding: 20px;
     > h2 {
       width: 100%;
@@ -23,6 +24,7 @@ export const Container = styled.section`
     display: none !important;
   `)}
 `;
+
 export const RegisteredList = styled.ul`
   display: flex;
   justify-content: space-between;
