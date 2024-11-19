@@ -95,6 +95,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeE
   const geocodePromises =
     results?.flatMap((result) => {
       const dataItems: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
+      console.log("dataItems ===", dataItems);
       return dataItems.map(async (item) => {
         const itemData = createItemData(item, result.locatadd_nm ?? DEFAULT_STRING_VALUE);
         return await getGeocodeData(itemData);
@@ -103,6 +104,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeE
 
   // 모든 지오코딩 요청 완료 후 null 값을 제외한 유효한 데이터 필터링
   const geocodeResults = (await Promise.all(geocodePromises)).filter((result): result is IGeocodeEtc => result !== null);
+  console.log("geocodeResults === ", geocodeResults);
 
   // 중복된 주소와 면적, 층 정보를 가진 항목을 제거하여 고유한 데이터만 남김
   const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {

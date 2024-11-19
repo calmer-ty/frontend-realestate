@@ -9,15 +9,20 @@ export const regionApi = async (city: string): Promise<IRegion> => {
   // const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=xml&pageNo=1&numOfRows=3&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   try {
-    // totalCount 가져오기
+    // 첫 번째 API 호출
+    // totalCount 가져오기 - totalCount를 알려면, api를 먼저 한번 실행해보아야 한다.
     const response = await axios.get<IRegion>(reginCdUrl);
     const totalCount = Math.round(response?.data?.StanReginCd?.[0]?.head?.[0]?.totalCount ?? 0);
+    console.log(totalCount);
     // console.log("response?.data?.StanReginCd?.[0]?.head?.[0]?: ", response?.data?.StanReginCd?.[0]?.RESULT);
 
     // 이 부분에서 문제가 생기는 듯 함
-    const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${totalCount}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+    // 두 번째 API 호출
+    // const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${totalCount}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+    const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
     const finalResponse = await axios.get<IRegion>(finalReginCdUrl);
-    console.log("Second request response: ", finalResponse.data);
+    // console.log("Second request response: ", finalResponse.data);
+    // console.log("Second request response ===== : ", finalResponse.data.StanReginCd?.[1]);
 
     return finalResponse.data;
   } catch (error) {

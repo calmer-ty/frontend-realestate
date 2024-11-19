@@ -37,6 +37,7 @@ const getRegionData = async (city: string): Promise<IRegion> => {
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   try {
     const regionData = await regionApi(city);
+    // if (regionData === null) return;
     setRegionCache(cacheKey, regionData);
     return regionData;
   } catch (error) {
