@@ -34,10 +34,8 @@ const getRegionData = async (city: string): Promise<IRegion> => {
     return cachedData;
   }
 
-  // 캐시에 없는 경우 실제 데이터를 요청합니다
   try {
     const regionData = await regionApi(city);
-    // if (regionData === null) return;
     setRegionCache(cacheKey, regionData);
     return regionData;
   } catch (error) {
@@ -45,7 +43,7 @@ const getRegionData = async (city: string): Promise<IRegion> => {
   }
 };
 
-// 모든 도시의 지역 데이터를 일괄적으로 가져오는 함수
+// 모든 주소의 region_cd을 추출하기 위해 모아서 한꺼번에 보낸다
 export const getAllRegionData = async (): Promise<IRegionItem[]> => {
   try {
     const promises = cityList.map((city) => getRegionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
@@ -56,7 +54,6 @@ export const getAllRegionData = async (): Promise<IRegionItem[]> => {
       return rows
         .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000")
         .map((el) => ({
-          locatadd_nm: el.locatadd_nm ?? DEFAULT_STRING_VALUE, // 기본값 설정
           region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
         }));
     });

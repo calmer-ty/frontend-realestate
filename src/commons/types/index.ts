@@ -13,7 +13,6 @@ export interface IRegionHead {
   totalCount?: number;
 }
 export interface IRegionItem {
-  locatadd_nm?: string;
   region_cd?: string;
   umd_cd?: string;
   sgg_cd?: string;
@@ -30,21 +29,17 @@ export interface IApartment {
   };
 }
 export interface IApartmentItem {
-  법정동?: string;
-  법정동본번코드?: string;
-  법정동부번코드?: string;
-  도로명?: string;
-  도로명건물본번호코드?: string;
-  도로명건물부번호코드?: string;
-  아파트?: string;
-
-  거래금액?: string;
-  전용면적?: number;
-  층?: number;
-  년?: string;
-  월?: string;
-  일?: string;
-  건축년도?: number;
+  estateAgentSggNm?: string;
+  umdNm?: string;
+  jibun?: string | number;
+  aptNm?: string;
+  floor?: number;
+  dealAmount?: string;
+  excluUseAr?: number;
+  dealDay?: number;
+  dealMonth?: number;
+  dealYear?: number;
+  buildYear?: number;
 }
 export interface IApartmentLocation {
   response?: IApartment;
@@ -74,10 +69,10 @@ export interface IGeocodeEtc {
   price?: number;
   area?: number;
   floor?: number;
-  dealYear?: string;
-  dealMonth?: string;
-  dealDay?: string;
-  constructionYear?: number;
+  dealYear?: number;
+  dealMonth?: number;
+  dealDay?: number;
+  buildYear?: number;
 }
 
 // map API marker
@@ -88,10 +83,10 @@ export interface IMapMarker {
   price?: number;
   area?: number;
   floor?: number;
-  dealYear?: string;
-  dealMonth?: string;
-  dealDay?: string;
-  constructionYear?: number;
+  dealYear?: number;
+  dealMonth?: number;
+  dealDay?: number;
+  buildYear?: number;
 }
 
 // firestore
