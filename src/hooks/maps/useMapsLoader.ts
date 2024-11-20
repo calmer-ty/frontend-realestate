@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/naverMaps";
+import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/maps/init";
 import type { IUseMapsLoaderProps } from "@/src/commons/types";
 
 export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
