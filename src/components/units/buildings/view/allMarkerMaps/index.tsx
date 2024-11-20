@@ -3,7 +3,7 @@ import MapsInfo from "./mapsInfo";
 import NaverMaps from "./naverMaps";
 import { useEffect, useState } from "react";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import type { IFirestore, IMapMarker } from "@/src/commons/types";
 import type { IAllMarkerMapsProps } from "./types";
 import { mapStyle } from "./styles";

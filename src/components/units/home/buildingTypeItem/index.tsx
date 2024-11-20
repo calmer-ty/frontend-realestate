@@ -1,7 +1,5 @@
 import Link from "next/link";
-// import { useState } from "react";
-// import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
-// import type { MouseEventHandler } from "react";
+
 import type { IBuildingTypeItemProps } from "../types";
 import * as S from "./styles";
 

@@ -11,8 +11,8 @@ import { Alert, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
-import { useStorage } from "@/src/hooks/firestore/useStorage";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useStorage } from "@/src/hooks/firebase/useStorage";
 import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 

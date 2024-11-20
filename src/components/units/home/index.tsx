@@ -7,7 +7,7 @@ import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { useEffect, useState } from "react";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";

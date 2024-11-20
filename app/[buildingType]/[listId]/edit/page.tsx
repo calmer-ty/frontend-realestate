@@ -1,7 +1,7 @@
 "use client";
 
 import BuildingWrite from "@/src/components/units/buildings/write";
-import { useFirestore } from "@/src/hooks/firestore/useFirestore";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { IFirestore } from "@/src/commons/types";
