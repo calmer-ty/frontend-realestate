@@ -1,6 +1,6 @@
 import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import ChipSmall from "@/src/components/commons/dataDisplay/chip/small";
 import Link from "next/link";
@@ -25,7 +25,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
             <S.InfoWrap>
               <h2>{props.selectedData.buildingName}</h2>
               <S.TextWrap>
-                <ChipSmall label="연식" /> {props.selectedData.constructionYear}
+                <ChipSmall label="연식" /> {props.selectedData.buildYear}
               </S.TextWrap>
               <S.TextWrap>
                 <ChipSmall label="지번" /> {props.selectedData.address}

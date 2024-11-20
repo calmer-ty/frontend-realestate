@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import ListItem from "./item";

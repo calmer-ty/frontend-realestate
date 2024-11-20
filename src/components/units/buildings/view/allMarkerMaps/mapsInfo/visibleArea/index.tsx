@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";

@@ -1,4 +1,4 @@
-import { mediaQueries } from "@/src/commons/styles/styles";
+import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 import type { IScroll } from "./types";
 import styled from "@emotion/styled";

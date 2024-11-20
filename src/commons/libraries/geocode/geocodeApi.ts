@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DEFAULT_STRING_VALUE } from "../utils/constants";
+import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IGeocodeCoord, IGeocode } from "@/src/commons/types";
 
 export const geocodeApi = async (address: string): Promise<IGeocode | null> => {

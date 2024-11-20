@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { mediaQueries } from "@/src/commons/styles/styles";
+import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const PCView = styled.section`

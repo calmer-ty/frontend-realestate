@@ -1,5 +1,5 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import Link from "next/link";
 import Image from "next/image";

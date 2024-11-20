@@ -1,7 +1,7 @@
 import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
-import { DEFAULT_STRING_VALUE } from "../utils/constants";
+import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IApartmentItem, IApartmentLocation, IGeocodeEtc } from "@/src/commons/types";
 
 // TYPE

@@ -1,6 +1,6 @@
 import { regionApi } from "./regionApi";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
-import { DEFAULT_STRING_VALUE } from "../utils/constants";
+import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IRegion, IRegionItem } from "@/src/commons/types";
 
 // 지역 데이터를 가져올 도시 리스트

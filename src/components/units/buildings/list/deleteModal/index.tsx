@@ -1,5 +1,5 @@
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import { Button } from "@mui/material";
 import BasicModal from "@/src/components/commons/modal/basic";

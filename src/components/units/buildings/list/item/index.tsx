@@ -1,6 +1,6 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/libraries/utils/constants";
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import Link from "next/link";
