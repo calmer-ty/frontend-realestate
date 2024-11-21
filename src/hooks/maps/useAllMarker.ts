@@ -39,6 +39,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     async (map: any) => {
       const mapBounds = map.getBounds();
 
+      // ========== API 호출
       const southWest = mapBounds.getSW();
       const northEast = mapBounds.getNE();
 
