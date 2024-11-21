@@ -36,8 +36,19 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
   );
 
   const updateMarkers = useCallback(
-    (map: any) => {
+    async (map: any) => {
       const mapBounds = map.getBounds();
+
+      const southWest = mapBounds.getSW();
+      const northEast = mapBounds.getNE();
+
+      try {
+        const response = await fetch(`/api/fetchAllGeocodeTest?south=${southWest.lat()}&west=${southWest.lng()}&north=${northEast.lat()}&east=${northEast.lng()}`);
+        const data = await response.json();
+        console.log("updateMarkers: ", data);
+      } catch (error) {
+        console.error("API 호출 중 에러:", error);
+      }
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
@@ -74,9 +85,9 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       if (isClusterScriptLoadedRef.current) {
         console.log("클러스터 스크립트가 이미 로드되었습니다.");
         window.naver.maps.Event.addListener(map, "idle", () => {
-          updateMarkers(map);
+          void updateMarkers(map);
         });
-        updateMarkers(map);
+        void updateMarkers(map);
         return;
       }
 
@@ -85,9 +96,9 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
         console.log("클러스터를 실행합니다.");
         isClusterScriptLoadedRef.current = true; // 스크립트가 로드되었음을 기록
         window.naver.maps.Event.addListener(map, "idle", () => {
-          updateMarkers(map);
+          void updateMarkers(map);
         });
-        updateMarkers(map);
+        void updateMarkers(map);
       });
     },
     [updateMarkers]
