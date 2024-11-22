@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
-import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
+// import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
 import type { IGeocodeEtc, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
-  const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
+  // const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
+  const [geocodeResults, setGeocodeResults] = useState<IGeocodeEtc[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -16,10 +17,10 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     }
 
     // 이미 데이터가 있는 경우 패칭을 하지 않음
-    if (geocodeResults.length > 0) {
-      console.log("이미  geocodeResults 데이터가 있어서 재패치 하지 않습니다.");
-      return;
-    }
+    // if (geocodeResults.length > 0) {
+    //   console.log("이미  geocodeResults 데이터가 있어서 재패치 하지 않습니다.");
+    //   return;
+    // }
 
     setLoading(true);
     setError(null);
@@ -34,7 +35,8 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     } finally {
       setLoading(false);
     }
-  }, [buildingType, setGeocodeResults, geocodeResults.length]);
+    // }, [buildingType, setGeocodeResults, geocodeResults.length]);
+  }, [buildingType]);
 
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType !== "") {
