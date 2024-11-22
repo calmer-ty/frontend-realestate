@@ -152,7 +152,7 @@ export interface IUseAddressSearchProps {
 }
 
 export interface IUseAllMarkerProps {
-  geocodeResults: IGeocodeEtc[];
+  geocodeResults?: IGeocodeEtc[];
   setSelectedMarkerData: Dispatch<SetStateAction<IMapMarker | null>>;
   setVisibleMarkerDatas: Dispatch<SetStateAction<IMapMarker[]>>;
   firestoreDatas: IFirestore[];

@@ -38,14 +38,15 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
 
   const updateMarkers = useCallback(
     async (map: any) => {
-      const mapBounds = map.getBounds();
+      // const mapBounds = map.getBounds();
 
       // ========== API 호출
-      const southWest = mapBounds.getSW();
-      const northEast = mapBounds.getNE();
+      // const southWest = mapBounds.getSW();
+      // const northEast = mapBounds.getNE();
 
       try {
-        const response = await fetch(`/api/fetchAllGeocodeTest?south=${southWest.lat()}&west=${southWest.lng()}&north=${northEast.lat()}&east=${northEast.lng()}`);
+        // const response = await fetch(`/api/fetchAllGeocodeTest?south=${southWest.lat()}&west=${southWest.lng()}&north=${northEast.lat()}&east=${northEast.lng()}`);
+        const response = await fetch(`/api/fetchAllGeocodeTest`);
         const data = await response.json();
         console.log("updateMarkers: ", data);
       } catch (error) {
@@ -55,20 +56,20 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      geocodeResults.forEach((coord) => {
-        if (coord != null) {
-          const { latitude, longitude } = coord;
-          const position = new window.naver.maps.LatLng(latitude, longitude);
+      // geocodeResults.forEach((coord) => {
+      //   if (coord != null) {
+      //     const { latitude, longitude } = coord;
+      //     const position = new window.naver.maps.LatLng(latitude, longitude);
 
-          if (mapBounds.hasLatLng(position) === true) {
-            const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
-            if (existingMarker === undefined) {
-              const marker = createMarker(coord);
-              markersRef.current.push(marker);
-            }
-          }
-        }
-      });
+      //     if (mapBounds.hasLatLng(position) === true) {
+      //       const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
+      //       if (existingMarker === undefined) {
+      //         const marker = createMarker(coord);
+      //         markersRef.current.push(marker);
+      //       }
+      //     }
+      //   }
+      // });
 
       if (markerClusteringRef.current != null) {
         markerClusteringRef.current.setMap(null);
