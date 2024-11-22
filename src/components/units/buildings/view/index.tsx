@@ -1,15 +1,39 @@
+/** @jsxImportSource @emotion/react */
 "use client";
 
-import { memo } from "react";
-import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
+import NaverMaps from "./naverMaps";
+import MapsInfo from "./mapsInfo";
 
-import AllMarkerMaps from "./allMarkerMaps";
+import { memo, useEffect, useState } from "react";
+import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useAllMarker } from "./hooks/useAllMarker";
+
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
-import type { IBuildingParams } from "@/src/commons/types";
+import type { IBuildingParams, IFirestore, IMapMarker } from "@/src/commons/types";
+import { mapStyle } from "./styles";
 
 function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
+  const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<IMapMarker[]>([]);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IMapMarker | null>(null);
+  // firestore의 값을 불러온 후 변수를 사용한다
+  const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
+
   const { loading, error } = useFetchAllGeocode(buildingType);
+  const { readFirestores } = useFirestore();
+  const { geocodeResults } = useFetchAllGeocode(buildingType);
+
+  useEffect(() => {
+    const readBuildings = async (): Promise<void> => {
+      const datas = await readFirestores(buildingType);
+      setFirestoreDatas(datas);
+      console.log("datas === ", datas);
+    };
+    void readBuildings();
+  }, [readFirestores, buildingType]);
+
+  useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
 
   if (loading) {
     return <LoadingSpinner size={100} />;
@@ -19,6 +43,13 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     return <p>Error loading data: {error.message}</p>;
   }
 
-  return <AllMarkerMaps buildingType={buildingType} />;
+  return (
+    <>
+      <div css={mapStyle}>
+        <NaverMaps geocodeResults={geocodeResults} />
+        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firestoreDatas={firestoreDatas} buildingType={buildingType} />
+      </div>
+    </>
+  );
 }
 export default memo(BuildingView);
