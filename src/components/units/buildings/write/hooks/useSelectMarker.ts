@@ -1,4 +1,4 @@
-import { useMapsLoader } from "../../../../../hooks/maps/useMapsLoader";
+import { useMapsLoader } from "@/src/hooks/useMapsLoader";
 import type { IGeocode } from "@/src/commons/types";
 
 export const useSelectMarker = (props: IGeocode | null): void => {

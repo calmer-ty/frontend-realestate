@@ -5,7 +5,7 @@ import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 
 import { memo, useEffect, useState } from "react";
-import { useFetchAllGeocode } from "@/src/hooks/useFetchAllGeocode";
+import { useFetchAllGeocode } from "@/src/components/units/buildings/view/hooks/useFetchAllGeocode";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAllMarker } from "./hooks/useAllMarker";
 
