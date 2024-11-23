@@ -5,6 +5,7 @@ import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/map
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import type { IGeocodeEtc, IMapMarker, IUseAllMarkerProps } from "@/src/commons/types";
+import axios from "axios";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
@@ -35,20 +36,25 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     },
     [firestoreDatas, setSelectedMarkerData]
   );
+  // 함수 임시 사용
+  console.log(createMarker);
 
   const updateMarkers = useCallback(
     async (map: any) => {
-      // const mapBounds = map.getBounds();
+      const mapBounds = map.getBounds();
 
       // ========== API 호출
-      // const southWest = mapBounds.getSW();
-      // const northEast = mapBounds.getNE();
+      const southWest = mapBounds.getSW();
+      const northEast = mapBounds.getNE();
+
+      console.log("southWest: ", southWest);
+      console.log("northEast: ", northEast);
 
       try {
         // const response = await fetch(`/api/fetchAllGeocodeTest?south=${southWest.lat()}&west=${southWest.lng()}&north=${northEast.lat()}&east=${northEast.lng()}`);
-        const response = await fetch(`/api/fetchAllGeocodeTest`);
-        const data = await response.json();
-        console.log("updateMarkers: ", data);
+        const response = await axios.get(`/api/fetchAllGeocodeTest`);
+        // const data = await response.json();
+        console.log("updateMarkers: ", response.data);
       } catch (error) {
         console.error("API 호출 중 에러:", error);
       }
@@ -80,7 +86,8 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       setVisibleMarkerDatas(markerDataArray);
       setSelectedMarkerData(null);
     },
-    [geocodeResults, createMarker, setVisibleMarkerDatas, setSelectedMarkerData]
+    // [geocodeResults, createMarker, setVisibleMarkerDatas, setSelectedMarkerData]
+    [setVisibleMarkerDatas, setSelectedMarkerData]
   );
 
   const loadClusterScript = useCallback(
