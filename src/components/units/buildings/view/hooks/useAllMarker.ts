@@ -6,6 +6,7 @@ import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import type { IGeocodeEtc, IMapMarker, IUseAllMarkerProps } from "@/src/commons/types";
 import axios from "axios";
+import { getApartmentData } from "@/src/commons/libraries/apartment/apartmentData";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
@@ -36,14 +37,12 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     },
     [firestoreDatas, setSelectedMarkerData]
   );
-  // 함수 임시 사용
   console.log(createMarker);
-
   const updateMarkers = useCallback(
     async (map: any) => {
       const mapBounds = map.getBounds();
 
-      // ========== API 호출
+      // ========== 뷰포트에 따른 API 호출 로직
       const southWest = mapBounds.getSW();
       const northEast = mapBounds.getNE();
 
@@ -51,10 +50,18 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       console.log("northEast: ", northEast);
 
       try {
-        // const response = await fetch(`/api/fetchAllGeocodeTest?south=${southWest.lat()}&west=${southWest.lng()}&north=${northEast.lat()}&east=${northEast.lng()}`);
         const response = await axios.get(`/api/fetchAllGeocodeTest`);
-        // const data = await response.json();
         console.log("updateMarkers: ", response.data);
+
+        const aptData = await getApartmentData();
+        console.log("aptData:", aptData);
+
+        // response.data.forEach((coord) => {
+        //   console.log("coord: ", coord);
+        //   const { latitude, longitude } = coord;
+        //   const position = new window.naver.maps.LatLng(latitude, longitude);
+        //   console.log("position: ", position);
+        // });
       } catch (error) {
         console.error("API 호출 중 에러:", error);
       }
