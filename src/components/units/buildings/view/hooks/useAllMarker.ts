@@ -5,8 +5,6 @@ import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/map
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import type { IGeocodeData, ILocationData, IUseAllMarkerProps } from "@/src/commons/types";
-// import axios from "axios";
-// import { getApartmentData } from "@/src/commons/libraries/apartment/apartmentData";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);

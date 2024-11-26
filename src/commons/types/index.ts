@@ -51,14 +51,16 @@ export interface IGeocodeCoord {
   addresses?: Array<{
     x?: string; // 경도
     y?: string; // 위도
-    // roadAddress: string;
-    // jibunAddress: string;
+    roadAddress?: string;
+    jibunAddress?: string;
   }>;
 }
 
 export interface IGeocode {
   latitude?: number;
   longitude?: number;
+  roadAddress?: string;
+  jibunAddress?: string;
 }
 export interface IGeocodeData {
   latitude?: number;

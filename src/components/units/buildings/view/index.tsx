@@ -1,18 +1,16 @@
-/** @jsxImportSource @emotion/react */
 "use client";
-
-import NaverMaps from "./naverMaps";
-import MapsInfo from "./mapsInfo";
 
 import { memo, useEffect, useState } from "react";
 import { useFetchAllGeocode } from "@/src/components/units/buildings/view/hooks/useFetchAllGeocode";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAllMarker } from "./hooks/useAllMarker";
 
+import NaverMaps from "./naverMaps";
+import MapsInfo from "./mapsInfo";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import type { IBuildingParams, IFirestore, ILocationData } from "@/src/commons/types";
-import { mapStyle } from "./styles";
+import * as S from "./styles";
 
 function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<ILocationData[]>([]);
@@ -21,7 +19,6 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
 
   const { geocodeResults, loading, error } = useFetchAllGeocode(buildingType);
-  // console.log("geocodeResults: ", geocodeResults);
   const { readFirestores } = useFirestore();
 
   useEffect(() => {
@@ -33,23 +30,21 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   }, [readFirestores, buildingType]);
 
   useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
-  // useAllMarker({ setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
 
   if (loading) {
     return <LoadingSpinner size={100} />;
   }
-  if (error != null) {
+  if (error !== null) {
     console.error("Error loading data:", error);
     return <p>Error loading data: {error.message}</p>;
   }
 
   return (
     <>
-      <div css={mapStyle}>
-        <NaverMaps geocodeResults={geocodeResults} />
-        {/* <NaverMaps /> */}
+      <S.Container>
         <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firestoreDatas={firestoreDatas} buildingType={buildingType} />
-      </div>
+        <NaverMaps geocodeResults={geocodeResults} />
+      </S.Container>
     </>
   );
 }

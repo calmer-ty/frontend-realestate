@@ -8,8 +8,8 @@ import type { IApartmentItem, IApartmentLocation, IGeocodeData, ILocationData } 
 // - 법정동, 도로명, 건물명, 거래금액 등과 같은 정보를 하나의 객체로 반환합니다.
 const mapToItemData = (item: IApartmentItem): ILocationData => {
   return {
-    // address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
     address: `${item.estateAgentSggNm} ${item.umdNm} ${item.jibun}`,
+    // address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
     buildingName: item.aptNm,
     price: Number(item.dealAmount?.replace(/,/g, "")),
     area: item.excluUseAr,
@@ -59,6 +59,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeD
   switch (buildingType) {
     case "apartment":
       results = await getApartmentData();
+
       break;
     // 다른 buildingType에 대한 분기 추가 가능
     default:
@@ -70,8 +71,10 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeD
   const geocodePromises =
     results?.flatMap((result) => {
       const items: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
+      console.log("items === ", items);
       return items.map(async (item) => {
         const itemData = mapToItemData(item);
+        // console.log("itemData === ", itemData);
         const geocodeResult = await getGeocodeData(itemData.address ?? "");
         return {
           ...geocodeResult,

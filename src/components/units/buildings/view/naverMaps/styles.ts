@@ -1,7 +1,8 @@
+import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-export const containerStyle = css`
+export const Maps = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

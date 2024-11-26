@@ -13,13 +13,14 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
     });
 
     const addresses = response.data.addresses ?? [];
+    console.log("addresses API === ", addresses);
     if (addresses.length > 0) {
-      const { x, y } = addresses[0];
+      const { x, y, jibunAddress, roadAddress } = addresses[0];
       return {
         latitude: parseFloat(y ?? DEFAULT_STRING_VALUE),
         longitude: parseFloat(x ?? DEFAULT_STRING_VALUE),
-        // roadAddress
-        // jibunAddress
+        jibunAddress,
+        roadAddress,
       };
     } else {
       console.log(`geocodeApi: 주소 ${address}에 대한 지오코딩 결과 없음`);
