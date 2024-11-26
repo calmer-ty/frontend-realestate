@@ -28,7 +28,6 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     const readBuildings = async (): Promise<void> => {
       const datas = await readFirestores(buildingType);
       setFirestoreDatas(datas);
-      console.log("datas === ", datas);
     };
     void readBuildings();
   }, [readFirestores, buildingType]);

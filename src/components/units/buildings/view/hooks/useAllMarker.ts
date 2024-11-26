@@ -6,7 +6,7 @@ import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import type { IGeocodeEtc, IMapMarker, IUseAllMarkerProps } from "@/src/commons/types";
 import axios from "axios";
-import { getApartmentData } from "@/src/commons/libraries/apartment/apartmentData";
+// import { getApartmentData } from "@/src/commons/libraries/apartment/apartmentData";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
   const markersRef = useRef<any[]>([]);
@@ -52,9 +52,6 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       try {
         const response = await axios.get(`/api/fetchAllGeocodeTest`);
         console.log("updateMarkers: ", response.data);
-
-        const aptData = await getApartmentData();
-        console.log("aptData:", aptData);
 
         // response.data.forEach((coord) => {
         //   console.log("coord: ", coord);

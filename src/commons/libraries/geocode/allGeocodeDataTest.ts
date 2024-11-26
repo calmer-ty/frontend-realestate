@@ -23,8 +23,8 @@ interface ICreateItemData {
 
 const createItemData = (item: IApartmentItem): ICreateItemData => {
   return {
-    address: `${item.estateAgentSggNm} ${item.umdNm} ${item.jibun}`,
     // address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
+    address: `${item.estateAgentSggNm} ${item.umdNm} ${item.jibun}`,
     buildingName: item.aptNm,
     price: Number(item.dealAmount?.replace(/,/g, "")),
     area: item.excluUseAr,
@@ -38,8 +38,8 @@ const createItemData = (item: IApartmentItem): ICreateItemData => {
 
 // 캐시를 확인한 후 지오코딩을 수행하는 함수
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const getGeocodeData = async (itemData: IGeocodeEtc): Promise<IGeocodeEtc | null> => {
-  const cacheKey = `geocode_${itemData.address}`;
+const getGeocodeData = async (address: string): Promise<IGeocodeEtc | null> => {
+  const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
   if (cachedData !== undefined) {
@@ -47,23 +47,24 @@ const getGeocodeData = async (itemData: IGeocodeEtc): Promise<IGeocodeEtc | null
     return cachedData;
   }
 
+  // getAllGeocodeData가 실행되면서 아래의 로직이 실행됩니다.
+  // getAllGeocodeData에서 불러온 아파트 api의 address 값을 받아 좌표값을 찍어냅니다.
   try {
-    const geocodeResult = await geocodeApi(itemData.address ?? DEFAULT_STRING_VALUE);
+    const geocodeResult = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
     if (geocodeResult !== null) {
       const result = {
-        ...itemData,
+        // address,
         latitude: geocodeResult.latitude,
         longitude: geocodeResult.longitude,
       };
-
       setGeocodeCache(cacheKey, result);
       return result;
     } else {
-      console.log(`allGeocodeData: 주소 ${itemData.address}에 대한 지오코딩 결과 없음`);
+      console.log(`allGeocodeData: 주소 ${address}에 대한 지오코딩 결과 없음`);
       return null;
     }
   } catch (error) {
-    console.error(`Error geocoding address ${itemData.address}:`, error);
+    console.error(`Error geocoding address ${address}:`, error);
     return null;
   }
 };
@@ -71,14 +72,15 @@ const getGeocodeData = async (itemData: IGeocodeEtc): Promise<IGeocodeEtc | null
 // 전체 지오코딩 데이터를 가져오는 메인 함수
 // - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
 export const getAllGeocodeData = async (): Promise<IGeocodeEtc[]> => {
-  const results = await getApartmentData();
+  const apartmentData = await getApartmentData();
+
   // 각 아파트 항목을 지오코딩하여 데이터를 생성하는 작업을 비동기적으로 수행
   const geocodePromises =
-    results?.flatMap((result) => {
-      const dataItems: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
-      return dataItems.map(async (item) => {
-        const itemData = createItemData(item);
-        return await getGeocodeData(itemData);
+    apartmentData?.flatMap((result) => {
+      const items: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
+      return items.map(async (item) => {
+        const { address } = createItemData(item);
+        return await getGeocodeData(address ?? "");
       });
     }) ?? [];
 

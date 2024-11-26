@@ -6,7 +6,7 @@ import type { IApartmentLocation } from "@/src/commons/types";
 export const getApartmentData = async (): Promise<IApartmentLocation[]> => {
   try {
     const regions = await getAllRegionData();
-    console.log("regions: ", regions);
+    // console.log("regions: ", regions);
     const promises = regions.map(async (region) => {
       const cacheKey = `apartment_${region.region_cd}`;
       const cachedData = getCachedApartmentData(cacheKey);
