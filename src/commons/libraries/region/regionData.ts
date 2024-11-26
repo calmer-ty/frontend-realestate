@@ -36,12 +36,14 @@ const getRegionData = async (city: string): Promise<IRegion> => {
 
   try {
     const regionData = await regionApi(city);
+    console.log("regionData === ", regionData.StanReginCd?.[0].head);
     setRegionCache(cacheKey, regionData);
     return regionData;
   } catch (error) {
     throw new Error(`${city}의 지역 데이터를 가져오는 데 실패했습니다`);
   }
 };
+// regionData ===  { StanReginCd: [ { head: [Array] }, { row: [Array] } ] }
 
 // 모든 주소의 region_cd을 추출하기 위해 모아서 한꺼번에 보낸다
 export const getAllRegionData = async (): Promise<IRegionItem[]> => {
@@ -51,11 +53,14 @@ export const getAllRegionData = async (): Promise<IRegionItem[]> => {
 
     return regionDatas.flatMap((data) => {
       const rows = data?.StanReginCd?.[1]?.row ?? [];
-      return rows
-        .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000")
-        .map((el) => ({
-          region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
-        }));
+      return (
+        rows
+          // .filter((el): el is IRegionItem => el.umd_cd === "000" && el.sgg_cd !== "000")
+          .map((el) => ({
+            region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
+            locatadd_nm: el.locatadd_nm, // 기본값 설정
+          }))
+      );
     });
   } catch (error) {
     console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다

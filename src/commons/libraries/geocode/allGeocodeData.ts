@@ -71,7 +71,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeD
   const geocodePromises =
     results?.flatMap((result) => {
       const items: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
-      console.log("items === ", items);
+
       return items.map(async (item) => {
         const itemData = mapToItemData(item);
         // console.log("itemData === ", itemData);

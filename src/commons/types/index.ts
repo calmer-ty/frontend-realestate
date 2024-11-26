@@ -14,8 +14,9 @@ export interface IRegionHead {
 }
 export interface IRegionItem {
   region_cd?: string;
-  umd_cd?: string;
-  sgg_cd?: string;
+  locatadd_nm?: string;
+  // umd_cd?: string;
+  // sgg_cd?: string;
 }
 
 // 아파트 API

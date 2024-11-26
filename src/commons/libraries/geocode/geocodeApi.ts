@@ -13,7 +13,6 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
     });
 
     const addresses = response.data.addresses ?? [];
-    console.log("addresses API === ", addresses);
     if (addresses.length > 0) {
       const { x, y, jibunAddress, roadAddress } = addresses[0];
       return {
