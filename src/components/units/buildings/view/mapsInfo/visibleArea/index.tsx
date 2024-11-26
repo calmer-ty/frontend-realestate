@@ -6,20 +6,20 @@ import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/consta
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-import type { IMapMarker } from "@/src/commons/types";
+import type { ILocationData } from "@/src/commons/types";
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
 
 export default function VisibleArea({ buildingType, firestoreDatas, visibleMarkerDatas }: IVisibleAreaProps): JSX.Element {
   const [select, setSelect] = useState(false);
-  const [selectedEl, setSelectedEl] = useState<IMapMarker | null>(null);
+  const [selectedEl, setSelectedEl] = useState<ILocationData | null>(null);
 
   useEffect(() => {
     setSelect(false);
     setSelectedEl(null);
   }, [visibleMarkerDatas]);
 
-  const onClickInfo = (el: IMapMarker): void => {
+  const onClickInfo = (el: ILocationData): void => {
     setSelect((prev) => !prev);
     setSelectedEl(el); // 선택된 el을 상태에 저장
   };

@@ -60,7 +60,7 @@ export interface IGeocode {
   latitude?: number;
   longitude?: number;
 }
-export interface IGeocodeEtc {
+export interface IGeocodeData {
   latitude?: number;
   longitude?: number;
   address?: string;
@@ -76,7 +76,7 @@ export interface IGeocodeEtc {
 }
 
 // map API marker
-export interface IMapMarker {
+export interface ILocationData {
   address?: string;
   address_road?: string;
   buildingName?: string;
@@ -152,13 +152,13 @@ export interface IUseAddressSearchProps {
 }
 
 export interface IUseAllMarkerProps {
-  geocodeResults?: IGeocodeEtc[];
-  setSelectedMarkerData: Dispatch<SetStateAction<IMapMarker | null>>;
-  setVisibleMarkerDatas: Dispatch<SetStateAction<IMapMarker[]>>;
+  geocodeResults?: IGeocodeData[];
+  setSelectedMarkerData: Dispatch<SetStateAction<ILocationData | null>>;
+  setVisibleMarkerDatas: Dispatch<SetStateAction<ILocationData[]>>;
   firestoreDatas: IFirestore[];
 }
 export interface IUseFetchAllGeocodeProps {
-  geocodeResults: IGeocodeEtc[];
+  geocodeResults: IGeocodeData[];
   loading: boolean;
   error: Error | null;
 }

@@ -1,10 +1,10 @@
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import { getShortenedCityName } from "../cityNameShortener";
 
-import type { IFirestore, IMapMarker } from "@/src/commons/types";
+import type { IFirestore, ILocationData } from "@/src/commons/types";
 import { markerStyle } from "./styles";
 
-export const markerIconContent = (buildingsData: IMapMarker, firestoreDatas: IFirestore[]): string => {
+export const markerIconContent = (buildingsData: ILocationData, firestoreDatas: IFirestore[]): string => {
   const matchedFirestoreData = firestoreDatas.find(
     (firestoreData) =>
       firestoreData.address === getShortenedCityName(buildingsData.address ?? DEFAULT_STRING_VALUE) ||

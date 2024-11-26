@@ -4,8 +4,8 @@ import { markerIconContent } from "@/src/commons/libraries/utils/maps/marker";
 import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
-import type { IGeocodeEtc, IMapMarker, IUseAllMarkerProps } from "@/src/commons/types";
-import axios from "axios";
+import type { IGeocodeData, ILocationData, IUseAllMarkerProps } from "@/src/commons/types";
+// import axios from "axios";
 // import { getApartmentData } from "@/src/commons/libraries/apartment/apartmentData";
 
 export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarkerData, setVisibleMarkerDatas }: IUseAllMarkerProps): void => {
@@ -14,7 +14,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
   const isClusterScriptLoadedRef = useRef(false);
 
   const createMarker = useCallback(
-    (coord: IGeocodeEtc) => {
+    (coord: IGeocodeData) => {
       const { latitude, longitude, ...buildingsData } = coord;
       if (buildingsData === undefined) return;
       const markerOptions = {
@@ -26,7 +26,7 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       };
 
       const marker = new window.naver.maps.Marker(markerOptions);
-      const markerData: IMapMarker = buildingsData;
+      const markerData: ILocationData = buildingsData;
       marker.set("data", markerData);
 
       window.naver.maps.Event.addListener(marker, "click", () => {
@@ -37,49 +37,49 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
     },
     [firestoreDatas, setSelectedMarkerData]
   );
-  console.log(createMarker);
+  // console.log(createMarker);
   const updateMarkers = useCallback(
     async (map: any) => {
       const mapBounds = map.getBounds();
 
       // ========== 뷰포트에 따른 API 호출 로직
-      const southWest = mapBounds.getSW();
-      const northEast = mapBounds.getNE();
+      // const southWest = mapBounds.getSW();
+      // const northEast = mapBounds.getNE();
 
-      console.log("southWest: ", southWest);
-      console.log("northEast: ", northEast);
+      // console.log("southWest: ", southWest);
+      // console.log("northEast: ", northEast);
 
-      try {
-        const response = await axios.get(`/api/fetchAllGeocodeTest`);
-        console.log("updateMarkers: ", response.data);
-
-        // response.data.forEach((coord) => {
-        //   console.log("coord: ", coord);
-        //   const { latitude, longitude } = coord;
-        //   const position = new window.naver.maps.LatLng(latitude, longitude);
-        //   console.log("position: ", position);
-        // });
-      } catch (error) {
-        console.error("API 호출 중 에러:", error);
-      }
+      // try {
+      //   const response = await axios.get(`/api/fetchAllGeocodeTest`, {
+      //     params: {
+      //       swLat: southWest.lat(),
+      //       swLng: southWest.lng(),
+      //       neLat: northEast.lat(),
+      //       neLng: northEast.lng(),
+      //     },
+      //   });
+      //   console.log("응답 데이터:", response.data);
+      // } catch (error) {
+      //   console.error("API 호출 중 에러:", error);
+      // }
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      // geocodeResults.forEach((coord) => {
-      //   if (coord != null) {
-      //     const { latitude, longitude } = coord;
-      //     const position = new window.naver.maps.LatLng(latitude, longitude);
+      geocodeResults?.forEach((coord) => {
+        if (coord != null) {
+          const { latitude, longitude } = coord;
+          const position = new window.naver.maps.LatLng(latitude, longitude);
 
-      //     if (mapBounds.hasLatLng(position) === true) {
-      //       const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
-      //       if (existingMarker === undefined) {
-      //         const marker = createMarker(coord);
-      //         markersRef.current.push(marker);
-      //       }
-      //     }
-      //   }
-      // });
+          if (mapBounds.hasLatLng(position) === true) {
+            const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
+            if (existingMarker === undefined) {
+              const marker = createMarker(coord);
+              markersRef.current.push(marker);
+            }
+          }
+        }
+      });
 
       if (markerClusteringRef.current != null) {
         markerClusteringRef.current.setMap(null);
@@ -90,8 +90,8 @@ export const useAllMarker = ({ firestoreDatas, geocodeResults, setSelectedMarker
       setVisibleMarkerDatas(markerDataArray);
       setSelectedMarkerData(null);
     },
-    // [geocodeResults, createMarker, setVisibleMarkerDatas, setSelectedMarkerData]
-    [setVisibleMarkerDatas, setSelectedMarkerData]
+    [geocodeResults, createMarker, setVisibleMarkerDatas, setSelectedMarkerData]
+    // [setVisibleMarkerDatas, setSelectedMarkerData]
   );
 
   const loadClusterScript = useCallback(
