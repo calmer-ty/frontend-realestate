@@ -6,23 +6,41 @@ const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
   // 캐시에 없는 경우 실제 데이터를 요청합니다
+  let numOfRows = 10; // 초기 값
+  const maxMessageSize = 300;
+
+  // `numOfRows` 조정 과정 디버깅
+  console.log(`[DEBUG] Starting to calculate numOfRows for city: ${city}`);
+  while (true) {
+    const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${numOfRows}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+
+    try {
+      const response = await axios.get<IRegion>(reginCdUrl);
+      const responseData = response.data;
+
+      // 응답 크기 계산 및 로그
+      const responseSize = JSON.stringify(responseData).length;
+      console.log(`[DEBUG] numOfRows: ${numOfRows}, Response Size: ${responseSize} bytes`);
+
+      // 크기 초과 시 처리
+      if (responseSize > maxMessageSize) {
+        console.log(`[DEBUG] Response size exceeded ${maxMessageSize} bytes, decreasing numOfRows`);
+        numOfRows--;
+        break;
+      }
+      console.log(`[DEBUG] Response size within limit, increasing numOfRows`);
+      numOfRows++;
+    } catch (error) {
+      console.error(`[ERROR] Error while calculating numOfRows for city: ${city}`, error);
+      throw error; // 오류 발생 시 중단
+    }
+  }
+
   const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=20&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   try {
     // 첫 번째 API 호출
     // totalCount 가져오기 - totalCount를 알려면, api를 먼저 한번 실행해보아야 한다.
     const response = await axios.get<IRegion>(reginCdUrl);
-    // const totalCount = Math.round(response?.data?.StanReginCd?.[0]?.head?.[0]?.totalCount ?? 0);
-    // 두 번째 API 호출
-    // const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${totalCount}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
-    // const finalReginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
-    // const finalResponse = await axios.get<IRegion>(finalReginCdUrl);
-
-    // console.log("city", city);
-    // console.log("finalResponse data::: ", finalResponse?.data);
-    // console.log("finalResponse StanReginCd::: ", finalResponse?.data.StanReginCd);
-    // console.log("===== ERROR 1 =====", finalResponse?.data);
-    // console.log("===== ERROR 2 =====", finalResponse?.data?.RESULT.resultCode);
-    // console.log("==========");
 
     return response.data;
   } catch (error) {

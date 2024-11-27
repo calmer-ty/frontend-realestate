@@ -10,6 +10,8 @@ export const getApartmentData = async (): Promise<IApartmentLocation[]> => {
       const cacheKey = `apartment_${region.region_cd}`;
       const cachedData = getCachedApartmentData(cacheKey);
 
+      // console.log("region === ", region);
+
       if (cachedData !== undefined) {
         // console.log(`지역 코드 ${result.region_cd}에 대한 아파트 데이터 캐시 히트`);
         return cachedData;
