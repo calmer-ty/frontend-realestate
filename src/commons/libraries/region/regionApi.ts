@@ -5,37 +5,37 @@ const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
-  // 캐시에 없는 경우 실제 데이터를 요청합니다
-  let numOfRows = 10; // 초기 값
-  const maxMessageSize = 300;
+  // // 캐시에 없는 경우 실제 데이터를 요청합니다
+  // let allData = [];
+  // let pageNo = 1;
+  // let hasMoreData = true;
 
-  // `numOfRows` 조정 과정 디버깅
-  console.log(`[DEBUG] Starting to calculate numOfRows for city: ${city}`);
-  while (true) {
-    const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=${numOfRows}&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  // // `numOfRows` 조정 과정 디버깅
+  // while (hasMoreData) {
+  //   try {
+  //     console.log(`[DEBUG] Fetching data - Page: ${pageNo}`);
+  //     const response = await axios.get(`${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=${pageNo}&numOfRows=20&flag=Y&locatadd_nm=${encodeURIComponent(city)}`);
+  //     const data = response.data;
 
-    try {
-      const response = await axios.get<IRegion>(reginCdUrl);
-      const responseData = response.data;
+  //     // 현재 데이터 상태 디버깅
+  //     console.log(`[DEBUG] Data received for page ${pageNo}:`, data);
 
-      // 응답 크기 계산 및 로그
-      const responseSize = JSON.stringify(responseData).length;
-      console.log(`[DEBUG] numOfRows: ${numOfRows}, Response Size: ${responseSize} bytes`);
+  //     // 데이터가 있으면 누적
+  //     if (data && data.length > 0) {
+  //       allData = [...allData, ...data];
+  //       console.log(`[DEBUG] Total items accumulated: ${allData.length}`);
+  //       pageNo++;
+  //     } else {
+  //       console.log(`[DEBUG] No more data available. Stopping fetch.`);
+  //       hasMoreData = false;
+  //     }
+  //   } catch (error) {
+  //     console.error(`[ERROR] Error occurred on page ${pageNo}:`, error);
+  //     throw error; // 에러 발생 시 중단
+  //   }
+  // }
 
-      // 크기 초과 시 처리
-      if (responseSize > maxMessageSize) {
-        console.log(`[DEBUG] Response size exceeded ${maxMessageSize} bytes, decreasing numOfRows`);
-        numOfRows--;
-        break;
-      }
-      console.log(`[DEBUG] Response size within limit, increasing numOfRows`);
-      numOfRows++;
-    } catch (error) {
-      console.error(`[ERROR] Error while calculating numOfRows for city: ${city}`, error);
-      throw error; // 오류 발생 시 중단
-    }
-  }
-
+  //  ==== 이부분은 지도에 출력되기 위해 임시로 로직을 설정했습니다. 테스트용에서는 이 로직을 무시해주세요
   const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=20&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   try {
     // 첫 번째 API 호출

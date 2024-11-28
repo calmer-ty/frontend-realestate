@@ -22,7 +22,7 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
         roadAddress,
       };
     } else {
-      console.log(`geocodeApi: 주소 ${address}에 대한 지오코딩 결과 없음`);
+      // console.log(`geocodeApi: 주소 ${address}에 대한 지오코딩 결과 없음`);
       return null;
     }
   } catch (error) {
