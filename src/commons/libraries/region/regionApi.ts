@@ -5,41 +5,47 @@ const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
-  // // 캐시에 없는 경우 실제 데이터를 요청합니다
-  // let allData = [];
-  // let pageNo = 1;
-  // let hasMoreData = true;
-
-  // // `numOfRows` 조정 과정 디버깅
-  // while (hasMoreData) {
-  //   try {
-  //     console.log(`[DEBUG] Fetching data - Page: ${pageNo}`);
-  //     const response = await axios.get(`${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=${pageNo}&numOfRows=20&flag=Y&locatadd_nm=${encodeURIComponent(city)}`);
-  //     const data = response.data;
-
-  //     // 현재 데이터 상태 디버깅
-  //     console.log(`[DEBUG] Data received for page ${pageNo}:`, data);
-
-  //     // 데이터가 있으면 누적
-  //     if (data && data.length > 0) {
-  //       allData = [...allData, ...data];
-  //       console.log(`[DEBUG] Total items accumulated: ${allData.length}`);
-  //       pageNo++;
-  //     } else {
-  //       console.log(`[DEBUG] No more data available. Stopping fetch.`);
-  //       hasMoreData = false;
-  //     }
-  //   } catch (error) {
-  //     console.error(`[ERROR] Error occurred on page ${pageNo}:`, error);
-  //     throw error; // 에러 발생 시 중단
-  //   }
-  // }
-
-  //  ==== 이부분은 지도에 출력되기 위해 임시로 로직을 설정했습니다. 테스트용에서는 이 로직을 무시해주세요
-  const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=20&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  // ============================================== 테스트용
+  const reginCdUrlTest = `${baseUrl}?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent("세종특별자치시")}`;
+  const numOfRows = 10;
+  const delay = (ms: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, ms));
   try {
-    // 첫 번째 API 호출
-    // totalCount 가져오기 - totalCount를 알려면, api를 먼저 한번 실행해보아야 한다.
+    console.time("Total Request Time");
+    console.time("Initial Request");
+    const initialResponse = await axios.get<IRegion>(`${reginCdUrlTest}&pageNo=1&numOfRows=${numOfRows}`);
+    console.timeEnd("Initial Request");
+    const totalCount = initialResponse.data.StanReginCd?.[0]?.head?.[0].totalCount; // row 데이터 추출
+
+    if (totalCount === undefined) {
+      throw new Error("totalCount 값을 가져올 수 없습니다.");
+    }
+    console.log(`[DEBUG] Total Count: ${totalCount}`);
+
+    // 총 페이지 수 계산
+    const totalPages = Math.ceil(totalCount / numOfRows);
+
+    const requests = [];
+    for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
+      console.time(`Request for Page ${pageNo}`);
+      const reginCdUrl2 = `${reginCdUrlTest}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+      requests.push(axios.get<IRegion>(reginCdUrl2)); // 각 요청을 배열에 추가
+      await delay(500); // 500ms의 딜레이를 주어 요청을 천천히 처리하도록 합니다
+    }
+
+    try {
+      // 병렬로 모든 요청을 보내고 응답을 기다림
+      const responses = await Promise.all(requests);
+
+      responses.forEach((response, index) => {
+        console.log(`[DEBUG] response.data === PageNo.${index + 1}`, response.data);
+      });
+    } catch (error) {
+      console.error("병렬 요청 중 에러 발생:", error);
+    }
+    // console.log("[DEBUG] requests ", requests);
+
+    // ============================================== 테스트용
+    const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
     const response = await axios.get<IRegion>(reginCdUrl);
 
     return response.data;

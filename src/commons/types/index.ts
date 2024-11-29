@@ -5,16 +5,23 @@ import type { Address } from "react-daum-postcode";
 // 지역코드 API
 export interface IRegion {
   StanReginCd?: [
-    { head?: IRegionHead[] }, // 첫 번째 요소는 head
+    { head?: [IRegionHeadTotalCount, IRegionHeadPageInfo] }, // 첫 번째 요소는 head
     { row?: IRegionItem[] } // 두 번째 요소는 row
   ];
 }
-export interface IRegionHead {
-  totalCount?: number;
+
+export interface IRegionHeadTotalCount {
+  totalCount: number;
 }
+export interface IRegionHeadPageInfo {
+  numOfRows: number;
+  pageNo: number;
+}
+
 export interface IRegionItem {
   region_cd?: string;
   locatadd_nm?: string;
+  locallow_nm?: string;
   // umd_cd?: string;
   // sgg_cd?: string;
 }
