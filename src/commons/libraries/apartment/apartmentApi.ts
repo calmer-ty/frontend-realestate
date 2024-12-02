@@ -12,7 +12,7 @@ export const apartmentApi = async (region: IRegionItem): Promise<IApartment> => 
   const response = await axios.get<IApartment>(apartmentUrl);
 
   // console.log("[apartment Data] ", response.data);
-  console.log("[Apartment Data Item] ", response.data.response?.body?.items?.item);
+  // console.log("[Apartment Data Item] ", response.data.response?.body?.items?.item);
 
   return response.data;
 };
