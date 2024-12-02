@@ -20,10 +20,11 @@ export interface IRegionHeadPageInfo {
 
 export interface IRegionItem {
   region_cd?: string;
-  locatadd_nm?: string;
-  locallow_nm?: string;
-  // umd_cd?: string;
+  // locatadd_nm?: string;
+  // locallow_nm?: string;
+  // sido_cd?: string;
   // sgg_cd?: string;
+  // umd_cd?: string;
 }
 
 // 아파트 API

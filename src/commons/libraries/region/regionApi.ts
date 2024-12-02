@@ -6,7 +6,7 @@ const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
   // ============================================== 테스트용
-  const reginCdUrlTest = `${baseUrl}?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent("서울특별시")}`;
+  const reginCdUrlTest = `${baseUrl}?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent("세종특별자치시")}`;
   const numOfRows = 10;
   const delay = (ms: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, ms));
   try {
@@ -17,7 +17,6 @@ export const regionApi = async (city: string): Promise<IRegion> => {
     if (totalCount === undefined) {
       throw new Error("totalCount 값을 가져올 수 없습니다.");
     }
-    console.log(`[DEBUG] Total Count: ${totalCount}`);
 
     // 총 페이지 수 계산
     const totalPages = Math.ceil(totalCount / numOfRows);
@@ -36,12 +35,11 @@ export const regionApi = async (city: string): Promise<IRegion> => {
 
       // console.log(`[DEBUG] responses`, responses);
       responses.forEach((response, index) => {
-        console.log(`[DEBUG] response.data === PageNo.${index + 1}`, response.data);
-
-        const rows = response.data.StanReginCd?.[1].row;
-        rows?.forEach((row) => {
-          console.log(row.region_cd?.slice(0, 5), row.locatadd_nm);
-        });
+        // console.log(`[DEBUG] response.data === PageNo.${index + 1}`, response.data);
+        // const rows = response.data.StanReginCd?.[1].row;
+        // rows?.forEach((row) => {
+        //   // console.log(row.region_cd?.slice(0, 5), row.locatadd_nm);
+        // });
       });
     } catch (error) {
       console.error("병렬 요청 중 에러 발생:", error);
