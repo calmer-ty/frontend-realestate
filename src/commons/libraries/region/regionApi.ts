@@ -6,7 +6,7 @@ const baseUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
 export const regionApi = async (city: string): Promise<IRegion> => {
   // ============================================== page로 구분하는 로직 연구중
-  const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent("세종특별자치시")}`;
+  const reginCdUrl = `${baseUrl}?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   const numOfRows = 10;
   const delay = (ms: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, ms));
   try {
@@ -23,25 +23,26 @@ export const regionApi = async (city: string): Promise<IRegion> => {
 
     const requests = [];
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      console.time(`Request for Page ${pageNo}`);
       const reginCdUrl2 = `${reginCdUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
       requests.push(axios.get<IRegion>(reginCdUrl2)); // 각 요청을 배열에 추가
-      await delay(200); // 500ms의 딜레이를 주어 요청을 천천히 처리하도록 합니다
+      await delay(50); // 딜레이를 주어 요청을 천천히 처리하도록 합니다
     }
 
     try {
       // 병렬로 모든 요청을 보내고 응답을 기다림
       const responses = await Promise.all(requests);
+      const regionCodes = new Set<string>();
 
-      // console.log(`[DEBUG] responses`, responses);
       responses.forEach((response, index) => {
-        console.log("새로운 response === ", response.data);
-        // console.log(`[DEBUG] response.data === PageNo.${index + 1}`, response.data);
-        // const rows = response.data.StanReginCd?.[1].row;
-        // rows?.forEach((row) => {
-        //   // console.log(row.region_cd?.slice(0, 5), row.locatadd_nm);
-        // });
+        const row = response.data.StanReginCd?.[1].row;
+        row?.forEach((el) => {
+          regionCodes.add(el.region_cd?.slice(0, 5) ?? ""); // Set에 추가
+        });
       });
+
+      // Set을 배열로 변환
+      const regionCodesArray = Array.from(regionCodes);
+      console.log(`중복 제거된 ${city}의 region_cd 목록:`, regionCodesArray);
     } catch (error) {
       console.error("병렬 요청 중 에러 발생:", error);
     }
@@ -50,7 +51,6 @@ export const regionApi = async (city: string): Promise<IRegion> => {
     // ============================================== 현재 사용하는 API 로직
     const reginCdUrlTest = `${baseUrl}?ServiceKey=${API_KEY}&type=json&pageNo=1&numOfRows=10&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
     const response = await axios.get<IRegion>(reginCdUrlTest);
-    console.log("기존 response === ", response.data);
 
     return response.data;
     // ============================================== 현재 사용하는 API 로직
