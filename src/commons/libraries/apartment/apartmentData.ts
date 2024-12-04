@@ -6,13 +6,12 @@ import type { IApartmentLocation } from "@/src/commons/types";
 export const getApartmentData = async (): Promise<IApartmentLocation[]> => {
   try {
     const regions = await getAllRegionData();
+    // const regionsTest = await getRegionData();
 
     // console.log("[regions] ", regions);
     const promises = regions.map(async (region) => {
       const cacheKey = `apartment_${region.region_cd}`;
       const cachedData = getCachedApartmentData(cacheKey);
-
-      // console.log("region === ", region);
 
       if (cachedData !== undefined) {
         // console.log(`지역 코드 ${result.region_cd}에 대한 아파트 데이터 캐시 히트`);
