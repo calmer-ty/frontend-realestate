@@ -25,8 +25,7 @@ const cityList = [
 ];
 
 // 특정 도시의 지역 데이터를 가져오는 함수
-// export const getRegionData = async (city: string): Promise<IRegion> => {
-export const getRegionData = async (city: string): any => {
+export const getRegionData = async (city: string): Promise<IRegion> => {
   const cacheKey = `region_${city}`;
   const cachedData = getCachedRegionData(cacheKey);
 
@@ -38,8 +37,8 @@ export const getRegionData = async (city: string): any => {
   try {
     const regionData = await regionApi(city);
     console.log("[regionData] ==================== ", regionData);
-    // setRegionCache(cacheKey, regionData);
-    // return regionData;
+    setRegionCache(cacheKey, regionData);
+    return regionData;
   } catch (error) {
     throw new Error(`${city}의 지역 데이터를 가져오는 데 실패했습니다`);
   }
