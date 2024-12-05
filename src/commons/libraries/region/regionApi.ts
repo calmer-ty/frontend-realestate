@@ -4,7 +4,7 @@ import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 �
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 // const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
-export const regionApi: (city: string) => Promise<Record<string, string[]> | undefined> = async (city) => {
+export const regionApi = async (city: string): Promise<Record<string, string[]>> => {
   // ============================================== page로 구분하는 로직 연구중
   const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   const numOfRows = 10;
@@ -25,30 +25,27 @@ export const regionApi: (city: string) => Promise<Record<string, string[]> | und
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const reginCdUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
       requests.push(axios.get<IRegion>(reginCdUrl)); // 각 요청을 배열에 추가
-      await delay(100); // 딜레이를 주어 요청을 천천히 처리하도록 합니다
+      await delay(150); // 딜레이를 주어 요청을 천천히 처리하도록 합니다
     }
 
-    try {
-      // 병렬로 모든 요청을 보내고 응답을 기다림
-      const responses = await Promise.allSettled(requests);
-      const regionCodes = new Set<string>();
+    const regionCodes = new Set<string>();
 
-      responses.forEach((response, index) => {
-        if (response.status === "fulfilled") {
-          const row = response.value.data.StanReginCd?.[1]?.row;
-          row?.forEach((el) => {
-            regionCodes.add(el.region_cd?.slice(0, 5) ?? ""); // 중복 제거된 지역 코드 추가
-          });
-        } else {
-          console.error("요청 실패:", response.reason);
+    // 병렬로 모든 요청을 보내고 응답을 기다림
+    const responses = await Promise.all(requests);
+    responses.forEach((response) => {
+      const rows = response.data.StanReginCd?.[1]?.row ?? [];
+      rows.forEach((row) => {
+        const regionCode = row.region_cd?.slice(0, 5); // 지역 코드의 앞 5자리만 사용
+        if (regionCode !== undefined) {
+          regionCodes.add(regionCode);
         }
       });
+    });
 
-      // Set을 배열로 변환
-      return { [city]: Array.from(regionCodes) };
-    } catch (error) {
-      console.error("병렬 요청 중 에러 발생:", error);
-    }
+    console.log(`regionCodes ${city} ===`, regionCodes);
+
+    return { [city]: Array.from(regionCodes) }; // 최종적으로 중복 제거된 지역 코드 반환
+
     // ============================================== page로 구분하는 로직 연구중
 
     // ============================================== 현재 사용하는 API 로직
