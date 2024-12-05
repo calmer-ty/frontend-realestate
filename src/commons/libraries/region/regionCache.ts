@@ -8,9 +8,9 @@ console.log("[regionCache] ", regionCache);
 
 // 임시타입
 export const getCachedRegionData = (key: string): any => {
-  return regionCache.get<Record<string, string[]>>(key);
+  return regionCache.get<string[]>(key);
 };
 
-export const setRegionCache = (key: string, data: Record<string, string[]>): void => {
+export const setRegionCache = (key: string, data: string[]): void => {
   regionCache.set(key, data);
 };

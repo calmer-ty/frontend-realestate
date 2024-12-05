@@ -1,7 +1,6 @@
 import { regionApi } from "./regionApi";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
-import { DEFAULT_STRING_VALUE } from "../../constants";
-// import type { IRegion, IRegionItem } from "@/src/commons/types";
+// import { DEFAULT_STRING_VALUE } from "../../constants";
 
 // 지역 데이터를 가져올 도시 리스트
 const cityList = [
@@ -25,7 +24,7 @@ const cityList = [
 ];
 
 // 특정 도시의 지역 데이터를 가져오는 함수
-export const getRegionData = async (city: string): Promise<Record<string, string[]> | undefined> => {
+export const getRegionData = async (city: string): Promise<string[]> => {
   const cacheKey = `region_${city}`;
   const cachedData = getCachedRegionData(cacheKey);
 
@@ -37,7 +36,6 @@ export const getRegionData = async (city: string): Promise<Record<string, string
   try {
     const regionData = await regionApi(city);
 
-    // console.log("[regionData] ==================== ", regionData);
     setRegionCache(cacheKey, regionData); // regionData가 undefined가 아닐 때만 저장
 
     return regionData;
@@ -52,14 +50,15 @@ export const getAllRegionData = async (): Promise<any> => {
     const promises = cityList.map((city) => getRegionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
-    return regionDatas.flatMap((data: any) => {
-      const rows = data?.StanReginCd?.[1]?.row ?? [];
+    console.log("regionDatas: ", regionDatas.flat());
+    // return regionDatas.flatMap((data) => {
+    //   const rows = data?.StanReginCd?.[1]?.row ?? [];
 
-      return rows.map((el: any) => ({
-        region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
-        // locatadd_nm: el.locatadd_nm, // 기본값 설정
-      }));
-    });
+    //   return rows.map((el: any) => ({
+    //     region_cd: el.region_cd?.slice(0, 5) ?? DEFAULT_STRING_VALUE, // 기본값 설정
+    //     // locatadd_nm: el.locatadd_nm, // 기본값 설정
+    //   }));
+    // });
   } catch (error) {
     console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
     throw error;

@@ -4,16 +4,14 @@ import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 �
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 // const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList`;
 
-export const regionApi = async (city: string): Promise<Record<string, string[]>> => {
+export const regionApi = async (city: string): Promise<string[]> => {
   // ============================================== page로 구분하는 로직 연구중
   const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
   const numOfRows = 10;
   const delay = (ms: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, ms));
   try {
     const initialResponse = await axios.get<IRegion>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
-
     const totalCount = initialResponse.data.StanReginCd?.[0]?.head?.[0].totalCount; // row 데이터 추출
-
     if (totalCount === undefined) {
       throw new Error("totalCount 값을 가져올 수 없습니다.");
     }
@@ -25,7 +23,7 @@ export const regionApi = async (city: string): Promise<Record<string, string[]>>
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const reginCdUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
       requests.push(axios.get<IRegion>(reginCdUrl)); // 각 요청을 배열에 추가
-      await delay(150); // 딜레이를 주어 요청을 천천히 처리하도록 합니다
+      await delay(100); // 딜레이를 주어 요청을 천천히 처리하도록 합니다
     }
 
     const regionCodes = new Set<string>();
@@ -42,9 +40,8 @@ export const regionApi = async (city: string): Promise<Record<string, string[]>>
       });
     });
 
-    console.log(`regionCodes ${city} ===`, regionCodes);
-
-    return { [city]: Array.from(regionCodes) }; // 최종적으로 중복 제거된 지역 코드 반환
+    // console.log("Array.from(regionCodes): ", Array.from(regionCodes).flat());
+    return Array.from(regionCodes); // 중복 제거된 숫자 배열만 반환
 
     // ============================================== page로 구분하는 로직 연구중
 
