@@ -50,7 +50,7 @@ export const getAllRegionData = async (): Promise<any> => {
     const promises = cityList.map((city) => getRegionData(city)); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
     const regionDatas = await Promise.all(promises); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
-    console.log("regionDatas: ", regionDatas.flat());
+    return regionDatas.flat();
     // return regionDatas.flatMap((data) => {
     //   const rows = data?.StanReginCd?.[1]?.row ?? [];
 

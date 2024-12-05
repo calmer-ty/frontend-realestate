@@ -51,7 +51,7 @@ export interface IApartmentItem {
   buildYear?: number;
 }
 export interface IApartmentLocation {
-  response?: IApartment;
+  responses?: IApartment;
   locatadd_nm?: string;
 }
 
