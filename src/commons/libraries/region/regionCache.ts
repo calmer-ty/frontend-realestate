@@ -7,7 +7,7 @@ const regionCache = new NodeCache({ stdTTL: 7200 });
 console.log("[regionCache] ", regionCache);
 
 // 임시타입
-export const getCachedRegionData = (key: string): any => {
+export const getCachedRegionData = (key: string): string[] | undefined => {
   return regionCache.get<string[]>(key);
 };
 
