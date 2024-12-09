@@ -2,28 +2,31 @@ import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { DEFAULT_STRING_VALUE } from "../../constants";
-import type { IApartmentItem, IGeocodeData, ILocationData } from "@/src/commons/types";
+import type { IGeocodeData } from "@/src/commons/types";
+
+import pLimit from "p-limit";
+const limit = pLimit(30);
 
 // 아파트 데이터를 가공하여 필요한 항목을 추출하고 반환하는 함수
 // - 법정동, 도로명, 건물명, 거래금액 등과 같은 정보를 하나의 객체로 반환합니다.
-const mapToItemData = (item: IApartmentItem): ILocationData => {
-  return {
-    address: `${item.estateAgentSggNm} ${item.umdNm} ${item.jibun}`,
-    // address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
-    buildingName: item.aptNm,
-    price: Number(item.dealAmount?.replace(/,/g, "")),
-    area: item.excluUseAr,
-    floor: item.floor,
-    dealYear: item.dealYear,
-    dealMonth: item.dealMonth,
-    dealDay: item.dealDay,
-    buildYear: item.buildYear,
-  };
-};
+// const mapToItemData = (item: IApartmentItem): ILocationData => {
+//   return {
+//     address: `${item.estateAgentSggNm} ${item.umdNm} ${item.jibun}`,
+//     // address_road: `${location} ${item.도로명 ?? DEFAULT_STRING_VALUE.trim()} ${Number(item.도로명건물본번호코드).toString()}${roadSubCode}`,
+//     buildingName: item.aptNm,
+//     price: Number(item.dealAmount?.replace(/,/g, "")),
+//     area: item.excluUseAr,
+//     floor: item.floor,
+//     dealYear: item.dealYear,
+//     dealMonth: item.dealMonth,
+//     dealDay: item.dealDay,
+//     buildYear: item.buildYear,
+//   };
+// };
 
 // 캐시를 확인한 후 지오코딩을 수행하는 함수
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const getGeocodeData = async (address: string): Promise<IGeocodeData | null> => {
+const fetchGeocodeData = async (address: string): Promise<IGeocodeData | null> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -56,11 +59,10 @@ const getGeocodeData = async (address: string): Promise<IGeocodeData | null> => 
 // - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
 export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeData[]> => {
   // 주거 타입 선택
-  let results;
+  let datas;
   switch (buildingType) {
     case "apartment":
-      results = await getApartmentData();
-
+      datas = await getApartmentData();
       break;
     // 다른 buildingType에 대한 분기 추가 가능
     default:
@@ -68,21 +70,11 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeD
       return [];
   }
 
-  // 각 아파트 항목을 지오코딩하여 데이터를 생성하는 작업을 비동기적으로 수행
-  const promises =
-    results?.flatMap((result) => {
-      const items: IApartmentItem[] = result?.response?.response?.body?.items?.item ?? [];
-
-      return items.map(async (item) => {
-        const itemData = mapToItemData(item);
-        // console.log("itemData === ", itemData);
-        const geocodeResult = await getGeocodeData(itemData.address ?? "");
-        return {
-          ...geocodeResult,
-          ...itemData,
-        };
-      });
-    }) ?? [];
+  // 페이지네이션을 첨가한 새로운 로직
+  datas.forEach((el) => {
+    console.log("el ===", el.estateAgentSggNm, el.umdNm, el.jibun);
+  });
+  const promises = datas?.map((data) => limit(() => fetchGeocodeData(`${data.estateAgentSggNm} ${data.umdNm}, ${data.jibun}`)));
 
   // 모든 지오코딩 요청 완료 후 null 값을 제외한 유효한 데이터 필터링
   const processedGeocodeData = (await Promise.all(promises)).filter((result) => result !== null);
