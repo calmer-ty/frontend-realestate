@@ -1,28 +1,14 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
-// import { useAllGeocodeContext } from "../commons/context/allGeocodeProvider";
+
 import type { IGeocodeData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
-  // const { geocodeResults, setGeocodeResults } = useAllGeocodeContext();
   const [geocodeResults, setGeocodeResults] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchData = useCallback(async () => {
-    // buildingType이 비어있지 않을 때만 요청
-    // console.log("buildingType=== ", buildingType);
-    // if (typeof buildingType !== "string" && buildingType === "") {
-    //   console.log("buildingType이 비어있어 데이터를 요청하지 않습니다.");
-    //   return;
-    // }
-
-    // 이미 데이터가 있는 경우 패칭을 하지 않음
-    // if (geocodeResults.length > 0) {
-    //   console.log("이미  geocodeResults 데이터가 있어서 재패치 하지 않습니다.");
-    //   return;
-    // }
-
     setLoading(true);
     setError(null);
     try {

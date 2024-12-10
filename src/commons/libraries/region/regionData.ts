@@ -1,6 +1,5 @@
 import { regionApi } from "./regionApi";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
-// import { DEFAULT_STRING_VALUE } from "../../constants";
 
 // 지역 데이터를 가져올 도시 리스트
 const cityList = [
