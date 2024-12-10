@@ -2,7 +2,7 @@ import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { DEFAULT_STRING_VALUE } from "../../constants";
-import type { IGeocodeData } from "@/src/commons/types";
+import type { IApartmentItem, IGeocodeData } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(30);
@@ -54,12 +54,12 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeData | null> =
     return null;
   }
 };
-
+// : Promise<Array<{ apartment: IApartmentItem; geocode: IGeocodeData | null }>>
 // 전체 지오코딩 데이터를 가져오는 메인 함수
 // - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
-export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeData[]> => {
+export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeData | null }>> => {
   // 주거 타입 선택
-  let datas;
+  let datas: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
       datas = await getApartmentData();
@@ -70,24 +70,20 @@ export const getAllGeocodeData = async (buildingType: string): Promise<IGeocodeD
       return [];
   }
 
-  // 페이지네이션을 첨가한 새로운 로직
-  datas.forEach((el) => {
-    console.log("el ===", el.estateAgentSggNm, el.umdNm, el.jibun);
-  });
-  const promises = datas?.map((data) => limit(() => fetchGeocodeData(`${data.estateAgentSggNm} ${data.umdNm}, ${data.jibun}`)));
-
+  // const promises = datas?.map((data) => limit(() => fetchGeocodeData(`${data.estateAgentSggNm} ${data.umdNm}, ${data.jibun}`)));
   // 모든 지오코딩 요청 완료 후 null 값을 제외한 유효한 데이터 필터링
-  const processedGeocodeData = (await Promise.all(promises)).filter((result) => result !== null);
+  // const geocodeDatas = (await Promise.all(promises)).filter((result) => result !== null);
 
-  // // 중복된 주소와 면적, 층 정보를 가진 항목을 제거하여 고유한 데이터만 남김
-  // const uniqueGeocodeResults = geocodeResults.filter((result, index, self) => {
-  //   if (result === null) {
-  //     return false;
-  //   }
-  //   const key = `${result.address}_${result.area}_${result.floor}`;
-  //   // 같은 주소와 면적과 층을 가진 데이터 중 첫 번째 데이터만 유지합니다
-  //   return index === self.findIndex((t) => t !== null && `${t.address}_${t.area}_${t.floor}` === key);
-  // });
+  const results = await Promise.all(
+    datas.map((data) =>
+      limit(async () => {
+        const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+        const geocode = await fetchGeocodeData(address);
+        return { data, geocode };
+      })
+    )
+  );
 
-  return processedGeocodeData;
+  // console.log("[results] ", results);
+  return results;
 };

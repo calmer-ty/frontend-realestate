@@ -36,8 +36,9 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     } finally {
       setLoading(false);
     }
-    // }, [buildingType, setGeocodeResults, geocodeResults.length]);
   }, [buildingType]);
+
+  // console.log("[geocodeResults] ", geocodeResults);
 
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType !== "") {
