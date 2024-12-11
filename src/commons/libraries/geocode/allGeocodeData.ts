@@ -9,7 +9,7 @@ const limit = pLimit(30);
 
 // 캐시를 확인한 후 지오코딩을 수행하는 함수
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const fetchGeocodeData = async (address: string): Promise<IGeocodeData | null> => {
+const fetchGeocodeData = async (address: string): Promise<IGeocodeData> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -19,22 +19,21 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeData | null> =
   }
 
   try {
-    const geocodeResult = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
-    if (geocodeResult !== null) {
-      const result = {
-        latitude: geocodeResult.latitude,
-        longitude: geocodeResult.longitude,
+    const responses = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
+    if (responses != null) {
+      const coords = {
+        latitude: responses.latitude,
+        longitude: responses.longitude,
       };
 
-      setGeocodeCache(cacheKey, result);
-      return result;
+      setGeocodeCache(cacheKey, coords);
+      return coords;
     } else {
-      // console.log(`allGeocodeData: 주소 === ${address}에 대한 지오코딩 결과 없음`);
-      return null;
+      throw new Error(`${address}, 파라미터 값을 가져오는 데 실패했습니다.`);
     }
   } catch (error) {
-    console.error(`Error geocoding address ${address}:`, error);
-    return null;
+    console.error("지오코드 Data 에러 메세지", error);
+    throw new Error("지오코드 Data 로딩 실패");
   }
 };
 
@@ -49,7 +48,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       break;
     // 다른 buildingType에 대한 분기 추가 가능
     default:
-      console.error("Unsupported building type:", buildingType);
+      console.error("찾을 수 없는 buildingType 입니다.:", buildingType);
       return [];
   }
 

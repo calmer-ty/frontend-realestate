@@ -9,7 +9,8 @@ const limit = pLimit(10);
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 
 export const regionApi = async (city: string): Promise<string[]> => {
-  const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  // const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${`세종특별자치시`}`;
   const numOfRows = 10;
 
   try {
@@ -45,7 +46,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
 
     return Array.from(regionCodes); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
-    console.error(`지역 API를 가져오는 중 에러 발생:`, error);
+    console.error(`지역 API 에러 메세지:`, error);
     throw new Error("지역 API 로딩 실패");
   }
 };

@@ -20,7 +20,7 @@ export const fetchApartmentData = async (regionCode: string): Promise<IApartment
 
     return responses;
   } catch (error) {
-    throw new Error(`${regionCode}의 지역 데이터를 가져오는 데 실패했습니다`);
+    throw new Error(`${regionCode}, 파라미터 값을 가져오는 데 실패했습니다.`);
   }
 };
 
@@ -34,7 +34,7 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
 
     return apartmentDatas.flat();
   } catch (error) {
-    console.error(`아파트 데이터를 가져오는 중 에러 발생:`, error);
+    console.error(`아파트 Data 에러 메세지:`, error);
     throw new Error("아파트 Data 로딩 실패");
   }
 };
