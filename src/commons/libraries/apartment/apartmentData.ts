@@ -19,7 +19,7 @@ export const fetchApartmentData = async (regionCode: string): Promise<IApartment
     setApartmentCache(cacheKey, responses); // 캐시에 저장
 
     return responses;
-  } catch (error: unknown) {
+  } catch (error) {
     throw new Error(`${regionCode}의 지역 데이터를 가져오는 데 실패했습니다`);
   }
 };
@@ -35,6 +35,6 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
     return apartmentDatas.flat();
   } catch (error) {
     console.error(`아파트 데이터를 가져오는 중 에러 발생:`, error);
-    throw error;
+    throw new Error("아파트 Data 로딩 실패");
   }
 };

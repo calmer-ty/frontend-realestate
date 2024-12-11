@@ -49,7 +49,9 @@ export const getRegionData = async (): Promise<string[]> => {
 
     return regionDatas.flat();
   } catch (error) {
-    console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
-    throw error;
+    // console.error("지역 데이터를 가져오는 중 에러 발생:", error); // 모든 도시의 지역 데이터 가져오기 실패 시 에러를 로깅합니다
+    // throw error;
+    console.error(`지역 Data를 가져오는 중 에러 발생:`, error);
+    throw new Error("지역 Data 로딩 실패");
   }
 };

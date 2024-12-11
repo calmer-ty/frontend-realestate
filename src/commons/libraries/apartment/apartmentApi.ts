@@ -8,8 +8,11 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
   const currentDate = getCurrentDate();
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   const apartmentUrl = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=1&numOfRows=10`;
-  const response = await axios.get<IApartment>(apartmentUrl);
-  console.log("apartmentApi response", response.data);
-
-  return response.data.response?.body?.items?.item ?? [];
+  try {
+    const response = await axios.get<IApartment>(apartmentUrl);
+    return response.data.response?.body?.items?.item ?? [];
+  } catch (error) {
+    console.error(`아파트 API를 가져오는 중 에러 발생:`, error);
+    throw new Error("아파트 API 로딩 실패");
+  }
 };

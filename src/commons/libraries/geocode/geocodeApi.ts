@@ -26,7 +26,7 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
       return null;
     }
   } catch (error) {
-    console.error(`Error geocoding address ${address}:`, error);
+    console.error(`지오코드 API를 가져오는 중 에러 발생:`, error);
     return null;
   }
 };
