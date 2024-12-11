@@ -9,6 +9,7 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   const apartmentUrl = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=1&numOfRows=10`;
   const response = await axios.get<IApartment>(apartmentUrl);
+  console.log("apartmentApi response", response.data);
 
   return response.data.response?.body?.items?.item ?? [];
 };

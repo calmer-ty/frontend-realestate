@@ -4,7 +4,7 @@ import type { AxiosResponse } from "axios";
 import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
 import pLimit from "p-limit";
-const limit = pLimit(30);
+const limit = pLimit(10);
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 

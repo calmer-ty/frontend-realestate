@@ -21,8 +21,6 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const { geocodeResults, loading, error } = useFetchAllGeocode(buildingType);
   const { readFirestores } = useFirestore();
 
-  // console.log("[geocodeResults] ", geocodeResults);
-
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
       const datas = await readFirestores(buildingType);

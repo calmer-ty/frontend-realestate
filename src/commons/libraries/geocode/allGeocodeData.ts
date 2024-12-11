@@ -62,6 +62,6 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       })
     )
   );
-
+  console.log("results ==============", results);
   return results;
 };
