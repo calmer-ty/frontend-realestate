@@ -17,6 +17,7 @@ const createClusterIcons = (): IClusterIcon[] => {
   }
   return icons;
 };
+
 export const createMarkerClusteringOptions = (map: any, markers: any[]): any => {
   return new window.MarkerClustering({
     minClusterSize: 2,

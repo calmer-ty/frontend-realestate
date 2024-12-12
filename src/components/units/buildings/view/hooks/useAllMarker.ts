@@ -1,8 +1,9 @@
 import { useRef, useCallback } from "react";
 import { useMapsLoader } from "@/src/hooks/useMapsLoader";
-import { markerIconContent } from "@/src/commons/libraries/utils/maps/marker";
-import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
+// import { markerIconContent } from "@/src/commons/libraries/utils/maps/marker";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
+import { createMarker } from "@/src/commons/libraries/utils/maps/marker";
+import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IGeocodeData, IFirestore } from "@/src/commons/types";
@@ -19,32 +20,6 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
   const markerClusteringRef = useRef<any>();
   const isClusterScriptLoadedRef = useRef(false);
 
-  const createMarker = useCallback(
-    (geocodeData: IGeocodeData) => {
-      const { data, geocode } = geocodeData;
-      if (data === undefined) return;
-      const markerOptions = {
-        position: new window.naver.maps.LatLng(geocode?.latitude, geocode?.longitude),
-        map: null, // Set map to null initially
-        icon: {
-          content: markerIconContent(data, firestoreData),
-        },
-      };
-
-      const marker = new window.naver.maps.Marker(markerOptions);
-      marker.set("data", geocodeData);
-
-      window.naver.maps.Event.addListener(marker, "click", () => {
-        if (geocodeData.data !== undefined) {
-          setSelectedMarkerData(geocodeData);
-        }
-      });
-
-      return marker;
-    },
-    [firestoreData, setSelectedMarkerData]
-  );
-
   const updateMarkers = useCallback(
     async (map: any) => {
       const mapBounds = map.getBounds();
@@ -53,15 +28,13 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
       markersRef.current = [];
 
       geocodeData?.forEach((item) => {
-        const { geocode } = item;
-        const position = new window.naver.maps.LatLng(geocode?.latitude, geocode?.longitude);
+        const position = new window.naver.maps.LatLng(item.geocode?.latitude, item.geocode?.longitude);
 
         if (mapBounds.hasLatLng(position) === true) {
           const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
           if (existingMarker === undefined) {
-            const marker = createMarker(item);
+            const marker = createMarker(item, firestoreData, setSelectedMarkerData);
             markersRef.current.push(marker);
-            console.log("markersRef +++ ", markersRef);
           }
         }
       });
@@ -71,12 +44,12 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
       }
       markerClusteringRef.current = createMarkerClusteringOptions(map, markersRef.current);
 
-      const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
+      const markerDataArray: IGeocodeData[] = markersRef.current.map((marker) => marker.get("data"));
 
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(null);
     },
-    [geocodeData, createMarker, setVisibleMarkerData, setSelectedMarkerData]
+    [geocodeData, firestoreData, setVisibleMarkerData, setSelectedMarkerData]
   );
 
   const loadClusterScript = useCallback(

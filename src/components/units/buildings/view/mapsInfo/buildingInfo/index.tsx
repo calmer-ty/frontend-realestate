@@ -14,7 +14,7 @@ import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const { selectedData, isSelected } = props;
-  console.log("selectedData: ", selectedData);
+
   const matchedFirestoreData: IFirestore[] = props.firestoreData.filter(
     (el) => getShortenedCityName(selectedData.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === el.address
     // || getShortenedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address

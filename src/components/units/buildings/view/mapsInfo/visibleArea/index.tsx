@@ -15,8 +15,6 @@ export default function VisibleArea({ buildingType, firestoreData, visibleMarker
   const [select, setSelect] = useState(false);
   const [selectedItem, setSelectedItem] = useState<IGeocodeData | null>(null);
 
-  console.log("visibleMarkerData = ", visibleMarkerData);
-
   useEffect(() => {
     setSelect(false);
     setSelectedItem(null);

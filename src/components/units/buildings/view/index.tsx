@@ -30,8 +30,6 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
 
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
-  console.log("selectedMarkerData === ", selectedMarkerData);
-
   if (loading) {
     return <LoadingSpinner size={100} />;
   }
