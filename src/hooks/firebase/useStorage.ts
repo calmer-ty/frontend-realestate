@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/src/commons/libraries/firebase/firebaseApp";
-import type { IUseStorageProps } from "@/src/commons/types";
+
+export interface IUseStorageProps {
+  uploadFiles: (files: File[]) => Promise<string[]>;
+  uploading: boolean;
+}
 
 export const useStorage = (): IUseStorageProps => {
   const [uploading, setUploading] = useState(false);

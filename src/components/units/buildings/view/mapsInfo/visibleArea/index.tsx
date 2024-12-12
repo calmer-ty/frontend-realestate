@@ -1,53 +1,56 @@
-import { useEffect, useState } from "react";
-import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-
 import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-import type { ILocationData } from "@/src/commons/types";
+import { useEffect, useState } from "react";
+import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
+// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+
 import type { IVisibleAreaProps } from "./types";
+import type { IApartmentItem } from "@/src/commons/types";
+
 import * as S from "./styles";
 
-export default function VisibleArea({ buildingType, firestoreDatas, visibleMarkerDatas }: IVisibleAreaProps): JSX.Element {
+export default function VisibleArea({ buildingType, firestoreData, visibleMarkerData }: IVisibleAreaProps): JSX.Element {
   const [select, setSelect] = useState(false);
-  const [selectedEl, setSelectedEl] = useState<ILocationData | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IApartmentItem | null>(null);
 
   useEffect(() => {
     setSelect(false);
-    setSelectedEl(null);
-  }, [visibleMarkerDatas]);
+    setSelectedItem(null);
+  }, [visibleMarkerData]);
 
-  const onClickInfo = (el: ILocationData): void => {
+  const onClickInfo = (el: IApartmentItem): void => {
     setSelect((prev) => !prev);
-    setSelectedEl(el); // 선택된 el을 상태에 저장
+    setSelectedItem(el); // 선택된 el을 상태에 저장
   };
 
+  console.log("visibleMarkerData: ", visibleMarkerData);
   return (
     <S.Container>
-      {visibleMarkerDatas.length !== 0 ? (
+      {visibleMarkerData.length !== 0 ? (
         <S.Visible>
           {!select && (
             <ul>
-              {visibleMarkerDatas.map((el, index) => {
-                const matchingFirestoreData = firestoreDatas.some((firestoreData) => getShortenedCityName(el.address ?? DEFAULT_STRING_VALUE) === firestoreData.address);
+              {visibleMarkerData.map((item, index) => {
+                const matchingFirestoreData = firestoreData.some((firestoreData) => getShortenedCityName(item.estateAgentSggNm ?? DEFAULT_STRING_VALUE) === firestoreData.address);
 
                 return (
                   <li
-                    key={`${el.address}_${index}`}
+                    key={`${item.aptNm}_${index}`}
                     onClick={() => {
-                      onClickInfo(el);
+                      onClickInfo(item);
                     }}
                   >
                     <h2>
-                      매매 {isBillion(el.price ?? DEFAULT_NUMBER_VALUE)}&nbsp;
-                      {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)}원
+                      {/* 매매 {isBillion(item.dealAmount ?? DEFAULT_NUMBER_VALUE)}&nbsp;
+                      {isTenMillion(item.dealAmount ?? DEFAULT_NUMBER_VALUE)}원 */}
+                      매매 {item.dealAmount}
                     </h2>
                     <p>
-                      아파트・{el.buildingName}
+                      아파트・{item.aptNm}
                       <br />
-                      {el.area}m² {el.floor}층
+                      {item.excluUseAr}m² {item.floor}층
                     </p>
                     <div>{matchingFirestoreData && <>매물있음</>}</div>
                   </li>
@@ -55,7 +58,7 @@ export default function VisibleArea({ buildingType, firestoreDatas, visibleMarke
               })}
             </ul>
           )}
-          {selectedEl !== null && <BuildingInfo selectedData={selectedEl} firestoreDatas={firestoreDatas} buildingType={buildingType} isSelected={select} />}
+          {selectedItem !== null && <BuildingInfo selectedData={selectedItem} firestoreData={firestoreData} buildingType={buildingType} isSelected={select} />}
         </S.Visible>
       ) : (
         <S.UnVisible>

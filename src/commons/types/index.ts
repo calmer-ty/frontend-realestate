@@ -1,7 +1,3 @@
-import type { Session } from "next-auth";
-// import type { Dispatch, SetStateAction } from "react";
-import type { Address } from "react-daum-postcode";
-
 // 지역코드 API
 export interface IRegion {
   StanReginCd?: [
@@ -89,18 +85,18 @@ export interface IGeocodeData {
 // }
 
 // map API marker
-export interface ILocationData {
-  address?: string;
-  address_road?: string;
-  buildingName?: string;
-  price?: number;
-  area?: number;
-  floor?: number;
-  dealYear?: number;
-  dealMonth?: number;
-  dealDay?: number;
-  buildYear?: number;
-}
+// export interface ILocationData {
+//   address?: string;
+//   address_road?: string;
+//   buildingName?: string;
+//   price?: number;
+//   area?: number;
+//   floor?: number;
+//   dealYear?: number;
+//   dealMonth?: number;
+//   dealDay?: number;
+//   buildYear?: number;
+// }
 
 // firestore
 export interface IFirestore {
@@ -156,33 +152,6 @@ export interface IWriteForm {
   imageUrls: string[];
 }
 
-// Hooks Type
-// address search
-export interface IUseAddressSearchProps {
-  selectedAddress: string;
-  geocodeData: IGeocodeAPIReturn | null;
-  onCompleteAddressSearch: (data: Address) => Promise<void>;
-}
-
-export interface IUseMapsLoaderProps {
-  onMapLoaded: (map: any) => void;
-}
-
-// firebase
-export interface IUseFirestoreProps {
-  createFirestore: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
-  archiveFirestore: (building: IFirestore) => Promise<void>;
-  updateFirestore: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
-  deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
-  readFirestore: (collection: string, docId: string) => Promise<IFirestore | undefined>;
-  readFirestores: (buildingType: string) => Promise<IFirestore[]>;
-}
-
-export interface IUseStorageProps {
-  uploadFiles: (files: File[]) => Promise<string[]>;
-  uploading: boolean;
-}
-
 // params
 export interface IBuildingParams {
   buildingType: string;
@@ -190,11 +159,4 @@ export interface IBuildingParams {
 export interface IBuildingListParams {
   buildingType: string;
   listId: string;
-}
-
-// Google Auth
-export interface IUseAuthCheck {
-  session: Session | null;
-  auth: boolean;
-  handleUnAuth: () => void;
 }

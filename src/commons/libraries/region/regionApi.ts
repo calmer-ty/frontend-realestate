@@ -23,28 +23,28 @@ export const regionApi = async (city: string): Promise<string[]> => {
     // 총 페이지 수 계산
     const totalPages = Math.ceil(totalCount / numOfRows);
 
-    const requests: Array<Promise<AxiosResponse<IRegion>>> = [];
+    const request: Array<Promise<AxiosResponse<IRegion>>> = [];
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const reginCdUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
-      requests.push(limit(() => axios.get<IRegion>(reginCdUrl))); // limit으로 요청 제한
+      request.push(limit(() => axios.get<IRegion>(reginCdUrl))); // limit으로 요청 제한
     }
 
-    const regionCodes = new Set<string>();
+    const regionCodeObject = new Set<string>();
 
     // 병렬로 모든 요청을 보내고 응답을 기다림
-    const responses = await Promise.all(requests);
+    const responses = await Promise.all(request);
     responses.forEach((response) => {
       const rows = response.data.StanReginCd?.[1]?.row ?? [];
       rows.forEach((row) => {
         const regionCode = row.region_cd?.slice(0, 5); // 지역 코드의 앞 5자리만 사용
         if (regionCode !== undefined) {
-          regionCodes.add(regionCode);
+          regionCodeObject.add(regionCode);
         }
       });
     });
 
-    return Array.from(regionCodes); // 중복 제거된 숫자 배열만 반환
+    return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
     throw new Error("지역 API 로딩 실패");
   }

@@ -1,8 +1,8 @@
-import type { IFirestore, ILocationData } from "@/src/commons/types";
+import type { IFirestore, IApartmentItem } from "@/src/commons/types";
 
 export interface IBuildingInfoProps {
-  selectedData: ILocationData;
-  firestoreDatas: IFirestore[];
+  selectedData: IApartmentItem;
+  firestoreData: IFirestore[];
   buildingType: string;
   isSelected: boolean;
 }

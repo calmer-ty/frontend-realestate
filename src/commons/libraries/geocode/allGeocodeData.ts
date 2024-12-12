@@ -21,15 +21,14 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
   try {
     const responses = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
     if (responses != null) {
-      const coords = {
-        latitude: responses.latitude,
-        longitude: responses.longitude,
-      };
+      // const addresses = {
+      //   latitude: responses.latitude,
+      //   longitude: responses.longitude,
+      // };
 
-      setGeocodeCache(cacheKey, coords);
-      return coords;
+      setGeocodeCache(cacheKey, responses);
+      return responses;
     } else {
-      console.log(`${address}에 대한 지오코드 결과 없음, if 내`);
       return null;
     }
   } catch (error) {
@@ -53,7 +52,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       return [];
   }
 
-  const geocodeDatas = await Promise.all(
+  const geocodeData = await Promise.all(
     datas.map((data) =>
       limit(async () => {
         const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
@@ -63,6 +62,6 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
     )
   );
 
-  console.log();
-  return geocodeDatas;
+  console.log("datas === ", datas);
+  return geocodeData;
 };

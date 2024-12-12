@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/maps/init";
-import type { IUseMapsLoaderProps } from "@/src/commons/types";
+
+export interface IUseMapsLoaderProps {
+  onMapLoaded: (map: any) => void;
+}
 
 export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;

@@ -4,7 +4,7 @@ import VisibleArea from "./visibleArea";
 import type { IMapsInfoProps } from "./types";
 import * as S from "./styles";
 
-export default function MapsInfo({ buildingType, firestoreDatas, selectedMarkerData, visibleMarkerDatas }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ buildingType, selectedMarkerData, visibleMarkerData, firestoreData }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
 
   // 마커 선택시 탭 스크롤 업
@@ -15,7 +15,7 @@ export default function MapsInfo({ buildingType, firestoreDatas, selectedMarkerD
   // 지도 이동시 탭 스크롤 다운
   useEffect(() => {
     setScroll(false);
-  }, [visibleMarkerDatas]);
+  }, [visibleMarkerData]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
@@ -29,9 +29,9 @@ export default function MapsInfo({ buildingType, firestoreDatas, selectedMarkerD
       </S.TabButton>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} buildingType={buildingType} firestoreDatas={firestoreDatas} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} buildingType={buildingType} firestoreData={firestoreData} />
         ) : (
-          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} buildingType={buildingType} firestoreDatas={firestoreDatas} />
+          <VisibleArea visibleMarkerData={visibleMarkerData} buildingType={buildingType} firestoreData={firestoreData} />
         )}
       </S.Container>
     </>

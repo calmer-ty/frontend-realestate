@@ -9,29 +9,26 @@ import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
-import type { IBuildingParams, IFirestore, ILocationData } from "@/src/commons/types";
+import type { IApartmentItem, IBuildingParams, IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 
 function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
-  const [visibleMarkerDatas, setVisibleMarkerDatas] = useState<ILocationData[]>([]);
-  const [selectedMarkerData, setSelectedMarkerData] = useState<ILocationData | null>(null);
-  // firestore의 값을 불러온 후 변수를 사용한다
-  const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
+  const [visibleMarkerData, setVisibleMarkerData] = useState<IApartmentItem[]>([]);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IApartmentItem | null>(null);
+  const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
 
-  const { data, loading, error } = useFetchAllGeocode(buildingType);
-
-  console.log("data ===== ", data);
+  const { data: geocodeData, loading, error } = useFetchAllGeocode(buildingType);
   const { readFirestores } = useFirestore();
 
   useEffect(() => {
-    const readBuildings = async (): Promise<void> => {
-      const datas = await readFirestores(buildingType);
-      setFirestoreDatas(datas);
+    const readBuilding = async (): Promise<void> => {
+      const firestoreData = await readFirestores(buildingType);
+      setFirestoreData(firestoreData);
     };
-    void readBuildings();
+    void readBuilding();
   }, [readFirestores, buildingType]);
 
-  useAllMarker({ data, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
+  useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
   if (loading) {
     return <LoadingSpinner size={100} />;
@@ -44,8 +41,8 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   return (
     <>
       <S.Container>
-        <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firestoreDatas={firestoreDatas} buildingType={buildingType} />
-        <NaverMaps geocodeResults={data} />
+        <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
+        <NaverMaps geocodeResults={geocodeData} />
       </S.Container>
     </>
   );

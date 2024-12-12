@@ -2,7 +2,16 @@ import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
-import type { IWriteForm, IFirestore, IUseFirestoreProps } from "@/src/commons/types";
+import type { IWriteForm, IFirestore } from "@/src/commons/types";
+
+export interface IUseFirestoreProps {
+  createFirestore: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
+  archiveFirestore: (building: IFirestore) => Promise<void>;
+  updateFirestore: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
+  deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
+  readFirestore: (collection: string, docId: string) => Promise<IFirestore | undefined>;
+  readFirestores: (buildingType: string) => Promise<IFirestore[]>;
+}
 
 export const useFirestore = (): IUseFirestoreProps => {
   const createFirestore = useCallback(async (data: IWriteForm, selectedType: string) => {
