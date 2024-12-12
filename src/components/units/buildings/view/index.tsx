@@ -9,12 +9,12 @@ import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
-import type { IApartmentItem, IBuildingParams, IFirestore } from "@/src/commons/types";
+import type { IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
 
 function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
-  const [visibleMarkerData, setVisibleMarkerData] = useState<IApartmentItem[]>([]);
-  const [selectedMarkerData, setSelectedMarkerData] = useState<IApartmentItem | null>(null);
+  const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
 
   const { data: geocodeData, loading, error } = useFetchAllGeocode(buildingType);
@@ -29,6 +29,8 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   }, [readFirestores, buildingType]);
 
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
+
+  console.log("selectedMarkerData === ", selectedMarkerData);
 
   if (loading) {
     return <LoadingSpinner size={100} />;

@@ -13,27 +13,28 @@ import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
+  const { selectedData, isSelected } = props;
+  console.log("selectedData: ", selectedData);
   const matchedFirestoreData: IFirestore[] = props.firestoreData.filter(
-    (el) => getShortenedCityName(props.selectedData.estateAgentSggNm ?? DEFAULT_STRING_VALUE) === el.address
-    // || getShortenedCityName(props.selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
+    (el) => getShortenedCityName(selectedData.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === el.address
+    // || getShortenedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
   );
 
   return (
     <>
-      {props.isSelected && props.selectedData != null && (
+      {isSelected && selectedData != null && (
         <>
           <S.BuildingInfo>
             <S.InfoWrap>
-              <h2>{props.selectedData.aptNm}</h2>
+              <h2>{selectedData.data?.aptNm}</h2>
               <S.TextWrap>
-                <ChipSmall label="연식" /> {props.selectedData.buildYear}
+                <ChipSmall label="연식" /> {selectedData.data?.dealYear}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="지번" /> {props.selectedData.estateAgentSggNm}
+                <ChipSmall label="지번" /> {selectedData.geocode?.jibunAddress}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="도로명" />
-                {/* {props.selectedData.address_road} */}
+                <ChipSmall label="도로명" /> {selectedData.geocode?.roadAddress}
               </S.TextWrap>
             </S.InfoWrap>
 
@@ -41,12 +42,11 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
               <h3>최근 실거래가</h3>
               <S.SelectedContent>
                 <strong>
-                  {/* 매매 {isBillion(props.selectedData.dealAmount ?? DEFAULT_NUMBER_VALUE)} */}
-                  매매 {props.selectedData.dealAmount}
-                  {/* &nbsp;{isTenMillion(props.selectedData.price ?? DEFAULT_NUMBER_VALUE)}원 */}
+                  매매 {isBillion(selectedData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}
+                  &nbsp;{isTenMillion(selectedData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}원
                 </strong>
                 <p>
-                  {props.selectedData.dealYear}.{props.selectedData.dealMonth}.{props.selectedData.dealDay}・{props.selectedData.floor}층・{props.selectedData.excluUseAr}m²
+                  {selectedData.data?.dealYear}.{selectedData.data?.dealMonth}.{selectedData.data?.dealDay}・{selectedData.data?.floor}층・{selectedData.data?.excluUseAr}m²
                 </p>
               </S.SelectedContent>
             </S.InfoWrap>

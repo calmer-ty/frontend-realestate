@@ -5,12 +5,12 @@ import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/map
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IGeocodeData, IFirestore, IApartmentItem } from "@/src/commons/types";
+import type { IGeocodeData, IFirestore } from "@/src/commons/types";
 
 interface IUseAllMarkerProps {
   geocodeData?: IGeocodeData[];
-  setSelectedMarkerData: Dispatch<SetStateAction<IApartmentItem | null>>;
-  setVisibleMarkerData: Dispatch<SetStateAction<IApartmentItem[]>>;
+  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
   firestoreData: IFirestore[];
 }
 
@@ -22,7 +22,6 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
   const createMarker = useCallback(
     (geocodeData: IGeocodeData) => {
       const { data, geocode } = geocodeData;
-
       if (data === undefined) return;
       const markerOptions = {
         position: new window.naver.maps.LatLng(geocode?.latitude, geocode?.longitude),
@@ -33,11 +32,11 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
       };
 
       const marker = new window.naver.maps.Marker(markerOptions);
-      marker.set("data", data);
+      marker.set("data", geocodeData);
 
       window.naver.maps.Event.addListener(marker, "click", () => {
         if (geocodeData.data !== undefined) {
-          setSelectedMarkerData(geocodeData.data);
+          setSelectedMarkerData(geocodeData);
         }
       });
 
@@ -62,6 +61,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
           if (existingMarker === undefined) {
             const marker = createMarker(item);
             markersRef.current.push(marker);
+            console.log("markersRef +++ ", markersRef);
           }
         }
       });
@@ -72,7 +72,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
       markerClusteringRef.current = createMarkerClusteringOptions(map, markersRef.current);
 
       const markerDataArray = markersRef.current.map((marker) => marker.get("data"));
-      console.log("markerDataArray ", markerDataArray);
+
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(null);
     },

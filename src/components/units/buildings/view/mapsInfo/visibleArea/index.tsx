@@ -3,29 +3,30 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useEffect, useState } from "react";
 import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
-// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import type { IVisibleAreaProps } from "./types";
-import type { IApartmentItem } from "@/src/commons/types";
+import type { IGeocodeData } from "@/src/commons/types";
 
 import * as S from "./styles";
 
 export default function VisibleArea({ buildingType, firestoreData, visibleMarkerData }: IVisibleAreaProps): JSX.Element {
   const [select, setSelect] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<IApartmentItem | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IGeocodeData | null>(null);
+
+  console.log("visibleMarkerData = ", visibleMarkerData);
 
   useEffect(() => {
     setSelect(false);
     setSelectedItem(null);
   }, [visibleMarkerData]);
 
-  const onClickInfo = (el: IApartmentItem): void => {
+  const onClickInfo = (el: IGeocodeData): void => {
     setSelect((prev) => !prev);
     setSelectedItem(el); // 선택된 el을 상태에 저장
   };
 
-  console.log("visibleMarkerData: ", visibleMarkerData);
   return (
     <S.Container>
       {visibleMarkerData.length !== 0 ? (
@@ -33,24 +34,23 @@ export default function VisibleArea({ buildingType, firestoreData, visibleMarker
           {!select && (
             <ul>
               {visibleMarkerData.map((item, index) => {
-                const matchingFirestoreData = firestoreData.some((firestoreData) => getShortenedCityName(item.estateAgentSggNm ?? DEFAULT_STRING_VALUE) === firestoreData.address);
+                const matchingFirestoreData = firestoreData.some((firestoreData) => getShortenedCityName(item.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === firestoreData.address);
 
                 return (
                   <li
-                    key={`${item.aptNm}_${index}`}
+                    key={`${item.data?.aptNm}_${index}`}
                     onClick={() => {
                       onClickInfo(item);
                     }}
                   >
                     <h2>
-                      {/* 매매 {isBillion(item.dealAmount ?? DEFAULT_NUMBER_VALUE)}&nbsp;
-                      {isTenMillion(item.dealAmount ?? DEFAULT_NUMBER_VALUE)}원 */}
-                      매매 {item.dealAmount}
+                      매매 {isBillion(item.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}&nbsp;
+                      {isTenMillion(item.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}원
                     </h2>
                     <p>
-                      아파트・{item.aptNm}
+                      아파트・{item.data?.aptNm}
                       <br />
-                      {item.excluUseAr}m² {item.floor}층
+                      {item.data?.excluUseAr}m² {item.data?.floor}층
                     </p>
                     <div>{matchingFirestoreData && <>매물있음</>}</div>
                   </li>

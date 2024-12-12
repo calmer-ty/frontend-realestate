@@ -57,11 +57,11 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       limit(async () => {
         const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
         const geocode = await fetchGeocodeData(address);
+
         return { data, geocode };
       })
     )
   );
 
-  console.log("datas === ", datas);
   return geocodeData;
 };

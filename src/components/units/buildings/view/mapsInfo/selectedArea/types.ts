@@ -1,7 +1,7 @@
-import type { IFirestore, ILocationData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 
 export interface ISelectedAreaProps {
-  selectedMarkerData: ILocationData;
+  selectedMarkerData: IGeocodeData;
   firestoreData: IFirestore[];
   buildingType: string;
 }
