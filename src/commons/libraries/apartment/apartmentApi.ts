@@ -12,7 +12,6 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     const response = await axios.get<IApartment>(apartmentUrl);
     return response.data.response?.body?.items?.item ?? [];
   } catch (error) {
-    console.error(`아파트 API 에러 메세지:`, error);
     throw new Error("아파트 API 로딩 실패");
   }
 };

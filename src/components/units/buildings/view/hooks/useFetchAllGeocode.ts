@@ -1,10 +1,16 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 
-import type { IGeocodeData, IUseFetchAllGeocodeProps } from "@/src/commons/types";
+import type { IApartmentItem } from "@/src/commons/types";
+
+export interface IUseFetchAllGeocodeProps {
+  data: IApartmentItem[];
+  loading: boolean;
+  error: Error | null;
+}
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodeProps => {
-  const [geocodeResults, setGeocodeResults] = useState<IGeocodeData[]>([]);
+  const [data, setGeocodeResults] = useState<IApartmentItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -12,9 +18,10 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get<IGeocodeData[]>(`/api/fetchAllGeocode`, {
+      const response = await axios.get<IApartmentItem[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
+      console.log("useFetchAllGeocode response === ", response);
       setGeocodeResults(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -30,5 +37,5 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocodePro
     }
   }, [buildingType, fetchData]); // fetchData가 변경될 때도 실행됨
 
-  return { geocodeResults, loading, error };
+  return { data, loading, error };
 };

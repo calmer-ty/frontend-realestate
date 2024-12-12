@@ -18,7 +18,9 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   // firestore의 값을 불러온 후 변수를 사용한다
   const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
 
-  const { geocodeResults, loading, error } = useFetchAllGeocode(buildingType);
+  const { data, loading, error } = useFetchAllGeocode(buildingType);
+
+  console.log("data ===== ", data);
   const { readFirestores } = useFirestore();
 
   useEffect(() => {
@@ -29,7 +31,7 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     void readBuildings();
   }, [readFirestores, buildingType]);
 
-  useAllMarker({ geocodeResults, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
+  useAllMarker({ data, setVisibleMarkerDatas, setSelectedMarkerData, firestoreDatas });
 
   if (loading) {
     return <LoadingSpinner size={100} />;
@@ -43,7 +45,7 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     <>
       <S.Container>
         <MapsInfo visibleMarkerDatas={visibleMarkerDatas} selectedMarkerData={selectedMarkerData} firestoreDatas={firestoreDatas} buildingType={buildingType} />
-        <NaverMaps geocodeResults={geocodeResults} />
+        <NaverMaps geocodeResults={data} />
       </S.Container>
     </>
   );

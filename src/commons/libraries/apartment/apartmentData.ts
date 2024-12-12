@@ -34,7 +34,6 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
 
     return apartmentDatas.flat();
   } catch (error) {
-    console.error(`아파트 Data 에러 메세지:`, error);
     throw new Error("아파트 Data 로딩 실패");
   }
 };

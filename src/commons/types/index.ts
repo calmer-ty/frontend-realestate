@@ -1,5 +1,5 @@
 import type { Session } from "next-auth";
-import type { Dispatch, SetStateAction } from "react";
+// import type { Dispatch, SetStateAction } from "react";
 import type { Address } from "react-daum-postcode";
 
 // 지역코드 API
@@ -40,7 +40,7 @@ export interface IApartment {
 export interface IApartmentItem {
   estateAgentSggNm?: string;
   umdNm?: string;
-  jibun?: string | number;
+  jibun?: string;
   aptNm?: string;
   floor?: number;
   dealAmount?: string;
@@ -56,7 +56,7 @@ export interface IApartmentLocation {
 }
 
 // Geocode API
-export interface IGeocodeCoord {
+export interface IGeocodeAPI {
   addresses?: Array<{
     x?: string; // 경도
     y?: string; // 위도
@@ -64,27 +64,29 @@ export interface IGeocodeCoord {
     jibunAddress?: string;
   }>;
 }
-
-export interface IGeocode {
+export interface IGeocodeAPIReturn {
   latitude?: number;
   longitude?: number;
   roadAddress?: string;
   jibunAddress?: string;
 }
 export interface IGeocodeData {
-  latitude?: number;
-  longitude?: number;
-  address?: string;
-  address_road?: string;
-  buildingName?: string;
-  price?: number;
-  area?: number;
-  floor?: number;
-  dealYear?: number;
-  dealMonth?: number;
-  dealDay?: number;
-  buildYear?: number;
+  data?: IApartmentItem;
+  geocode?: IGeocodeAPIReturn;
 }
+
+// export interface IGeocodeData {
+//   address?: string;
+//   address_road?: string;
+//   buildingName?: string;
+//   price?: number;
+//   area?: number;
+//   floor?: number;
+//   dealYear?: number;
+//   dealMonth?: number;
+//   dealDay?: number;
+//   buildYear?: number;
+// }
 
 // map API marker
 export interface ILocationData {
@@ -158,21 +160,10 @@ export interface IWriteForm {
 // address search
 export interface IUseAddressSearchProps {
   selectedAddress: string;
-  geocodeData: IGeocode | null;
+  geocodeData: IGeocodeAPIReturn | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
 
-export interface IUseAllMarkerProps {
-  geocodeResults?: IGeocodeData[];
-  setSelectedMarkerData: Dispatch<SetStateAction<ILocationData | null>>;
-  setVisibleMarkerDatas: Dispatch<SetStateAction<ILocationData[]>>;
-  firestoreDatas: IFirestore[];
-}
-export interface IUseFetchAllGeocodeProps {
-  geocodeResults: IGeocodeData[];
-  loading: boolean;
-  error: Error | null;
-}
 export interface IUseMapsLoaderProps {
   onMapLoaded: (map: any) => void;
 }
