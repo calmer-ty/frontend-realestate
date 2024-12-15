@@ -2,7 +2,7 @@ import BuildingInfo from "../buildingInfo";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useEffect, useState } from "react";
-import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
+import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
@@ -32,7 +32,7 @@ export default function VisibleArea({ buildingType, firestoreData, visibleMarker
           {!select && (
             <ul>
               {visibleMarkerData.map((item, index) => {
-                const matchingFirestoreData = firestoreData.some((firestoreData) => getShortenedCityName(item.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === firestoreData.address);
+                const matchingFirestoreData = firestoreData.some((firestoreData) => getReduceCityName(item.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === firestoreData.address);
 
                 return (
                   <li
