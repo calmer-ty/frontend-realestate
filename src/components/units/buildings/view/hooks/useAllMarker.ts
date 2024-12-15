@@ -1,6 +1,5 @@
 import { useRef, useCallback } from "react";
 import { useMapsLoader } from "@/src/hooks/useMapsLoader";
-// import { markerIconContent } from "@/src/commons/libraries/utils/maps/marker";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 import { createMarker } from "@/src/commons/libraries/utils/maps/marker";
 import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
