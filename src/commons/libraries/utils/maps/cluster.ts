@@ -1,4 +1,4 @@
-import { clusterStyle } from "./styles";
+import "./styles.css";
 
 interface IClusterIcon {
   content: string;
@@ -10,7 +10,7 @@ const createClusterIcons = (): IClusterIcon[] => {
   const icons = [];
   for (let i = 1; i <= 5; i++) {
     icons.push({
-      content: `<div style="${clusterStyle.container} background-image: url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
+      content: `<div class="cluster" style="background-image: url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-${i}.png);"></div>`,
       size: new window.naver.maps.Size(40, 40),
       anchor: new window.naver.maps.Point(20, 20),
     });

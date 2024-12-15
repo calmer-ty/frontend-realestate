@@ -1,32 +1,23 @@
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import { getShortenedCityName } from "../cityNameShortener";
+import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-import { markerStyle } from "./styles";
+// import { markerStyle } from "./styles";
+import "./styles.css";
 
 const markerIconContent = (geocodeData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
+  const address = `${getFullCityName(geocodeData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${geocodeData.data?.umdNm} ${geocodeData.data?.jibun}`;
+
   const matchedFirestoreData = firestoreDatas.find(
-    (firestoreData) => firestoreData.address === getShortenedCityName(geocodeData.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE)
-    // ||   firestoreData.address === getShortenedCityName(data.address_road ?? DEFAULT_STRING_VALUE)
+    (firestoreData) => firestoreData.address === address
+    // ||   firestoreData.address === getReducedCityName(data.address_road ?? DEFAULT_STRING_VALUE)
   );
 
-  // 공통 스타일
-  const area = `<div style="${matchedFirestoreData !== undefined ? markerStyle.topAreaActive : markerStyle.topArea}">${Math.round(
-    (geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025
-  )}평</div>`;
-  const priceDisplay = `
-  <div style="${markerStyle.bottomArea}">
-    <span style="${markerStyle.bottom_unit1}">매</span> 
-    <strong>${(Number(geocodeData.data?.dealAmount?.replace(/,/g, "")) / 10000).toFixed(2)}억</strong>
-  </div>
-  `;
-  const arrow = `<div style="${matchedFirestoreData !== undefined ? markerStyle.arrowActive : markerStyle.arrow}"></div>`;
-
   return `
-    <div style="${matchedFirestoreData !== undefined ? markerStyle.containerActive : markerStyle.container}">
-      ${area}
-      ${priceDisplay}
-      ${arrow}
+    <div class="markerBox ${matchedFirestoreData !== undefined ? "hasData" : ""}">
+      <div class="top">${Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025)}평</div>
+      <div class="bottom"> 
+      <span>매</span> <strong>${(Number(geocodeData.data?.dealAmount?.replace(/,/g, "")) / 10000).toFixed(2)}억</strong></div>
     </div>`;
 };
 

@@ -1,4 +1,4 @@
-import { getShortenedCityName } from "@/src/commons/libraries/utils/cityNameShortener";
+import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
@@ -13,11 +13,15 @@ import type { IBuildingInfoProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { selectedData, isSelected } = props;
+  const { selectedData, isSelected, firestoreData, buildingType } = props;
 
-  const matchedFirestoreData: IFirestore[] = props.firestoreData.filter(
-    (el) => getShortenedCityName(selectedData.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === el.address
-    // || getShortenedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
+  const address = `${getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${selectedData.data?.umdNm} ${selectedData.data?.jibun}`;
+
+  console.log("estateAgentSggNm: ", getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE));
+  console.log("address: ", address);
+  const matchedFirestoreData: IFirestore[] = firestoreData.filter(
+    (el) => address === el.address
+    // || getReducedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
   );
 
   return (
@@ -62,7 +66,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                 <ul className="buildingList">
                   {matchedFirestoreData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
-                      <Link href={`/${props.buildingType}/${el._id}`}>
+                      <Link href={`/${buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? (
                           <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} width={80} height={80} alt={el._id ?? DEFAULT_STRING_VALUE} />
                         ) : (
