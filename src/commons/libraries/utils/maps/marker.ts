@@ -2,7 +2,6 @@ import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/consta
 import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-// import { markerStyle } from "./styles";
 import "./styles.css";
 
 const markerIconContent = (geocodeData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
