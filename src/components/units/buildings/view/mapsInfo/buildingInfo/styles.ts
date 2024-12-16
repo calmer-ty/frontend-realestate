@@ -23,7 +23,6 @@ export const InfoWrap = styled.div`
 `;
 export const TextWrap = styled.div`
   display: flex;
-  align-items: center;
   column-gap: 4px;
   font-size: 14px;
   color: #656565;
