@@ -58,6 +58,7 @@ export interface IGeocodeAPI {
     y?: string; // 위도
     roadAddress?: string;
     jibunAddress?: string;
+    addressElements?: string[];
   }>;
 }
 export interface IGeocodeAPIReturn {
