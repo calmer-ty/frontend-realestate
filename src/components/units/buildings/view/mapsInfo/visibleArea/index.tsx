@@ -1,10 +1,11 @@
 import BuildingInfo from "../buildingInfo";
+import ListItem from "./listItem";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useEffect, useState } from "react";
-import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+// import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
+// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+// import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import type { IVisibleAreaProps } from "./types";
 import type { IGeocodeData } from "@/src/commons/types";
@@ -31,29 +32,9 @@ export default function VisibleArea({ buildingType, firestoreData, visibleMarker
         <S.Visible>
           {!select && (
             <ul>
-              {visibleMarkerData.map((item, index) => {
-                const matchingFirestoreData = firestoreData.some((firestoreData) => getReduceCityName(item.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === firestoreData.address);
-
-                return (
-                  <li
-                    key={`${item.data?.aptNm}_${index}`}
-                    onClick={() => {
-                      onClickInfo(item);
-                    }}
-                  >
-                    <h2>
-                      매매 {isBillion(item.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}&nbsp;
-                      {isTenMillion(item.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}원
-                    </h2>
-                    <p>
-                      아파트・{item.data?.aptNm}
-                      <br />
-                      {item.data?.excluUseAr}m² {item.data?.floor}층
-                    </p>
-                    <div>{matchingFirestoreData && <>매물있음</>}</div>
-                  </li>
-                );
-              })}
+              {visibleMarkerData.map((item, index) => (
+                <ListItem key={`${item.data?.aptNm}_${index}`} item={item} index={index} firestoreData={firestoreData} onClickInfo={onClickInfo} />
+              ))}
             </ul>
           )}
           {selectedItem !== null && <BuildingInfo selectedData={selectedItem} firestoreData={firestoreData} buildingType={buildingType} isSelected={select} />}
