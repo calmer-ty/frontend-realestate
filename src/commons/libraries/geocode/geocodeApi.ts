@@ -2,11 +2,40 @@ import axios from "axios";
 import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IGeocodeAPI, IGeocodeAPIReturn } from "@/src/commons/types";
 
-// Helper function to find a specific address element by type
-// const findElementByType = (elements: any[], type: string): string | null => {
-//   const element = elements.find((el) => el.types.includes(type));
-//   return element ? element.longName : null;
-// };
+// addressElements에서 특정 타입 값을 찾는 함수
+const findElementByType = (elements: any[], type: string): string => {
+  return elements.find((el) => el.types.includes(type))?.longName ?? "";
+};
+
+// 주소를 추출하는 함수
+// prettier-ignore
+const extractAddress = (addressElements: string[]): { jibunAddress: string; roadAddress: string; } => {
+  // 지번 주소 조합: RI + LAND_NUMBER + BUILDING_NAME
+  const jibunAddress = [
+    findElementByType(addressElements, "SIDO"),
+    findElementByType(addressElements, "SIGUGUN"),
+    findElementByType(addressElements, "DONGMYUN"),
+    findElementByType(addressElements, "RI"),
+    findElementByType(addressElements, "LAND_NUMBER"),
+    // findElementByType(addressElements, "BUILDING_NAME"),
+  ]
+    .filter(Boolean) // 값이 비어있으면 제외
+    .join(" ");
+
+  // 도로명 주소 조합: ROAD_NAME + BUILDING_NUMBER + BUILDING_NAME
+  const roadAddress = [
+    findElementByType(addressElements, "SIDO"),
+    findElementByType(addressElements, "SIGUGUN"),
+    findElementByType(addressElements, "DONGMYUN"),
+    findElementByType(addressElements, "ROAD_NAME"),
+    findElementByType(addressElements, "BUILDING_NUMBER"),
+    // findElementByType(addressElements, "BUILDING_NAME"),
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return { jibunAddress, roadAddress };
+};
 
 export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
@@ -17,17 +46,14 @@ export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn> =>
     },
   });
   const addresses = response.data.addresses ?? [];
-  console.log("geocodeApi addresses === ", addresses[0]);
-  console.log("geocodeApi addressElements === ", addresses[0].addressElements);
   try {
     if (addresses.length > 0) {
-      const { x, y, jibunAddress, roadAddress } = addresses[0];
+      const { x, y, addressElements } = addresses[0];
+      // console.log("addressElements === ", jibunAddress, roadAddress, addressElements);
 
-      // Extract specific data based on types
-      // const sido = findElementByType(addressElements, "SIDO") ?? "시/도 정보 없음";
-      // const sigugun = findElementByType(addressElements, "SIGUGUN") ?? "시/군/구 정보 없음";
-      // const dongMyun = findElementByType(addressElements, "DONGMYUN") ?? "법정동 정보 없음";
-      // const jibun = findElementByType(addressElements, "JIBUN") ?? "지번 정보 없음";
+      // extractAddress 함수로 지번 주소와 도로명 주소를 가져옴
+
+      const { jibunAddress, roadAddress } = addressElements !== undefined ? extractAddress(addressElements) : { jibunAddress: "", roadAddress: "" };
 
       return {
         latitude: parseFloat(y ?? DEFAULT_STRING_VALUE),
