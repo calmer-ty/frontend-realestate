@@ -30,6 +30,9 @@ export interface IApartment {
       items?: {
         item?: IApartmentItem[]; // Item 배열 형태로 정의
       };
+      numOfRows: number;
+      pageNo: number;
+      totalCount: number;
     };
   };
 }
@@ -45,6 +48,7 @@ export interface IApartmentItem {
   dealMonth?: number;
   dealYear?: number;
   buildYear?: number;
+  rgstDate?: string;
 }
 export interface IApartmentLocation {
   responses?: IApartment;

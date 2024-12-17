@@ -31,7 +31,6 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
     const promises = regionCodes.map((regionCode) => limit(() => fetchApartmentData(regionCode)));
     // 모든 요청을 병렬로 실행하고 결과를 반환
     const apartmentData = await Promise.all(promises);
-
     return apartmentData.flat();
   } catch (error) {
     throw new Error("아파트 Data 로딩 실패");
