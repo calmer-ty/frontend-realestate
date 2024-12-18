@@ -30,9 +30,9 @@ export interface IApartment {
       items?: {
         item?: IApartmentItem[]; // Item 배열 형태로 정의
       };
-      numOfRows: number;
-      pageNo: number;
-      totalCount: number;
+      numOfRows?: number;
+      pageNo?: number;
+      totalCount?: number;
     };
   };
 }

@@ -16,7 +16,6 @@ const fetchRegionData = async (city: string): Promise<string[]> => {
   // regionCodeConstants에서 데이터를 확인합니다.
   if (regionCodeConstants[city] !== undefined) {
     // regionCodeConstants에 데이터가 있다면 캐시로 저장하고 반환합니다.
-    // console.log(`regionCodeConstants에서 ${city}의 데이터를 사용합니다:`, regionCodeConstants[city]);
     setRegionCache(cacheKey, regionCodeConstants[city]);
     return regionCodeConstants[city];
   }
@@ -25,8 +24,6 @@ const fetchRegionData = async (city: string): Promise<string[]> => {
   try {
     const response = await regionApi(city);
     setRegionCache(cacheKey, response);
-    // console.log(`${city}의 값:`, response);
-    // console.log(`${city}의 데이터 ${response}`);
 
     return response;
   } catch (error) {
