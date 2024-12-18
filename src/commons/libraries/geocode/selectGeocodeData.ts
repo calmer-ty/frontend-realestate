@@ -1,7 +1,7 @@
 import { geocodeApi } from "./geocodeApi";
-import type { IGeocode } from "@/src/commons/types";
+import type { IGeocodeAPIReturn } from "@/src/commons/types";
 
-export const getSelectGeocodeData = async (address: string): Promise<IGeocode | null> => {
+export const getSelectGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
   try {
     const geocodeResult = await geocodeApi(address);
     if (geocodeResult !== null) {

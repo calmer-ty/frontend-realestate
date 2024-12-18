@@ -1,19 +1,19 @@
 import NodeCache from "node-cache";
-import type { IGeocode } from "@/src/commons/types";
+import type { IGeocodeAPIReturn } from "@/src/commons/types";
 
 // TTL을 7200초(2시간)로 설정하여 캐시 인스턴스를 초기화합니다.
 const geocodeCache = new NodeCache({ stdTTL: 7200 });
 
-export const getCachedGeocodeData = (key: string): IGeocode | undefined => {
+export const getCachedGeocodeData = (key: string): IGeocodeAPIReturn | undefined => {
   try {
-    return geocodeCache.get<IGeocode>(key);
+    return geocodeCache.get<IGeocodeAPIReturn>(key);
   } catch (error) {
     console.error(`Error getting cache for key ${key}:`, error);
     return undefined;
   }
 };
 
-export const setGeocodeCache = (key: string, data: IGeocode): void => {
+export const setGeocodeCache = (key: string, data: IGeocodeAPIReturn): void => {
   try {
     geocodeCache.set(key, data);
   } catch (error) {

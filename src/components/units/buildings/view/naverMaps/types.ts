@@ -1,5 +1,5 @@
-import type { IGeocode } from "@/src/commons/types";
+import type { IGeocodeData } from "@/src/commons/types";
 
 export interface INaverMapsProps {
-  geocodeResults?: IGeocode[];
+  geocodeData?: IGeocodeData[];
 }

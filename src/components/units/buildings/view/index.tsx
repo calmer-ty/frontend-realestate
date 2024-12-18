@@ -42,7 +42,7 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     <>
       <S.Container>
         <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-        <NaverMaps geocodeResults={geocodeData} />
+        <NaverMaps geocodeData={geocodeData} />
       </S.Container>
     </>
   );
