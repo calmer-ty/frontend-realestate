@@ -3,8 +3,8 @@ import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
 
-import pLimit from "p-limit";
-const limit = pLimit(30);
+// import pLimit from "p-limit";
+// const limit = pLimit(100);
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 
@@ -13,7 +13,7 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   // const apiUrlBak = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=1&numOfRows=10`;
   const apiUrl = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}`;
-  const numOfRows = 30;
+  const numOfRows = 100;
 
   try {
     const initialResponse = await axios.get<IApartment | undefined>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
@@ -31,7 +31,8 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const apartmentUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
-      request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
+      // request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
+      request.push(axios.get<IApartment | undefined>(apartmentUrl)); // limit으로 요청 제한
     }
 
     const aptItemArray: IApartmentItem[] = [];

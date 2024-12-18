@@ -3,14 +3,14 @@ import axios from "axios";
 import type { AxiosResponse } from "axios";
 import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
-import pLimit from "p-limit";
-const limit = pLimit(10);
+// import pLimit from "p-limit";
+// const limit = pLimit(100);
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 
 export const regionApi = async (city: string): Promise<string[]> => {
   const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
-  const numOfRows = 10;
+  const numOfRows = 100;
 
   try {
     const initialResponse = await axios.get<IRegion | undefined>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
@@ -26,7 +26,8 @@ export const regionApi = async (city: string): Promise<string[]> => {
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const reginCdUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
-      request.push(limit(() => axios.get<IRegion | undefined>(reginCdUrl))); // limit으로 요청 제한
+      // request.push(limit(() => axios.get<IRegion | undefined>(reginCdUrl))); // limit으로 요청 제한
+      request.push(axios.get<IRegion | undefined>(reginCdUrl)); // limit으로 요청 제한
     }
 
     const regionCodeObject = new Set<string>();

@@ -4,8 +4,8 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
-import pLimit from "p-limit";
-const limit = pLimit(30);
+// import pLimit from "p-limit";
+// const limit = pLimit(100);
 
 // 캐시를 확인한 후 지오코딩을 수행하는 함수
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
@@ -53,13 +53,19 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
   }
 
   const geocodeData = await Promise.all(
-    datas.map((data) =>
-      limit(async () => {
+    datas.map(async (data) =>
+      // limit(async () => {
+      //   const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+      //   const geocode = await fetchGeocodeData(address);
+
+      //   return { data, geocode };
+      // })
+      {
         const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
         const geocode = await fetchGeocodeData(address);
 
         return { data, geocode };
-      })
+      }
     )
   );
 
