@@ -21,11 +21,6 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
   try {
     const responses = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
     if (responses != null) {
-      // const addresses = {
-      //   latitude: responses.latitude,
-      //   longitude: responses.longitude,
-      // };
-
       setGeocodeCache(cacheKey, responses);
       return responses;
     } else {

@@ -49,6 +49,9 @@ export interface IApartmentItem {
   dealYear?: number;
   buildYear?: number;
   rgstDate?: string;
+
+  // 인덱스 시그니처 추가
+  [key: string]: any;
 }
 export interface IApartmentLocation {
   responses?: IApartment;

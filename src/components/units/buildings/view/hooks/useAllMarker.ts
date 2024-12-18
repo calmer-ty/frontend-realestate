@@ -25,6 +25,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
+      console.log("geocodeData ===== ", geocodeData);
 
       geocodeData?.forEach((item) => {
         const position = new window.naver.maps.LatLng(item.geocode?.latitude, item.geocode?.longitude);
