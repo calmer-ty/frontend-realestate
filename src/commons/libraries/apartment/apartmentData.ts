@@ -4,7 +4,7 @@ import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import type { IApartmentItem } from "../../types";
 
 import pLimit from "p-limit";
-const limit = pLimit(10);
+const limit = pLimit(30);
 
 export const fetchApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
   const cacheKey = `apartment_${regionCode}`;

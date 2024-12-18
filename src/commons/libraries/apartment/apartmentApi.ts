@@ -4,11 +4,7 @@ import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
 
 import pLimit from "p-limit";
-const limit = pLimit(10);
-
-// interface GroupedData {
-//   [key: string]: IApartmentItem[]; // IApartmentItem[] 타입의 배열을 값으로 가지는 객체
-// }
+const limit = pLimit(30);
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 
@@ -17,51 +13,49 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
   // 캐시에 없는 경우 실제 데이터를 요청합니다
   // const apiUrlBak = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=1&numOfRows=10`;
   const apiUrl = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}`;
-  const numOfRows = 10;
+  const numOfRows = 30;
 
   try {
-    const initialResponse = await axios.get<IApartment>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
-    // // console.log("initialResponse === ", initialResponse.data.response?.body?.totalCount);
-    const totalCount = initialResponse.data.response?.body?.totalCount;
+    const initialResponse = await axios.get<IApartment | undefined>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
+    const totalCount = initialResponse.data?.response?.body?.totalCount ?? NaN;
+    // console.log("body === ", initialResponse.data?.response?.body, "regionCode === ", regionCode);
+    // console.log("totalCount === ", totalCount, "regionCode === ", regionCode);
     if (totalCount === undefined) {
-      console.log("totalCount === ", totalCount);
       throw new Error("totalCount 값을 가져올 수 없습니다.");
     }
 
     // // 총 페이지 수 계산
-    const totalPages = Math.ceil(totalCount / numOfRows);
+    const totalPages = Math.max(1, Math.ceil(totalCount / numOfRows));
 
-    const request: Array<Promise<AxiosResponse<IApartment>>> = [];
+    const request: Array<Promise<AxiosResponse<IApartment | undefined>>> = [];
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
       const apartmentUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
-      request.push(limit(() => axios.get<IApartment>(apartmentUrl))); // limit으로 요청 제한
+      request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
     }
 
-    // console.log("request === ", request);
     const aptItemArray: IApartmentItem[] = [];
 
     const responses = await Promise.all(request);
     responses.forEach((response) => {
-      const items = response.data.response?.body?.items?.item ?? [];
-
-      // items가 배열이 아닌 경우 처리
-      if (!Array.isArray(items)) {
-        console.error("items는 배열이 아닙니다:", items);
-        return; // 배열이 아니면 반복문을 종료하고 다음 응답으로 넘어갑니다.
-      }
+      // item 값이 단일로 있는 경우 배열이 아닌데, 이때 배열로 처리하여 forEach문이 돌아가게 한다.
+      const items = Array.isArray(response.data?.response?.body?.items?.item) ? response.data.response.body.items.item : [response.data?.response?.body?.items?.item];
 
       items.forEach((item) => {
+        if (item === undefined) return [];
+
+        if (item?.estateAgentSggNm?.includes(",") === true) {
+          const filteredSggNm = item.estateAgentSggNm.split(",").slice(1).join(",").trim();
+          return filteredSggNm;
+        }
+
         // 값이 비어있지 않은 경우에만 추가
-        if (item.estateAgentSggNm !== " " || item.estateAgentSggNm != null) {
+        if (item?.estateAgentSggNm !== " " || item.estateAgentSggNm != null) {
           aptItemArray.push(item);
         }
       });
     });
-    // console.log("aptItemArray === ", aptItemArray);
-    // return aptItemArray;
-    // const filteredItems = getLatestAptData(aptItemArray);
-    // console.log("filteredItems === ", filteredItems);
+    return aptItemArray;
 
     // const response = await axios.get<IApartment>(apiUrlBak);
     // const dataItem = response.data.response?.body?.items?.item ?? [];
