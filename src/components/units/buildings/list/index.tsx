@@ -6,7 +6,7 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 // utils Hook
 import { filterBuildingsByUser } from "./utils/filter";
 import { getExpiredBuildings, processExpiredBuilding } from "./utils/expired";
-// component
+
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import ListItem from "./item";
 import DeleteModal from "./deleteModal";

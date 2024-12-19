@@ -1,7 +1,7 @@
 import type { IFirestore } from "@/src/commons/types";
 import type { MutableRefObject } from "react";
 
-const EXPIRATION_THRESHOLD_SECONDS = 10;
+const EXPIRATION_THRESHOLD_SECONDS = 86400;
 
 export const getExpiredBuildings = (buildings: IFirestore[], archivedIds: Set<string>): IFirestore[] =>
   buildings.filter((el) => el._id !== undefined && Date.now() / 1000 > (el.createdAt?.seconds ?? 0) + EXPIRATION_THRESHOLD_SECONDS && !archivedIds.has(el._id));
