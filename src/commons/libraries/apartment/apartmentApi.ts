@@ -1,8 +1,9 @@
 import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
+import { getLatestData } from "./utils/latest";
+
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
-import { DEFAULT_NUMBER_VALUE } from "../../constants";
 
 // import pLimit from "p-limit";
 // const limit = pLimit(100);
@@ -75,32 +76,4 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     console.error("API 요청 중 오류 발생:", error);
     throw new Error("아파트 API 로딩 실패");
   }
-};
-
-const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
-  const grouped: Record<string, IApartmentItem> = {};
-  // const discardedItems: IApartmentItem[] = []; // 버려진 항목을 추적할 배열
-
-  items.forEach((item) => {
-    const key = `${item.umdNm}_${item.jibun}_${item.aptNm}`; // 동, 지번, 아파트명 기준으로 그룹화
-    if (grouped[key] == null) {
-      grouped[key] = item;
-    } else {
-      const existingItem = grouped[key];
-
-      const isNewer =
-        // 연도 비교
-        (item.dealYear ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealYear ?? DEFAULT_NUMBER_VALUE) ||
-        // 연도가 같고, 월 비교
-        (item.dealYear === existingItem.dealYear && (item.dealMonth ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealMonth ?? DEFAULT_NUMBER_VALUE)) ||
-        // 연도, 월이 같고, 날 비교
-        (item.dealYear === existingItem.dealYear && item.dealMonth === existingItem.dealMonth && (item.dealDay ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealDay ?? DEFAULT_NUMBER_VALUE));
-
-      if (isNewer) {
-        grouped[key] = item;
-      }
-    }
-  });
-
-  return Object.values(grouped);
 };
