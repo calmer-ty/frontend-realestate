@@ -36,5 +36,5 @@ const handle = nextServer.getRequestHandler();
 
 export const nextjsFunc = functions.https.onRequest(async (req, res) => {
   await nextServer.prepare();
-  handle(req, res);
+  return handle(req, res);
 });
