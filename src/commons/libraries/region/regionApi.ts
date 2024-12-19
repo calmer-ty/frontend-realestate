@@ -9,7 +9,8 @@ import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 �
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 
 export const regionApi = async (city: string): Promise<string[]> => {
-  const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  // const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
+  const apiUrl = `http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList?ServiceKey=${API_KEY}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(`대전광역시`)}`;
   const numOfRows = 100;
 
   try {
@@ -43,8 +44,6 @@ export const regionApi = async (city: string): Promise<string[]> => {
         }
       });
     });
-
-    console.log("Array.from(regionCodeObject) === ", Array.from(regionCodeObject));
     return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
     console.error("API 요청 중 오류 발생:", error);
