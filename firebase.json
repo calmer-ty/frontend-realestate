@@ -8,12 +8,12 @@
     }
   ],
   "hosting": {
-    "public": "public",
+    "public": "functions",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
-        "function": "nextJsFunc"
+        "function": "nextjsFunc"
       }
     ]
   }

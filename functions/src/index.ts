@@ -19,7 +19,8 @@
 // });
 
 // 추가
-import { onRequest } from "firebase-functions/v2/https";
+// import { onRequest } from "firebase-functions/v2/https";
+import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import next from "next";
 
@@ -33,7 +34,7 @@ const nextServer = next({
 
 const handle = nextServer.getRequestHandler();
 
-export const nextjsFunc = onRequest(async (req, res) => {
+export const nextjsFunc = functions.https.onRequest(async (req, res) => {
   await nextServer.prepare();
   handle(req, res);
 });
