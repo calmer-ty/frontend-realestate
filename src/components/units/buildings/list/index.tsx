@@ -3,8 +3,10 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-
+// utils Hook
+import { filterBuildingsByUser } from "./utils/filter";
+import { getExpiredBuildings, processExpiredBuilding } from "./utils/expired";
+// component
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import ListItem from "./item";
 import DeleteModal from "./deleteModal";
@@ -19,78 +21,42 @@ import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 
-const DEADLINE = 86400;
+// Utility functions
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
   const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
+
   const [buildings, setBuildings] = useState<IFirestore[]>([]);
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
 
   const userId = (session?.user as { id?: string })?.id;
-  const archivedIds = useRef(new Set());
-  // const filteredBuildings = buildings.filter((el) => el.user?._id === userId);
-  const filteredBuildings = useMemo(() => {
-    console.log("filteredBuildings 재계산");
-    return buildings.filter((el) => el.user?._id === userId);
-  }, [buildings, userId]);
+  const archivedIds = useRef<Set<string>>(new Set());
 
-  // console.log("filteredBuildings:::", filteredBuildings);
+  const filteredBuildings = useMemo(() => filterBuildingsByUser(buildings, userId), [buildings, userId]);
 
   // 매물 리스트 데이터 렌더링
   useEffect(() => {
-    const currentDate = Math.floor(Date.now() / 1000); // 현재 날짜를 초 단위로
-
-    const expiredBuildings = filteredBuildings.filter((el) => {
-      const createdAtSeconds = el.createdAt?.seconds ?? 0;
-      return currentDate > createdAtSeconds + DEADLINE && !archivedIds.current.has(el._id);
+    const expiredBuildings = getExpiredBuildings(filteredBuildings, archivedIds.current);
+    // 시간 초과가 되면 기존 정보 삭제 및 아카이브 등록
+    expiredBuildings.forEach((building) => {
+      processExpiredBuilding(building, archiveFirestore, deleteFirestore, archivedIds);
     });
-
-    expiredBuildings.forEach((el) => {
-      void archiveFirestore(el);
-      archivedIds.current.add(el._id);
-
-      deleteFirestore(el.type ?? DEFAULT_STRING_VALUE, el._id ?? DEFAULT_STRING_VALUE).catch((error) => {
-        console.error(`Error deleting document ${el._id}:`, error);
-      });
-    });
-
-    // filteredBuildings.forEach((el) => {
-    //   // const createdAtSeconds = el.createdAt?.seconds ?? 0;
-    //   if (currentDate > createdAtSeconds + DEADLINE && !archivedIds.current.has(el._id)) {
-    //     // 삭제된 데이터 아카이브 및 원본 삭제
-    //     void archiveFirestore(el);
-    //     archivedIds.current.add(el._id); // 아카이브된 ID 추가
-
-    //     // 여기서 deleteFirestore를 호출하여 원본 데이터 삭제
-    //     deleteFirestore(el.type ?? DEFAULT_STRING_VALUE, el._id ?? DEFAULT_STRING_VALUE).catch((error) => {
-    //       console.error(`Error deleting document ${el._id}:`, error);
-    //     });
-    //   }
-    // });
   }, [filteredBuildings, archiveFirestore, deleteFirestore]);
 
-  // Firestore fetch
+  // Firestore 패치
   const fetchData = useCallback(async (): Promise<void> => {
     const collections = ["apartment", "house", "office"];
     const deletedCollections = ["deleted_apartment"];
 
-    // const fetchCollections = async (collections: string[]): Promise<IFirestore[]> => {
-    //   const promises = collections.map((collection) => readFirestores(collection));
-    //   const results = await Promise.all(promises);
-    //   return results.flat();
-    // };
-
     try {
-      // const buildings = await fetchCollections(collections);
-      // const deletedBuildings = await fetchCollections(deletedCollections);
       const buildings = (await Promise.all(collections.map(readFirestores))).flat();
       const deletedBuildings = (await Promise.all(deletedCollections.map(readFirestores))).flat();
 
       setBuildings(buildings);
       setDeletedBuildings(deletedBuildings);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Firebase 패치 오류가 있습니다: ", error);
     }
   }, [readFirestores]);
 
