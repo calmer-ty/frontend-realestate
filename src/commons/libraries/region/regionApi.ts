@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { AxiosResponse } from "axios";
 import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
@@ -46,7 +47,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
     });
     return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
-    console.error("API 요청 중 오류 발생:", error);
-    throw new Error("지역 API 로딩 실패");
+    handleError(error, "regionApi"); // 에러 처리
+    return []; // 에러 발생 시 빈 배열 반환
   }
 };

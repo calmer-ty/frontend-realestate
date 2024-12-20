@@ -1,9 +1,10 @@
 import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
 
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 // import pLimit from "p-limit";
 // const limit = pLimit(100);
@@ -103,12 +104,7 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
 
     return latestData;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("apartmentApi 에러 발생:", error.message);
-      throw new Error(`API 요청 실패 (RegionCode: ${regionCode}): ${error.message}`);
-    } else {
-      console.error("예상치 못한 에러:", error);
-      throw new Error("알 수 없는 오류 발생");
-    }
+    handleError(error, "apartmentApi"); // 에러 처리
+    return []; // 에러 발생 시 빈 배열 반환
   }
 };

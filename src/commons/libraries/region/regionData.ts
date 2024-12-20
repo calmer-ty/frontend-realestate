@@ -2,6 +2,7 @@ import { regionApi } from "./regionApi";
 import { cityArray } from "../utils/cityArray";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
 import { regionCodeConstants } from "@/src/commons/constants/regionCode";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 // 특정 도시의 지역 데이터를 가져오는 함수
 const fetchRegionData = async (city: string): Promise<string[]> => {
@@ -21,13 +22,15 @@ const fetchRegionData = async (city: string): Promise<string[]> => {
   }
 
   console.log(`${city}에 대한 캐시가 존재하지 않으므로 API를 호출합니다.`); // 캐시가 없을 때 API 호출 여부
+
   try {
     const response = await regionApi(city);
     setRegionCache(cacheKey, response);
 
     return response;
   } catch (error) {
-    throw new Error(`${city}, 파라미터 값을 가져오는 데 실패했습니다`);
+    handleError(error, `fetchRegionData - ${city}`); // 에러 처리
+    return []; // 에러 발생 시 빈 배열 반환
   }
 };
 
@@ -38,6 +41,7 @@ export const getRegionData = async (): Promise<string[]> => {
 
     return regionDatas.flat();
   } catch (error) {
-    throw new Error("지역 Data 로딩 실패");
+    handleError(error, "fetchRegionData"); // 에러 처리
+    return []; // 에러 발생 시 빈 배열 반환
   }
 };
