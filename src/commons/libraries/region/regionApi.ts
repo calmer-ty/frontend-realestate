@@ -4,12 +4,12 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import type { AxiosResponse } from "axios";
 import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
-// import pLimit from "p-limit";
-// const limit = pLimit(100);
+import pLimit from "p-limit";
+const limit = pLimit(50);
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
-const NUM_OF_ROWS = 100;
+const NUM_OF_ROWS = 50;
 
 const createApiUrl = (city: string, pageNo: number): string => {
   return `${BASE_URL}?ServiceKey=${API_KEY}&pageNo=${pageNo}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
@@ -46,7 +46,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
 
     // 모든 페이지에 대한 요청 생성
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      request.push(axios.get<IRegion | undefined>(createApiUrl(`인천광역시`, pageNo)));
+      request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`인천광역시`, pageNo))));
     }
 
     // 요청 병렬 처리

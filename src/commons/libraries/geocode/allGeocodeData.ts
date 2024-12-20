@@ -6,8 +6,8 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
-// import pLimit from "p-limit";
-// const limit = pLimit(100);
+import pLimit from "p-limit";
+const limit = pLimit(10);
 
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
@@ -21,6 +21,7 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
 
   try {
     const responses = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
+
     if (responses != null) {
       setGeocodeCache(cacheKey, responses);
       return responses;
@@ -49,31 +50,18 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
   }
 
   const geocodeData = await Promise.all(
-    datas.map(async (data) =>
-      // limit(async () => {
-      //   try {
-      //     const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
-      //     const geocode = await fetchGeocodeData(address);
-      //     return { data, geocode };
-      //   } catch (error) {
-      //     // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
-      //     console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
-      //     return { data, geocode: null };
-      //   }
-      // })
-
-      {
+    datas.map((data) =>
+      limit(async () => {
         try {
           const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
           const geocode = await fetchGeocodeData(address);
           return { data, geocode };
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
-          // console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
-          handleError(error, `getAllGeocodeData - ${data.estateAgentSggNm}`); // 에러 처리
+          console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
           return { data, geocode: null };
         }
-      }
+      })
     )
   );
 

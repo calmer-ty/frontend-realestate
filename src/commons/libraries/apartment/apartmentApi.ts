@@ -6,13 +6,13 @@ import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
 
-// import pLimit from "p-limit";
-// const limit = pLimit(100);
+import pLimit from "p-limit";
+const limit = pLimit(50);
 
 // API 설정 상수
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
-const NUM_OF_ROWS = 100;
+const NUM_OF_ROWS = 50;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["aptDong", "buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
@@ -26,7 +26,9 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
   const itemsRaw = data?.response?.body?.items?.item ?? [];
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
+  // console.log("processResponseData::: ",items)
   return items.map((el) => {
+    // console.log("processResponseData address::: ", el.estateAgentSggNm, el.umdNm, el.jibun, el.aptNm);
     // estateAgentSggNm이 없거나 공백일 경우 null 반환
     if (el.estateAgentSggNm !== undefined && el.estateAgentSggNm.trim() === "") {
       console.log("estateAgentSggNm가 비었다.");
@@ -95,8 +97,7 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
 
     // 모든 페이지에 대한 요청 생성
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      request.push(axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo)));
-      // request.push(limit(() => axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo))));
+      request.push(limit(() => axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo))));
     }
 
     // 요청 병렬 처리
@@ -108,7 +109,10 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     // 최신 데이터만 필터링
     const latestData = getLatestData(allItems);
 
-    console.log("latestData: ", latestData);
+    latestData.forEach((el) => {
+      console.log("latestData :::", el.estateAgentSggNm, el.umdNm, el.jibun, el.aptNm);
+    });
+
     return latestData;
   } catch (error) {
     handleError(error, "apartmentApi"); // 에러 처리

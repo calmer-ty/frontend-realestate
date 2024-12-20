@@ -5,8 +5,8 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { IApartmentItem } from "../../types";
 
-// import pLimit from "p-limit";
-// const limit = pLimit(30);
+import pLimit from "p-limit";
+const limit = pLimit(50);
 
 export const fetchApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
   const cacheKey = `apartment_${regionCode}`;
@@ -30,10 +30,10 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
   try {
     const regionCodes: string[] = await getRegionData();
 
-    // const promises = regionCodes.map((regionCode) => limit(() => fetchApartmentData(regionCode)));
-    const promises = regionCodes.map((regionCode) => fetchApartmentData(regionCode));
+    const promises = regionCodes.map((regionCode) => limit(() => fetchApartmentData(regionCode)));
     // 모든 요청을 병렬로 실행하고 결과를 반환
     const apartmentData = await Promise.all(promises);
+
     return apartmentData.flat();
   } catch (error) {
     handleError(error, "getApartmentData"); // 에러 처리

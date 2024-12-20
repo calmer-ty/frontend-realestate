@@ -4,8 +4,8 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IGeocodeAPI, IGeocodeAPIReturn } from "@/src/commons/types";
 
-// import pLimit from "p-limit";
-// const limit = pLimit(100);
+import pLimit from "p-limit";
+const limit = pLimit(10);
 
 // addressElements에서 특정 타입 값을 찾는 함수
 const findElementByType = (elements: any[], type: string): string => {
@@ -44,20 +44,14 @@ const extractAddress = (addressElements: string[]): { jibunAddress: string; road
 
 export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn | null> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
-  const response = await axios.get<IGeocodeAPI | undefined>(apiUrl, {
-    headers: {
-      "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
-      "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
-    },
-  });
-  // const response = await limit(() =>
-  //   axios.get<IGeocodeAPI | undefined>(apiUrl, {
-  //     headers: {
-  //       "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
-  //       "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
-  //     },
-  //   })
-  // );
+  const response = await limit(() =>
+    axios.get<IGeocodeAPI | undefined>(apiUrl, {
+      headers: {
+        "X-NCP-APIGW-API-KEY-ID": process.env.NEXT_PUBLIC_NCP_CLIENT_ID,
+        "X-NCP-APIGW-API-KEY": process.env.NEXT_PUBLIC_NCP_CLIENT_SECRET,
+      },
+    })
+  );
   const addresses = response.data?.addresses ?? [];
   try {
     if (addresses.length > 0) {
