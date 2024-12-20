@@ -69,7 +69,8 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
           return { data, geocode };
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
-          console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
+          // console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
+          handleError(error, `getAllGeocodeData - ${data.estateAgentSggNm}`); // 에러 처리
           return { data, geocode: null };
         }
       }

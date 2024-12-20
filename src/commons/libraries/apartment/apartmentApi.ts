@@ -15,7 +15,7 @@ const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDat
 const NUM_OF_ROWS = 100;
 
 // 제외 필드 상수
-const FIELDS_TO_EXCLUDE = ["cdealDay", "cdealType", "landLeaseholdGbn", "sggCd"]; // 제외할 필드들
+const FIELDS_TO_EXCLUDE = ["aptDong", "buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
 
 const createApiUrl = (regionCode: string, pageNo: number): string => {
   const currentDate = getCurrentDate();
@@ -27,6 +27,11 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   return items.map((el) => {
+    // estateAgentSggNm이 없거나 공백일 경우 null 반환
+    if (el.estateAgentSggNm !== undefined && el.estateAgentSggNm.trim() === "") {
+      console.log("estateAgentSggNm가 비었다.");
+      return {};
+    }
     // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
     if (el?.estateAgentSggNm?.includes(",") === true) {
       el.estateAgentSggNm = el.estateAgentSggNm.split(",").slice(1).join(",").trim();
@@ -78,7 +83,6 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     // 첫 번째 요청으로 총 페이지 수 계산
     const initialUrl = createApiUrl(regionCode, 1);
     const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
-    console.log("initialResponse === ", initialResponse.data);
 
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
