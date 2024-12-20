@@ -1,5 +1,7 @@
 import axios from "axios";
-import { DEFAULT_STRING_VALUE } from "../../constants";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
+
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IGeocodeAPI, IGeocodeAPIReturn } from "@/src/commons/types";
 
 // addressElements에서 특정 타입 값을 찾는 함수
@@ -37,7 +39,7 @@ const extractAddress = (addressElements: string[]): { jibunAddress: string; road
   return { jibunAddress, roadAddress };
 };
 
-export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn> => {
+export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn | null> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
   const response = await axios.get<IGeocodeAPI | undefined>(apiUrl, {
     headers: {
@@ -63,6 +65,7 @@ export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn> =>
       throw new Error(`${address}, 파라미터 값을 가져오는 데 실패했습니다.`);
     }
   } catch (error) {
-    throw new Error("지역 API 로딩 실패");
+    handleError(error, "geocodeApi"); // 에러 처리
+    return null;
   }
 };

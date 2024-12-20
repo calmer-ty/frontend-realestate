@@ -30,7 +30,7 @@ const fetchRegionData = async (city: string): Promise<string[]> => {
     return response;
   } catch (error) {
     handleError(error, `fetchRegionData - ${city}`); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };
 
@@ -42,6 +42,6 @@ export const getRegionData = async (): Promise<string[]> => {
     return regionDatas.flat();
   } catch (error) {
     handleError(error, "fetchRegionData"); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };

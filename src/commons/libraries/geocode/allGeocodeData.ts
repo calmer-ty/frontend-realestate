@@ -1,13 +1,14 @@
 import { getApartmentData } from "../apartment/apartmentData";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
-import { DEFAULT_STRING_VALUE } from "../../constants";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
+
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
 // import pLimit from "p-limit";
 // const limit = pLimit(100);
 
-// 캐시를 확인한 후 지오코딩을 수행하는 함수
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
   const cacheKey = `geocode_${address}`;
@@ -27,7 +28,7 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
       return null;
     }
   } catch (error) {
-    console.log(`${address}에 대한 지오코드 결과 없음, catch`);
+    handleError(error, `fetchGeocodeData - ${address}`); // 에러 처리
     return null;
   }
 };

@@ -105,6 +105,6 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     return latestData;
   } catch (error) {
     handleError(error, "apartmentApi"); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };

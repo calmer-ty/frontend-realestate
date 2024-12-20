@@ -48,6 +48,6 @@ export const regionApi = async (city: string): Promise<string[]> => {
     return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
     handleError(error, "regionApi"); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };

@@ -1,4 +1,6 @@
 import { geocodeApi } from "./geocodeApi";
+import { handleError } from "@/src/commons/libraries/utils/handleError";
+
 import type { IGeocodeAPIReturn } from "@/src/commons/types";
 
 export const getSelectGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
@@ -13,7 +15,7 @@ export const getSelectGeocodeData = async (address: string): Promise<IGeocodeAPI
       return null;
     }
   } catch (error) {
-    console.error(`Error geocoding address ${address}:`, error);
+    handleError(error, "getSelectGeocodeData"); // 에러 처리
     return null;
   }
 };

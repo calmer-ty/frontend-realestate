@@ -2,6 +2,7 @@ import { getRegionData } from "../region/regionData";
 import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
+
 import type { IApartmentItem } from "../../types";
 
 // import pLimit from "p-limit";
@@ -21,7 +22,7 @@ export const fetchApartmentData = async (regionCode: string): Promise<IApartment
     return responses;
   } catch (error) {
     handleError(error, `fetchApartmentData - ${regionCode}`); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };
 
@@ -36,6 +37,6 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
     return apartmentData.flat();
   } catch (error) {
     handleError(error, "getApartmentData"); // 에러 처리
-    return []; // 에러 발생 시 빈 배열 반환
+    return [];
   }
 };
