@@ -1,7 +1,7 @@
 import NodeCache from "node-cache";
 
 // TTL을 7200초(2시간)로 설정하여 캐시 인스턴스를 초기화합니다.
-const regionCache = new NodeCache({ stdTTL: 7200 });
+const regionCache = new NodeCache({ stdTTL: 3600 });
 
 // 임시타입
 export const getCachedRegionData = (key: string): string[] | undefined => {

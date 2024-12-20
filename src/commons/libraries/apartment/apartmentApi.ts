@@ -1,79 +1,114 @@
 import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
-import { getLatestData } from "./utils/latest";
 
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 import type { AxiosResponse } from "axios";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 // import pLimit from "p-limit";
 // const limit = pLimit(100);
 
+// API 설정 상수
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
+const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
+const NUM_OF_ROWS = 100;
 
-const fieldsToExclude = ["cdealDay", "cdealType", "landLeaseholdGbn", "sggCd"]; // 제외할 필드들
+// 제외 필드 상수
+const FIELDS_TO_EXCLUDE = ["cdealDay", "cdealType", "landLeaseholdGbn", "sggCd"]; // 제외할 필드들
 
-export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]> => {
+const createApiUrl = (regionCode: string, pageNo: number): string => {
   const currentDate = getCurrentDate();
-  // 캐시에 없는 경우 실제 데이터를 요청합니다
-  const apiUrl = `https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}`;
-  const numOfRows = 100;
+  return `${BASE_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
+};
 
-  try {
-    const initialResponse = await axios.get<IApartment | undefined>(`${apiUrl}&pageNo=1&numOfRows=${numOfRows}`);
-    const totalCount = initialResponse.data?.response?.body?.totalCount ?? NaN;
+const processResponseData = (data: IApartment | undefined): Array<Partial<IApartmentItem>> => {
+  const itemsRaw = data?.response?.body?.items?.item ?? [];
+  const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
-    if (totalCount === undefined) {
-      throw new Error("totalCount 값을 가져올 수 없습니다.");
+  return items.map((el) => {
+    // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
+    if (el?.estateAgentSggNm?.includes(",") === true) {
+      el.estateAgentSggNm = el.estateAgentSggNm.split(",").slice(1).join(",").trim();
     }
 
-    // // 총 페이지 수 계산
-    const totalPages = Math.max(1, Math.ceil(totalCount / numOfRows));
+    const filteredItem: Partial<IApartmentItem> = {};
 
-    const request: Array<Promise<AxiosResponse<IApartment | undefined>>> = [];
-    for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      const apartmentUrl = `${apiUrl}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
-
-      // request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
-      request.push(axios.get<IApartment | undefined>(apartmentUrl)); // limit으로 요청 제한
-    }
-
-    const responses = await Promise.all(request);
-
-    const aptItemArray: IApartmentItem[] = [];
-    responses.forEach((response) => {
-      // item 값이 단일로 있는 경우 배열이 아닌데, 이때 배열로 처리하여 forEach문이 돌아가게 한다.
-
-      const itemRaw = response.data?.response?.body?.items?.item ?? [];
-      const item = Array.isArray(itemRaw) ? itemRaw : [itemRaw];
-
-      item?.forEach((el) => {
-        // estateAgentSggNm 2개 이상 일 때, 필터링
-        if (el?.estateAgentSggNm?.includes(",") === true) {
-          const filteredSggNm = el.estateAgentSggNm.split(",").slice(1).join(",").trim();
-          return filteredSggNm;
-        }
-
-        // 필터링해야 할 특정 값들 제외하기
-        const filteredEl: Partial<IApartmentItem> = {};
-        Object.keys(el).forEach((key) => {
-          if (!fieldsToExclude.includes(key)) {
-            filteredEl[key] = el[key];
-          }
-        });
-
-        // 값이 비어있지 않은 경우에만 추가
-        if (el?.estateAgentSggNm !== " " || el.estateAgentSggNm != null) {
-          aptItemArray.push(filteredEl);
-        }
-      });
+    Object.keys(el).forEach((key) => {
+      if (!FIELDS_TO_EXCLUDE.includes(key)) {
+        filteredItem[key] = el[key];
+      }
     });
 
+    return filteredItem;
+  });
+};
+
+// 최신 데이터 필터링 함수
+export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
+  const grouped: Record<string, IApartmentItem> = {};
+
+  items.forEach((item) => {
+    const key = `${item.umdNm}_${item.jibun}_${item.aptNm}`; // 동, 지번, 아파트명 기준으로 그룹화
+    if (grouped[key] == null) {
+      grouped[key] = item;
+    } else {
+      const existingItem = grouped[key];
+
+      const isNewer =
+        // 연도 비교
+        (item.dealYear ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealYear ?? DEFAULT_NUMBER_VALUE) ||
+        // 연도가 같고, 월 비교
+        (item.dealYear === existingItem.dealYear && (item.dealMonth ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealMonth ?? DEFAULT_NUMBER_VALUE)) ||
+        // 연도, 월이 같고, 날 비교
+        (item.dealYear === existingItem.dealYear && item.dealMonth === existingItem.dealMonth && (item.dealDay ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealDay ?? DEFAULT_NUMBER_VALUE));
+
+      if (isNewer) {
+        grouped[key] = item;
+      }
+    }
+  });
+
+  return Object.values(grouped);
+};
+
+// 메인 함수
+export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]> => {
+  try {
+    // 첫 번째 요청으로 총 페이지 수 계산
+    const initialUrl = createApiUrl(regionCode, 1);
+    const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
+
+    const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
+    if (totalCount === 0) {
+      console.warn("총 데이터 개수가 없습니다.");
+    }
+
+    const totalPages = Math.max(1, Math.ceil(totalCount / NUM_OF_ROWS));
+    const request: Array<Promise<AxiosResponse<IApartment | undefined>>> = [];
+
+    // 모든 페이지에 대한 요청 생성
+    for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
+      // request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
+      request.push(axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo)));
+    }
+
+    // 요청 병렬 처리
+    const responses = await Promise.all(request);
+
+    // 모든 응답 데이터 처리
+    const allItems = responses.flatMap((response) => processResponseData(response.data));
+
     // 최신 데이터만 필터링
-    const latestData = getLatestData(aptItemArray);
+    const latestData = getLatestData(allItems);
 
     return latestData;
   } catch (error) {
-    console.error("API 요청 중 오류 발생:", error);
-    throw new Error("아파트 API 로딩 실패");
+    if (error instanceof Error) {
+      console.error("apartmentApi 에러 발생:", error.message);
+      throw new Error(`API 요청 실패 (RegionCode: ${regionCode}): ${error.message}`);
+    } else {
+      console.error("예상치 못한 에러:", error);
+      throw new Error("알 수 없는 오류 발생");
+    }
   }
 };

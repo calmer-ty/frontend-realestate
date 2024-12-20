@@ -17,10 +17,15 @@ export const fetchApartmentData = async (regionCode: string): Promise<IApartment
   try {
     const responses = await apartmentApi(regionCode);
     setApartmentCache(cacheKey, responses); // 캐시에 저장
-
     return responses;
   } catch (error) {
-    throw new Error(`${regionCode}, 파라미터 값을 가져오는 데 실패했습니다.`);
+    if (error instanceof Error) {
+      console.error(`fetchApartmentData 에러 발생 - ${regionCode}:`, error.message);
+      throw new Error(`아파트 데이터를 가져오는 데 실패했습니다. (RegionCode: ${regionCode})`);
+    } else {
+      console.error("예상치 못한 에러:", error);
+      throw new Error("알 수 없는 오류 발생");
+    }
   }
 };
 
@@ -34,6 +39,12 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
     const apartmentData = await Promise.all(promises);
     return apartmentData.flat();
   } catch (error) {
-    throw new Error("아파트 Data 로딩 실패");
+    if (error instanceof Error) {
+      console.error("getApartmentData 에러 발생:", error.message);
+      throw new Error(`아파트 데이터를 가져오는 데 실패했습니다. (전체 지역 코드에서 오류 발생)`);
+    } else {
+      console.error("예상치 못한 에러:", error);
+      throw new Error("알 수 없는 오류 발생");
+    }
   }
 };
