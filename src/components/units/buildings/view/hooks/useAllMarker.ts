@@ -2,7 +2,7 @@ import { useRef, useCallback } from "react";
 import { useMapsLoader } from "@/src/hooks/useMapsLoader";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 import { createMarker } from "@/src/commons/libraries/utils/maps/marker";
-import { createMarkerClusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
+import { clusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IGeocodeData, IFirestore } from "@/src/commons/types";
@@ -42,7 +42,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
       if (markerClusteringRef.current != null) {
         markerClusteringRef.current.setMap(null);
       }
-      markerClusteringRef.current = createMarkerClusteringOptions(map, markersRef.current);
+      markerClusteringRef.current = clusteringOptions(map, markersRef.current);
 
       const markerDataArray: IGeocodeData[] = markersRef.current.map((marker) => marker.get("data"));
 

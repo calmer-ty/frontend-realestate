@@ -18,14 +18,14 @@ const createClusterIcons = (): IClusterIcon[] => {
   return icons;
 };
 
-export const createMarkerClusteringOptions = (map: any, markers: any[]): any => {
+export const clusteringOptions = (map: any, markers: any[]): any => {
   return new window.MarkerClustering({
-    minClusterSize: 2, // 클러스터 최소 마커 개수 증가
+    minClusterSize: 3, // 클러스터 최소 마커 개수 증가
     maxZoom: 20, // 가까운 줌에서도 클러스터 유지
     map,
     markers,
     disableClickZoom: false,
-    gridSize: 80, // 그리드 크기 감소로 렌더링 밀도 조절
+    gridSize: 200, // 그리드 크기 감소로 렌더링 밀도 조절
     icons: createClusterIcons(),
     indexGenerator: [10, 100, 200, 500, 1000],
     stylingFunction: (clusterMarker: any, count: any) => {
