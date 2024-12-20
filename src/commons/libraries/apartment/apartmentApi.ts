@@ -78,10 +78,12 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     // 첫 번째 요청으로 총 페이지 수 계산
     const initialUrl = createApiUrl(regionCode, 1);
     const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
+    console.log("initialResponse === ", initialResponse.data);
 
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
-      console.warn("총 데이터 개수가 없습니다.");
+      console.warn("apartmentApi - 총 데이터 개수가 없습니다.");
+      return [];
     }
 
     const totalPages = Math.max(1, Math.ceil(totalCount / NUM_OF_ROWS));
@@ -89,8 +91,8 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
 
     // 모든 페이지에 대한 요청 생성
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      // request.push(limit(() => axios.get<IApartment | undefined>(apartmentUrl))); // limit으로 요청 제한
       request.push(axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo)));
+      // request.push(limit(() => axios.get<IApartment | undefined>(createApiUrl(regionCode, pageNo))));
     }
 
     // 요청 병렬 처리
@@ -102,6 +104,7 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     // 최신 데이터만 필터링
     const latestData = getLatestData(allItems);
 
+    console.log("latestData: ", latestData);
     return latestData;
   } catch (error) {
     handleError(error, "apartmentApi"); // 에러 처리

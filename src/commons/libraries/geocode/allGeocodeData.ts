@@ -51,16 +51,27 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
   const geocodeData = await Promise.all(
     datas.map(async (data) =>
       // limit(async () => {
-      //   const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
-      //   const geocode = await fetchGeocodeData(address);
-
-      //   return { data, geocode };
+      //   try {
+      //     const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+      //     const geocode = await fetchGeocodeData(address);
+      //     return { data, geocode };
+      //   } catch (error) {
+      //     // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
+      //     console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
+      //     return { data, geocode: null };
+      //   }
       // })
-      {
-        const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
-        const geocode = await fetchGeocodeData(address);
 
-        return { data, geocode };
+      {
+        try {
+          const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+          const geocode = await fetchGeocodeData(address);
+          return { data, geocode };
+        } catch (error) {
+          // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
+          console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
+          return { data, geocode: null };
+        }
       }
     )
   );
