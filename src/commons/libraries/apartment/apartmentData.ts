@@ -3,10 +3,10 @@ import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import type { IApartmentItem } from "../../types";
+import type { IApartmentItem } from "@/src/commons/types";
 
-import pLimit from "p-limit";
-const limit = pLimit(50);
+// import pLimit from "p-limit";
+// const limit = pLimit(50);
 
 export const fetchApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
   const cacheKey = `apartment_${regionCode}`;
@@ -30,10 +30,16 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
   try {
     const regionCodes: string[] = await getRegionData();
 
-    const promises = regionCodes.map((regionCode) => limit(() => fetchApartmentData(regionCode)));
-    // 모든 요청을 병렬로 실행하고 결과를 반환
+    // regionCode마다 fetchApartmentData를 호출
+    const promises = regionCodes.map(async (regionCode) => {
+      const data = await fetchApartmentData(regionCode);
+      return data;
+    });
+
     const apartmentData = await Promise.all(promises);
 
+    // logToFile(`최종 필터링된 result: ${JSON.stringify(apartmentData.flat())}`); // 최종 필터링된 결과를 로그로 기록
+    // 모든 요청을 병렬로 실행하고 결과를 반환
     return apartmentData.flat();
   } catch (error) {
     handleError(error, "getApartmentData"); // 에러 처리

@@ -21,11 +21,13 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
 
   const updateMarkers = useCallback(
     async (map: any) => {
+      console.log("updateMarkers called");
+      console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
+
       const mapBounds = map.getBounds();
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
-      console.log("geocodeData ===== ", geocodeData);
 
       geocodeData?.forEach((item) => {
         const position = new window.naver.maps.LatLng(item.geocode?.latitude, item.geocode?.longitude);
