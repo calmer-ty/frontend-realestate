@@ -6,8 +6,11 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
-// import pLimit from "p-limit";
-// const limit = pLimit(10);
+import pLimit from "p-limit";
+const limit = pLimit(10);
+
+// 제외 필드 상수
+const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
@@ -45,10 +48,10 @@ export const getAllGeocodeData = async (
   }>
 > => {
   // 주거 타입 선택
-  let datas: IApartmentItem[] = [];
+  let selectedData: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
-      datas = await getApartmentData();
+      selectedData = await getApartmentData();
       break;
     // 다른 buildingType에 대한 분기 추가 가능
     default:
@@ -57,21 +60,29 @@ export const getAllGeocodeData = async (
   }
 
   const geocodeData = await Promise.all(
-    datas.map(async (data) => {
-      // const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
-      // const geocode = await fetchGeocodeData(address);
-      // console.log("geocode === ", geocode);
-      // return { data, geocode };
-      try {
-        const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
-        const geocode = await fetchGeocodeData(address);
-        return { data, geocode };
-      } catch (error) {
-        // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
-        console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
-        return { data, geocode: null };
-      }
-    })
+    selectedData.map((dataItem) =>
+      limit(async () => {
+        try {
+          const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
+          const geocode = await fetchGeocodeData(address);
+
+          // 데이터를 필터링하여 새로운 객체에 저장
+          const filteredData: Partial<IApartmentItem> = {};
+
+          Object.keys(dataItem).forEach((key) => {
+            if (!FIELDS_TO_EXCLUDE.includes(key)) {
+              filteredData[key] = dataItem[key];
+            }
+          });
+          const data = filteredData;
+          return { data, geocode }; // 정상적으로 처리된 데이터 리턴
+        } catch (error) {
+          // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
+          console.error(`Error processing geocode data`, error);
+          return { data: {}, geocode: null }; // 기본값 리턴
+        }
+      })
+    )
   );
 
   return geocodeData;

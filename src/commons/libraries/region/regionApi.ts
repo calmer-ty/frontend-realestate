@@ -6,6 +6,7 @@ import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 �
 
 import pLimit from "p-limit";
 const limit = pLimit(50);
+// import { logToFile } from "../utils/logToFile";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
@@ -33,7 +34,7 @@ const extractRegionCodes = (responses: Array<AxiosResponse<IRegion | undefined, 
 
 export const regionApi = async (city: string): Promise<string[]> => {
   try {
-    const initialUrl = createApiUrl(`인천광역시`, 1);
+    const initialUrl = createApiUrl(`세종특별자치시`, 1);
     const initialResponse = await axios.get<IRegion | undefined>(initialUrl);
 
     const totalCount = initialResponse.data?.StanReginCd?.[0]?.head?.[0].totalCount ?? 0; // row 데이터 추출
@@ -46,7 +47,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
 
     // 모든 페이지에 대한 요청 생성
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`인천광역시`, pageNo))));
+      request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`세종특별자치시`, pageNo))));
     }
 
     // 요청 병렬 처리
