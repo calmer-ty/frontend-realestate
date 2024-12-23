@@ -48,7 +48,6 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       console.error("찾을 수 없는 buildingType 입니다.:", buildingType);
       return [];
   }
-
   const geocodeData = await Promise.all(
     datas.map((data) =>
       limit(async () => {
