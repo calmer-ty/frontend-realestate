@@ -27,8 +27,10 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
   const itemsRaw = data?.response?.body?.items?.item ?? [];
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
+  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
+
   return items
-    .filter((el) => el.estateAgentSggNm != null && el.estateAgentSggNm.trim() !== "" && el.umdNm !== undefined && el.umdNm.trim() !== "" && el.dealAmount != null && el.dealAmount.trim() !== "")
+    .filter(isValidData) // isValidData 함수로 필터링
     .map((el) => {
       // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
       if (el?.estateAgentSggNm?.includes(",") === true) {
