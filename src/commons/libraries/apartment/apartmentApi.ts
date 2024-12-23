@@ -31,17 +31,17 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
 
   return items
     .filter(isValidData) // isValidData 함수로 필터링
-    .map((el) => {
+    .map((item) => {
       // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
-      if (el?.estateAgentSggNm?.includes(",") === true) {
-        el.estateAgentSggNm = el.estateAgentSggNm.split(",").slice(1).join(",").trim();
+      if (item?.estateAgentSggNm?.includes(",") === true) {
+        item.estateAgentSggNm = item.estateAgentSggNm.split(",").slice(1).join(",").trim();
       }
 
       const filteredItem: Partial<IApartmentItem> = {};
 
-      Object.keys(el).forEach((key) => {
+      Object.keys(item).forEach((key) => {
         if (!FIELDS_TO_EXCLUDE.includes(key)) {
-          filteredItem[key] = el[key];
+          filteredItem[key] = item[key];
         }
       });
 
