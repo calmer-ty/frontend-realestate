@@ -33,8 +33,9 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
     .filter(isValidData) // isValidData 함수로 필터링
     .map((item) => {
       // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
+      const updatedItem = { ...item };
       if (item?.estateAgentSggNm?.includes(",") === true) {
-        item.estateAgentSggNm = item.estateAgentSggNm.split(",").slice(1).join(",").trim();
+        updatedItem.estateAgentSggNm = item.estateAgentSggNm.split(",").slice(1).join(",").trim();
       }
 
       const filteredItem: Partial<IApartmentItem> = {};
