@@ -9,6 +9,9 @@ import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 import pLimit from "p-limit";
 const limit = pLimit(10);
 
+// 제외 필드 상수
+const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
+
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
   const cacheKey = `geocode_${address}`;
@@ -38,27 +41,38 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
 // - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
 export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
   // 주거 타입 선택
-  let datas: IApartmentItem[] = [];
+  let selectedData: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
-      datas = await getApartmentData();
+      selectedData = await getApartmentData();
       break;
     // 다른 buildingType에 대한 분기 추가 가능
     default:
       console.error("찾을 수 없는 buildingType 입니다.:", buildingType);
       return [];
   }
+
   const geocodeData = await Promise.all(
-    datas.map((data) =>
+    selectedData.map((dataItem) =>
       limit(async () => {
         try {
-          const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+          const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
           const geocode = await fetchGeocodeData(address);
-          return { data, geocode };
+
+          // 데이터를 필터링하여 새로운 객체에 저장
+          const filteredData: Partial<IApartmentItem> = {};
+
+          Object.keys(dataItem).forEach((key) => {
+            if (!FIELDS_TO_EXCLUDE.includes(key)) {
+              filteredData[key] = dataItem[key];
+            }
+          });
+          const data = filteredData;
+          return { data, geocode }; // 정상적으로 처리된 데이터 리턴
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
-          console.error(`Error processing geocode data for ${data.estateAgentSggNm}:`, error);
-          return { data, geocode: null };
+          console.error(`Error processing geocode data`, error);
+          return { data: {}, geocode: null }; // 기본값 리턴
         }
       })
     )
