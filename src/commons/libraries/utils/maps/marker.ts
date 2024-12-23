@@ -12,11 +12,14 @@ const markerIconContent = (geocodeData: IGeocodeData, firestoreDatas: IFirestore
     // ||   firestoreData.address === getReducedCityName(data.address_road ?? DEFAULT_STRING_VALUE)
   );
 
+  const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
+  const peng = Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);
+
   return `
     <div class="markerBox ${matchedFirestoreData !== undefined ? "hasData" : ""}">
-      <div class="top">${Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025)}평</div>
+      <div class="top">${peng}평</div>
       <div class="bottom"> 
-      <span>매</span> <strong>${(Number(geocodeData.data?.dealAmount?.replace(/,/g, "")) / 10000).toFixed(2)}억</strong></div>
+      <span>매</span> <strong>${amount}억</strong></div>
     </div>`;
 };
 

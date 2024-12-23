@@ -19,7 +19,7 @@ const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGb
 
 const createApiUrl = (regionCode: string, pageNo: number): string => {
   const currentDate = getCurrentDate();
-  return `${BASE_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=1&numOfRows=${NUM_OF_ROWS}`;
+  return `${BASE_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
 };
 
 const processResponseData = (data: IApartment | undefined): Array<Partial<IApartmentItem>> => {
@@ -28,7 +28,7 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   return items
-    .filter((el) => el.estateAgentSggNm != null && el.estateAgentSggNm.trim() !== "" && el.umdNm !== undefined && el.umdNm.trim() !== "")
+    .filter((el) => el.estateAgentSggNm != null && el.estateAgentSggNm.trim() !== "" && el.umdNm !== undefined && el.umdNm.trim() !== "" && el.dealAmount != null && el.dealAmount.trim() !== "")
     .map((el) => {
       // 쉼표가 있는 경우 이후의 값만 저장, 없는 경우 원래 값을 유지
       if (el?.estateAgentSggNm?.includes(",") === true) {
