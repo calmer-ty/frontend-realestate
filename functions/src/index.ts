@@ -35,6 +35,11 @@ const nextServer = next({
 const handle = nextServer.getRequestHandler();
 
 export const nextjsFunc = functions.https.onRequest(async (req, res) => {
+  // 환경 변수 가져오기
+  const nextAuthSecret = functions.config().nextauth.secret;
+  // 환경 변수 사용
+  process.env.NEXTAUTH_SECRET = nextAuthSecret;
+
   await nextServer.prepare();
   return handle(req, res);
 });
