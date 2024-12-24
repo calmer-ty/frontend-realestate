@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 // 지도 선택 버튼
 export const Container = styled.section`
@@ -8,6 +10,18 @@ export const Container = styled.section`
   height: 50%;
   position: relative;
 
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+
+    ${mediaQueries.mobile(css`
+      flex-direction: column;
+      align-items: center;
+    `)}
+  }
+
+  /* 가상요소 */
   ::before {
     content: "";
     display: block;
@@ -16,10 +30,10 @@ export const Container = styled.section`
     position: absolute;
     background: #fff url("/images/main.jpg") no-repeat center/cover;
     opacity: 0.2;
+    pointer-events: none;
   }
-  .inner {
-    display: flex;
-    justify-content: space-between;
-    width: 1024px;
-  }
+  /* 반응형 */
+  ${mediaQueries.mobile(css`
+    height: 100%;
+  `)}
 `;

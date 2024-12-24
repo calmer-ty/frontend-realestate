@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 import type { IBuildingTypeProps } from "../types";
 
 export const ListItem = styled.div<IBuildingTypeProps>`
