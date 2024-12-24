@@ -1,10 +1,7 @@
 "use client";
 
-import BuildingTypeItem from "./buildingTypeItem";
+import BuildingTypeList from "./buildingTypeList";
 import RecommendedList from "./recommendedList";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
-import HomeIcon from "@mui/icons-material/Home";
 
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
@@ -28,13 +25,7 @@ export default function Home(): JSX.Element {
 
   return (
     <S.Container>
-      <S.MapOptions>
-        <div className="inner">
-          <BuildingTypeItem href="apartment" title="아파트" description="거래된 목록들이 지도에!" icon={<LocationCityIcon fontSize="large" color="primary" />} />
-          <BuildingTypeItem title="주택/빌라" icon={<HomeIcon fontSize="large" color="primary" />} />
-          <BuildingTypeItem title="오피스텔" icon={<MapsHomeWorkIcon fontSize="large" color="primary" />} />
-        </div>
-      </S.MapOptions>
+      <BuildingTypeList />
       <RecommendedList firestoreDatas={firestoreDatas} />
     </S.Container>
   );

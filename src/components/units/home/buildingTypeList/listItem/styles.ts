@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
-import { css } from "@emotion/react";
 import type { IBuildingTypeProps } from "../types";
 
-const buildingTypeBase = css`
+export const ListItem = styled.div<IBuildingTypeProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,8 +9,8 @@ const buildingTypeBase = css`
   width: 280px;
   height: 200px;
   border-radius: 10px;
-  background-color: #fff;
-  cursor: pointer;
+  background-color: ${(props) => (props.isDisabled ? "#ccc" : "#ffffff")};
+  pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
 
   > a {
     display: flex;
@@ -37,16 +35,4 @@ const buildingTypeBase = css`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
   }
-`;
-
-// 지도 선택 버튼
-export const Container = styled.div<IBuildingTypeProps>`
-  ${buildingTypeBase}
-  background-color: ${(props) => (props.isDisabled ? "#ccc" : "#ffffff")};
-  cursor: ${(props) => (props.isDisabled ? "not-allowed" : "pointer")};
-  pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
-
-  ${mediaQueries.mobile2(css`
-    height: 150px;
-  `)}
 `;

@@ -23,6 +23,7 @@ export const MapOptions = styled.section`
     width: 1024px;
     padding: 20px;
   }
+  /* 가상요소 */
   ::before {
     content: "";
     display: block;
@@ -32,7 +33,7 @@ export const MapOptions = styled.section`
     background: #fff url("/images/main.jpg") no-repeat center/cover;
     opacity: 0.2;
   }
-
+  /* 반응형 */
   ${mediaQueries.mobile(css`
     height: 100%;
     .inner {

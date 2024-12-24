@@ -4,7 +4,7 @@ import type { SerializedStyles } from "@emotion/react";
 // 미디어 쿼리 믹스인 정의
 export const mediaQueries = {
   mobile: (styles: SerializedStyles) => css`
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 480px), screen and (max-height: 640px) {
       ${styles}
     }
   `,
@@ -14,7 +14,7 @@ export const mediaQueries = {
     }
   `,
   tablet: (styles: SerializedStyles) => css`
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px), screen and (max-height: 768px) {
       ${styles}
     }
   `,
