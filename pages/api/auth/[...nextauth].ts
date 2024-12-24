@@ -17,7 +17,7 @@ export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "클라이언트 아이디 없음",
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET ?? "클라이언트 비밀번호 없음",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "클라이언트 비밀번호 없음",
     }),
   ],
   // pages: {
@@ -32,6 +32,7 @@ export default NextAuth({
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET, // secret 추가
   session: {
     // 세션 전략: 'jwt'는 토큰 기반, 'database'는 데이터베이스 기반
     strategy: "jwt",

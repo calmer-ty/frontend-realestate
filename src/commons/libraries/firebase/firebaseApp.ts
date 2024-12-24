@@ -8,7 +8,7 @@ import { getStorage } from "firebase/storage"; // getStorage 함수 추가
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseKey = process.env.NEXT_PUBLIC_FIREBASE_KEY;
+const firebaseKey = process.env.FIREBASE_KEY;
 
 const firebaseConfig = {
   apiKey: firebaseKey,
