@@ -32,4 +32,12 @@ export default NextAuth({
       return session;
     },
   },
+  session: {
+    // 세션 전략: 'jwt'는 토큰 기반, 'database'는 데이터베이스 기반
+    strategy: "jwt",
+    maxAge: 60 * 60, // 세션 유지 시간 (1시간)
+  },
+  jwt: {
+    maxAge: 60 * 60, // JWT 토큰 유지 시간 (1시간)
+  },
 });
