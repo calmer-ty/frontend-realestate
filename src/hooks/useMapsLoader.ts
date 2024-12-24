@@ -5,6 +5,14 @@ export interface IUseMapsLoaderProps {
   onMapLoaded: (map: any) => void;
 }
 
+const loadScriptAsync = (url: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    loadScript(url, () => {
+      resolve();
+    });
+  });
+};
+
 export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
 
@@ -28,7 +36,6 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
         console.error("지도 컨테이너가 렌더링되지 않았습니다.");
         return;
       }
-      // console.log("지도 컨테이너가 렌더링되었습니다:", mapContainer);
 
       try {
         const map = new window.naver.maps.Map("map", getMapInitOptions());
@@ -38,6 +45,16 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): void => {
       }
     };
 
-    loadScript(NAVER_MAP_SCRIPT_URL, handleScriptLoad);
+    const initMap = async (): Promise<void> => {
+      try {
+        // 스크립트 로드가 완료될 때까지 기다림
+        await loadScriptAsync(NAVER_MAP_SCRIPT_URL);
+        handleScriptLoad();
+      } catch (error) {
+        console.error("스크립트 로드 실패:", error);
+      }
+    };
+
+    void initMap(); // 지도 로딩 시작
   }, [onMapLoaded, ncpClientId]);
 };

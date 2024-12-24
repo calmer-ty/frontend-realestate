@@ -21,23 +21,21 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
 
   const updateMarkers = useCallback(
     async (map: any) => {
-      console.log("updateMarkers called");
       console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
-
       const mapBounds = map.getBounds();
+      const processedPositions = new Set<string>();
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
       geocodeData?.forEach((item) => {
         const position = new window.naver.maps.LatLng(item.geocode?.latitude, item.geocode?.longitude);
+        const positionKey = `${item.geocode?.latitude},${item.geocode?.longitude}`;
 
-        if (mapBounds.hasLatLng(position) === true) {
-          const existingMarker = markersRef.current.find((marker) => marker.getPosition().equals(position));
-          if (existingMarker === undefined) {
-            const marker = createMarker(item, firestoreData, setSelectedMarkerData);
-            markersRef.current.push(marker);
-          }
+        if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
+          const marker = createMarker(item, firestoreData, setSelectedMarkerData);
+          markersRef.current.push(marker);
+          processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
         }
       });
 
@@ -58,6 +56,9 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
     (map: any) => {
       if (isClusterScriptLoadedRef.current) {
         console.log("클러스터 스크립트가 이미 로드되었습니다.");
+
+        // 기존 리스너 제거 후 등록
+        window.naver.maps.Event.clearListeners(map, "idle");
         window.naver.maps.Event.addListener(map, "idle", () => {
           void updateMarkers(map);
         });
@@ -67,12 +68,17 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
 
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
-        console.log("클러스터를 실행합니다.");
-        isClusterScriptLoadedRef.current = true; // 스크립트가 로드되었음을 기록
-        window.naver.maps.Event.addListener(map, "idle", () => {
+        try {
+          console.log("클러스터를 실행합니다.");
+          isClusterScriptLoadedRef.current = true; // 스크립트가 로드되었음을 기록
+
+          window.naver.maps.Event.addListener(map, "idle", () => {
+            void updateMarkers(map);
+          });
           void updateMarkers(map);
-        });
-        void updateMarkers(map);
+        } catch (error) {
+          console.error("클러스터 스크립트 로드 중 오류 발생:", error);
+        }
       });
     },
     [updateMarkers]

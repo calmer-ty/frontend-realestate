@@ -17,8 +17,6 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
 
   const address = `${getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${selectedData.data?.umdNm} ${selectedData.data?.jibun}`;
 
-  console.log("estateAgentSggNm: ", getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE));
-  console.log("address: ", address);
   const matchedFirestoreData: IFirestore[] = firestoreData.filter(
     (el) => address === el.address
     // || getReducedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address

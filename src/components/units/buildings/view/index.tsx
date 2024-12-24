@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetchAllGeocode } from "@/src/components/units/buildings/view/hooks/useFetchAllGeocode";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAllMarker } from "./hooks/useAllMarker";
@@ -12,7 +12,7 @@ import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import type { IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
 
-function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
+export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
@@ -47,4 +47,3 @@ function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
     </>
   );
 }
-export default memo(BuildingView);
