@@ -19,7 +19,7 @@ export const loadScript = (src: string, onLoad: () => void): void => {
 
 export const getMapInitOptions: () => IGetMapInitOptionsProps = () => ({
   // center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-  center: new window.naver.maps.LatLng(36.5235727, 127.2330986),
+  center: new window.naver.maps.LatLng(36.4922117, 127.2582279),
   zoom: 14,
   zoomControl: true,
   zoomControlOptions: {
