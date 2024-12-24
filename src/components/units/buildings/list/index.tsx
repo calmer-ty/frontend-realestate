@@ -3,9 +3,6 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-// utils Hook
-import { filterBuildingsByUser } from "./utils/filter";
-import { getExpiredBuildings, processExpiredBuilding } from "./utils/expired";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import ListItem from "./listItem";
@@ -17,11 +14,29 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 // TYPE
-import type { SyntheticEvent } from "react";
+import type { MutableRefObject, SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 
-// Utility functions
+// 광고기한 초 - 60초 * 60분 * 24시간
+const DAY_LIMIT = 60 * 60 * 24;
+
+const getExpiredBuildings = (buildings: IFirestore[], archivedIds: Set<string>): IFirestore[] =>
+  buildings.filter((el) => el._id !== undefined && Date.now() / 1000 > (el.createdAt?.seconds ?? 0) + DAY_LIMIT && !archivedIds.has(el._id));
+
+const processExpiredBuilding = (
+  building: IFirestore,
+  archiveFirestore: (building: IFirestore) => Promise<void>,
+  deleteFirestore: (selectedType: string, docId: string) => Promise<void>,
+  archivedIds: MutableRefObject<Set<string>>
+): void => {
+  if (building._id !== undefined && building.type !== undefined) {
+    void archiveFirestore(building);
+    void deleteFirestore(building.type, building._id);
+    archivedIds.current.add(building._id);
+  }
+};
+const filterBuildingsByUser = (buildings: IFirestore[], userId: string | undefined): IFirestore[] => buildings.filter((el) => el.user?._id === userId);
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
