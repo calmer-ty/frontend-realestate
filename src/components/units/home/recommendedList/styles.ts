@@ -10,7 +10,8 @@ export const Container = styled.section`
   .inner {
     display: flex;
     flex-direction: column;
-    /* width: 1024px; */
+    min-width: 1024px;
+    min-height: 390px;
     padding: 20px;
     > h2 {
       width: 100%;
