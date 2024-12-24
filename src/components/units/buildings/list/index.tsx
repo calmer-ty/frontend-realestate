@@ -8,7 +8,7 @@ import { filterBuildingsByUser } from "./utils/filter";
 import { getExpiredBuildings, processExpiredBuilding } from "./utils/expired";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
-import ListItem from "./item";
+import ListItem from "./listItem";
 import DeleteModal from "./deleteModal";
 // 탭 MUI
 import Box from "@mui/material/Box";
@@ -93,10 +93,18 @@ export default function BuildingList(): JSX.Element {
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  <ListItem isDeleted={false} data={filteredBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+                  <ul>
+                    {filteredBuildings.map((el, index) => (
+                      <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
+                    ))}
+                  </ul>
                 </TabPanel>
                 <TabPanel value="2">
-                  <ListItem isDeleted={true} data={deletedBuildings} />
+                  <ul>
+                    {deletedBuildings.map((el, index) => (
+                      <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
+                    ))}
+                  </ul>
                 </TabPanel>
               </TabContext>
             </Box>

@@ -11,4 +11,14 @@ export const Container = styled.article`
   h3 {
     font-size: 18px;
   }
+
+  ul {
+    overflow-y: hidden;
+    overflow-y: scroll;
+    display: flex;
+    row-gap: 20px;
+    flex-direction: column;
+    min-width: 930px;
+    height: calc(100vh - 240px);
+  }
 `;
