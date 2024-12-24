@@ -26,17 +26,19 @@ export default function Nav(): JSX.Element {
   };
 
   return (
-    <S.Nav>
-      <Link href={isAuthenticated ? "/new" : "/"} onClick={moveToBuildingNew}>
-        <Button variant="contained">방 내놓기</Button>
-      </Link>
-      <AuthButton />
+    <>
+      <S.Nav>
+        <Link href={isAuthenticated ? "/new" : "/"} onClick={moveToBuildingNew}>
+          <Button variant="contained">방 내놓기</Button>
+        </Link>
+        <AuthButton />
+      </S.Nav>
       {/* 알림창 */}
       <BasicSnackbar open={alertOpen} close={alertClose}>
         <Alert onClose={alertClose} severity="warning">
           구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
         </Alert>
       </BasicSnackbar>
-    </S.Nav>
+    </>
   );
 }
