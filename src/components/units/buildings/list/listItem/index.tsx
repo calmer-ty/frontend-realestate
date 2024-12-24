@@ -45,43 +45,45 @@ export default function ListItem(props: IBuildingListItem): JSX.Element {
           </Button>
         </div>
       )}
-      <div className="bottomContents">
-        <p>{index}</p>
-        {el.imageUrls?.[0] !== undefined ? (
-          <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} />
-        ) : (
-          <BasicUnImage width="200px" height="120px" fontSize="28px" />
-        )}
-        <S.BuildingInfo>
-          <h3>
-            <p>
-              {engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-            </p>
-            <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
-          </h3>
-          <p className="address">
-            {el.address} {el.addressDetail}
-          </p>
-          <p className="desc">{el.desc}</p>
-        </S.BuildingInfo>
-        <S.BuildingAd>
-          <h3>광고 정보</h3>
-          {props.isDeleted && (
-            <p className="adEnd">
-              <span>광고 종료: </span>
-              {formatDate(el.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
-            </p>
+      <Link href={`/${props.el.type}/${props.el._id}`}>
+        <div className="bottomContents">
+          <p>{index}</p>
+          {el.imageUrls?.[0] !== undefined ? (
+            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} />
+          ) : (
+            <BasicUnImage width="200px" height="120px" fontSize="28px" />
           )}
-          <p>
-            <span>광고 기한: </span>
-            {formatDate((el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE) + DAY_LIMIT)}
-          </p>
-          <p>
-            <span>광고 시작: </span>
-            {formatDate(el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
-          </p>
-        </S.BuildingAd>
-      </div>
+          <S.BuildingInfo>
+            <h3>
+              <p>
+                {engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개
+              </p>
+              <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
+            </h3>
+            <p className="address">
+              {el.address} {el.addressDetail}
+            </p>
+            <p className="desc">{el.desc}</p>
+          </S.BuildingInfo>
+          <S.BuildingAd>
+            <h3>광고 정보</h3>
+            {props.isDeleted && (
+              <p className="adEnd">
+                <span>광고 종료: </span>
+                {formatDate(el.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
+              </p>
+            )}
+            <p>
+              <span>광고 기한: </span>
+              {formatDate((el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE) + DAY_LIMIT)}
+            </p>
+            <p>
+              <span>광고 시작: </span>
+              {formatDate(el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
+            </p>
+          </S.BuildingAd>
+        </div>
+      </Link>
     </S.ListItem>
   );
 }
