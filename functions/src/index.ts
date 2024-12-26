@@ -1,30 +1,17 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-// import { onRequest } from "firebase-functions/v2/https";
-// import * as logger from "firebase-functions/logger";
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", { structuredData: true });
-//   response.send("Hello from Firebase!");
-// });
-
-// 추가
-// import { onRequest } from "firebase-functions/v2/https";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import next from "next";
 
+// Firebase Admin 초기화
 admin.initializeApp();
+
+// Firebase Functions 설정 가져오기
+const functionsConfig = functions.config();
+const NEXTAUTH_URL = functionsConfig.nextauth?.url;
+const NEXTAUTH_SECRET = functionsConfig.nextauth?.secret;
+
+console.log("NEXTAUTH_URL from Firebase Functions: ", NEXTAUTH_URL);
+console.log("NEXTAUTH_SECRET from Firebase Functions: ", NEXTAUTH_SECRET);
 
 const isDev = process.env.NODE_ENV !== "production";
 const nextServer = next({
@@ -35,11 +22,15 @@ const nextServer = next({
 const handle = nextServer.getRequestHandler();
 
 export const nextjsFunc = functions.https.onRequest(async (req, res) => {
-  // 환경 변수 가져오기
-  const nextAuthSecret = functions.config().nextauth.secret;
-  // 환경 변수 사용
-  process.env.NEXTAUTH_SECRET = nextAuthSecret;
-
-  await nextServer.prepare();
-  return handle(req, res);
+  try {
+    // Firebase Functions 환경 변수 -> Node.js 환경 변수로 설정
+    process.env.NEXTAUTH_URL = NEXTAUTH_URL;
+    process.env.NEXTAUTH_SECRET = NEXTAUTH_SECRET;
+    // Next.js 준비
+    await nextServer.prepare();
+    return handle(req, res);
+  } catch (error) {
+    console.error("Error handling the request:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });

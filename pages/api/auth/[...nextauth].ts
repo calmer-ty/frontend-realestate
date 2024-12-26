@@ -13,6 +13,7 @@ interface ICustomUser {
 interface ICustomSession extends Session {
   user?: ICustomUser;
 }
+
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -30,6 +31,11 @@ export default NextAuth({
         session.user.id = token.sub;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log("Redirect URL: ", url);
+      console.log("Base URL: ", baseUrl); // baseUrl 값이 localhost로 출력되면 환경 변수가 제대로 설정되지 않은 것입니다.
+      return baseUrl; // baseUrl을 사용해 리디렉션
     },
   },
   secret: process.env.NEXTAUTH_SECRET, // secret 추가
