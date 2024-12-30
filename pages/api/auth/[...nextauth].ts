@@ -21,9 +21,10 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "클라이언트 비밀번호 없음",
     }),
   ],
-  // pages: {
-  //   signIn: "/",
-  // },
+  pages: {
+    signIn: "/auth/signin", // 로그인 페이지 경로
+    error: "/auth/error", // 오류 페이지 경로
+  },
   callbacks: {
     async session({ session, token }: { session: ICustomSession; token: JWT }) {
       // console.log("=== token ===", token);
@@ -38,7 +39,6 @@ export default NextAuth({
       return baseUrl; // baseUrl을 사용해 리디렉션
     },
   },
-  secret: process.env.NEXTAUTH_SECRET, // secret 추가
   session: {
     // 세션 전략: 'jwt'는 토큰 기반, 'database'는 데이터베이스 기반
     strategy: "jwt",
@@ -47,4 +47,15 @@ export default NextAuth({
   jwt: {
     maxAge: 60 * 60, // JWT 토큰 유지 시간 (1시간)
   },
+  // next-auth 설정에서 쿠키 관련 세부 사항
+  // cookies: {
+  //   sessionToken: {
+  //     name: "next-auth.session-token",
+  //     options: {
+  //       httpOnly: true,
+  //       secure: process.env.NODE_ENV === "production", // 배포 환경에서만 secure 쿠키 사용
+  //       sameSite: "strict",
+  //     },
+  //   },
+  // },
 });
