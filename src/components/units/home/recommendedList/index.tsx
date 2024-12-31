@@ -53,7 +53,7 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
             ))}
           </S.RegisteredList>
         ) : (
-          <div>추천드릴 매물이 없습니다</div>
+          <div className="unItems">추천드릴 매물이 없습니다</div>
         )}
       </div>
     </S.Container>

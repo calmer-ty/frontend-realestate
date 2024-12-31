@@ -21,7 +21,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
 
   const updateMarkers = useCallback(
     async (map: any) => {
-      console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
+      // console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
       const mapBounds = map.getBounds();
       const processedPositions = new Set<string>();
 

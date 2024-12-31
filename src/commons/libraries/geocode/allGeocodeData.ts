@@ -23,11 +23,12 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
   }
 
   try {
-    const responses = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
+    const response = await geocodeApi(address ?? DEFAULT_STRING_VALUE);
+    // console.log("responses",response?.jibunAddress)
 
-    if (responses != null) {
-      setGeocodeCache(cacheKey, responses);
-      return responses;
+    if (response != null) {
+      setGeocodeCache(cacheKey, response);
+      return response;
     } else {
       return null;
     }
@@ -84,6 +85,5 @@ export const getAllGeocodeData = async (
       })
     )
   );
-
   return geocodeData;
 };

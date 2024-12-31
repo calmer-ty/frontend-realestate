@@ -3,9 +3,6 @@ import ListItem from "./listItem";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useEffect, useState } from "react";
-// import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
-// import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-// import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import type { IVisibleAreaProps } from "./types";
 import type { IGeocodeData } from "@/src/commons/types";

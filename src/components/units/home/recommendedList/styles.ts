@@ -38,6 +38,11 @@ export const Container = styled.section`
   ${mediaQueries.mobile(css`
     flex: 3;
   `)}
+
+  /* unItems */
+  .unItems {
+    margin: 80px auto;
+  }
 `;
 
 export const RegisteredList = styled(Slider)`
