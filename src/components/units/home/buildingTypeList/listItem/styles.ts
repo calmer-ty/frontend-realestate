@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 import type { IBuildingTypeProps } from "../types";
 
@@ -7,8 +9,9 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 280px;
+  width: 300px;
   height: 200px;
+  margin: 0 auto;
   border-radius: 10px;
   background-color: ${(props) => (props.isDisabled ? "#ccc" : "#ffffff")};
   pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
@@ -36,4 +39,11 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
   }
+
+  ${mediaQueries.tablet(css`
+    width: 240px;
+  `)}
+  ${mediaQueries.mobile(css`
+    width: 300px;
+  `)}
 `;

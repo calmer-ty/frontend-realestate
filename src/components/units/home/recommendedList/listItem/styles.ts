@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-export const ListItem = styled.li`
+export const ListItem = styled.div`
+  width: 300px;
+
   a {
     display: flex;
     flex-direction: column;
@@ -11,10 +13,6 @@ export const ListItem = styled.li`
     /* 이미지 랩 */
     > img {
       object-fit: cover;
-
-      ${mediaQueries.tablet(css`
-        height: 150px;
-      `)}
     }
     ::before {
       content: "";
@@ -41,4 +39,7 @@ export const ListItem = styled.li`
       }
     }
   }
+  ${mediaQueries.desktop(css`
+    margin: 0 auto;
+  `)}
 `;

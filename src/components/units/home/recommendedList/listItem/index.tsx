@@ -13,9 +13,9 @@ export default function ListItem(props: IRecommendedListItemProps): JSX.Element 
     <S.ListItem key={props.el._id}>
       <Link href={`/${props.el.type}/${props.el._id}`}>
         {props.el.imageUrls?.[0] !== undefined ? (
-          <Image src={props.el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} alt={props.el.type ?? DEFAULT_STRING_VALUE} width={300} height={200} />
+          <Image src={props.el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} alt={props.el.type ?? DEFAULT_STRING_VALUE} width={300} height={180} />
         ) : (
-          <BasicUnImage width="300px" height="200px" fontSize="36px" />
+          <BasicUnImage width="300px" height="180px" fontSize="36px" />
         )}
         <p className="buildingDesc">
           <span>

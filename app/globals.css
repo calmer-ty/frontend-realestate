@@ -40,7 +40,7 @@ main {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  min-height: calc(100vh - 60px);
+  height: calc(100vh - 78px);
 }
 
 #logo a {

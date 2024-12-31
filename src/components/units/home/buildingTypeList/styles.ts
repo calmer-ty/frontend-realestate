@@ -7,18 +7,14 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50%;
   position: relative;
-
+  flex: 1;
   .inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 60px;
+    min-width: 360px;
 
-    ${mediaQueries.mobile(css`
-      flex-direction: column;
-      align-items: center;
-    `)}
+    .slick-dots {
+      bottom: -30px;
+    }
   }
 
   /* 가상요소 */
@@ -32,8 +28,8 @@ export const Container = styled.section`
     opacity: 0.2;
     pointer-events: none;
   }
-  /* 반응형 */
+
   ${mediaQueries.mobile(css`
-    height: 100%;
+    flex: 2;
   `)}
 `;

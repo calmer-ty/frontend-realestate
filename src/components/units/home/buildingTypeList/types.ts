@@ -7,6 +7,7 @@ export interface IBuildingTypeListProps {
   title: string;
 }
 export interface IBuildingTypeListItemProps {
+  href?: string;
   desc: string;
   icon: ReactNode;
   title: string;
