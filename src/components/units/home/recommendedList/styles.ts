@@ -12,26 +12,26 @@ export const Container = styled.section`
   align-items: center;
   flex: 1;
   .inner {
-    display: flex;
-    flex-direction: column;
     min-width: 360px;
     min-height: 390px;
-    > h2 {
-      width: 100%;
-      margin-left: 40px;
-      margin-bottom: 20px;
+    .innerBox {
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px;
+      > h2 {
+        width: 100%;
+        padding-left: 40px;
+        margin-bottom: 20px;
 
-      ${mediaQueries.desktop(css`
-        margin-left: 20px;
-      `)}
-      ${mediaQueries.tablet(css`
-        width: max-content;
-        margin: 0 auto 20px;
-      `)}
-    }
+        ${mediaQueries.mobile(css`
+          width: max-content;
+          margin: 0 auto 20px;
+        `)}
+      }
 
-    .slick-dots {
-      bottom: -30px;
+      .slick-dots {
+        bottom: -30px;
+      }
     }
   }
   ${mediaQueries.mobile(css`

@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 
 export const ListItem = styled.div`
   width: 300px;
+  margin: 0 auto;
   ${mediaQueries.tablet(css`
     width: 240px;
   `)}
