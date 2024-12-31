@@ -11,7 +11,7 @@ export const Container = styled.section`
   flex: 1;
   .inner {
     min-width: 360px;
-    padding: 0 300px;
+    padding: 0 360px;
 
     .slick-dots {
       bottom: -30px;
