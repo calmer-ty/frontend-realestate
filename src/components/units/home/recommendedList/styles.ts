@@ -16,7 +16,6 @@ export const Container = styled.section`
     flex-direction: column;
     min-width: 360px;
     min-height: 390px;
-    padding: 20px;
     > h2 {
       width: 100%;
       margin-left: 40px;

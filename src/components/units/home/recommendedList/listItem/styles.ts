@@ -4,15 +4,24 @@ import { css } from "@emotion/react";
 
 export const ListItem = styled.div`
   width: 300px;
-
+  ${mediaQueries.tablet(css`
+    width: 240px;
+  `)}
+  ${mediaQueries.mobile(css`
+    width: 300px;
+  `)}
   a {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     position: relative;
+
     /* 이미지 랩 */
     > img {
       object-fit: cover;
+      ${mediaQueries.tablet(css`
+        width: 100%;
+      `)}
     }
     ::before {
       content: "";

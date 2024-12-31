@@ -11,10 +11,24 @@ export const Container = styled.section`
   flex: 1;
   .inner {
     min-width: 360px;
+    padding: 0 300px;
 
     .slick-dots {
       bottom: -30px;
     }
+
+    ${mediaQueries.extraLargeDesktop(css`
+      padding: 0 100px;
+    `)}
+    ${mediaQueries.largeDesktop(css`
+      padding: 0;
+    `)}
+    ${mediaQueries.desktop(css`
+      padding: 0 40px;
+    `)}
+    ${mediaQueries.tablet(css`
+      padding: 0;
+    `)}
   }
 
   /* 가상요소 */
