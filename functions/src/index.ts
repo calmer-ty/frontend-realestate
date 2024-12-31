@@ -13,9 +13,6 @@ const nextServer = next({
 
 const handle = nextServer.getRequestHandler();
 
-// const nextAuthUrl = functions.config().nextauth?.url;
-// console.log("NEXTAUTH_URL:", nextAuthUrl);
-
 export const nextjsFunc = functions.https.onRequest(async (req, res) => {
   try {
     // Next.js 준비

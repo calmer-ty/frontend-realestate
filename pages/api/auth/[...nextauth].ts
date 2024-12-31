@@ -21,10 +21,10 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "클라이언트 비밀번호 없음",
     }),
   ],
-  pages: {
-    signIn: "/auth/signin", // 로그인 페이지 경로
-    error: "/auth/error", // 오류 페이지 경로
-  },
+  // pages: {
+  //   signIn: "/auth/signin", // 로그인 페이지 경로
+  //   error: "/auth/error", // 오류 페이지 경로
+  // },
   callbacks: {
     async session({ session, token }: { session: ICustomSession; token: JWT }) {
       // console.log("=== token ===", token);
