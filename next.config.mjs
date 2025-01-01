@@ -7,7 +7,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "firebasestorage.googleapis.com",
-        pathname: "/v0/b/**", // 정확한 경로 설정
+        pathname: "/v0/b/frontend-realestate.appspot.com/o/**",
       },
     ],
   },
