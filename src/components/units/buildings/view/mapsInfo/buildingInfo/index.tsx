@@ -66,7 +66,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? (
-                          <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} width={80} height={80} alt={el._id ?? DEFAULT_STRING_VALUE} />
+                          <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} width={80} height={80} alt={el._id ?? DEFAULT_STRING_VALUE} unoptimized />
                         ) : (
                           <BasicUnImage width="80px" height="80px" fontSize="24px" />
                         )}

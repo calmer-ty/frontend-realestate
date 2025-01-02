@@ -49,7 +49,7 @@ export default function ListItem(props: IBuildingListItem): JSX.Element {
         <div className="bottomContents">
           <p>{index}</p>
           {el.imageUrls?.[0] !== undefined ? (
-            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} />
+            <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} unoptimized />
           ) : (
             <BasicUnImage width="200px" height="120px" fontSize="28px" />
           )}
