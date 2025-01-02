@@ -1,5 +1,6 @@
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAuth } from "@/src/hooks/useAuth";
+// import { useRouter } from "next/navigation";
 import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
@@ -26,6 +27,7 @@ export const useFirestoreHandler = (
 ): IUseFirestoreHandlerReturn => {
   const { createFirestore, updateFirestore } = useFirestore();
   const { user } = useAuth();
+  //   const router = useRouter();
 
   const handleFormSubmit = async (data: IWriteForm): Promise<void> => {
     try {
@@ -39,7 +41,7 @@ export const useFirestoreHandler = (
           _id: user?.uid,
         },
       };
-      console.log("누름");
+
       await createFirestore(formData, selectedType);
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
