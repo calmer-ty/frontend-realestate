@@ -14,6 +14,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 // TYPE
+import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 import { useBuildingList } from "./hooks/useBuildingList";
@@ -36,7 +37,7 @@ export default function BuildingList(): JSX.Element {
 
   // 탭 로직
   const [tabValue, setTabValue] = useState("1");
-  const onChangeTabs = (event: React.SyntheticEvent, tabNewValue: string): void => {
+  const onChangeTabs = (event: SyntheticEvent, tabNewValue: string): void => {
     setTabValue(tabNewValue);
   };
 

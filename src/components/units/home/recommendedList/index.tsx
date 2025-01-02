@@ -6,12 +6,13 @@ import type { IRecommendedListProps } from "./types";
 import * as S from "./styles";
 
 export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
+  console.log("firestoreDatas: ", firestoreDatas.length);
   const settings = {
     arrows: false,
     dots: true,
-    infinite: true,
+    infinite: firestoreDatas.length > 2,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
     slidesToScroll: 5,
     initialSlide: 0,
     autoplay: true,
@@ -20,15 +21,15 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
       {
         breakpoint: 1690,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
+          slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: firestoreDatas.length === 1 ? 1 : 2,
+          slidesToScroll: firestoreDatas.length === 1 ? 1 : 2,
         },
       },
       {

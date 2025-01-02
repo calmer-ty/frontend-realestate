@@ -25,6 +25,7 @@ export const Container = styled.section`
 
         ${mediaQueries.mobile(css`
           width: max-content;
+          padding-left: 0;
           margin: 0 auto 20px;
         `)}
       }
@@ -45,8 +46,8 @@ export const Container = styled.section`
 `;
 
 export const RegisteredList = styled(Slider)`
-  margin: 0 40px;
-  ${mediaQueries.desktop(css`
+  /* margin: 0 40px; */
+  /* ${mediaQueries.desktop(css`
     margin: 0 20px;
-  `)}
+  `)} */
 `;
