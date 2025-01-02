@@ -6,7 +6,6 @@ import type { IRecommendedListProps } from "./types";
 import * as S from "./styles";
 
 export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
-  console.log("firestoreDatas: ", firestoreDatas.length);
   const settings = {
     arrows: false,
     dots: true,

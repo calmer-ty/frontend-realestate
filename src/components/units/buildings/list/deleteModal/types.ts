@@ -19,6 +19,6 @@ export interface IDeleteModalProps {
   setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
   archiveFirestore: (building: IFirestore) => Promise<void>;
   deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
-  fetchData: () => Promise<void>;
+  // fetchData: () => Promise<void>;
   selectedBuilding: IFirestore | null;
 }

@@ -20,15 +20,9 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
       // 3. 삭제된 데이터에 저장
       void props.archiveFirestore(props.selectedBuilding);
       // 4. Firestore에서 데이터 삭제 및 동기화
-      void props
-        .deleteFirestore(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE, props.selectedBuilding._id ?? DEFAULT_STRING_VALUE)
-        .then(() => {
-          // 3. Firestore와 동기화 후 데이터를 다시 가져오면 좋음
-          void props.fetchData();
-        })
-        .catch((error) => {
-          console.error(`Error deleting document ${props.selectedBuilding?._id}:`, error);
-        });
+      void props.deleteFirestore(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE, props.selectedBuilding._id ?? DEFAULT_STRING_VALUE).catch((error) => {
+        console.error(`Error deleting document ${props.selectedBuilding?._id}:`, error);
+      });
 
       // 모달 닫기
       props.setModalOpen(false);

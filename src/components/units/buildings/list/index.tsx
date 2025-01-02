@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useBuildingList } from "./hooks/useBuildingList";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import ListItem from "./listItem";
@@ -17,14 +18,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
-import { useBuildingList } from "./hooks/useBuildingList";
 
 export default function BuildingList(): JSX.Element {
   const { data: session, status } = useSession();
-  const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
+  const { buildings, deletedBuildings, setBuildings, archiveFirestore, deleteFirestore, readFirestoresRealTime } = useFirestore();
   const userId = (session?.user as { id?: string })?.id;
 
-  const { deletedBuildings, filteredBuildings, fetchData, setBuildings } = useBuildingList(readFirestores, archiveFirestore, deleteFirestore, userId);
+  const { registrantBuildings, registrantDeletedBuildings } = useBuildingList(buildings, deletedBuildings, userId, readFirestoresRealTime);
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,14 +56,14 @@ export default function BuildingList(): JSX.Element {
                 </Box>
                 <TabPanel value="1">
                   <ul>
-                    {filteredBuildings.map((el, index) => (
+                    {registrantBuildings.map((el, index) => (
                       <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
                     ))}
                   </ul>
                 </TabPanel>
                 <TabPanel value="2">
                   <ul>
-                    {deletedBuildings.map((el, index) => (
+                    {registrantDeletedBuildings.map((el, index) => (
                       <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
                     ))}
                   </ul>
@@ -83,7 +83,6 @@ export default function BuildingList(): JSX.Element {
         setBuildings={setBuildings}
         archiveFirestore={archiveFirestore}
         deleteFirestore={deleteFirestore}
-        fetchData={fetchData}
         selectedBuilding={selectedBuilding}
       />
     </>
