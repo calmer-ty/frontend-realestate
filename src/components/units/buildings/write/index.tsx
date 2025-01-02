@@ -7,16 +7,18 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useStorage } from "@/src/hooks/firebase/useStorage";
 import { useAuth } from "@/src/hooks/useAuth";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
+
 import BuildingInfo from "./buildingInfo";
 import DealInfo from "./dealInfo";
 import AddInfo from "./addInfo";
 import BuildingDesc from "./buildingDesc";
 import ImgUpload from "./imgUpload";
-import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
-import { Alert, Button } from "@mui/material";
+import BasicAlert from "@/src/components/commons/alert/basic";
+import { Button } from "@mui/material";
 
 import type { IEditFormData } from "./types";
 import type { IWriteForm } from "@/src/commons/types";
+import type { AlertColor } from "@mui/material";
 import * as S from "./styles";
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
@@ -49,7 +51,11 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState("");
-  const [alertSeverity, setAlertSeverity] = useState<"error" | "info" | "success" | "warning">("info");
+  const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
+  const alertClose = (): void => {
+    setAlertOpen(false);
+    router.push("/list");
+  };
 
   // 파이어베이스의 데이터값 불러오는 로직
   useEffect(() => {
@@ -119,8 +125,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         // 초기값과 currentValue이 다를 경우 currentValue로 업데이트
         if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
           updatedValues[fieldKey] = currentValue;
-          console.log("key: ", key);
-          console.log("currentValue ===initialValue: ", key, currentValue === initialValue);
         }
         if (JSON.stringify(initialValues.imageUrls) !== JSON.stringify(currentImageUrls)) {
           updatedValues.imageUrls = [...currentImageUrls];
@@ -150,11 +154,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     }
   };
 
-  const alertClose = (): void => {
-    setAlertOpen(false);
-    router.push("/list");
-  };
-
   return (
     <>
       {/* 폼 */}
@@ -172,11 +171,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       </S.Form>
 
       {/* 알림창 */}
-      <BasicSnackbar open={alertOpen} close={alertClose}>
-        <Alert onClose={alertClose} severity={alertSeverity}>
-          {alertText}
-        </Alert>
-      </BasicSnackbar>
+      <BasicAlert open={alertOpen} close={alertClose} severity={alertSeverity} text={alertText} />
     </>
   );
 }

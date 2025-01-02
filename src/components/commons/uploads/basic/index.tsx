@@ -1,10 +1,10 @@
-import { Button, Alert } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+
+import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FilePreview from "./filePreview";
-import BasicSnackbar from "../../feedback/snackbar/basic";
+import BasicAlert from "../../alert/basic";
 
-import { useEffect, useRef, useState } from "react";
-// import { checkValidationImg } from "@/src/commons/libraries/validation";
 import type { ChangeEvent, RefObject } from "react";
 import type { IFiles, IBasicUploadProps } from "./types";
 
@@ -13,8 +13,12 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // 알림창 스테이트
   const [alertOpen, setAlertOpen] = useState(false);
-  const [alertText, setAlertText] = useState("");
+  const alertClose = (): void => {
+    setAlertOpen(false);
+  };
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
@@ -48,31 +52,13 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   };
 
   // 이미지 파일을 업데이트하는 기능
-  const onChangeFile = async (
-    e: ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
+  const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
       const targetFiles = Array.from(e.target.files);
-      // const totalFilesCount = pendingFiles.length + targetFiles.length;
-
-      // if (totalFilesCount > 5) {
-      //   setModalMessage("이미지는 5개까지 업로드가 가능합니다.");
-      //   setOpenModal(true);
-      //   // 리셋 파일 입력 필드
-      //   resetFileInput(fileInputRef);
-      //   return;
-      // }
 
       // 여러 파일이 올라가기에 all로 해준다
       const fileWithFileUrls = await Promise.all(
         targetFiles.map(async (file) => {
-          // const isValid = await checkValidationImg(file, setModalMessage, setOpenModal);
-          //  if (!isValid) {
-          //     // 리셋 파일 입력 필드
-          //     resetFileInput(fileInputRef);
-          //     return null; // 유효하지 않은 파일은 null로 처리
-          //   }
-
           try {
             const fileUrl = await readFileAsURL(file);
             return {
@@ -86,16 +72,13 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         })
       );
 
-      const validFileUrls = fileWithFileUrls.filter(
-        (file): file is IFiles => file !== null
-      );
+      const validFileUrls = fileWithFileUrls.filter((file): file is IFiles => file !== null);
 
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
       const updateFiles = [...pendingFiles, ...validFileUrls];
 
       if (imageUrls.length + updateFiles.length > 5) {
         setAlertOpen(true);
-        setAlertText("이미지는 최대 5개까지 업로드가 가능합니다.");
         resetFileInput(fileInputRef);
         return;
       }
@@ -105,15 +88,6 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  // 기존 일회성
-  // const onRemoveFile = (index: number): void => {
-  //   const updatedFiles = pendingFiles.filter((_, i) => i !== index);
-  //   console.log("updatedFiles: ", updatedFiles);
-  //   setPendingFiles(updatedFiles);
-  //   props.setSelectedFiles(updatedFiles.map((updatedFile) => updatedFile.file));
-  //   // 리셋 파일 입력 필드
-  //   resetFileInput(fileInputRef);
-  // };
   const onRemoveFile = (index: number, type: "url" | "file"): void => {
     setClickedIndexes((prev) => {
       const updatedIndexes = Array.from(new Set([...prev, index])); // 중복 제거
@@ -134,39 +108,23 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     }
   };
 
-  const alertClose = (): void => {
-    setAlertOpen(false);
-  };
   return (
     <>
-      <Button
-        sx={{ width: "160px" }}
-        variant="outlined"
-        startIcon={<AddIcon />}
-        onClick={() => {
-          fileInputRef.current?.click();
-        }}
-      >
-        사진 추가
-      </Button>
-      <input
-        type="file"
-        multiple
-        ref={fileInputRef}
-        onChange={onChangeFile}
-        style={{ display: "none" }}
-      />
-      <FilePreview
-        imageUrls={imageUrls}
-        pendingFiles={pendingFiles}
-        onRemoveFile={onRemoveFile}
-      />
+      {/* prettier-ignore */}
+      <>
+        <Button
+          sx={{ width: "160px" }}
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={() => {fileInputRef.current?.click()}}>
+          사진 추가
+        </Button>
+        <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
+      </>
+      <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
+
       {/* 알림창 */}
-      <BasicSnackbar open={alertOpen} close={alertClose}>
-        <Alert onClose={alertClose} severity="warning">
-          {alertText}
-        </Alert>
-      </BasicSnackbar>
+      <BasicAlert open={alertOpen} close={alertClose} severity="warning" text="이미지는 최대 5개까지 업로드가 가능합니다." />
     </>
   );
 }

@@ -4,24 +4,23 @@ import { useState } from "react";
 import { useAuth } from "@/src/hooks/useAuth";
 
 import Link from "next/link";
-import Alert from "@mui/material/Alert";
 import AuthButton from "@/src/components/commons/buttons/auth/index";
-import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { Button } from "@mui/material";
 
 import * as S from "./styles";
+import BasicAlert from "../../commons/alert/basic";
 
 export default function Nav(): JSX.Element {
+  const { user } = useAuth();
+
+  // 알림창 상태
   const [alertOpen, setAlertOpen] = useState(false);
-
-  const { user } = useAuth(); // Firebase 인증 상태로 변경
-
   const alertClose = (): void => {
     setAlertOpen(false);
   };
 
   const moveToBuildingNew = (): void => {
-    if (status === "unauthenticated") {
+    if (user === null) {
       setAlertOpen(true);
     }
   };
@@ -35,11 +34,7 @@ export default function Nav(): JSX.Element {
         <AuthButton />
       </S.Nav>
       {/* 알림창 */}
-      <BasicSnackbar open={alertOpen} close={alertClose}>
-        <Alert onClose={alertClose} severity="warning">
-          구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요.
-        </Alert>
-      </BasicSnackbar>
+      <BasicAlert open={alertOpen} close={alertClose} severity="warning" text="구글 로그인 세션이 없습니다. 계속하려면 로그인해 주세요." />
     </>
   );
 }

@@ -12,6 +12,7 @@ import * as S from "./styles";
 
 export default function AuthButton(): JSX.Element {
   const { user } = useAuth();
+
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl) && user != null;
 
