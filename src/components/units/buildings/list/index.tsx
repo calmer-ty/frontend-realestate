@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/src/hooks/useAuth";
 import { useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useBuildingList } from "./hooks/useBuildingList";
@@ -20,10 +20,10 @@ import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingList(): JSX.Element {
-  const { data: session, status } = useSession();
-  const { buildings, deletedBuildings, setBuildings, archiveFirestore, deleteFirestore, readFirestoresRealTime } = useFirestore();
-  const userId = (session?.user as { id?: string })?.id;
+  const { user } = useAuth();
+  const userId = user?.uid;
 
+  const { buildings, deletedBuildings, setBuildings, archiveFirestore, deleteFirestore, readFirestoresRealTime } = useFirestore();
   const { registrantBuildings, registrantDeletedBuildings } = useBuildingList(buildings, deletedBuildings, userId, readFirestoresRealTime);
 
   // 삭제 모달
@@ -44,7 +44,7 @@ export default function BuildingList(): JSX.Element {
   return (
     <>
       <S.Container>
-        {status === "authenticated" ? (
+        {user !== null ? (
           <>
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={tabValue}>

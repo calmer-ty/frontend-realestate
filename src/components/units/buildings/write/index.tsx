@@ -13,12 +13,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useStorage } from "@/src/hooks/firebase/useStorage";
-import { useAuthCheck } from "@/src/hooks/useAuthCheck";
 import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import type { IEditFormData } from "./types";
 import type { IWriteForm } from "@/src/commons/types";
 import * as S from "./styles";
+import { useAuth } from "@/src/hooks/useAuth";
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const router = useRouter();
@@ -36,12 +36,13 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     desc: docData?.desc ?? "",
     imageUrls: docData?.imageUrls ?? [],
   };
-  // console.log("docData: ", docData);
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const { uploadFiles } = useStorage();
   const { createFirestore, updateFirestore } = useFirestore();
-  const { session } = useAuthCheck();
+
+  const { user } = useAuth();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues, // 초기값 설정
   });
@@ -83,9 +84,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         ...data,
         imageUrls: selectImageUrls,
         user: {
-          name: session?.user?.name,
-          email: session?.user?.email,
-          _id: (session?.user as { id?: string })?.id, // 타입 단언
+          name: user?.displayName,
+          email: user?.email,
+          _id: user?.uid,
         },
       };
 
@@ -93,8 +94,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
-      // alert("매물 등록이 완료되었습니다.");
-      // router.push("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

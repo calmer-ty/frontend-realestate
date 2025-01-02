@@ -9,7 +9,7 @@ import { useAuth } from "@/src/hooks/useAuth";
 import { auth, googleProvider } from "@/src/commons/libraries/firebase/firebaseApp";
 
 export default function AuthButton(): JSX.Element {
-  const { user } = useAuth(); // Firebase 인증 상태 추적
+  const { user } = useAuth(); 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
