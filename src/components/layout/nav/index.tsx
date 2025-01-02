@@ -1,19 +1,20 @@
 "use client";
 
+import { useState } from "react";
+import { useAuth } from "@/src/hooks/useAuth";
+
 import Link from "next/link";
 import Alert from "@mui/material/Alert";
-import AuthButton from "@/src/components/commons/buttons/auth";
+import AuthButton from "@/src/components/commons/buttons/auth/index";
 import BasicSnackbar from "@/src/components/commons/feedback/snackbar/basic";
 import { Button } from "@mui/material";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 import * as S from "./styles";
 
 export default function Nav(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
-  const { status } = useSession();
-  const isAuthenticated = status === "authenticated";
+
+  const { user } = useAuth(); // Firebase 인증 상태로 변경
 
   const alertClose = (): void => {
     setAlertOpen(false);
@@ -28,7 +29,7 @@ export default function Nav(): JSX.Element {
   return (
     <>
       <S.Nav>
-        <Link href={isAuthenticated ? "/new" : "/"} onClick={moveToBuildingNew}>
+        <Link href={user !== null ? "/new" : "/"} onClick={moveToBuildingNew}>
           <Button variant="contained">방 내놓기</Button>
         </Link>
         <AuthButton />

@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage"; // getStorage 함수 추가
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,4 +25,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app); // 스토리지 초기화
+
+// Firebase 인증 인스턴스 가져오기
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+export { auth, googleProvider };
+
 // const analytics = getAnalytics(firebaseApp);
