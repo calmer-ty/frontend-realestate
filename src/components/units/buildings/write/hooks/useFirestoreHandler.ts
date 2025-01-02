@@ -1,6 +1,5 @@
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAuth } from "@/src/hooks/useAuth";
-// import { useRouter } from "next/navigation";
 import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
@@ -23,11 +22,11 @@ export const useFirestoreHandler = (
   uploadImages: () => Promise<string[]>,
   setAlertOpen: Dispatch<SetStateAction<boolean>>,
   setAlertSeverity: Dispatch<SetStateAction<AlertColor>>,
-  setAlertText: Dispatch<SetStateAction<string>>
+  setAlertText: Dispatch<SetStateAction<string>>,
+  setRouting: Dispatch<SetStateAction<boolean>>
 ): IUseFirestoreHandlerReturn => {
   const { createFirestore, updateFirestore } = useFirestore();
   const { user } = useAuth();
-  //   const router = useRouter();
 
   const handleFormSubmit = async (data: IWriteForm): Promise<void> => {
     try {
@@ -46,6 +45,8 @@ export const useFirestoreHandler = (
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
+
+      setRouting(true);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -93,6 +94,9 @@ export const useFirestoreHandler = (
       setAlertOpen(true);
       setAlertText("매물 수정이 완료되었습니다.");
       setAlertSeverity("success");
+
+      // 알람 후 페이지 이동
+      setRouting(true);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

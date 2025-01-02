@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { AlertColor } from "@mui/material";
@@ -11,15 +12,22 @@ interface IUseAlertReturn {
   setAlertText: Dispatch<SetStateAction<string>>;
   setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
   alertClose: () => void;
+  setRouting: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useAlert = (): IUseAlertReturn => {
+  const router = useRouter();
+
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
+  const [routing, setRouting] = useState(false);
 
   const alertClose = (): void => {
     setAlertOpen(false);
+    if (routing) {
+      router.push("/list");
+    }
   };
 
   return {
@@ -30,5 +38,6 @@ export const useAlert = (): IUseAlertReturn => {
     setAlertText,
     setAlertSeverity,
     alertClose,
+    setRouting,
   };
 };

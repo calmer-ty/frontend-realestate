@@ -36,8 +36,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   };
 
   const { register, handleSubmit, watch, setValue, getValues, control } = useFormHandler(initialValues);
-  const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
   const { setSelectedFiles, uploadedImageUrls, setUploadedImageUrls, uploadImages } = useImageUpload(docData);
+  const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
   const { handleFormSubmit, handleFormUpdate } = useFirestoreHandler(
     initialValues,
     docData,
@@ -47,7 +47,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     uploadImages,
     setAlertOpen,
     setAlertSeverity,
-    setAlertText
+    setAlertText,
+    setRouting
   );
   // 수정시 파이어베이스 데이터 불러옴
   useSetFormValues(docData, setValue);
