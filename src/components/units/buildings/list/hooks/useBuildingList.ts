@@ -1,26 +1,30 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+
 import type { IFirestore } from "@/src/commons/types";
+import type { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 interface IUseBuildingListReturn {
-  buildings: IFirestore[];
   deletedBuildings: IFirestore[];
   filteredBuildings: IFirestore[];
   fetchData: () => Promise<void>;
-  setBuildings: React.Dispatch<React.SetStateAction<IFirestore[]>>;
+  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
 }
 
 // 광고기한 초 - 60초 * 60분 * 24시간
 // const DAY_LIMIT = 60 * 60 * 24;
 const DAY_LIMIT = 10;
 
+// 만료된 건물들을 필터링
 const getExpiredBuildings = (buildings: IFirestore[], archivedIds: Set<string>): IFirestore[] =>
-  buildings.filter((el) => el._id !== undefined && Date.now() / 1000 > (el.createdAt?.seconds ?? 0) + DAY_LIMIT && !archivedIds.has(el._id));
+  buildings.filter((el) => el._id !== undefined && Date.now() / 1000 > (el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE) + DAY_LIMIT && !archivedIds.has(el._id));
 
+// 기한이 지난 건물은 즉시 아카이브되고 Firestore에서 삭제
 const processExpiredBuilding = (
   building: IFirestore,
   archiveFirestore: (building: IFirestore) => Promise<void>,
   deleteFirestore: (selectedType: string, docId: string) => Promise<void>,
-  archivedIds: React.MutableRefObject<Set<string>>
+  archivedIds: MutableRefObject<Set<string>>
 ): void => {
   if (building._id !== undefined && building.type !== undefined) {
     void archiveFirestore(building);
@@ -28,6 +32,8 @@ const processExpiredBuilding = (
     archivedIds.current.add(building._id);
   }
 };
+
+// 특정 사용자에 속하는 건물만 필터링
 const filterBuildingsByUser = (buildings: IFirestore[], userId: string | undefined): IFirestore[] => buildings.filter((el) => el.user?._id === userId);
 
 export const useBuildingList = (
@@ -71,5 +77,5 @@ export const useBuildingList = (
     });
   }, [filteredBuildings, archiveFirestore, deleteFirestore]);
 
-  return { buildings, deletedBuildings, filteredBuildings, fetchData, setBuildings };
+  return { deletedBuildings, filteredBuildings, fetchData, setBuildings };
 };
