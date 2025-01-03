@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import ListItem from "../listItem";
+import ListItem from "./listItem";
 // 탭 MUI
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
