@@ -4,8 +4,8 @@ import { useAuth } from "@/src/hooks/useAuth";
 import { auth, googleProvider } from "@/src/commons/libraries/firebase/firebaseApp";
 
 import Link from "next/link";
-import { Button, Menu, MenuItem } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import { Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import * as S from "./styles";

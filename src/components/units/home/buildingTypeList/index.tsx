@@ -13,10 +13,10 @@ import * as S from "./styles";
 export default function BuildingTypeList(): JSX.Element {
   const settings = {
     arrows: false,
-    dots: true,
     slidesToShow: 3,
     slidesToScroll: 3,
     initialSlide: 0,
+    autoplaySpeed: 4000,
     responsive: [
       {
         breakpoint: 1024,
@@ -24,7 +24,7 @@ export default function BuildingTypeList(): JSX.Element {
           slidesToShow: 2,
           slidesToScroll: 2,
           autoplay: true,
-          autoplaySpeed: 4000,
+          dots: true,
         },
       },
       {
@@ -33,7 +33,7 @@ export default function BuildingTypeList(): JSX.Element {
           slidesToShow: 1,
           slidesToScroll: 1,
           autoplay: true,
-          autoplaySpeed: 4000,
+          dots: true,
         },
       },
     ],

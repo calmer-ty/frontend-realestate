@@ -1,13 +1,12 @@
 import { ClipLoader } from "react-spinners";
 
-interface ILoadingSpinnerProps {
-  size: number;
-}
+import type { ILoadingSpinnerProps } from "./types";
+import * as S from "./styles";
 
 export default function LoadingSpinner(props: ILoadingSpinnerProps): JSX.Element {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: `${props.size}px` }}>
+    <S.Wrap size={props.size}>
       <ClipLoader size={props.size} color={"#123abc"} loading={true} />
-    </div>
+    </S.Wrap>
   );
 }

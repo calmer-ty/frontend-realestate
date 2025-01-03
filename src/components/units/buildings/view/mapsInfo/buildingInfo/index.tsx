@@ -2,7 +2,7 @@ import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
-import ChipSmall from "@/src/components/commons/dataDisplay/chip/small";
+import BasicChip from "@/src/components/commons/chip/basic";
 import Link from "next/link";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
@@ -30,13 +30,13 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
             <S.InfoWrap>
               <h2>{selectedData.data?.aptNm}</h2>
               <S.TextWrap>
-                <ChipSmall label="연식" /> {selectedData.data?.dealYear}
+                <BasicChip label="연식" size="small" /> {selectedData.data?.dealYear}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="지번" /> {selectedData.geocode?.jibunAddress}
+                <BasicChip label="지번" size="small" /> {selectedData.geocode?.jibunAddress}
               </S.TextWrap>
               <S.TextWrap>
-                <ChipSmall label="도로명" /> {selectedData.geocode?.roadAddress}
+                <BasicChip label="도로명" size="small" /> {selectedData.geocode?.roadAddress}
               </S.TextWrap>
             </S.InfoWrap>
 

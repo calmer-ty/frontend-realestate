@@ -31,6 +31,5 @@ export const useBuildingView = (buildingType: string): IUseBuildingDataProps => 
   }, [readFirestores, buildingType]);
 
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
-  console.log("visibleMarkerData: ", visibleMarkerData);
   return { geocodeData, visibleMarkerData, selectedMarkerData, firestoreData, loading, error };
 };
