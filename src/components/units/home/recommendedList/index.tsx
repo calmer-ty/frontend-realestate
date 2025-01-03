@@ -1,7 +1,5 @@
 import ListItem from "./listItem";
 
-import React from "react";
-
 import type { IRecommendedListProps } from "./types";
 import * as S from "./styles";
 
@@ -9,10 +7,10 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
   const settings = {
     arrows: false,
     dots: true,
-    infinite: firestoreDatas.length > 2,
+    // infinite: firestoreDatas.length > 2,
     speed: 500,
     slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
-    slidesToScroll: 5,
+    slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 4000,

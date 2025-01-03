@@ -5,12 +5,7 @@ import { css } from "@emotion/react";
 export const ListItem = styled.div`
   width: 300px;
   margin: 0 auto;
-  ${mediaQueries.tablet(css`
-    width: 240px;
-  `)}
-  ${mediaQueries.mobile(css`
-    width: 300px;
-  `)}
+
   a {
     display: flex;
     flex-direction: column;
@@ -49,7 +44,11 @@ export const ListItem = styled.div`
       }
     }
   }
-  ${mediaQueries.desktop(css`
-    margin: 0 auto;
+
+  ${mediaQueries.tablet(css`
+    width: 240px;
+  `)}
+  ${mediaQueries.mobile(css`
+    width: 300px;
   `)}
 `;

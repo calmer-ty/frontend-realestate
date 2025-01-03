@@ -35,9 +35,6 @@ export const Container = styled.section`
       }
     }
   }
-  ${mediaQueries.mobile(css`
-    flex: 3;
-  `)}
 
   /* unItems */
   .unItems {
@@ -45,9 +42,4 @@ export const Container = styled.section`
   }
 `;
 
-export const RegisteredList = styled(Slider)`
-  /* margin: 0 40px; */
-  /* ${mediaQueries.desktop(css`
-    margin: 0 20px;
-  `)} */
-`;
+export const RegisteredList = styled(Slider)``;

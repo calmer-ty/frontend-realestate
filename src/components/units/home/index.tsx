@@ -1,10 +1,10 @@
 "use client";
 
-import BuildingTypeList from "./buildingTypeList";
-import RecommendedList from "./recommendedList";
-
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+
+import BuildingTypeList from "./buildingTypeList";
+import RecommendedList from "./recommendedList";
 
 import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";

@@ -42,8 +42,4 @@ export const Container = styled.section`
     opacity: 0.2;
     pointer-events: none;
   }
-
-  ${mediaQueries.mobile(css`
-    flex: 2;
-  `)}
 `;

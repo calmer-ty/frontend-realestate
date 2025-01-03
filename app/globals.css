@@ -40,7 +40,6 @@ main {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  height: calc(100vh - 78px);
 }
 
 #logo a {
