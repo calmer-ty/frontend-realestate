@@ -16,13 +16,13 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
       <S.InfoWrap>
         <h2>{props.selectedData.data?.aptNm}</h2>
         <S.TextWrap>
-          <BasicChip label="연식" size="small" /> {props.selectedData.data?.dealYear}
+          <BasicChip label="연식" size="small" /> <span>{props.selectedData.data?.dealYear}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="지번" size="small" /> {props.selectedData.geocode?.jibunAddress}
+          <BasicChip label="지번" size="small" /> <span>{props.selectedData.geocode?.jibunAddress}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="도로명" size="small" /> {props.selectedData.geocode?.roadAddress}
+          <BasicChip label="도로명" size="small" /> <span>{props.selectedData.geocode?.roadAddress}</span>
         </S.TextWrap>
       </S.InfoWrap>
 

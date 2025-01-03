@@ -25,18 +25,8 @@ export default function MapsInfo({ buildingType, selectedMarkerData, setSelected
     setScroll((prev) => !prev);
   };
 
-  // const onClickInfo = (el: IGeocodeData): void => {
-  //   setSelectedItem(el); // 선택된 el을 상태에 저장
-  // };
-  console.log("selectedItem: ", selectedData);
-  console.log("selectedMarkerData: ", selectedMarkerData);
-
   return (
     <>
-      <S.TabButton className="tabBtn" type="button" onClick={onClickScroll}>
-        <div className="stroke"></div>
-        매물 보기
-      </S.TabButton>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} buildingType={buildingType} firestoreData={firestoreData} />
@@ -44,6 +34,11 @@ export default function MapsInfo({ buildingType, selectedMarkerData, setSelected
           <VisibleArea visibleMarkerData={visibleMarkerData} buildingType={buildingType} firestoreData={firestoreData} selectedData={selectedData} setSelectedData={setSelectedData} />
         )}
       </S.Container>
+      {/* 모바일 해상도일 때 리스트 여닫이 버튼 */}
+      <S.TabButton className="tabBtn" type="button" onClick={onClickScroll}>
+        <div className="stroke"></div>
+        매물 보기
+      </S.TabButton>
     </>
   );
 }

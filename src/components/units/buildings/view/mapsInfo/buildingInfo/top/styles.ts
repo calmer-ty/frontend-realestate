@@ -9,13 +9,13 @@ export const Container = styled.section`
   flex-direction: column;
   row-gap: 20px;
   padding: 15px;
-  div > {
-    h2 {
-      font-size: 24px;
-    }
-    h3 {
-      font-size: 16px;
-    }
+
+  h2 {
+    font-size: 24px;
+    margin-right: 20px;
+  }
+  h3 {
+    font-size: 16px;
   }
 `;
 export const InfoWrap = styled.div`
@@ -28,6 +28,9 @@ export const TextWrap = styled.div`
   column-gap: 4px;
   font-size: 14px;
   color: #656565;
+  > span {
+    line-height: 1.7;
+  }
 `;
 
 export const SelectedContent = styled.div`

@@ -9,6 +9,6 @@ export const Container = styled.div`
 
   position: relative;
   ${mediaQueries.mobile(css`
-    flex-direction: column;
+    flex-direction: column-reverse;
   `)}
 `;
