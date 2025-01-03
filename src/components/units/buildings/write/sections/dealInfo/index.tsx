@@ -1,6 +1,7 @@
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import BasicUnit from "@/src/components/commons/units/basic";
+
 import type { IDealInfoProps } from "./types";
 
 export default function DealInfo(props: IDealInfoProps): JSX.Element {

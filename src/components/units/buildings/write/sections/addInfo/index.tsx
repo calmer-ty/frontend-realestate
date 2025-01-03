@@ -2,6 +2,7 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import BasicUnit from "@/src/components/commons/units/basic";
 import ControlRadio from "@/src/components/commons/inputs/radio/control";
+
 import type { IAddInfoProps } from "./types";
 
 export default function AddInfo(props: IAddInfoProps): JSX.Element {

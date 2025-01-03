@@ -7,11 +7,11 @@ import { useImageUpload } from "./hooks/useImageUpload";
 import { useSetFormValues } from "./hooks/useSetFormValues";
 import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
-import BuildingInfo from "./buildingInfo";
-import DealInfo from "./dealInfo";
-import AddInfo from "./addInfo";
-import BuildingDesc from "./buildingDesc";
-import ImgUpload from "./imgUpload";
+import BuildingInfo from "./sections/buildingInfo";
+import DealInfo from "./sections/dealInfo";
+import AddInfo from "./sections/addInfo";
+import BuildingDesc from "./sections/buildingDesc";
+import ImgUpload from "./sections/imgUpload";
 import BasicAlert from "@/src/components/commons/alert/basic";
 import { Button } from "@mui/material";
 
