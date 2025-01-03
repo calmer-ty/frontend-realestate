@@ -4,8 +4,8 @@ import type { IFirestore } from "@/src/commons/types";
 import type { Unsubscribe } from "firebase/firestore";
 
 interface IUseBuildingListReturn {
-  registrantBuildings: IFirestore[];
-  registrantDeletedBuildings: IFirestore[];
+  myBuildings: IFirestore[];
+  myDeletedBuildings: IFirestore[];
 }
 
 // 광고기한 초 - 60초 * 60분 * 24시간
@@ -26,8 +26,8 @@ export const useBuildingList = (
   }, [readFirestoresRealTime]);
 
   // 사용자의 매물 및 삭제된 매물만 필터링
-  const registrantBuildings = buildings?.filter((el) => el.user?._id === userId);
-  const registrantDeletedBuildings = deletedBuildings?.filter((el) => el.user?._id === userId);
+  const myBuildings = buildings?.filter((el) => el.user?._id === userId);
+  const myDeletedBuildings = deletedBuildings?.filter((el) => el.user?._id === userId);
 
-  return { registrantBuildings, registrantDeletedBuildings };
+  return { myBuildings, myDeletedBuildings };
 };
