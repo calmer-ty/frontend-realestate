@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
+import CloseIcon from "@mui/icons-material/Close";
 
 // 클릭 된 건물 상세 정보
 
 export const Container = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -38,4 +40,12 @@ export const SelectedContent = styled.div`
     font-size: 14px;
     color: #979797;
   }
+`;
+
+export const CloseButton = styled(CloseIcon)`
+  font-size: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 `;

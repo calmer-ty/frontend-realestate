@@ -7,8 +7,12 @@ import type { IBuildingInfoTopProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Element {
+  const selectClose = (): void => {
+    props.setSelectedItem(null);
+  };
   return (
     <S.Container>
+      <S.CloseButton onClick={selectClose} />
       <S.InfoWrap>
         <h2>{props.selectedData.data?.aptNm}</h2>
         <S.TextWrap>
