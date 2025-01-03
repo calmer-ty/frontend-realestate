@@ -1,8 +1,6 @@
-# frontend-realestate
+# Frontend-realestate
 
 ### www.calmer96.store
-
-[Live Demo](https://your-deployed-site-url)
 
 ## 프로젝트 개요
 
@@ -34,3 +32,8 @@ yarn install
 # 로컬 실행
 yarn dev
 ```
+
+## 추가 사항
+
+- **배포시 느려짐을 최적화 작업 중입니다.**
+- **임시로 세종특별자치시만 보여지도록 하였습니다.**
