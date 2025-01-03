@@ -3,10 +3,11 @@ import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceForm
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import type { IMarkerListProps } from "./types";
+import * as S from "./styles";
 
 export default function MarkerList({ visibleMarkerData, firestoreData, onClickInfo }: IMarkerListProps): JSX.Element {
   return (
-    <ul>
+    <S.List>
       {visibleMarkerData.map((el, index) => {
         const matchingFirestoreData = firestoreData.some((firestoreData) => getReduceCityName(el.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE) === firestoreData.address);
 
@@ -30,6 +31,6 @@ export default function MarkerList({ visibleMarkerData, firestoreData, onClickIn
           </li>
         );
       })}
-    </ul>
+    </S.List>
   );
 }
