@@ -10,13 +10,13 @@ import type { IBuildingParams } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
-  const { geocodeData, visibleMarkerData, selectedMarkerData, firestoreData, loading, error } = useBuildingView(buildingType);
+  const { geocodeData, visibleMarkerData, selectedMarkerData, setSelectedMarkerData, firestoreData, loading, error } = useBuildingView(buildingType);
   if (loading) return <LoadingSpinner size={100} />;
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
   return (
     <S.Container>
-      <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
+      <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
       <NaverMaps geocodeData={geocodeData} />
     </S.Container>
   );

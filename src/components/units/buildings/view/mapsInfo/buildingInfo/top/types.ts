@@ -3,5 +3,5 @@ import type { Dispatch, SetStateAction } from "react";
 
 export interface IBuildingInfoTopProps {
   selectedData: IGeocodeData;
-  setSelectedItem: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
 }

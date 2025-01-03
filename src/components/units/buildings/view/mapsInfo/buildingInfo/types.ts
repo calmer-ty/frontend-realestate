@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 
 export interface IBuildingInfoProps {
   selectedData: IGeocodeData;
-  setSelectedItem: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
   firestoreData: IFirestore[];
   buildingType: string;
 }

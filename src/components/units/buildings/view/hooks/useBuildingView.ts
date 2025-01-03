@@ -3,18 +3,20 @@ import { useFetchAllGeocode } from "./useFetchAllGeocode";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useAllMarker } from "./useAllMarker";
 
+import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 
-interface IUseBuildingDataProps {
+interface IUseBuildingDataReturn {
   geocodeData: IGeocodeData[];
   visibleMarkerData: IGeocodeData[];
   selectedMarkerData: IGeocodeData | null;
+  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   firestoreData: IFirestore[];
   loading: boolean;
   error: Error | null;
 }
 
-export const useBuildingView = (buildingType: string): IUseBuildingDataProps => {
+export const useBuildingView = (buildingType: string): IUseBuildingDataReturn => {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
@@ -31,5 +33,5 @@ export const useBuildingView = (buildingType: string): IUseBuildingDataProps => 
   }, [readFirestores, buildingType]);
 
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
-  return { geocodeData, visibleMarkerData, selectedMarkerData, firestoreData, loading, error };
+  return { geocodeData, visibleMarkerData, selectedMarkerData, setSelectedMarkerData, firestoreData, loading, error };
 };
