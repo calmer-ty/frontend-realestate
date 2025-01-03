@@ -1,19 +1,16 @@
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import "./styles.css";
 
-const markerIconContent = (geocodeData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
-  const address = `${getFullCityName(geocodeData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${geocodeData.data?.umdNm} ${geocodeData.data?.jibun}`;
+const markerIconContent = (itemData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
+  const jibunAddress = itemData.geocode?.jibunAddress;
+  const roadAddress = itemData.geocode?.roadAddress;
 
-  const matchedFirestoreData = firestoreDatas.find(
-    (firestoreData) => firestoreData.address === address
-    // ||   firestoreData.address === getReducedCityName(data.address_road ?? DEFAULT_STRING_VALUE)
-  );
+  const matchedFirestoreData = firestoreDatas.find((firestoreData) => firestoreData.address === jibunAddress || firestoreData.address === roadAddress);
 
-  const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
-  const peng = Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);
+  const amount = (Number(itemData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
+  const peng = Math.round((itemData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);
 
   return `
     <div class="markerBox ${matchedFirestoreData !== undefined ? "hasData" : ""}">
@@ -23,22 +20,22 @@ const markerIconContent = (geocodeData: IGeocodeData, firestoreDatas: IFirestore
     </div>`;
 };
 
-export const createMarker = (geocodeData: IGeocodeData, firestoreData: IFirestore[], setSelectedMarkerData: (data: IGeocodeData) => void): any => {
-  if (geocodeData === null) return;
+export const createMarker = (itemData: IGeocodeData, firestoreData: IFirestore[], setSelectedMarkerData: (data: IGeocodeData) => void): any => {
+  if (itemData === null) return;
   const markerOptions = {
-    position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),
+    position: new window.naver.maps.LatLng(itemData.geocode?.latitude, itemData.geocode?.longitude),
     map: null, // Set map to null initially
     icon: {
-      content: markerIconContent(geocodeData, firestoreData),
+      content: markerIconContent(itemData, firestoreData),
     },
   };
 
   const marker = new window.naver.maps.Marker(markerOptions);
-  marker.set("data", geocodeData);
+  marker.set("data", itemData);
 
   window.naver.maps.Event.addListener(marker, "click", () => {
-    if (geocodeData.data !== undefined) {
-      setSelectedMarkerData(geocodeData);
+    if (itemData.data !== undefined) {
+      setSelectedMarkerData(itemData);
     }
   });
 
