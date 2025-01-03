@@ -7,6 +7,8 @@ export const Container = styled.section`
   margin-top: 210px;
   row-gap: 10px;
   > p {
+    width: 220px;
     text-align: center;
+    word-break: keep-all;
   }
 `;

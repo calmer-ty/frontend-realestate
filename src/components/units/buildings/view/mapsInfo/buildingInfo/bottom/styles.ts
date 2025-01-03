@@ -18,32 +18,4 @@ export const Registered = styled.div`
       color: #1976d2;
     }
   }
-  .buildingList {
-    > li {
-      border-bottom: 1px solid #dedede;
-      > a {
-        display: flex;
-        align-items: center;
-        column-gap: 20px;
-        padding: 20px;
-        > img {
-          object-fit: cover;
-        }
-      }
-      :hover {
-        background-color: #efefef;
-      }
-    }
-  }
-`;
-export const UnRegistered = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 80px;
-
-  > p {
-    text-align: center;
-  }
 `;

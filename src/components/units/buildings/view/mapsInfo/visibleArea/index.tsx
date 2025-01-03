@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import BuildingInfo from "../buildingInfo";
-import NoData from "./noData";
+import NoDataMessage from "../noDataMessage";
 import MarkerList from "./markerList";
 
 import type { IVisibleAreaProps } from "./types";
@@ -30,7 +30,7 @@ export default function VisibleArea({ buildingType, firestoreData, visibleMarker
           {selectedItem !== null && <BuildingInfo selectedData={selectedItem} firestoreData={firestoreData} buildingType={buildingType} />}
         </S.Visible>
       ) : (
-        <NoData />
+        <NoDataMessage text="조건에 맞는 방이 없습니다. 위치를 조정해보세요." />
       )}
     </S.Container>
   );
