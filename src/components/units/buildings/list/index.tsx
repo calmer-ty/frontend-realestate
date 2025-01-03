@@ -17,7 +17,7 @@ export default function BuildingList(): JSX.Element {
   const userId = user?.uid;
 
   const { buildings, deletedBuildings, setBuildings, archiveFirestore, deleteFirestore, readFirestoresRealTime } = useFirestore();
-  const { myBuildings, myDeletedBuildings } = useBuildingList(buildings, deletedBuildings, userId, readFirestoresRealTime);
+  const { myBuildings, myDeletedBuildings } = useBuildingList(buildings, deletedBuildings, userId, archiveFirestore, deleteFirestore, readFirestoresRealTime);
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
