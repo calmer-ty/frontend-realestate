@@ -1,4 +1,3 @@
-import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
@@ -15,12 +14,10 @@ import * as S from "./styles";
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const { selectedData, isSelected, firestoreData, buildingType } = props;
 
-  const address = `${getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${selectedData.data?.umdNm} ${selectedData.data?.jibun}`;
+  const jibunAddress = selectedData.geocode?.jibunAddress;
+  const roadAddress = selectedData.geocode?.roadAddress;
 
-  const matchedFirestoreData: IFirestore[] = firestoreData.filter(
-    (el) => address === el.address
-    // || getReducedCityName(selectedData?.address_road ?? DEFAULT_STRING_VALUE) === el.address
-  );
+  const matchedData: IFirestore[] = firestoreData.filter((el) => jibunAddress === el.address || roadAddress === el.address);
 
   return (
     <>
@@ -56,13 +53,13 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
 
           {/* 등록된 건물 정보 */}
           <S.RegisteredInfo>
-            {matchedFirestoreData.length > 0 ? (
+            {matchedData.length > 0 ? (
               <S.Registered>
                 <h3>
-                  총 <strong>{matchedFirestoreData.length}</strong>개의 매물이 있습니다
+                  총 <strong>{matchedData.length}</strong>개의 매물이 있습니다
                 </h3>
                 <ul className="buildingList">
-                  {matchedFirestoreData.map((el, index) => (
+                  {matchedData.map((el, index) => (
                     <li key={`${el.type}_${el.address}_${index}`}>
                       <Link href={`/${buildingType}/${el._id}`}>
                         {el.imageUrls?.[0] !== undefined ? (
