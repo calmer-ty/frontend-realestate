@@ -41,7 +41,7 @@ export const useBuildingList = (
   setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>,
   readFirestores: (buildingType: string) => Promise<IFirestore[]>,
   archiveFirestore: (building: IFirestore) => Promise<void>,
-  deleteFirestore: (selectedType: string, docId: string) => Promise<void>,
+  deleteFirestore: (docId: string) => Promise<void>,
   userId: string | undefined,
   readFirestoresRealTime: (buildingType: string) => Unsubscribe
 ): IUseBuildingListReturn => {

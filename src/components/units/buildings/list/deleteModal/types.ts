@@ -14,11 +14,13 @@ import type { Dispatch, SetStateAction } from "react";
 // }
 
 export interface IDeleteModalProps {
+  selectedBuilding: IFirestore | null;
+  buildings: IFirestore[];
+  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
+  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>;
   modalOpen: boolean;
   setModalOpen: Dispatch<SetStateAction<boolean>>;
-  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
-  archiveFirestore: (building: IFirestore) => Promise<void>;
-  deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
-  // fetchData: () => Promise<void>;
-  selectedBuilding: IFirestore | null;
+  archiveFirestore: (data: IFirestore, colName: string) => Promise<void>;
+  deleteFirestore: (colName: string, docId: string) => Promise<void>;
+  readFirestores: (colName: string) => Promise<IFirestore[]>;
 }

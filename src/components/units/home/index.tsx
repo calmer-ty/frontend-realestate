@@ -17,7 +17,7 @@ export default function Home(): JSX.Element {
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
       // 임시로 아파트만 랜덤 렌더링
-      const datas = await readFirestores("apartment");
+      const datas = await readFirestores("buildings");
       setFirestoreDatas(datas);
     };
     void readBuildings();

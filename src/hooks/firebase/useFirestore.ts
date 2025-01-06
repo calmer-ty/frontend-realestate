@@ -1,32 +1,23 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, serverTimestamp, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFirestoreType";
 
-import type { Dispatch, SetStateAction } from "react";
-import type { Unsubscribe } from "firebase/firestore";
 import type { IWriteForm, IFirestore } from "@/src/commons/types";
 
 interface IUseFirestoreReturn {
-  buildings: IFirestore[];
-  deletedBuildings: IFirestore[];
-  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
-  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>;
-  createFirestore: (data: IWriteForm, selectedTypeEng: string) => Promise<void>;
-  archiveFirestore: (building: IFirestore) => Promise<void>;
-  updateFirestore: (data: Partial<IWriteForm>, selectedType: string, docId: string) => Promise<void>;
-  deleteFirestore: (selectedType: string, docId: string) => Promise<void>;
-  readFirestore: (collection: string, docId: string) => Promise<IFirestore | undefined>;
-  readFirestores: (buildingType: string) => Promise<IFirestore[]>;
-  readFirestoresRealTime: (buildingType: string) => Unsubscribe;
+  createFirestore: (data: IWriteForm, colName: string, selectedType: string) => Promise<void>;
+  updateFirestore: (data: Partial<IWriteForm>, colName: string, docId: string) => Promise<void>;
+  archiveFirestore: (data: IFirestore, colName: string) => Promise<void>;
+  deleteFirestore: (colName: string, docId: string) => Promise<void>;
+  readFirestore: (colName: string, docId: string) => Promise<IFirestore | undefined>;
+  readFirestores: (colName: string) => Promise<IFirestore[]>;
 }
 
 export const useFirestore = (): IUseFirestoreReturn => {
-  const [buildings, setBuildings] = useState<IFirestore[]>([]);
-  const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
-  const createFirestore = useCallback(async (data: IWriteForm, selectedType: string) => {
+  const createFirestore = useCallback(async (data: IWriteForm, colName: string, selectedType: string) => {
     try {
-      const docRef = await addDoc(collection(db, selectedType), {
+      const docRef = await addDoc(collection(db, colName), {
         ...data,
         type: selectedType,
         createdAt: serverTimestamp(), // 서버 시간 추가
@@ -41,24 +32,8 @@ export const useFirestore = (): IUseFirestoreReturn => {
     }
   }, []);
 
-  const archiveFirestore = useCallback(async (building: IFirestore) => {
-    try {
-      const docRef = await addDoc(collection(db, `deleted_${building.type}`), {
-        ...building,
-        deletedAt: serverTimestamp(), // 삭제된 시간 기록
-      });
-      // 문서 ID를 포함한 데이터로 업데이트
-      await updateDoc(docRef, {
-        _id: docRef.id,
-      });
-      console.log(`Building ${building._id} archived.`);
-    } catch (error) {
-      if (error instanceof Error) console.error(error.message);
-    }
-  }, []);
-
-  const updateFirestore = useCallback(async (data: Partial<IWriteForm>, selectedType: string, docId: string) => {
-    const docRef = doc(db, selectedType, docId);
+  const updateFirestore = useCallback(async (data: Partial<IWriteForm>, colName: string, docId: string) => {
+    const docRef = doc(db, colName, docId);
     try {
       await updateDoc(docRef, data);
     } catch (error) {
@@ -66,16 +41,32 @@ export const useFirestore = (): IUseFirestoreReturn => {
     }
   }, []);
 
-  const deleteFirestore = useCallback(async (selectedType: string, docId: string) => {
+  const deleteFirestore = useCallback(async (colName: string, docId: string) => {
     try {
-      await deleteDoc(doc(db, selectedType, docId));
+      await deleteDoc(doc(db, colName, docId));
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
   }, []);
 
-  const readFirestore = useCallback(async (collection: string, docId: string) => {
-    const docRef = doc(db, collection, docId);
+  const archiveFirestore = useCallback(async (data: IFirestore, colName: string) => {
+    try {
+      const docRef = await addDoc(collection(db, colName), {
+        ...data,
+        deletedAt: serverTimestamp(), // 삭제된 시간 기록
+      });
+      // 문서 ID를 포함한 데이터로 업데이트
+      await updateDoc(docRef, {
+        _id: docRef.id,
+      });
+      console.log(`Building ${data._id} archived.`);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  }, []);
+
+  const readFirestore = useCallback(async (colName: string, docId: string) => {
+    const docRef = doc(db, colName, docId);
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -89,9 +80,9 @@ export const useFirestore = (): IUseFirestoreReturn => {
     }
   }, []);
 
-  const readFirestores = useCallback(async (buildingType: string) => {
+  const readFirestores = useCallback(async (colName: string) => {
     try {
-      const querySnapshot = await getDocs(collection(db, buildingType));
+      const querySnapshot = await getDocs(collection(db, colName));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirestore);
       return datas;
     } catch (error) {
@@ -101,28 +92,29 @@ export const useFirestore = (): IUseFirestoreReturn => {
   }, []);
 
   // 추가된 실시간 데이터 구독 함수
-  const readFirestoresRealTime = useCallback((buildingType: string) => {
-    // 등록된 데이터와 삭제된 데이터 컬렉션 구독
-    const buildingsCollection = collection(db, buildingType);
-    const deletedBuildingsCollection = collection(db, `deleted_${buildingType}`);
 
-    // 각각 실시간 구독
-    const unsubscribeBuildings = onSnapshot(buildingsCollection, (snapshot) => {
-      const updatedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestore);
-      setBuildings(updatedBuildings); // 등록된 데이터 상태 업데이트
-    });
+  // const readFirestoresRealTime = useCallback((buildingType: string, setBuildings: Dispatch<SetStateAction<IFirestore[]>>, setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>): Unsubscribe => {
+  //   const buildingsCollection = collection(db, buildingType);
+  //   const deletedBuildingsCollection = collection(db, `deleted_${buildingType}`);
 
-    const unsubscribeDeletedBuildings = onSnapshot(deletedBuildingsCollection, (snapshot) => {
-      const updatedDeletedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestore);
-      setDeletedBuildings(updatedDeletedBuildings); // 삭제된 데이터 상태 업데이트
-    });
+  //   // 등록된 데이터 구독
+  //   const unsubscribeBuildings = onSnapshot(buildingsCollection, (snapshot) => {
+  //     const updatedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestore);
+  //     setBuildings(updatedBuildings);
+  //   });
 
-    // 두 구독을 해제할 수 있도록 함수 반환
-    return () => {
-      unsubscribeBuildings();
-      unsubscribeDeletedBuildings();
-    };
-  }, []);
+  //   // 삭제된 데이터 구독
+  //   const unsubscribeDeletedBuildings = onSnapshot(deletedBuildingsCollection, (snapshot) => {
+  //     const updatedDeletedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestore);
+  //     setDeletedBuildings(updatedDeletedBuildings);
+  //   });
 
-  return { buildings, setBuildings, deletedBuildings, setDeletedBuildings, createFirestore, archiveFirestore, updateFirestore, deleteFirestore, readFirestore, readFirestores, readFirestoresRealTime };
+  //   // 구독 해제 함수 반환
+  //   return () => {
+  //     unsubscribeBuildings();
+  //     unsubscribeDeletedBuildings();
+  //   };
+  // }, []);
+
+  return { createFirestore, updateFirestore, archiveFirestore, deleteFirestore, readFirestore, readFirestores };
 };

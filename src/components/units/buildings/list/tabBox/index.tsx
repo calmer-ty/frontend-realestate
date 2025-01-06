@@ -23,7 +23,7 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
   };
 
   return (
-    <Box sx={{ width: "100%", typography: "body1" }}>
+    <Box sx={{ width: "1020px", typography: "body1" }}>
       <TabContext value={tabValue}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={onChangeTabs} aria-label="lab API tabs example">

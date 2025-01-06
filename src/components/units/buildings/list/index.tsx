@@ -1,11 +1,9 @@
 "use client";
 
-import { useAuth } from "@/src/hooks/useAuth";
 import { useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useBuildingList } from "./hooks/useBuildingList";
 
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import DeleteModal from "./deleteModal";
 import TabBox from "./tabBox";
 
@@ -13,11 +11,12 @@ import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function BuildingList(): JSX.Element {
-  const { user } = useAuth();
-  const userId = user?.uid;
+  const [buildings, setBuildings] = useState<IFirestore[]>([]);
+  const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
 
-  const { buildings, deletedBuildings, setBuildings, archiveFirestore, deleteFirestore, readFirestoresRealTime } = useFirestore();
-  const { myBuildings, myDeletedBuildings } = useBuildingList(buildings, deletedBuildings, userId, archiveFirestore, deleteFirestore, readFirestoresRealTime);
+  const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
+  // useBuildingList(setBuildings, setDeletedBuildings, archiveFirestore, deleteFirestore, readFirestores);
+  useBuildingList(setBuildings, setDeletedBuildings, readFirestores);
 
   // 삭제 모달
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,15 +29,20 @@ export default function BuildingList(): JSX.Element {
 
   return (
     <>
-      <S.Container>{user !== null ? <TabBox myBuildings={myBuildings} myDeletedBuildings={myDeletedBuildings} onDeleteModalOpen={onDeleteModalOpen} /> : <LoadingSpinner size={100} />}</S.Container>
+      <S.Container>
+        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+      </S.Container>
 
       {/* 매물 삭제 모달 */}
       <DeleteModal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
+        buildings={buildings}
         setBuildings={setBuildings}
+        setDeletedBuildings={setDeletedBuildings}
         archiveFirestore={archiveFirestore}
         deleteFirestore={deleteFirestore}
+        readFirestores={readFirestores}
         selectedBuilding={selectedBuilding}
       />
     </>
