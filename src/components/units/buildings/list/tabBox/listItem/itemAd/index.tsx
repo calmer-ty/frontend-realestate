@@ -1,5 +1,5 @@
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
-import { DAY_LIMIT, DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 import type { IItemAdProps } from "./types";
 import * as S from "./styles";
@@ -21,10 +21,10 @@ export default function ItemAd(props: IItemAdProps): JSX.Element {
           {formatDate(el.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
         </p>
       )}
-      <p>
+      {/* <p>
         <span>광고 기한: </span>
         {formatDate((el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE) + DAY_LIMIT)}
-      </p>
+      </p> */}
       <p>
         <span>광고 시작: </span>
         {formatDate(el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
