@@ -18,7 +18,7 @@ export default function BuildingsEditPage(): JSX.Element {
     const readBuilding = async (): Promise<void> => {
       if (docId === undefined) return;
       try {
-        const data = await readFirestore(docId); // 반환값의 타입을 확인
+        const data = await readFirestore("buildings", docId); // 반환값의 타입을 확인
         setDocData(data); // 받아온 데이터를 상태에 저장
       } catch (error) {
         console.error("Error fetching Firebase data:", error);
