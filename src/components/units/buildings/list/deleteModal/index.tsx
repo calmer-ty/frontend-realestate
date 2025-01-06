@@ -37,8 +37,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
           <div className="top">
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address}
-              {props.selectedBuilding.addressDetail}
+              {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address} {props.selectedBuilding.addressDetail}
             </p>
           </div>
           <div className="buttonWrap">
