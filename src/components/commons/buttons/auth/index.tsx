@@ -9,9 +9,12 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import * as S from "./styles";
+import { useRouter } from "next/navigation";
+import BasicAlert from "@/src/components/commons/alert/basic";
 
 export default function AuthButton(): JSX.Element {
   const { user } = useAuth();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl) && user != null;
@@ -44,10 +47,19 @@ export default function AuthButton(): JSX.Element {
   const handleLogout = async (): Promise<void> => {
     try {
       await auth.signOut();
+      setAlertOpen(true);
+
       console.log("로그아웃 성공");
     } catch (error) {
       console.error("로그아웃 실패:", error);
     }
+  };
+
+  // 알림창 상태
+  const [alertOpen, setAlertOpen] = useState(false);
+  const alertClose = (): void => {
+    setAlertOpen(false);
+    router.push("/");
   };
 
   return (
@@ -73,6 +85,8 @@ export default function AuthButton(): JSX.Element {
           </Menu>
         </S.OnLogin>
       )}
+      {/* 알림창 */}
+      <BasicAlert open={alertOpen} close={alertClose} severity="error" text="로그아웃 되었습니다." />
     </>
   );
 }
