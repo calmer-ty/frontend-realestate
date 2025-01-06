@@ -1,43 +1,28 @@
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { signInWithPopup } from "firebase/auth";
 import { useAuth } from "@/src/hooks/useAuth";
 import { auth, googleProvider } from "@/src/commons/libraries/firebase/firebaseApp";
 
-import Link from "next/link";
-import GoogleIcon from "@mui/icons-material/Google";
-import { Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import * as S from "./styles";
-import { useRouter } from "next/navigation";
 import BasicAlert from "@/src/components/commons/alert/basic";
+import LoginButton from "./loginButton";
+import UserMenu from "./userMenu";
 
 export default function AuthButton(): JSX.Element {
   const { user } = useAuth();
   const router = useRouter();
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const open = Boolean(anchorEl) && user != null;
-
-  useEffect(() => {
-    if (user === null) {
-      setAnchorEl(null); // 로그아웃 상태에서 anchorEl 초기화
-    }
-  }, [user]);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = (): void => {
-    setAnchorEl(null);
+  // 알림창 상태
+  const [alertOpen, setAlertOpen] = useState(false);
+  const alertClose = (): void => {
+    setAlertOpen(false);
+    router.push("/");
   };
 
   // Google 로그인 처리
   const handleGoogleLogin = async (): Promise<void> => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      console.log("로그인 성공:", user);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("로그인 실패:", error);
     }
@@ -48,43 +33,14 @@ export default function AuthButton(): JSX.Element {
     try {
       await auth.signOut();
       setAlertOpen(true);
-
-      console.log("로그아웃 성공");
     } catch (error) {
       console.error("로그아웃 실패:", error);
     }
   };
 
-  // 알림창 상태
-  const [alertOpen, setAlertOpen] = useState(false);
-  const alertClose = (): void => {
-    setAlertOpen(false);
-    router.push("/");
-  };
-
   return (
     <>
-      {user == null ? (
-        <Button onClick={handleGoogleLogin} variant="contained" startIcon={<GoogleIcon />}>
-          구글 로그인
-        </Button>
-      ) : (
-        <S.OnLogin>
-          <p>Welcome, {user.displayName}</p>
-
-          {/* 화살표 */}
-          <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleClick} sx={{ minWidth: "36px" }}>
-            <KeyboardArrowDownIcon />
-          </Button>
-          {/* 유저 메뉴 */}
-          <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ "aria-labelledby": "basic-button" }}>
-            <MenuItem onClick={handleClose}>
-              <Link href={"/list"}>내 매물 보기</Link>
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-          </Menu>
-        </S.OnLogin>
-      )}
+      {user == null ? <LoginButton onClick={handleGoogleLogin} /> : <UserMenu user={user} onLogout={handleLogout} />}
       {/* 알림창 */}
       <BasicAlert open={alertOpen} close={alertClose} severity="error" text="로그아웃 되었습니다." />
     </>
