@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 export const ListItem = styled.li`
   display: flex;
@@ -6,9 +8,14 @@ export const ListItem = styled.li`
   border: 1px solid #e7e7e7;
 
   .bottomContents {
+    position: relative;
     display: flex;
     align-items: center;
-    column-gap: 20px;
+    gap: 20px;
     padding: 20px;
+
+    ${mediaQueries.mobile(css`
+      flex-direction: column;
+    `)}
   }
 `;

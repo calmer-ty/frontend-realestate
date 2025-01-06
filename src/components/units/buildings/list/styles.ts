@@ -18,7 +18,7 @@ export const Container = styled.article`
     display: flex;
     row-gap: 20px;
     flex-direction: column;
-    min-width: 930px;
+    min-width: 360px;
     height: calc(100vh - 240px);
   }
 `;

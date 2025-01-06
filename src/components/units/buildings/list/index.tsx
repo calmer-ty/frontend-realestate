@@ -15,7 +15,6 @@ export default function BuildingList(): JSX.Element {
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
 
   const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
-  // useBuildingList(setBuildings, setDeletedBuildings, archiveFirestore, deleteFirestore, readFirestores);
   useBuildingList(setBuildings, setDeletedBuildings, readFirestores);
 
   // 삭제 모달
