@@ -5,7 +5,7 @@ import * as S from "./styles";
 
 export default function LoadingSpinner(props: ILoadingSpinnerProps): JSX.Element {
   return (
-    <S.Wrap size={props.size}>
+    <S.Wrap>
       <ClipLoader size={props.size} color={"#123abc"} loading={true} />
     </S.Wrap>
   );
