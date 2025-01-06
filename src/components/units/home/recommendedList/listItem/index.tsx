@@ -7,6 +7,7 @@ import BasicUnImage from "../../../../commons/unImages/basic";
 
 import type { IRecommendedListItemProps } from "../types";
 import * as S from "./styles";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function ListItem(props: IRecommendedListItemProps): JSX.Element {
   return (
@@ -19,7 +20,7 @@ export default function ListItem(props: IRecommendedListItemProps): JSX.Element 
         )}
         <p className="buildingDesc">
           <span>
-            {props.el.type}・{props.el.addressDetail}
+            {engToKor(props.el.type ?? DEFAULT_STRING_VALUE)}・{props.el.addressDetail}
           </span>
           <strong>
             매매 {isBillion(props.el.price ?? DEFAULT_NUMBER_VALUE)}
