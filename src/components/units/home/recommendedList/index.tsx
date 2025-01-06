@@ -2,32 +2,36 @@ import ListItem from "./listItem";
 
 import type { IRecommendedListProps } from "./types";
 import * as S from "./styles";
+import { useMemo } from "react";
 
 export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
+  const randomFirestores = useMemo(() => {
+    return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }, [firestoreDatas]);
+  console.log(randomFirestores);
   const settings = {
     arrows: false,
-    slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
-    slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
-    Infinity: false,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     initialSlide: 0,
     autoplaySpeed: 4000,
     responsive: [
       {
         breakpoint: 1690,
         settings: {
-          slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
-          slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
           autoplay: true,
           dots: true,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: firestoreDatas.length === 1 ? 1 : 2,
-          slidesToScroll: firestoreDatas.length === 1 ? 1 : 2,
           autoplay: true,
           dots: true,
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {
@@ -41,7 +45,7 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
       },
     ],
   };
-  const randomFirestores = firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
+
   return (
     <>
       <S.Container>
@@ -53,6 +57,9 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
                 {randomFirestores.map((el, index) => (
                   <ListItem key={`${el._id}_${index}`} el={el} />
                 ))}
+                {/* <div style={{ width: "300px" }}>1</div> */}
+                {/* <div style={{ width: "300px" }}>2</div>
+                <div style={{ width: "300px" }}>3</div> */}
               </S.RegisteredList>
             ) : (
               <div className="unItems">추천드릴 매물이 없습니다</div>

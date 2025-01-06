@@ -14,7 +14,6 @@ export const Container = styled.section`
   .inner {
     min-width: 360px;
     min-height: 390px;
-    width: 100%;
     .innerBox {
       display: flex;
       flex-direction: column;

@@ -13,7 +13,8 @@ export const ListItem = styled.div`
     position: relative;
 
     /* 이미지 랩 */
-    > img {
+    > img,
+    div {
       object-fit: cover;
       ${mediaQueries.tablet(css`
         width: 100%;
@@ -47,8 +48,5 @@ export const ListItem = styled.div`
 
   ${mediaQueries.tablet(css`
     width: 240px;
-  `)}
-  ${mediaQueries.mobile(css`
-    width: 300px;
   `)}
 `;

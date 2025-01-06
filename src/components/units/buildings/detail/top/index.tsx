@@ -12,7 +12,6 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
     slidesToScroll: 1,
   };
 
-  console.log("buildingData: ", buildingData);
   return (
     <>
       <S.MobileView {...settings}>
