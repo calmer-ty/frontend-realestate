@@ -13,7 +13,7 @@
 
 ## 시연 영상
 
-[시연 영상 보기](https://img.youtube.com/vi/video-id/maxresdefault.jpg)(https://www.youtube.com/watch?v=video-id)
+https://youtu.be/bgjnD18XfXU
 
 ## 기술 스택
 
