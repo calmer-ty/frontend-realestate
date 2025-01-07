@@ -5,7 +5,9 @@ import { css } from "@emotion/react";
 export const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  padding-top: 60px;
 
   position: relative;
   ${mediaQueries.mobile(css`
