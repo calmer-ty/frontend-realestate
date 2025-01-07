@@ -30,11 +30,4 @@ export const mediaQueries = {
       ${styles}
     }
   `,
-
-  // 수치형 값
-  mh768: (styles: SerializedStyles) => css`
-    @media screen and (max-height: 768px) {
-      ${styles}
-    }
-  `,
 };

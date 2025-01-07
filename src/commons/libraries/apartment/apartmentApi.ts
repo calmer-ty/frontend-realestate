@@ -10,7 +10,7 @@ import pLimit from "p-limit";
 const limit = pLimit(50);
 
 // API 설정 상수
-const API_KEY = process.env.NEXT_PUBLIC_GOVERNMENT_PUBLIC_DATA;
+const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
 const NUM_OF_ROWS = 50;
 

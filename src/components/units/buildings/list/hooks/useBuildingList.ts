@@ -1,33 +1,39 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { useAuth } from "@/src/hooks/useAuth";
 
 import type { IFirestore } from "@/src/commons/types";
-import type { Unsubscribe } from "firebase/firestore";
-
-interface IUseBuildingListReturn {
-  registrantBuildings: IFirestore[];
-  registrantDeletedBuildings: IFirestore[];
-}
-
-// 광고기한 초 - 60초 * 60분 * 24시간
-// const DAY_LIMIT = 60 * 60 * 24;
+import type { Dispatch, SetStateAction } from "react";
 
 export const useBuildingList = (
-  buildings: IFirestore[],
-  deletedBuildings: IFirestore[],
-  userId: string | undefined,
-  readFirestoresRealTime: (buildingType: string) => Unsubscribe
-): IUseBuildingListReturn => {
+  setBuildings: Dispatch<SetStateAction<IFirestore[]>>,
+  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>,
+  readFirestores: (colName: string) => Promise<IFirestore[]>
+): void => {
+  const { user } = useAuth();
+  const userId = user?.uid;
+
+  const fetchBuildings = useCallback(async (): Promise<void> => {
+    try {
+      // Firebase에서 아파트, 집, 삭제된 아파트 데이터를 가져옴
+      const buildings = await readFirestores("buildings");
+      const deletedBuildings = await readFirestores("deleted_buildings");
+
+      // 유저 ID에 맞는 건물 필터링
+      const userBuildings = buildings.filter((el) => el.user?._id === userId);
+      const userDeletedBuildings = deletedBuildings.filter((el) => el.user?._id === userId);
+
+      // 상태 업데이트: 유저 데이터만 설정
+      setBuildings(userBuildings);
+      setDeletedBuildings(userDeletedBuildings);
+    } catch (error) {
+      console.error("Error fetching buildings:", error);
+    }
+  }, [userId, setBuildings, setDeletedBuildings, readFirestores]);
+
   useEffect(() => {
-    const unsubscribe = readFirestoresRealTime("apartment");
-    // 컴포넌트가 unmount되면 구독을 해제
-    return () => {
-      unsubscribe();
-    };
-  }, [readFirestoresRealTime]);
-
-  // 사용자의 매물 및 삭제된 매물만 필터링
-  const registrantBuildings = buildings?.filter((el) => el.user?._id === userId);
-  const registrantDeletedBuildings = deletedBuildings?.filter((el) => el.user?._id === userId);
-
-  return { registrantBuildings, registrantDeletedBuildings };
+    if (userId !== undefined) {
+      // 컴포넌트가 마운트될 때 데이터 한 번만 불러옴
+      void fetchBuildings();
+    }
+  }, [userId, fetchBuildings]);
 };

@@ -26,7 +26,7 @@ export const useBuildingView = (buildingType: string): IUseBuildingDataReturn =>
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {
-      const firestoreData = await readFirestores(buildingType);
+      const firestoreData = await readFirestores("buildings");
       setFirestoreData(firestoreData);
     };
     void readBuilding();

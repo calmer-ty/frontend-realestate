@@ -23,12 +23,6 @@ export const Container = styled.section`
     ${mediaQueries.largeDesktop(css`
       padding: 0;
     `)}
-    ${mediaQueries.desktop(css`
-      padding: 0 40px;
-    `)}
-    ${mediaQueries.tablet(css`
-      padding: 0;
-    `)}
   }
 
   /* 가상요소 */

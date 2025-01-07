@@ -7,7 +7,7 @@ export const modalStyle = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
+  padding: "40px 32px 32px",
 
   closeBtn: {
     position: "absolute" as "absolute",

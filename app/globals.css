@@ -52,3 +52,27 @@ main {
     min-width: initial;
   }
 }
+
+/* 기본 스크롤바 크기 */
+::-webkit-scrollbar {
+  width: 8px; /* 세로 스크롤바 */
+  height: 8px; /* 가로 스크롤바 */
+}
+
+/* 스크롤바 배경 */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 배경 색 */
+  border-radius: 10px; /* 끝부분을 둥글게 */
+}
+
+/* 스크롤바 핸들(사용자가 잡는 부분) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* 기본 색 */
+  border-radius: 10px; /* 둥글게 */
+  border: 2px solid #f1f1f1; /* 배경과 분리되는 느낌 */
+}
+
+/* 스크롤바 핸들이 hover 될 때 */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* hover 시 색 변화 */
+}

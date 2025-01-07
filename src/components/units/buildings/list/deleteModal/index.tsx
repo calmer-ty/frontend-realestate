@@ -8,24 +8,25 @@ import type { IDeleteModalProps } from "./types";
 import * as S from "./styles";
 
 export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
+  const { readFirestores, deleteFirestore, archiveFirestore, setBuildings, setDeletedBuildings, setModalOpen } = props;
   const onModalToggle = (): void => {
     props.setModalOpen((prev) => !prev);
   };
 
-  const onDeleteBuildingItem = (): void => {
+  const onDeleteBuildingItem = async (): Promise<void> => {
     if (props.selectedBuilding !== null) {
-      // 1. 먼저 상태를 클라이언트에서 업데이트 (성능 최적화)
-      props.setBuildings((prev) => prev.filter((el) => el._id !== props.selectedBuilding?._id));
-
-      // 3. 삭제된 데이터에 저장
-      void props.archiveFirestore(props.selectedBuilding);
-      // 4. Firestore에서 데이터 삭제 및 동기화
-      void props.deleteFirestore(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE, props.selectedBuilding._id ?? DEFAULT_STRING_VALUE).catch((error) => {
-        console.error(`Error deleting document ${props.selectedBuilding?._id}:`, error);
-      });
+      // 1. Firestore에서 데이터 삭제 및 동기화
+      await deleteFirestore("buildings", props.selectedBuilding._id ?? DEFAULT_STRING_VALUE);
+      // 2. 삭제된 데이터 아카이브
+      await archiveFirestore(props.selectedBuilding, "deleted_buildings");
+      // 3. 데이터 갱신을 위해 다시 리스토어
+      const updatedBuildings = await readFirestores("buildings"); // "apartment"는 필요에 맞게 변경
+      const updatedDeletedBuildings = await readFirestores("deleted_buildings"); // "apartment"는 필요에 맞게 변경
+      setBuildings(updatedBuildings); // 상태 갱신
+      setDeletedBuildings(updatedDeletedBuildings); // 상태 갱신
 
       // 모달 닫기
-      props.setModalOpen(false);
+      setModalOpen(false);
     }
   };
 
@@ -36,8 +37,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
           <div className="top">
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address}
-              {props.selectedBuilding.addressDetail}
+              {engToKor(props.selectedBuilding.type ?? DEFAULT_STRING_VALUE)} - {props.selectedBuilding.address} {props.selectedBuilding.addressDetail}
             </p>
           </div>
           <div className="buttonWrap">

@@ -63,8 +63,10 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
           </div>
         </S.TwinInputWrap>
       </section>
+
+      {/* 주소찾기 모달 */}
       <BasicModal open={modalOpen} onToggle={onModalToggle}>
-        <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
+        <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} style={{ height: "466px" }} />
       </BasicModal>
     </>
   );

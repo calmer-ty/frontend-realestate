@@ -34,6 +34,11 @@ export const ListItem = styled.div<IBuildingTypeProps>`
     position: absolute;
     right: 20px;
     bottom: 20px;
+
+    ${mediaQueries.tablet(css`
+      right: 10px;
+      bottom: 10px;
+    `)}
   }
 
   &:hover {
@@ -42,8 +47,6 @@ export const ListItem = styled.div<IBuildingTypeProps>`
 
   ${mediaQueries.tablet(css`
     width: 240px;
-  `)}
-  ${mediaQueries.mobile(css`
-    width: 300px;
+    height: 180px;
   `)}
 `;

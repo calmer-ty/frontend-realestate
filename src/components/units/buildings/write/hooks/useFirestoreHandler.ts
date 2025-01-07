@@ -41,7 +41,7 @@ export const useFirestoreHandler = (
         },
       };
 
-      await createFirestore(formData, selectedType);
+      await createFirestore(formData, "buildings", selectedType);
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -90,7 +90,7 @@ export const useFirestoreHandler = (
         return;
       }
 
-      await updateFirestore(updatedValues, selectedType, docData?._id ?? DEFAULT_STRING_VALUE);
+      await updateFirestore(updatedValues, "buildings", docData?._id ?? DEFAULT_STRING_VALUE);
       setAlertOpen(true);
       setAlertText("매물 수정이 완료되었습니다.");
       setAlertSeverity("success");

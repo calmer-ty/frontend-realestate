@@ -2,32 +2,35 @@ import ListItem from "./listItem";
 
 import type { IRecommendedListProps } from "./types";
 import * as S from "./styles";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import { useMemo } from "react";
 
 export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
+  const randomFirestores = useMemo(() => {
+    return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }, [firestoreDatas]);
   const settings = {
     arrows: false,
-    slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
-    slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : firestoreDatas.length === 3 ? 3 : firestoreDatas.length === 4 ? 4 : 5,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     initialSlide: 0,
     autoplaySpeed: 4000,
     responsive: [
       {
         breakpoint: 1690,
         settings: {
-          slidesToShow: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
-          slidesToScroll: firestoreDatas.length === 1 ? 1 : firestoreDatas.length === 2 ? 2 : 3,
           autoplay: true,
           dots: true,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: firestoreDatas.length === 1 ? 1 : 2,
-          slidesToScroll: firestoreDatas.length === 1 ? 1 : 2,
           autoplay: true,
           dots: true,
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {
@@ -41,28 +44,24 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
       },
     ],
   };
-  const randomFirestores = firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
+
   return (
     <>
       <S.Container>
-        {firestoreDatas.length !== 0 ? (
-          <div className="inner">
-            <div className="innerBox">
-              <h2>추천드리는 매물입니다.</h2>
-              {randomFirestores.length !== 0 ? (
-                <S.RegisteredList {...settings}>
-                  {randomFirestores.map((el, index) => (
-                    <ListItem key={`${el._id}_${index}`} el={el} />
-                  ))}
-                </S.RegisteredList>
-              ) : (
-                <div className="unItems">추천드릴 매물이 없습니다</div>
-              )}
-            </div>
+        <div className="inner">
+          <div className="innerBox">
+            <h2>추천드리는 매물입니다.</h2>
+            {randomFirestores.length !== 0 ? (
+              <S.RegisteredList {...settings}>
+                {randomFirestores.map((el, index) => (
+                  <ListItem key={`${el._id}_${index}`} el={el} />
+                ))}
+              </S.RegisteredList>
+            ) : (
+              <div className="unItems">추천드릴 매물이 없습니다</div>
+            )}
           </div>
-        ) : (
-          <LoadingSpinner size={100} />
-        )}
+        </div>
       </S.Container>
     </>
   );
