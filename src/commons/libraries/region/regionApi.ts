@@ -34,7 +34,8 @@ const extractRegionCodes = (responses: Array<AxiosResponse<IRegion | undefined, 
 
 export const regionApi = async (city: string): Promise<string[]> => {
   try {
-    const initialUrl = createApiUrl(`세종특별자치시`, 1);
+    const initialUrl = createApiUrl(`서울특별시`, 1);
+    // const initialUrl = createApiUrl(city, 1);
     const initialResponse = await axios.get<IRegion | undefined>(initialUrl);
 
     const totalCount = initialResponse.data?.StanReginCd?.[0]?.head?.[0].totalCount ?? 0; // row 데이터 추출
@@ -47,7 +48,8 @@ export const regionApi = async (city: string): Promise<string[]> => {
 
     // 모든 페이지에 대한 요청 생성
     for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`세종특별자치시`, pageNo))));
+      request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`서울특별시`, pageNo))));
+      // request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(city, pageNo))));
     }
 
     // 요청 병렬 처리
