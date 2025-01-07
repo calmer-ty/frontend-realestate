@@ -3,18 +3,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// import { mediaQueries } from "@/src/commons/styles";
-// import { css } from "@emotion/react";
-
 export const PCView = styled.section`
   /* 공통 */
   display: flex;
   column-gap: 10px;
   width: 100%;
-  height: 440px;
 
   figure {
     position: relative;
+    height: 440px;
     > img {
       object-fit: cover;
     }

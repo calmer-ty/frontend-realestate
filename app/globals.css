@@ -40,6 +40,7 @@ main {
   align-items: center;
   justify-content: center;
   background-color: #fff;
+  padding-top: 60px;
   height: 100vh;
 }
 
