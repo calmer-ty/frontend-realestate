@@ -13,7 +13,7 @@
 
 ## 시연 영상
 
-[https://youtu.be/bgjnD18XfXU](https://youtu.be/qXf_fNOohy0)
+https://youtu.be/vNQ4D9yL9i0
 
 ## 기술 스택
 
