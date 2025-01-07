@@ -13,9 +13,24 @@ import TabPanel from "@mui/lab/TabPanel";
 // TYPE
 import type { SyntheticEvent } from "react";
 import type { ITabBoxProps } from "./types";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 export default function TabBox(props: ITabBoxProps): JSX.Element {
   const { myBuildings, myDeletedBuildings, onDeleteModalOpen } = props;
+
+  const sortedMyBuildings = myBuildings.sort((a, b) => {
+    const aCreatedAt = a.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE; // createdAt이 없으면 0으로 처리
+    const bCreatedAt = b.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+
+    return aCreatedAt - bCreatedAt;
+  });
+  const sortedMyDeleteBuildings = myDeletedBuildings.sort((a, b) => {
+    const aDeletedAt = a.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE; // DeletedAt이 없으면 0으로 처리
+    const bDeletedAt = b.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+
+    return aDeletedAt - bDeletedAt;
+  });
+
   // 탭 로직
   const [tabValue, setTabValue] = useState("1");
   const onChangeTabs = (event: SyntheticEvent, tabNewValue: string): void => {
@@ -33,14 +48,14 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
         </Box>
         <TabPanel value="1">
           <ul>
-            {myBuildings.map((el, index) => (
+            {sortedMyBuildings.map((el, index) => (
               <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
             ))}
           </ul>
         </TabPanel>
         <TabPanel value="2">
           <ul>
-            {myDeletedBuildings.map((el, index) => (
+            {sortedMyDeleteBuildings.map((el, index) => (
               <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
             ))}
           </ul>

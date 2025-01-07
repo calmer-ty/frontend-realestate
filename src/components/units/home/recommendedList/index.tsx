@@ -8,7 +8,6 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
   const randomFirestores = useMemo(() => {
     return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreDatas]);
-  console.log(randomFirestores);
   const settings = {
     arrows: false,
     slidesToShow: 5,
