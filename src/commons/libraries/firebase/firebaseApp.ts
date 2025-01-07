@@ -9,16 +9,15 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseKey = process.env.FIREBASE_KEY;
 
 const firebaseConfig = {
-  apiKey: firebaseKey,
-  authDomain: "frontend-realestate.firebaseapp.com",
-  projectId: "frontend-realestate",
-  storageBucket: "frontend-realestate.appspot.com",
-  messagingSenderId: "681330247558",
-  appId: "1:681330247558:web:0931630a2e8e4963480e07",
-  measurementId: "G-G7K9SCF8MW",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
