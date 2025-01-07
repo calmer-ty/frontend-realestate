@@ -7,10 +7,8 @@ export const Container = styled.article`
   flex-direction: column;
   row-gap: 40px;
   width: 1024px;
-  padding: 40px;
 
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     width: 100%;
-    padding: 0;
   `)}
 `;

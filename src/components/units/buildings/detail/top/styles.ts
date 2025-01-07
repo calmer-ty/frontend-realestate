@@ -3,8 +3,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { mediaQueries } from "@/src/commons/styles";
-import { css } from "@emotion/react";
+// import { mediaQueries } from "@/src/commons/styles";
+// import { css } from "@emotion/react";
 
 export const PCView = styled.section`
   /* 공통 */
@@ -36,17 +36,11 @@ export const PCView = styled.section`
       height: calc(50% - 8px);
     }
   }
-
-  ${mediaQueries.mobile(css`
-    display: none;
-  `)}
 `;
 
 // 모바일용 슬랙
 export const MobileView = styled(Slider)`
   &.slick-slider {
-    display: none;
-
     figure {
       position: relative;
       height: 400px;
@@ -56,10 +50,4 @@ export const MobileView = styled(Slider)`
       }
     }
   }
-
-  ${mediaQueries.mobile(css`
-    &.slick-slider {
-      display: block;
-    }
-  `)}
 `;
