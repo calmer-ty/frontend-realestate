@@ -10,7 +10,7 @@ interface IUseFetchAllGeocode {
 }
 
 export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocode => {
-  const [data, setGeocodeResults] = useState<IGeocodeData[]>([]);
+  const [data, setData] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -21,7 +21,7 @@ export const useFetchAllGeocode = (buildingType: string): IUseFetchAllGeocode =>
       const response = await axios.get<IGeocodeData[]>(`/api/fetchAllGeocode`, {
         params: { buildingType },
       });
-      setGeocodeResults(response.data);
+      setData(response.data);
     } catch (error) {
       console.error("fetchAllGeocode 에러입니다 :", error);
       setError(error as Error);

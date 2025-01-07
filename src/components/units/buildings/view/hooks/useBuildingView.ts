@@ -22,6 +22,7 @@ export const useBuildingView = (buildingType: string): IUseBuildingDataReturn =>
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
 
   const { data: geocodeData, loading, error } = useFetchAllGeocode(buildingType);
+
   const { readFirestores } = useFirestore();
 
   useEffect(() => {
@@ -33,5 +34,6 @@ export const useBuildingView = (buildingType: string): IUseBuildingDataReturn =>
   }, [readFirestores, buildingType]);
 
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
+
   return { geocodeData, visibleMarkerData, selectedMarkerData, setSelectedMarkerData, firestoreData, loading, error };
 };
