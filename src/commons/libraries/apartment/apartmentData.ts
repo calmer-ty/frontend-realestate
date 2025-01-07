@@ -33,7 +33,7 @@ export const getApartmentData = async (): Promise<IApartmentItem[]> => {
     const promises = regionCodes.map((regionCode) => {
       // regionCode가 이미 처리된 경우 해당 요청은 건너뛰기
       if (seenRegionCodes.has(regionCode)) {
-        console.log(`Region code ${regionCode} 이미 처리되어 건너뜀.`);
+        // console.log(`Region code ${regionCode} 이미 처리되어 건너뜀.`);
         return Promise.resolve([]); // 이미 처리된 경우 빈 배열을 반환
       }
       seenRegionCodes.add(regionCode); // regionCode를 Set에 추가하여 추적
