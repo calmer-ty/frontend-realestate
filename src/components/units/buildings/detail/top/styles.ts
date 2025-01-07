@@ -41,7 +41,7 @@ export const PCView = styled.section`
 // 모바일용 슬랙
 export const MobileView = styled(Slider)`
   &.slick-slider {
-    .imgCover {
+    figure {
       position: relative;
       height: 400px;
       > img,
