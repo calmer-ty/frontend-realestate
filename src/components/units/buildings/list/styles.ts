@@ -19,6 +19,6 @@ export const Container = styled.article`
     row-gap: 20px;
     flex-direction: column;
     min-width: 360px;
-    height: calc(100vh - 240px);
+    height: calc(100vh - 180px);
   }
 `;

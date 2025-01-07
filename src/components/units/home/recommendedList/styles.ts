@@ -13,7 +13,6 @@ export const Container = styled.section`
   flex: 1;
   .inner {
     min-width: 360px;
-    min-height: 390px;
     .innerBox {
       display: flex;
       flex-direction: column;
@@ -26,7 +25,8 @@ export const Container = styled.section`
         ${mediaQueries.mobile(css`
           width: max-content;
           padding-left: 0;
-          margin: 0 auto 20px;
+          margin: 10px auto 10px;
+          font-size: 20px;
         `)}
       }
 

@@ -18,6 +18,7 @@ export const ListItem = styled.div`
       object-fit: cover;
       ${mediaQueries.tablet(css`
         width: 100%;
+        height: 140px;
       `)}
     }
     ::before {

@@ -6,7 +6,7 @@ export const Container = styled.article`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 78px);
+  height: 100vh;
 `;
 
 // 맵 선택지
