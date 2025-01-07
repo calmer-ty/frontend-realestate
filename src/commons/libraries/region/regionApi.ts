@@ -1,12 +1,10 @@
 import axios from "axios";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-// import type { AxiosResponse } from "axios";
 import type { IRegion } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
-// import pLimit from "p-limit";
-// const limit = pLimit(50);
-// import { logToFile } from "../utils/logToFile";
+import pLimit from "p-limit";
+const limit = pLimit(10); // 병렬 요청 수를 10개로 제한
 
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
@@ -16,22 +14,30 @@ const createApiUrl = (city: string, pageNo: number): string => {
   return `${BASE_URL}?ServiceKey=${API_KEY}&pageNo=${pageNo}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
 };
 
-// const extractRegionCodes = (responses: Array<AxiosResponse<IRegion | undefined, any>>): Set<string> => {
-//   const regionCodeObject = new Set<string>();
+const getUniqueRegionCodes = async (totalPages: number, fetchPageData: (pageNo: number) => Promise<IRegion | undefined>): Promise<Set<string>> => {
+  const regionCodeObject = new Set<string>();
 
-//   responses.forEach((response) => {
-//     const rows = response.data?.StanReginCd?.[1]?.row ?? [];
-//     rows.forEach((row) => {
-//       const regionCode = row.region_cd?.slice(0, 5); // 지역 코드의 앞 5자리만 사용
-//       if (regionCode !== undefined && !regionCode.endsWith("000")) {
-//         regionCodeObject.add(regionCode);
-//       }
-//     });
-//   });
+  // 병렬로 요청 보내기
+  const requests = Array.from(
+    { length: totalPages },
+    (_, pageNo) => limit(() => fetchPageData(pageNo + 1)) // 페이지 번호 1부터 시작
+  );
 
-//   return regionCodeObject;
-// };
+  const responses = await Promise.all(requests);
 
+  responses.forEach((response) => {
+    const rows = response?.StanReginCd?.[1]?.row ?? [];
+
+    rows.forEach((row) => {
+      const regionCode = row.region_cd?.slice(0, 5); // 지역 코드의 앞 5자리만 사용
+      if (regionCode !== undefined && !regionCode.endsWith("000")) {
+        regionCodeObject.add(regionCode);
+      }
+    });
+  });
+
+  return regionCodeObject;
+};
 export const regionApi = async (city: string): Promise<string[]> => {
   try {
     const initialUrl = createApiUrl(`서울특별시`, 1);
@@ -44,35 +50,12 @@ export const regionApi = async (city: string): Promise<string[]> => {
     }
 
     const totalPages = Math.ceil(totalCount / NUM_OF_ROWS);
-    // const request: Array<Promise<AxiosResponse<IRegion | undefined>>> = [];
 
-    // // 모든 페이지에 대한 요청 생성
-    // for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-    //   request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(`서울특별시`, pageNo))));
-    //   // request.push(limit(() => axios.get<IRegion | undefined>(createApiUrl(city, pageNo))));
-    // }
-
-    // // 요청 병렬 처리
-    // const responses = await Promise.all(request);
-
-    // // extractRegionCodes 함수 사용
-    // const regionCodeObject = extractRegionCodes(responses);
-
-    // return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
-    const regionCodeObject = new Set<string>();
-
-    // 순차적으로 요청 보내기
-    for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
-      const response = await axios.get<IRegion | undefined>(createApiUrl(city, pageNo));
-      const rows = response.data?.StanReginCd?.[1]?.row ?? [];
-
-      rows.forEach((row) => {
-        const regionCode = row.region_cd?.slice(0, 5); // 지역 코드의 앞 5자리만 사용
-        if (regionCode !== undefined && !regionCode.endsWith("000")) {
-          regionCodeObject.add(regionCode);
-        }
-      });
-    }
+    const regionCodeObject = await getUniqueRegionCodes(totalPages, async (pageNo) => {
+      const url = createApiUrl(`서울특별시`, pageNo);
+      const response = await axios.get<IRegion | undefined>(url);
+      return response.data;
+    });
 
     return Array.from(regionCodeObject); // 중복 제거된 숫자 배열만 반환
   } catch (error) {
