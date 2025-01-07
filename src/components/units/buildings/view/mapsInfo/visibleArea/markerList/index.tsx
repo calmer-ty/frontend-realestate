@@ -1,7 +1,7 @@
 import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IMarkerListProps } from "./types";
 import type { IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";

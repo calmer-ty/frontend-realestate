@@ -1,5 +1,4 @@
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
-
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import "./styles.css";
 

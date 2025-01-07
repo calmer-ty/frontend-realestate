@@ -7,7 +7,6 @@ export const Container = styled.section`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-top: 60px;
 
   position: relative;
   ${mediaQueries.mobile(css`

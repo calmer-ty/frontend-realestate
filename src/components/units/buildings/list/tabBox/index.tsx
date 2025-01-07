@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 import ListItem from "./listItem";
+
 // 탭 MUI
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-// TYPE
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { SyntheticEvent } from "react";
 import type { ITabBoxProps } from "./types";
 import * as S from "./styles";

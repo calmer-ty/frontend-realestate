@@ -1,7 +1,7 @@
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
+import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IItemInfoProps } from "./types";
 import * as S from "./styles";
 

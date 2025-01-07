@@ -1,8 +1,8 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 
 import BasicChip from "@/src/components/commons/chip/basic";
 
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingInfoTopProps } from "./types";
 import * as S from "./styles";
 
