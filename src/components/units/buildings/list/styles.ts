@@ -10,15 +10,4 @@ export const Container = styled.article`
   h3 {
     font-size: 18px;
   }
-
-  ul {
-    overflow-y: hidden;
-    overflow-y: scroll;
-    display: flex;
-    row-gap: 20px;
-    flex-direction: column;
-    min-width: 360px;
-    height: calc(100vh - 220px);
-    padding-right: 20px;
-  }
 `;
