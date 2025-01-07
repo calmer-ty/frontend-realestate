@@ -4,7 +4,7 @@ export const Container = styled.article`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 40px 0;
+  padding: 60px 0;
   h2 {
     margin-bottom: 20px;
   }
@@ -19,6 +19,6 @@ export const Container = styled.article`
     row-gap: 20px;
     flex-direction: column;
     min-width: 360px;
-    height: calc(100vh - 180px);
+    height: calc(100vh - 220px);
   }
 `;
