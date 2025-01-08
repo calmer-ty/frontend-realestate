@@ -8,7 +8,7 @@ const limit = pLimit(10); // 병렬 요청 수를 10개로 제한
 
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
-const NUM_OF_ROWS = 50;
+const NUM_OF_ROWS = 10;
 
 const createApiUrl = (city: string, pageNo: number): string => {
   return `${BASE_URL}?ServiceKey=${API_KEY}&pageNo=${pageNo}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
