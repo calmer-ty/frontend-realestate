@@ -1,3 +1,5 @@
+import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
+
 import MatchedList from "./matchedList";
 import NoDataMessage from "../../noDataMessage";
 
@@ -5,10 +7,9 @@ import type { IBuildingInfoBottomProps } from "./types";
 import * as S from "./styles";
 
 export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX.Element {
-  const jibunAddress = props.selectedData.geocode?.jibunAddress;
-  const roadAddress = props.selectedData.geocode?.roadAddress;
+  const jibunAddress = getJibunAddress(props.selectedData);
 
-  const matchedData = props.firestoreData.filter((el) => jibunAddress === el.address || roadAddress === el.address);
+  const matchedData = props.firestoreData.filter((el) => jibunAddress === el.address);
   return (
     <S.Container>
       {matchedData.length > 0 ? (

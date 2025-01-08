@@ -1,12 +1,13 @@
+import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
+
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import "./styles.css";
 
 const markerIconContent = (itemData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
-  const jibunAddress = itemData.geocode?.jibunAddress;
-  const roadAddress = itemData.geocode?.roadAddress;
+  const jibunAddress = getJibunAddress(itemData);
 
-  const matchedFirestoreData = firestoreDatas.find((firestoreData) => firestoreData.address === jibunAddress || firestoreData.address === roadAddress);
+  const matchedFirestoreData = firestoreDatas.find((firestoreData) => firestoreData.address === jibunAddress);
 
   const amount = (Number(itemData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
   const peng = Math.round((itemData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);

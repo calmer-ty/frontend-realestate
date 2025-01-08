@@ -1,5 +1,5 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
+import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 
 import BasicChip from "@/src/components/commons/chip/basic";
 
@@ -12,10 +12,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
   const onClickClose = (): void => {
     setSelectedData(null);
   };
-  console.log("selectedData: ", selectedData.data?.umdNm);
-  const jibunAddress = `${getFullCityName(selectedData.data?.estateAgentSggNm ?? DEFAULT_STRING_VALUE)} ${selectedData.data?.umdNm ?? DEFAULT_STRING_VALUE} ${
-    selectedData.data?.jibun ?? DEFAULT_STRING_VALUE
-  }`;
+  const jibunAddress = getJibunAddress(props.selectedData);
   return (
     <S.Container>
       <S.CloseButton onClick={onClickClose} />

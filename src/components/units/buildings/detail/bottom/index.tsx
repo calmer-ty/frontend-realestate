@@ -8,7 +8,6 @@ import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
 export default function BuildingDetailBottom({ buildingData }: IBuildingDetailProps): JSX.Element {
-  console.log("buildingData: ", buildingData);
   return (
     <S.Container>
       <S.InfoItem>
