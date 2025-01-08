@@ -1,4 +1,5 @@
 import { getApartmentData } from "../apartment/apartmentData";
+import { logToFile } from "../utils/logToFile";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
@@ -6,7 +7,7 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
 import pLimit from "p-limit";
-const limit = pLimit(5);
+const limit = pLimit(10);
 
 // 제외 필드 상수
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
@@ -79,6 +80,6 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
     )
   );
   const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
-
+  logToFile("filteredGeocodeData: ", filteredGeocodeData.length);
   return filteredGeocodeData;
 };

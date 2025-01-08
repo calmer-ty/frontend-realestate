@@ -71,40 +71,13 @@ export interface IGeocodeAPI {
 export interface IGeocodeAPIReturn {
   latitude?: number;
   longitude?: number;
-  roadAddress?: string;
-  jibunAddress?: string;
+  // roadAddress?: string;
+  // jibunAddress?: string;
 }
 export interface IGeocodeData {
   data?: IApartmentItem;
   geocode?: IGeocodeAPIReturn;
 }
-
-// export interface IGeocodeData {
-//   address?: string;
-//   address_road?: string;
-//   buildingName?: string;
-//   price?: number;
-//   area?: number;
-//   floor?: number;
-//   dealYear?: number;
-//   dealMonth?: number;
-//   dealDay?: number;
-//   buildYear?: number;
-// }
-
-// map API marker
-// export interface ILocationData {
-//   address?: string;
-//   address_road?: string;
-//   buildingName?: string;
-//   price?: number;
-//   area?: number;
-//   floor?: number;
-//   dealYear?: number;
-//   dealMonth?: number;
-//   dealDay?: number;
-//   buildYear?: number;
-// }
 
 // firestore
 export interface IFirestore {
