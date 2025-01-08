@@ -1,5 +1,4 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IMarkerListProps } from "./types";
@@ -7,12 +6,11 @@ import type { IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
 
 export default function MarkerList(props: IMarkerListProps): JSX.Element {
-  const { visibleMarkerData, firestoreData, setSelectedData } = props;
+  const { matchingMarkerData, setSelectedData } = props;
   const onClickInfo = (el: IGeocodeData): void => {
     setSelectedData(el); // 선택된 el을 상태에 저장
   };
 
-  const matchingMarkerData = visibleMarkerData.filter((visData) => firestoreData.some((fireData) => getJibunAddress(visData) === fireData.address));
   return (
     <>
       <ul>
