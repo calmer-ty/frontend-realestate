@@ -4,10 +4,10 @@ import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import "./styles.css";
 
-const markerIconContent = (itemData: IGeocodeData, firestoreDatas: IFirestore[]): string => {
+const markerIconContent = (itemData: IGeocodeData, firestoreData: IFirestore[]): string => {
   const jibunAddress = getJibunAddress(itemData);
 
-  const matchedFirestoreData = firestoreDatas.find((firestoreData) => firestoreData.address === jibunAddress);
+  const matchedFirestoreData = firestoreData.find((data) => data.address === jibunAddress);
 
   const amount = (Number(itemData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
   const peng = Math.round((itemData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);

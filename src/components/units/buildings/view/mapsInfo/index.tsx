@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import SelectedArea from "./selectedArea";
 import VisibleArea from "./visibleArea";
 
