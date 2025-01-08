@@ -27,16 +27,9 @@ const processResponseData = (data: IApartment | undefined): Array<Partial<IApart
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
+  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && el.estateAgentSggNm?.includes(",") === false;
 
   return items.filter(isValidData).map((item) => {
-    const updatedItem = { ...item };
-
-    // estateAgentSggNm에서 쉼표가 포함된 경우, 쉼표 이후의 값만 취합니다.
-    if (item?.estateAgentSggNm?.includes(",") === true) {
-      updatedItem.estateAgentSggNm = item.estateAgentSggNm.split(",").slice(1).join(",").trim();
-    }
-
     const filteredItem: Partial<IApartmentItem> = {};
     Object.keys(item).forEach((key) => {
       // 불필요한 필드 제거
