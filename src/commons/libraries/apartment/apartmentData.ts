@@ -6,7 +6,7 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import type { IApartmentItem } from "@/src/commons/types";
 
 import pLimit from "p-limit";
-const limit = pLimit(50);
+const limit = pLimit(10);
 
 export const fetchApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
   const cacheKey = `apartment_${regionCode}`;

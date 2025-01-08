@@ -6,13 +6,12 @@ import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 
 import pLimit from "p-limit";
-import { logToFile } from "../utils/logToFile";
 const limit = pLimit(10);
 
 // API 설정 상수
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
-const NUM_OF_ROWS = 10;
+const NUM_OF_ROWS = 500;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
@@ -81,11 +80,9 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
     // 첫 번째 요청으로 총 페이지 수 계산
     const initialUrl = createApiUrl(regionCode, 1);
     const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
-    // const seenPages = new Set<string>(); // 이미 처리한 regionCode를 기록할 Set
-
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
-      // console.warn("apartmentApi - 총 데이터 개수가 없습니다.");
+      console.warn("apartmentApi - 총 데이터 개수가 없습니다.");
       return [];
     }
 
@@ -101,9 +98,6 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
         const response = await axios.get<IApartment | undefined>(url);
         const data = processResponseData(response.data);
 
-        // 각 페이지에서 받은 데이터 개수 출력
-        logToFile(`${regionCode} == Page ${pageNo} - Received ${data.length} items`);
-
         return data;
       })
     );
@@ -112,7 +106,6 @@ export const apartmentApi = async (regionCode: string): Promise<IApartmentItem[]
 
     // 모든 데이터를 하나로 합치고 최신 데이터만 추출
     const latestData = getLatestData(allItems.flat());
-
     return latestData;
   } catch (error) {
     handleError(error, "apartmentApi"); // 에러 처리
