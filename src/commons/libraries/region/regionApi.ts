@@ -8,7 +8,7 @@ const limit = pLimit(10); // 병렬 요청 수를 10개로 제한
 
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "http://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList";
-const NUM_OF_ROWS = 10;
+const NUM_OF_ROWS = 100;
 
 const createApiUrl = (city: string, pageNo: number): string => {
   return `${BASE_URL}?ServiceKey=${API_KEY}&pageNo=${pageNo}&type=json&flag=Y&locatadd_nm=${encodeURIComponent(city)}`;
@@ -40,7 +40,7 @@ const getUniqueRegionCodes = async (totalPages: number, fetchPageData: (pageNo: 
 };
 export const regionApi = async (city: string): Promise<string[]> => {
   try {
-    const initialUrl = createApiUrl(`서울특별시`, 1);
+    const initialUrl = createApiUrl(`세종특별자치시`, 1);
     // const initialUrl = createApiUrl(city, 1);
     const initialResponse = await axios.get<IRegion | undefined>(initialUrl);
 
@@ -52,7 +52,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
     const totalPages = Math.ceil(totalCount / NUM_OF_ROWS);
 
     const regionCodeObject = await getUniqueRegionCodes(totalPages, async (pageNo) => {
-      const url = createApiUrl(`서울특별시`, pageNo);
+      const url = createApiUrl(`세종특별자치시`, pageNo);
       const response = await axios.get<IRegion | undefined>(url);
       return response.data;
     });

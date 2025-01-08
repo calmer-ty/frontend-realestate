@@ -6,10 +6,10 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
 
 import pLimit from "p-limit";
-const limit = pLimit(10);
+const limit = pLimit(5);
 
 // 제외 필드 상수
-const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
+// const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
@@ -25,7 +25,6 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
     const response = await geocodeApi(address);
 
     if (response === null) {
-      // geocodeApi에서 null이 반환되면 로그나 예외를 처리
       return null; // null을 리턴하기 전에 로깅
     }
     // API 응답이 정상일 경우 캐시하고 반환
@@ -57,17 +56,19 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       limit(async () => {
         try {
           const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
+          console.time("fetchGeocodeData"); // 시간 측정 시작
           const geocode = await fetchGeocodeData(address);
+          console.timeEnd("fetchGeocodeData"); // 시간 측정 끝
 
           // 데이터를 필터링하여 새로운 객체에 저장
-          const filteredData: Partial<IApartmentItem> = {};
+          // const filteredData: Partial<IApartmentItem> = {};
 
-          Object.keys(dataItem).forEach((key) => {
-            if (!FIELDS_TO_EXCLUDE.includes(key)) {
-              filteredData[key] = dataItem[key];
-            }
-          });
-          const data = filteredData;
+          // Object.keys(dataItem).forEach((key) => {
+          //   if (!FIELDS_TO_EXCLUDE.includes(key)) {
+          //     filteredData[key] = dataItem[key];
+          //   }
+          // });
+          const data = dataItem;
           return { data, geocode }; // 정상적으로 처리된 데이터 리턴
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
@@ -78,5 +79,6 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
     )
   );
   const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
+
   return filteredGeocodeData;
 };

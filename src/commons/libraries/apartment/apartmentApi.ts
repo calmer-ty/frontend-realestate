@@ -11,7 +11,7 @@ const limit = pLimit(10);
 // API 설정 상수
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
-const NUM_OF_ROWS = 500;
+const NUM_OF_ROWS = 100;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
