@@ -8,8 +8,22 @@ import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
 
 export default function BuildingDetailBottom({ buildingData }: IBuildingDetailProps): JSX.Element {
+  console.log("buildingData: ", buildingData);
   return (
     <S.Container>
+      <S.InfoItem>
+        <UnderlineTitle label="주소 정보" />
+        <S.InfoList>
+          <li>
+            <h3>지번 주소</h3>
+            <span>{buildingData.address}</span>
+          </li>
+          <li>
+            <h3>건물명</h3>
+            <span>{buildingData.addressDetail}</span>
+          </li>
+        </S.InfoList>
+      </S.InfoItem>
       <S.InfoItem>
         <UnderlineTitle label="가격 정보" />
         <S.InfoList>
