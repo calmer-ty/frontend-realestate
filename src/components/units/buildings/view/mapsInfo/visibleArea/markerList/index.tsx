@@ -11,14 +11,14 @@ export default function MarkerList(props: IMarkerListProps): JSX.Element {
   const onClickInfo = (el: IGeocodeData): void => {
     setSelectedData(el); // 선택된 el을 상태에 저장
   };
+
+  const matchingMarkerData = visibleMarkerData.filter((visData) => firestoreData.some((fireData) => getJibunAddress(visData) === fireData.address));
   return (
     <>
-      <S.List>
-        {visibleMarkerData.map((visData, index) => {
-          const matchingFirestoreData = firestoreData.some((fireData) => getJibunAddress(visData) === fireData.address);
-
+      <ul>
+        {matchingMarkerData.map((visData, index) => {
           return (
-            <li
+            <S.ListItem
               key={`${visData.data?.aptNm}_${index}`}
               onClick={() => {
                 onClickInfo(visData);
@@ -33,11 +33,10 @@ export default function MarkerList(props: IMarkerListProps): JSX.Element {
                 <br />
                 {visData.data?.excluUseAr}m² {visData.data?.floor}층
               </p>
-              <div>{matchingFirestoreData && <>매물있음</>}</div>
-            </li>
+            </S.ListItem>
           );
         })}
-      </S.List>
+      </ul>
     </>
   );
 }

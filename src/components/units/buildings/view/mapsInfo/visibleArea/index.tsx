@@ -4,10 +4,14 @@ import MarkerList from "./markerList";
 
 import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
+import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
   const { visibleMarkerData, firestoreData, buildingType, selectedData, setSelectedData } = props;
 
+  // matchingData 변수 선언
+  const matchingData = visibleMarkerData.some((visData) => firestoreData.some((fireData) => getJibunAddress(visData) === fireData.address));
+  console.log("matchingData: ", matchingData);
   return (
     <S.Container>
       {visibleMarkerData.length !== 0 ? (

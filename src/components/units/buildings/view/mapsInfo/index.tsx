@@ -26,6 +26,9 @@ export default function MapsInfo({ buildingType, selectedMarkerData, setSelected
     setScroll((prev) => !prev);
   };
 
+  // console.log("visibleMarkerData: ", visibleMarkerData);
+  // console.log("firestoreData: ", firestoreData);
+
   return (
     <>
       <S.Container scroll={scroll}>
