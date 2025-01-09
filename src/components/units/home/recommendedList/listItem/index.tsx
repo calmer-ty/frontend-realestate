@@ -10,6 +10,9 @@ import type { IRecommendedListItemProps } from "../types";
 import * as S from "./styles";
 
 export default function ListItem(props: IRecommendedListItemProps): JSX.Element {
+  // const imageLoader = ({ src }: { src: string }): string => {
+  //   return `https://www.calmer96.store/${src}`;
+  // };
   return (
     <S.ListItem key={props.el._id}>
       <Link href={`/${props.el.type}/${props.el._id}`}>

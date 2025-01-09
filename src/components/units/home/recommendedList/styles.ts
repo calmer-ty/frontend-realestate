@@ -12,27 +12,25 @@ export const Container = styled.section`
   align-items: center;
   flex: 1;
   .inner {
+    display: flex;
+    flex-direction: column;
     min-width: 360px;
-    .innerBox {
-      display: flex;
-      flex-direction: column;
-      padding: 0 20px;
-      > h2 {
-        width: 100%;
-        padding-left: 40px;
-        margin-bottom: 20px;
+    padding: 0 20px;
+    > h2 {
+      width: 100%;
+      padding-left: 40px;
+      margin-bottom: 20px;
 
-        ${mediaQueries.mobile(css`
-          width: max-content;
-          padding-left: 0;
-          margin: 10px auto 10px;
-          font-size: 20px;
-        `)}
-      }
+      ${mediaQueries.mobile(css`
+        width: max-content;
+        padding-left: 0;
+        margin: 10px auto 10px;
+        font-size: 20px;
+      `)}
+    }
 
-      .slick-dots {
-        bottom: -30px;
-      }
+    .slick-dots {
+      bottom: -30px;
     }
   }
 
