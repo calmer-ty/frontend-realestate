@@ -14,7 +14,7 @@ export const ListItem = styled.li`
     gap: 20px;
     padding: 20px;
 
-    ${mediaQueries.mobile(css`
+    ${mediaQueries.tablet(css`
       flex-direction: column;
     `)}
   }

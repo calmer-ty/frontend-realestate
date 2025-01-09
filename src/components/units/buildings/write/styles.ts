@@ -8,8 +8,8 @@ export const Form = styled.form`
   flex-direction: column;
   row-gap: 40px;
   width: 1024px;
-  height: calc(100vh - 160px);
-  padding-right: 20px;
+  height: calc(100vh - 120px);
+  padding: 0 20px 20px;
   > section {
     display: flex;
     flex-direction: column;

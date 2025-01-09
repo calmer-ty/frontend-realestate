@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import SelectedArea from "./selectedArea";
 import VisibleArea from "./visibleArea";
 
@@ -24,6 +25,9 @@ export default function MapsInfo({ buildingType, selectedMarkerData, setSelected
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
   };
+
+  // console.log("visibleMarkerData: ", visibleMarkerData);
+  // console.log("firestoreData: ", firestoreData);
 
   return (
     <>

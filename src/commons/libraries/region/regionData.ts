@@ -1,8 +1,9 @@
 import { regionApi } from "./regionApi";
 import { cityArray } from "../utils/cityArray";
 import { getCachedRegionData, setRegionCache } from "./regionCache";
-import { regionCodeConstants } from "@/src/commons/constants/regionCode";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
+
+import { regionCodeConstants } from "@/src/commons/constants/regionCode";
 
 import pLimit from "p-limit";
 const limit = pLimit(50);

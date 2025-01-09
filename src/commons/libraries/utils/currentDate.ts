@@ -11,6 +11,5 @@ export const getCurrentDate = (): string => {
 
   // 월을 두 자리 문자열로 포맷
   const formattedMonth = month.toString().padStart(2, "0");
-  console.log(`Fetching data for: ${year}${formattedMonth}`);
   return `${year}${formattedMonth}`;
 };

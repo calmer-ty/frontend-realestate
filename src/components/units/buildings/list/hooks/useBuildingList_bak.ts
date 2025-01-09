@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IFirestore } from "@/src/commons/types";
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import type { Unsubscribe } from "firebase/firestore";

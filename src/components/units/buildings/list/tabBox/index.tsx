@@ -3,17 +3,17 @@
 import { useState } from "react";
 
 import ListItem from "./listItem";
+
 // 탭 MUI
-import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-// TYPE
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { SyntheticEvent } from "react";
 import type { ITabBoxProps } from "./types";
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
+import * as S from "./styles";
 
 export default function TabBox(props: ITabBoxProps): JSX.Element {
   const { myBuildings, myDeletedBuildings, onDeleteModalOpen } = props;
@@ -38,14 +38,13 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
   };
 
   return (
-    <Box sx={{ width: "max-content", typography: "body1" }}>
+    <S.Container>
       <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={onChangeTabs} aria-label="lab API tabs example">
-            <Tab label="광고중" value="1" />
-            <Tab label="광고종료" value="2" />
-          </TabList>
-        </Box>
+        <TabList onChange={onChangeTabs} aria-label="lab API tabs example">
+          <Tab label="광고중" value="1" />
+          <Tab label="광고종료" value="2" />
+        </TabList>
+
         <TabPanel value="1">
           <ul>
             {sortedMyBuildings.map((el, index) => (
@@ -61,6 +60,6 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
           </ul>
         </TabPanel>
       </TabContext>
-    </Box>
+    </S.Container>
   );
 }
