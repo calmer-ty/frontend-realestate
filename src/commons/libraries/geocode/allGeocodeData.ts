@@ -1,5 +1,4 @@
 import { getApartmentData } from "../apartment/apartmentData";
-import { logToFile } from "../utils/logToFile";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
@@ -80,6 +79,5 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
     )
   );
   const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
-  logToFile("filteredGeocodeData: ", filteredGeocodeData.length);
   return filteredGeocodeData;
 };
