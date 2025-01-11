@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.16.1",
     "@mui/lab": "^6.0.0-beta.10",
     "@mui/material": "^5.16.1",
+    "@types/jquery": "^3.5.32",
     "axios": "^1.7.2",
     "firebase": "^10.12.2",
     "firebase-admin": "^12.7.0",
