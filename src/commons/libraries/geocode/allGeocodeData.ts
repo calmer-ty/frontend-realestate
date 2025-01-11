@@ -56,9 +56,7 @@ export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ d
       limit(async () => {
         try {
           const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
-          console.time("fetchGeocodeData"); // 시간 측정 시작
           const geocode = await fetchGeocodeData(address);
-          console.timeEnd("fetchGeocodeData"); // 시간 측정 끝
 
           // 데이터를 필터링하여 새로운 객체에 저장
           // const filteredData: Partial<IApartmentItem> = {};

@@ -114,6 +114,8 @@ declare global {
   interface Window {
     naver: any;
     MarkerClustering: any;
+    maps: any;
+    HOME_PATH: any;
   }
 }
 

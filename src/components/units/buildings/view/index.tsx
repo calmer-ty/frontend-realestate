@@ -12,6 +12,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { geocodeData, visibleMarkerData, selectedMarkerData, setSelectedMarkerData, firestoreData, loading, error } = useBuildingView(buildingType);
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
+  // useRegion();
   return (
     <S.Container>
       <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />

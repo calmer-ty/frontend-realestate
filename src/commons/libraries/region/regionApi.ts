@@ -40,8 +40,8 @@ const getUniqueRegionCodes = async (totalPages: number, fetchPageData: (pageNo: 
 };
 export const regionApi = async (city: string): Promise<string[]> => {
   try {
-    const initialUrl = createApiUrl(`세종특별자치시`, 1);
     // const initialUrl = createApiUrl(city, 1);
+    const initialUrl = createApiUrl(`세종특별자치시`, 1);
     const initialResponse = await axios.get<IRegion | undefined>(initialUrl);
 
     const totalCount = initialResponse.data?.StanReginCd?.[0]?.head?.[0].totalCount ?? 0; // row 데이터 추출
@@ -52,6 +52,7 @@ export const regionApi = async (city: string): Promise<string[]> => {
     const totalPages = Math.ceil(totalCount / NUM_OF_ROWS);
 
     const regionCodeObject = await getUniqueRegionCodes(totalPages, async (pageNo) => {
+      // const url = createApiUrl(city, pageNo);
       const url = createApiUrl(`세종특별자치시`, pageNo);
       const response = await axios.get<IRegion | undefined>(url);
       return response.data;
