@@ -84,11 +84,7 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
     [updateMarkers]
   );
 
-  const onMapLoaded = useCallback(
-    (map: any) => {
-      loadClusterScript(map);
-    },
-    [loadClusterScript]
-  );
+  // prettier-ignore
+  const onMapLoaded = useCallback((map: any) => { loadClusterScript(map) },[loadClusterScript]);
   useMapsLoader({ onMapLoaded });
 };
