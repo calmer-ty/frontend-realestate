@@ -5,7 +5,8 @@ import type { IApartmentItem } from "@/src/commons/types";
 const apartmentCache = new NodeCache({ stdTTL: 3600 });
 
 export const getCachedApartmentData = (key: string): IApartmentItem[] | undefined => {
-  return apartmentCache.get<IApartmentItem[]>(key);
+  const cachedData = apartmentCache.get<IApartmentItem[]>(key);
+  return cachedData;
 };
 
 export const setApartmentCache = (key: string, data: IApartmentItem[]): void => {

@@ -1,49 +1,30 @@
-import { getRegionData } from "../region/regionData";
 import { apartmentApi } from "./apartmentApi";
 import { getCachedApartmentData, setApartmentCache } from "./apartmentCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { IApartmentItem } from "@/src/commons/types";
 
-import pLimit from "p-limit";
-const limit = pLimit(10);
+export const getApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
+  if (regionCode === "") {
+    console.warn("regionCode is undefined, skipping API call");
+    return []; // regionCode가 없으면 빈 배열 반환
+  }
 
-export const fetchApartmentData = async (regionCode: string): Promise<IApartmentItem[]> => {
   const cacheKey = `apartment_${regionCode}`;
   const cachedData = getCachedApartmentData(cacheKey);
 
   if (cachedData !== undefined) {
-    return cachedData; // 캐시 히트 시 바로 반환
+    return cachedData; // 캐시가 있으면 캐시 데이터 반환
   }
 
   try {
-    const responses = await apartmentApi(regionCode);
-    setApartmentCache(cacheKey, responses); // 캐시에 저장
-    return responses;
-  } catch (error) {
-    handleError(error, `fetchApartmentData - ${regionCode}`); // 에러 처리
-    return [];
-  }
-};
-export const getApartmentData = async (): Promise<IApartmentItem[]> => {
-  try {
-    const seenRegionCodes = new Set<string>(); // 이미 처리한 regionCode를 기록할 Set
-    const regionCodes: string[] = await getRegionData();
+    const response = await apartmentApi(regionCode);
+    setApartmentCache(cacheKey, response);
+    // console.log("API 데이터 캐시 저장 결과: ", response);
 
-    const promises = regionCodes.map((regionCode) => {
-      // regionCode가 이미 처리된 경우 해당 요청은 건너뛰기
-      if (seenRegionCodes.has(regionCode)) {
-        // console.log(`Region code ${regionCode} 이미 처리되어 건너뜀.`);
-        return Promise.resolve([]); // 이미 처리된 경우 빈 배열을 반환
-      }
-      seenRegionCodes.add(regionCode); // regionCode를 Set에 추가하여 추적
-      return limit(() => fetchApartmentData(regionCode));
-    });
-    // 모든 요청을 병렬로 실행하고 결과를 반환
-    const apartmentData = await Promise.all(promises);
-    return apartmentData.flat();
+    return response;
   } catch (error) {
-    handleError(error, "getApartmentData"); // 에러 처리
-    return [];
+    handleError(error, `getApartmentData - ${regionCode}`);
+    return []; // 에러가 발생하면 빈 배열 반환
   }
 };
