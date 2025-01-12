@@ -13,6 +13,9 @@ export const getApartmentData = async (regionCode: string): Promise<IApartmentIt
   const cacheKey = `apartment_${regionCode}`;
   const cachedData = getCachedApartmentData(cacheKey);
 
+  console.log("getApartmentData regionCode: ", regionCode);
+  console.log("getApartmentData cachedData: ", cachedData?.length);
+
   if (cachedData !== undefined) {
     return cachedData; // 캐시가 있으면 캐시 데이터 반환
   }

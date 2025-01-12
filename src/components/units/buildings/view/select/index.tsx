@@ -39,8 +39,8 @@ interface IRegionSelectProps {
 }
 
 export default function RegionSelect({ onSelectionChange }: IRegionSelectProps): JSX.Element {
-  const [city, setCity] = useState(""); // 시 상태
-  const [district, setDistrict] = useState(""); // 구 상태
+  const [city, setCity] = useState("서울특별시"); // 시 상태
+  const [district, setDistrict] = useState("종로구"); // 구 상태
 
   // city와 district가 바뀔 때마다 onSelectionChange를 호출
   useEffect(() => {

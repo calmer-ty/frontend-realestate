@@ -9,7 +9,7 @@ interface IUseFetchAllGeocode {
   error: Error | null;
 }
 
-export const useFetchAllGeocode = (buildingType: string, selectedRegion: string): IUseFetchAllGeocode => {
+export const useFetchAllGeocode = (buildingType: string, regionCode: string | undefined): IUseFetchAllGeocode => {
   const [data, setData] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -18,8 +18,8 @@ export const useFetchAllGeocode = (buildingType: string, selectedRegion: string)
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get<IGeocodeData[]>(`/api/fetchAllGeocode`, {
-        params: { buildingType },
+      const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
+        params: { buildingType, regionCode },
       });
       setData(response.data);
     } catch (error) {
@@ -28,13 +28,13 @@ export const useFetchAllGeocode = (buildingType: string, selectedRegion: string)
     } finally {
       setLoading(false);
     }
-  }, [buildingType]);
+  }, [buildingType, regionCode]);
 
   useEffect(() => {
     if (typeof buildingType === "string" && buildingType !== "") {
       void fetchData();
     }
-  }, [buildingType, selectedRegion, fetchData]); // fetchData가 변경될 때도 실행됨
+  }, [buildingType, regionCode, fetchData]); // fetchData가 변경될 때도 실행됨
 
   return { data, loading, error };
 };

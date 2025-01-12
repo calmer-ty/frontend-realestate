@@ -1,5 +1,5 @@
-import { getCachedApartmentData } from "../apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
-import { getApartmentData } from "../apartment/apartmentData";
+import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
+
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
@@ -39,18 +39,20 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
 // - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
-export const getAllGeocodeData = async (buildingType: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
-  const apartmentCache = getCachedApartmentData(`apartment_11110`);
-  console.log("apartmentCache === ", apartmentCache);
+export const getAllGeocodeData = async (buildingType: string, regionCode: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
+  const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
+  console.log("getAllGeocodeData apartmentCache === ", apartmentCache?.length);
 
   // 주거 타입 선택
   // let selectedData: IApartmentItem[] = [];
-  let selectedData: any[] = [];
+  let selectedData: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
       try {
-        selectedData = await getApartmentData("any");
-        // console.log("selectedData after fetching: ", selectedData);
+        if (apartmentCache !== undefined) {
+          selectedData = apartmentCache;
+        }
+        console.log("selectedData after fetching: ", selectedData);
       } catch (error) {
         console.error("Error in fetching apartment data: ", error);
       }

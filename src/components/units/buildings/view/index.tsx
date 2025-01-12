@@ -1,18 +1,18 @@
 "use client";
 
 // import { useBuildingView } from "./hooks/useBuildingView";
-
-import NaverMaps from "./naverMaps";
-import MapsInfo from "./mapsInfo";
-
-import type { IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
-import * as S from "./styles";
-import RegionSelect from "./select";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAllMarker } from "./hooks/useAllMarker";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useFetchAllGeocode } from "./hooks/useFetchAllGeocode";
-import axios from "axios";
+
+import NaverMaps from "./naverMaps";
+import MapsInfo from "./mapsInfo";
+import RegionSelect from "./select";
+
+import type { IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
+import * as S from "./styles";
 
 const regionCodeMap: Record<string, string> = {
   "서울특별시 종로구": "11110",
@@ -26,8 +26,9 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { readFirestores } = useFirestore();
 
   // 구 선택 hook
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const { data: geocodeData, loading, error } = useFetchAllGeocode(buildingType, selectedRegion);
+  const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
+
+  const { data: geocodeData, loading, error } = useFetchAllGeocode(buildingType, regionCode);
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {
@@ -41,21 +42,22 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
 
   // 구 선택 시 해당 지역 코드로 서버로 요청
   const handleRegionChange = async (region: string): Promise<void> => {
-    setSelectedRegion(region); // 지역 선택 상태 저장
+    const code = regionCodeMap[region];
+    setRegionCode(code); // 선택된 지역 코드 업데이트
   };
 
   // selectedRegion 값이 변경될 때마다 서버에 다시 값을 요청
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      const regionCode = regionCodeMap[selectedRegion];
-
-      if (regionCode === "") {
+      if (regionCode === undefined) {
         console.error("존재하지 않는 지역입니다.");
         return;
       }
 
       try {
-        const response = await axios.get(`/api/fetchApartment?regionCode=${regionCode}`);
+        const response = await axios.get("/api/fetchApartment", {
+          params: { regionCode },
+        });
 
         if (response.status === 200) {
           console.log("Fetched data:", response.data); // 받은 데이터 로그 출력
@@ -67,9 +69,10 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
       }
     };
 
-    void fetchData(); // selectedRegion 값이 변경될 때만 데이터 요청
-  }, [selectedRegion]); // selectedRegion 값이 변경될 때만 실행됨
-
+    if (regionCode !== undefined) {
+      void fetchData(); // regionCode 값이 있을 때만 요청
+    }
+  }, [regionCode]); // selectedRegion 값이 변경될 때만 실행됨
   if (error !== null) return <p>Error loading data: {error.message}</p>;
 
   return (
