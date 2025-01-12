@@ -52,7 +52,6 @@ export const getAllGeocodeData = async (buildingType: string, regionCode: string
         if (apartmentCache !== undefined) {
           selectedData = apartmentCache;
         }
-        console.log("selectedData after fetching: ", selectedData);
       } catch (error) {
         console.error("Error in fetching apartment data: ", error);
       }
