@@ -1,17 +1,16 @@
 "use client";
 
-// import { useBuildingView } from "./hooks/useBuildingView";
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAllMarker } from "./hooks/useAllMarker";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-// import { useFetchAllGeocode } from "./hooks/useFetchAllGeocode";
+import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
+import { useFetchGeocodeData } from "@/src/hooks/api/useFetchGeocodeData";
 
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 import RegionSelect from "./select";
 
-import type { IApartmentItem, IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IBuildingParams, IFirestore, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
 
 const regionCodeMap: Record<string, string> = {
@@ -26,68 +25,8 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
 
   // 구 선택 hook
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
-  // 아파트 데이터 상태 관리
-  const [apartmentData, setApartmentData] = useState<IApartmentItem[]>([]);
-  // 지오코드 데이터 상태 관리
-  const [geocodeData, setGeocodeData] = useState<IGeocodeData[]>([]);
-
-  // // // 지역 패치 훅
-  // const fetchRegionData = useCallback(async (): Promise<void> => {
-  //   try {
-  //     await axios.get("/api/fetchRegion");
-
-  //     // console.log("response.data: ", response.data);
-  //   } catch (err) {
-  //     console.error("Error fetching data:", err);
-  //   }
-  // }, []);
-  //  // regionCode가 변경되면 아파트 데이터를 요청
-  //  useEffect(() => {
-  //   void fetchRegionData();
-  // }, []);
-
-  // 아파트 패치 훅
-  const fetchApartmentData = useCallback(async (regionCode: string): Promise<void> => {
-    if (regionCode === undefined) {
-      console.error("존재하지 않는 지역입니다.");
-      return;
-    }
-
-    try {
-      const response = await axios.get<IApartmentItem[]>("/api/fetchApartment", {
-        params: { regionCode },
-      });
-
-      if (response.status === 200) {
-        setApartmentData(response.data);
-        // console.log("Fetched apartment data:", response.data); // 받은 데이터 로그 출력
-      } else {
-        throw new Error("Failed to fetch data");
-      }
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    }
-  }, []);
-
-  // 지오코드 패치 훅
-  const fetchGeocodeData = useCallback(
-    async (regionCode: string): Promise<void> => {
-      try {
-        const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
-          params: { buildingType, regionCode },
-        });
-        if (response.status === 200) {
-          setGeocodeData(response.data);
-          // console.log("Fetched geocode data:", response.data);
-        } else {
-          throw new Error("Failed to fetch geocode data");
-        }
-      } catch (err) {
-        console.error("Error fetching geocode data:", err);
-      }
-    },
-    [buildingType] // buildingType이 변경될 때만 함수가 재정의됨
-  );
+  const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
+  const { geocodeData, fetchGeocodeData } = useFetchGeocodeData(regionCode, buildingType);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   useEffect(() => {
