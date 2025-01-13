@@ -5,7 +5,7 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 // import { regionCodeConstants } from "@/src/commons/constants/regionCode";
 
-import { logToFile } from "../utils/logToFile";
+// import { logToFile } from "../utils/logToFile";
 import pLimit from "p-limit";
 const limit = pLimit(10);
 
@@ -47,7 +47,7 @@ export const getRegionData = async (): Promise<Array<{ locataddNm: string[]; loc
       return { locataddNm, locallowNm, regionCode };
     });
 
-    logToFile("getRegionData: ", regionDatas.flat());
+    // logToFile("getRegionData: ", regionDatas.flat());
     return regionDataList.flat(); // 도시별 지역 코드 그룹화된 객체 반환
   } catch (error) {
     handleError(error, "fetchRegionData"); // 에러 처리

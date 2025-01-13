@@ -13,6 +13,7 @@ import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
+// import { CITIES } from "@/src/commons/constants/regionData";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -25,6 +26,9 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeData, fetchGeocodeData } = useFetchGeocodeData(regionCode, buildingType);
+
+  // 시/도인지 확인하는 상수
+  // const excludedRegions = new Set(CITIES);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   useEffect(() => {

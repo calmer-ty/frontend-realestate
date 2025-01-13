@@ -5,6 +5,7 @@ import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IRegion, IRegionItem } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
 import pLimit from "p-limit";
+import { logToFile } from "../utils/logToFile";
 const limit = pLimit(10); // 병렬 요청 수를 10개로 제한
 
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
@@ -31,19 +32,27 @@ const fetchPageData = async (city: string, pageNo: number): Promise<IRegion | un
 const processRegionData = (rows: IRegionItem[]): Map<string, { locataddNm: string; locallowNm: string; regionCode: string }> => {
   const regionCodeMap = new Map<string, { locataddNm: string; locallowNm: string; regionCode: string }>();
   rows.forEach((el) => {
+    // logToFile("el~  === ", el);
     const locataddNm = el.locatadd_nm;
     const locallowNm = el.locallow_nm;
+
+    if (el.locallow_nm === undefined) return;
+    const remaining = el.locatadd_nm?.replace(el.locallow_nm, "").trim();
+    logToFile("remaining: ", remaining);
+
     const regionCode = (el.sido_cd ?? DEFAULT_STRING_VALUE) + (el.sgg_cd ?? DEFAULT_STRING_VALUE);
     // 시 구까지 나온 데이터 - 뽑아야할 값
     const validUmdCd = el.umd_cd === "000";
     const validSggCd = el.sgg_cd !== "000";
     if (locallowNm !== undefined && regionCode !== undefined && validUmdCd && validSggCd) {
       let locataddNmWithoutLocallow = locataddNm?.replace(locallowNm, "").trim();
+      // let remainingParts = "";
       // console.log("locataddNmWithoutLocallow:", locataddNmWithoutLocallow); // 처리된 locataddNm 로그 추가
       if (locataddNmWithoutLocallow !== undefined) {
         const parts = locataddNmWithoutLocallow.split(" ");
         locataddNmWithoutLocallow = parts[0]; // "경기도"
-        // console.log("locataddNmWithoutLocallow split:", locataddNmWithoutLocallow); // 처리된 locataddNm 로그 추가
+        // remainingParts = parts.slice(1).join(" "); // 나머지 부분 저장
+        // logToFile("locallow~  === ", `${locataddNmWithoutLocallow} = ${remainingParts}`);
       } else {
         return;
       }
@@ -56,7 +65,6 @@ const processRegionData = (rows: IRegionItem[]): Map<string, { locataddNm: strin
       });
     }
   });
-  console.log("regionCodeMap: ", regionCodeMap);
   return regionCodeMap;
 };
 
