@@ -30,10 +30,20 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const [apartmentData, setApartmentData] = useState<IApartmentItem[]>([]);
   // 지오코드 데이터 상태 관리
   const [geocodeData, setGeocodeData] = useState<IGeocodeData[]>([]);
-  console.log("geocodeData: ", geocodeData);
+
+  // // 지역 패치 훅
+  // const fetchRegionData = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const response = await axios.get<IRegion[]>("/api/fetchRegion");
+  //     // await axios.get<IRegion[]>("/api/fetchRegion");
+
+  //     // console.log("response.data: ", response.data);
+  //   } catch (err) {
+  //     console.error("Error fetching data:", err);
+  //   }
+  // }, []);
 
   // 아파트 패치 훅
-
   const fetchApartmentData = useCallback(async (regionCode: string): Promise<void> => {
     if (regionCode === undefined) {
       console.error("존재하지 않는 지역입니다.");
@@ -47,7 +57,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
 
       if (response.status === 200) {
         setApartmentData(response.data);
-        console.log("Fetched apartment data:", response.data); // 받은 데이터 로그 출력
+        // console.log("Fetched apartment data:", response.data); // 받은 데이터 로그 출력
       } else {
         throw new Error("Failed to fetch data");
       }
@@ -65,7 +75,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
         });
         if (response.status === 200) {
           setGeocodeData(response.data);
-          console.log("Fetched geocode data:", response.data);
+          // console.log("Fetched geocode data:", response.data);
         } else {
           throw new Error("Failed to fetch geocode data");
         }
@@ -75,6 +85,11 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     },
     [buildingType] // buildingType이 변경될 때만 함수가 재정의됨
   );
+
+  // // regionCode가 변경되면 아파트 데이터를 요청
+  // useEffect(() => {
+  //   void fetchRegionData();
+  // }, []);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   useEffect(() => {
