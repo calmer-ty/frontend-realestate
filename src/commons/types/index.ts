@@ -23,6 +23,12 @@ export interface IRegionItem {
   locallow_nm?: string;
 }
 
+export interface IRegionItemFiltered {
+  city: string;
+  district: string;
+  regionCode: string;
+}
+
 // 아파트 API
 export interface IApartment {
   response?: {
