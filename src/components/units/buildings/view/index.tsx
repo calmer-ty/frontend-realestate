@@ -31,16 +31,19 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 지오코드 데이터 상태 관리
   const [geocodeData, setGeocodeData] = useState<IGeocodeData[]>([]);
 
-  // // 지역 패치 훅
+  // // // 지역 패치 훅
   // const fetchRegionData = useCallback(async (): Promise<void> => {
   //   try {
-  //     const response = await axios.get<IRegion[]>("/api/fetchRegion");
-  //     // await axios.get<IRegion[]>("/api/fetchRegion");
+  //     await axios.get("/api/fetchRegion");
 
   //     // console.log("response.data: ", response.data);
   //   } catch (err) {
   //     console.error("Error fetching data:", err);
   //   }
+  // }, []);
+  //  // regionCode가 변경되면 아파트 데이터를 요청
+  //  useEffect(() => {
+  //   void fetchRegionData();
   // }, []);
 
   // 아파트 패치 훅
@@ -85,11 +88,6 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     },
     [buildingType] // buildingType이 변경될 때만 함수가 재정의됨
   );
-
-  // // regionCode가 변경되면 아파트 데이터를 요청
-  // useEffect(() => {
-  //   void fetchRegionData();
-  // }, []);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   useEffect(() => {
