@@ -4,10 +4,10 @@ import NodeCache from "node-cache";
 const regionCache = new NodeCache({ stdTTL: 3600 });
 
 // 임시타입
-export const getCachedRegionData = (key: string): Array<{ locationName: string; regionCode: string }> | undefined => {
-  return regionCache.get<Array<{ locationName: string; regionCode: string }>>(key);
+export const getCachedRegionData = (key: string): Array<{ locataddNm: string; locallowNm: string; regionCode: string }> | undefined => {
+  return regionCache.get<Array<{ locataddNm: string; locallowNm: string; regionCode: string }>>(key);
 };
 
-export const setRegionCache = (key: string, data: Array<{ locationName: string; regionCode: string }>): void => {
+export const setRegionCache = (key: string, data: Array<{ locataddNm: string; locallowNm: string; regionCode: string }>): void => {
   regionCache.set(key, data);
 };

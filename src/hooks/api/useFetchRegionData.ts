@@ -7,7 +7,7 @@ interface IUseFetchApartmentDataReturn {
   fetchRegionData: () => Promise<void>;
 }
 
-export const useFetchApartmentData = (): IUseFetchApartmentDataReturn => {
+export const useFetchRegionData = (): IUseFetchApartmentDataReturn => {
   const fetchRegionData = useCallback(async (): Promise<void> => {
     try {
       const response = await axios.get("/api/fetchRegion");

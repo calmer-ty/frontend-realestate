@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -35,10 +36,14 @@ const districtsMap: Record<string, Array<{ id: number; name: string }>> = {
 };
 
 interface IRegionSelectProps {
-  onSelectionChange: (region: string) => void; // 부모로 전달할 함수
+  setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
-export default function RegionSelect({ onSelectionChange }: IRegionSelectProps): JSX.Element {
+const regionCodeMap: Record<string, string> = {
+  "서울특별시 종로구": "11110",
+};
+
+export default function RegionSelect({ setRegionCode }: IRegionSelectProps): JSX.Element {
   const [city, setCity] = useState("서울특별시"); // 시 상태
   const [district, setDistrict] = useState("종로구"); // 구 상태
 
@@ -46,11 +51,12 @@ export default function RegionSelect({ onSelectionChange }: IRegionSelectProps):
   useEffect(() => {
     if (city !== "" && district !== "") {
       const region = `${city} ${district}`;
-      onSelectionChange(region); // 부모로 region 전달
+      const code = regionCodeMap[region];
+      setRegionCode(code); // 부모로 region 전달
     } else {
-      onSelectionChange(""); // 시와 구가 모두 선택되지 않으면 null 전달
+      setRegionCode(""); // 시와 구가 모두 선택되지 않으면 null 전달
     }
-  }, [city, district, onSelectionChange]); // city나 district가 바뀔 때마다 실행
+  }, [city, district, setRegionCode]); // city나 district가 바뀔 때마다 실행
 
   // 시 선택 핸들러
   const handleCityChange = (event: SelectChangeEvent): void => {

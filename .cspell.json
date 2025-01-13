@@ -1,7 +1,7 @@
 {
   "version": "0.2",
   "language": "en",
-  "ignoreWords": ["naver", "geocode", "Firestore", "Firestores"],
+  "ignoreWords": ["naver", "geocode", "Firestore", "Firestores", "locatadd", "locallow", "sido"],
   "ignoreRegExpList": ["/\\b\\w+s\\b/"],
   "dictionaries": ["default"]
 }

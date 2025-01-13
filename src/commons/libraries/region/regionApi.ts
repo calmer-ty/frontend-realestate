@@ -28,45 +28,58 @@ const fetchPageData = async (city: string, pageNo: number): Promise<IRegion | un
 };
 
 // 지역 코드 추출 및 필터링
-const processRegionData = (rows: IRegionItem[]): Map<string, { locationName: string; regionCode: string }> => {
-  const regionCodeMap = new Map<string, { locationName: string; regionCode: string }>();
+const processRegionData = (rows: IRegionItem[]): Map<string, { locataddNm: string; locallowNm: string; regionCode: string }> => {
+  const regionCodeMap = new Map<string, { locataddNm: string; locallowNm: string; regionCode: string }>();
   rows.forEach((el) => {
-    const locationName = el.locatadd_nm;
+    const locataddNm = el.locatadd_nm;
+    const locallowNm = el.locallow_nm;
     const regionCode = (el.sido_cd ?? DEFAULT_STRING_VALUE) + (el.sgg_cd ?? DEFAULT_STRING_VALUE);
     // 시 구까지 나온 데이터 - 뽑아야할 값
     const validUmdCd = el.umd_cd === "000";
     const validSggCd = el.sgg_cd !== "000";
-    if (locationName !== undefined && regionCode !== undefined && validUmdCd && validSggCd) {
+    if (locallowNm !== undefined && regionCode !== undefined && validUmdCd && validSggCd) {
+      let locataddNmWithoutLocallow = locataddNm?.replace(locallowNm, "").trim();
+      // console.log("locataddNmWithoutLocallow:", locataddNmWithoutLocallow); // 처리된 locataddNm 로그 추가
+      if (locataddNmWithoutLocallow !== undefined) {
+        const parts = locataddNmWithoutLocallow.split(" ");
+        locataddNmWithoutLocallow = parts[0]; // "경기도"
+        // console.log("locataddNmWithoutLocallow split:", locataddNmWithoutLocallow); // 처리된 locataddNm 로그 추가
+      } else {
+        return;
+      }
+
       // 객체를 Map에 저장
-      regionCodeMap.set(`${regionCode}_${locationName}`, {
-        locationName,
+      regionCodeMap.set(`${locataddNmWithoutLocallow}_${locallowNm}`, {
+        locataddNm: locataddNmWithoutLocallow,
+        locallowNm,
         regionCode,
       });
     }
   });
+  console.log("regionCodeMap: ", regionCodeMap);
   return regionCodeMap;
 };
 
-const getUniqueRegionCodes = async (city: string, totalPages: number): Promise<Map<string, { locationName: string; regionCode: string }>> => {
+const getUniqueRegionCodes = async (city: string, totalPages: number): Promise<Map<string, { locataddNm: string; locallowNm: string; regionCode: string }>> => {
   // 병렬로 요청 보내기
   const requests = Array.from({ length: totalPages }, (_, i) => limit(() => fetchPageData(city, i + 1)));
   const responses = await Promise.all(requests);
 
-  const regionCodeMap = new Map<string, { locationName: string; regionCode: string }>();
+  const regionCodeMap = new Map<string, { locataddNm: string; locallowNm: string; regionCode: string }>();
 
   responses.forEach((response) => {
     const rows = response?.StanReginCd?.[1]?.row ?? [];
     const filteredCodes = processRegionData(rows);
 
-    // Map에서 각 regionCode와 locationName을 추가
+    // Map에서 각 regionCode와 locallowNm을 추가
     filteredCodes.forEach((value, key) => {
-      regionCodeMap.set(key, { locationName: value.locationName, regionCode: value.regionCode });
+      regionCodeMap.set(key, { locataddNm: value.locataddNm, locallowNm: value.locallowNm, regionCode: value.regionCode });
     });
   });
 
   return regionCodeMap;
 };
-export const regionApi = async (city: string): Promise<Array<{ locationName: string; regionCode: string }>> => {
+export const regionApi = async (city: string): Promise<Array<{ locataddNm: string; locallowNm: string; regionCode: string }>> => {
   try {
     const initialUrl = createApiUrl(city, 1);
     // const initialUrl = createApiUrl(`서울특별시`, 1);
@@ -82,9 +95,10 @@ export const regionApi = async (city: string): Promise<Array<{ locationName: str
     const regionCodeMap = await getUniqueRegionCodes(city, totalPages);
     // const regionCodes = await getUniqueRegionCodes(`서울특별시`, totalPages);
 
-    // Map에서 regionCode와 locataddNm을 각각 배열로 추출
+    // Map에서 regionCode와 locallowNm을 각각 배열로 추출
     const result = Array.from(regionCodeMap.values()).map((item) => ({
-      locationName: item.locationName,
+      locataddNm: item.locataddNm,
+      locallowNm: item.locallowNm,
       regionCode: item.regionCode,
     }));
 
