@@ -16,12 +16,12 @@ interface IRegionSelectProps {
 
 // 배열에서 regionCode를 찾는 함수
 const findRegionCode = (city: string, district: string): string | undefined => {
-  const region = REGION_DATA.find((item) => item.locataddNm === city && item.locallowNm === district);
+  const region = REGION_DATA.find((data) => data.city === city && data.district === district);
   return region !== undefined ? region.regionCode : undefined;
 };
 // 선택된 시에 따라 구 목록 필터링 함수
 const getDistrictsByCity = (city: string): string[] => {
-  return REGION_DATA.filter((item) => item.locataddNm === city).map((item) => item.locallowNm);
+  return REGION_DATA.filter((data) => data.city === city).map((data) => data.district);
 };
 
 export default function RegionSelect({ setRegionCode }: IRegionSelectProps): JSX.Element {
