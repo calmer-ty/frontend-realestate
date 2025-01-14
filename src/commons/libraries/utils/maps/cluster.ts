@@ -20,14 +20,14 @@ const createClusterIcons = (): IClusterIcon[] => {
 
 export const clusteringOptions = (map: any, markers: any[]): any => {
   return new window.MarkerClustering({
-    minClusterSize: 3, // 클러스터 최소 마커 개수 증가
-    maxZoom: 20, // 최대 줌 레벨 최적화
+    minClusterSize: 5, // 클러스터 최소 마커 개수 증가
+    maxZoom: 18, // 최대 줌 레벨 최적화
     map,
     markers,
     disableClickZoom: false,
     gridSize: 300, // 그리드 크기 최적화
     icons: createClusterIcons(),
-    indexGenerator: [10, 100, 500, 1000, 2000],
+    indexGenerator: [10, 20, 50, 100, 200],
     stylingFunction: (clusterMarker: any, count: any) => {
       clusterMarker.getElement().querySelector("div:first-child").innerText = count;
     },
