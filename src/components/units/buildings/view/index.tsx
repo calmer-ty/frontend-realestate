@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAllMarker } from "./hooks/useAllMarker";
+import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
 // import { useFetchRegionData } from "@/src/hooks/api/useFetchRegionData";
 import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchGeocodeData } from "@/src/hooks/api/useFetchGeocodeData";
@@ -26,9 +26,10 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeData, fetchGeocodeData, loading, error } = useFetchGeocodeData(regionCode, buildingType);
 
-  console.log("regionCode: ", regionCode);
+  // console.log("regionCode: ", regionCode);
   // console.log("useFetchGeocodeData loading: ", loading);
   // console.log("useFetchGeocodeData error: ", error);
+  console.log("geocodeData: ", geocodeData);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   // useEffect(() => {

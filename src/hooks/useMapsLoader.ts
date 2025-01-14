@@ -18,9 +18,9 @@ const loadScriptAsync = (url: string): Promise<void> => {
 };
 
 export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): IUseMapsLoaderReturn => {
+  const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [error, setError] = useState(false); // 에러 상태 추가
-  const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
 
   const handleScriptLoad = useCallback((): void => {
     if (window.naver === undefined) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFetchAllGeocode } from "./useFetchAllGeocode";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-import { useAllMarker } from "./useAllMarker";
+import { useAllMarker } from "./mapMarker/useAllMarker";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
