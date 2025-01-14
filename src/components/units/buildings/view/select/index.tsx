@@ -14,46 +14,44 @@ interface IRegionSelectProps {
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
-// 배열에서 regionCode를 찾는 함수
 const findRegionCode = (city: string, district: string): string | undefined => {
   const region = REGION_DATA.find((data) => data.city === city && data.district === district);
-  return region !== undefined ? region.regionCode : undefined;
+  return region?.regionCode;
 };
-// 선택된 시에 따라 구 목록 필터링 함수
+
 const getDistrictsByCity = (city: string): string[] => {
   return REGION_DATA.filter((data) => data.city === city).map((data) => data.district);
 };
 
 export default function RegionSelect({ setRegionCode }: IRegionSelectProps): JSX.Element {
-  const [city, setCity] = useState("서울특별시"); // 시 상태
-  const [district, setDistrict] = useState("종로구"); // 구 상태
+  const [city, setCity] = useState<string>("서울특별시"); // 기본 시
+  const [district, setDistrict] = useState<string>(""); // 기본 구
 
-  // city와 district가 바뀔 때마다 onSelectionChange를 호출
+  // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
-    if (city !== "" && district !== "") {
-      const code = findRegionCode(city, district); // 배열에서 regionCode 찾기
+    if (district !== "") {
+      const code = findRegionCode(city, district);
       setRegionCode(code);
-    } else {
-      setRegionCode(""); // 시와 구가 모두 선택되지 않으면 null 전달
     }
-  }, [city, district, setRegionCode]); // city나 district가 바뀔 때마다 실행
+  }, [city, district, setRegionCode]);
 
-  // 시 선택 핸들러
+  // 시 변경 핸들러
   const handleCityChange = (event: SelectChangeEvent): void => {
-    setCity(event.target.value);
-    setDistrict(""); // 구 선택 초기화
+    const newCity = event.target.value;
+    setCity(newCity);
+    setDistrict(""); // 구 초기화
   };
 
-  // 구 선택 핸들러
+  // 구 변경 핸들러
   const handleDistrictChange = (event: SelectChangeEvent): void => {
     setDistrict(event.target.value);
   };
-  // 선택된 시에 따른 구 목록
+
   const districts = getDistrictsByCity(city);
+
   return (
     <S.Container>
       <FormControl fullWidth>
-        {/* 시 셀렉트 */}
         <InputLabel id="city-select-label">시</InputLabel>
         <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange}>
           {CITIES.map((city) => (
@@ -64,15 +62,13 @@ export default function RegionSelect({ setRegionCode }: IRegionSelectProps): JSX
         </Select>
       </FormControl>
       <FormControl fullWidth>
-        {/* 구 셀렉트 */}
         <InputLabel id="district-select-label">구</InputLabel>
         <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""}>
-          {typeof city === "string" &&
-            districts.map((district) => (
-              <MenuItem key={district} value={district}>
-                {district}
-              </MenuItem>
-            ))}
+          {districts.map((district) => (
+            <MenuItem key={district} value={district}>
+              {district}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </S.Container>

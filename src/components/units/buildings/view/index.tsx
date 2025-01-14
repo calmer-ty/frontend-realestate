@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAllMarker } from "./hooks/useAllMarker";
-import { useFetchRegionData } from "@/src/hooks/api/useFetchRegionData";
+// import { useFetchRegionData } from "@/src/hooks/api/useFetchRegionData";
 import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchGeocodeData } from "@/src/hooks/api/useFetchGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
@@ -13,7 +13,6 @@ import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
-// import { CITIES } from "@/src/commons/constants/regionData";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -23,15 +22,19 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData(buildingType);
   // API 패치 훅
-  const { fetchRegionData } = useFetchRegionData();
+  // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
-  const { geocodeData, fetchGeocodeData } = useFetchGeocodeData(regionCode, buildingType);
+  const { geocodeData, fetchGeocodeData, loading, error } = useFetchGeocodeData(regionCode, buildingType);
+
+  console.log("regionCode: ", regionCode);
+  // console.log("useFetchGeocodeData loading: ", loading);
+  // console.log("useFetchGeocodeData error: ", error);
 
   // regionCode가 변경되면 아파트 데이터를 요청
-  useEffect(() => {
-    if (regionCode === undefined) return;
-    void fetchRegionData();
-  }, [regionCode, fetchRegionData]);
+  // useEffect(() => {
+  //   if (regionCode === undefined) return;
+  //   void fetchRegionData();
+  // }, [regionCode, fetchRegionData]);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   useEffect(() => {
@@ -48,11 +51,12 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 맵 마커 훅
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
+  if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
       <RegionSelect setRegionCode={setRegionCode} />
       <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-      <NaverMaps geocodeData={geocodeData} />
+      <NaverMaps geocodeData={geocodeData} loading={loading} />
     </S.Container>
   );
 }

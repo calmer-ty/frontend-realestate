@@ -4,8 +4,8 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import { CITIES } from "@/src/commons/constants/regionData";
 import type { IRegionItemFiltered } from "@/src/commons/types";
+
 import pLimit from "p-limit";
-import { logToFile } from "../utils/logToFile";
 const limit = pLimit(10);
 
 // 특정 도시의 지역 데이터를 가져오는 함수
@@ -42,7 +42,6 @@ export const getRegionData = async (): Promise<IRegionItemFiltered[]> => {
       regionCode: item.regionCode,
     }));
 
-    logToFile("getRegionData: ", regionDatas.flat());
     return regionDataList.flat(); // 도시별 지역 코드 그룹화된 객체 반환
   } catch (error) {
     handleError(error, "fetchRegionData"); // 에러 처리
