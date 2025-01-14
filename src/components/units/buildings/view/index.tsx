@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
-// import { useFetchRegionData } from "@/src/hooks/api/useFetchRegionData";
 import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchGeocodeData } from "@/src/hooks/api/useFetchGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
+import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
+import { useFetchApi } from "./hooks/useFetchApi";
 
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
@@ -13,7 +13,6 @@ import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
-import { useFetchApi } from "./hooks/useFetchApi";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -27,31 +26,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeData, fetchGeocodeData, loading, error } = useFetchGeocodeData(regionCode, buildingType);
 
-  // console.log("regionCode: ", regionCode);
-  // console.log("useFetchGeocodeData loading: ", loading);
-  // console.log("useFetchGeocodeData error: ", error);
-  console.log("geocodeData: ", geocodeData);
-
-  // regionCode가 변경되면 아파트 데이터를 요청
-  // useEffect(() => {
-  //   if (regionCode === undefined) return;
-  //   void fetchRegionData();
-  // }, [regionCode, fetchRegionData]);
-
-  // regionCode가 변경되면 아파트 데이터를 요청
   useFetchApi({ regionCode, apartmentData, fetchApartmentData, fetchGeocodeData });
-  // useEffect(() => {
-  //   if (regionCode === undefined) return;
-  //   void fetchApartmentData(regionCode);
-  // }, [regionCode, fetchApartmentData]);
-
-  // // apartmentData가 변경되면 지오코드 데이터를 요청
-  // useEffect(() => {
-  //   if (regionCode === undefined || apartmentData === null) return;
-  //   void fetchGeocodeData(regionCode);
-  // }, [regionCode, apartmentData, fetchGeocodeData]);
-
-  // 맵 마커 훅
   useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
   if (error !== null) return <div>{error}</div>;
