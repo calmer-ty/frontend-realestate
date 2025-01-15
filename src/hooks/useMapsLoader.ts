@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { getMapInitOptions, loadScript } from "@/src/commons/libraries/utils/maps/init";
 
-interface IUseMapsLoaderProps {
+interface IUseMapsLoaderParams {
   onMapLoaded: (map: any) => void;
 }
 interface IUseMapsLoaderReturn {
@@ -17,7 +17,7 @@ const loadScriptAsync = (url: string): Promise<void> => {
   });
 };
 
-export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderProps): IUseMapsLoaderReturn => {
+export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLoaderReturn => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
   const [error, setError] = useState(false); // 에러 상태 추가

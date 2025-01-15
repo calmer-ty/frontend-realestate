@@ -4,12 +4,12 @@ import { useClusterScriptLoader } from "./useClusterScriptLoader";
 import { useMarkers } from "./useMarkers";
 
 import type { IMapMarkerProps } from "@/src/commons/types";
-interface IUseAllMarkerReturns {
+interface IUseAllMarkerReturn {
   mapLoading: boolean;
   mapError: boolean;
 }
 
-export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerProps): IUseAllMarkerReturns => {
+export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerProps): IUseAllMarkerReturn => {
   console.log("geocodeData: ", geocode);
   const { updateMarkers } = useMarkers({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData });
   const { loadClusterScript } = useClusterScriptLoader(updateMarkers);

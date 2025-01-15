@@ -14,7 +14,7 @@ interface IGetAllGeocodeDataParams {
   regionCode: string;
   buildingType: string;
 }
-interface IGetAllGeocodeDataReturns {
+interface IGetAllGeocodeDataReturn {
   data: IApartmentItem;
   geocode: IGeocode | null;
 }

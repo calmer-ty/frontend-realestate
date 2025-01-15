@@ -12,19 +12,31 @@ interface IUseFirestoreHandlerReturn {
   handleFormSubmit: (data: IWriteForm) => Promise<void>;
   handleFormUpdate: () => Promise<void>;
 }
+interface IUseFirestoreHandlerParams {
+  initialValues: IWriteForm;
+  docData: IFirestore | undefined;
+  uploadedImageUrls: string[];
+  selectedType: string;
+  getValues: UseFormGetValues<IWriteForm>;
+  uploadImages: () => Promise<string[]>;
+  setAlertOpen: Dispatch<SetStateAction<boolean>>;
+  setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
+  setAlertText: Dispatch<SetStateAction<string>>;
+  setRouting: Dispatch<SetStateAction<boolean>>;
+}
 
-export const useFirestoreHandler = (
-  initialValues: IWriteForm,
-  docData: IFirestore | undefined,
-  uploadedImageUrls: string[],
-  selectedType: string,
-  getValues: UseFormGetValues<IWriteForm>,
-  uploadImages: () => Promise<string[]>,
-  setAlertOpen: Dispatch<SetStateAction<boolean>>,
-  setAlertSeverity: Dispatch<SetStateAction<AlertColor>>,
-  setAlertText: Dispatch<SetStateAction<string>>,
-  setRouting: Dispatch<SetStateAction<boolean>>
-): IUseFirestoreHandlerReturn => {
+export const useFirestoreHandler = ({
+  initialValues,
+  docData,
+  uploadedImageUrls,
+  selectedType,
+  getValues,
+  uploadImages,
+  setAlertOpen,
+  setAlertSeverity,
+  setAlertText,
+  setRouting,
+}: IUseFirestoreHandlerParams): IUseFirestoreHandlerReturn => {
   const { createFirestore, updateFirestore } = useFirestore();
   const { user } = useAuth();
 
