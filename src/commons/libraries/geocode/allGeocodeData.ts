@@ -4,16 +4,26 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
+import type { IApartmentItem, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
+
+interface IGetAllGeocodeDataParams {
+  regionName: string;
+  regionCode: string;
+  buildingType: string;
+}
+interface IGetAllGeocodeDataReturns {
+  data: IApartmentItem;
+  geocode: IGeocode | null;
+}
 
 // 제외 필드 상수
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
+const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -38,9 +48,9 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async (buildingType: string, regionName: string, regionCode: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
+export const getAllGeocodeData = async ({ regionName, regionCode, buildingType }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturns[]> => {
   const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
-  console.log("getAllGeocodeData regionName: ", regionName);
+
   let selectedData: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":

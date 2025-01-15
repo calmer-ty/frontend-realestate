@@ -1,21 +1,26 @@
 import { geocodeApi } from "./geocodeApi";
+import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import type { IGeocodeAPIReturn } from "@/src/commons/types";
+import type { IGeocode } from "@/src/commons/types";
 
-export const getSelectGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | null> => {
+export const getSelectGeocodeData = async (address: string): Promise<IGeocode | null> => {
+  const cacheKey = `geocode_${address}`;
+  const cachedData = getCachedGeocodeData(cacheKey);
+
+  if (cachedData !== undefined) {
+    return cachedData;
+  }
+
   try {
-    const geocodeResult = await geocodeApi(address);
-    if (geocodeResult !== null) {
-      const result = geocodeResult;
-
-      return result;
-    } else {
-      console.log(`selectGeocodeData: 주소 ${address}에 대한 지오코딩 결과 없음`);
+    const response = await geocodeApi(address);
+    if (response === null) {
       return null;
     }
+    setGeocodeCache(cacheKey, response);
+    return response;
   } catch (error) {
-    handleError(error, "getSelectGeocodeData"); // 에러 처리
+    handleError(error, `getGeocodeByRegionName - ${address}`);
     return null;
   }
 };

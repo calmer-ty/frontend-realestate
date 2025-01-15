@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
-import { useFetchGeocodeData } from "@/src/hooks/api/useFetchGeocodeData";
+import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
 import { useFetchApi } from "./hooks/useFetchApi";
@@ -13,6 +13,7 @@ import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
+import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -25,18 +26,18 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
-  const { geocodeData, fetchGeocodeData, error } = useFetchGeocodeData({ regionName, regionCode, buildingType });
+  const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionName, regionCode, buildingType });
+  const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
 
-  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData });
-  const { mapLoading } = useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
-  // console.log("mapLoading === ", mapLoading, mapError);
+  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });
+  const { mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
       <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
       <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-      <NaverMaps geocodeData={geocodeData} mapLoading={mapLoading} />
+      <NaverMaps geocodeData={geocodeDatas} mapLoading={mapLoading} />
     </S.Container>
   );
 }

@@ -8,7 +8,7 @@ interface IUseMapMarkersReturn {
   updateMarkers: (map: any) => Promise<void>;
 }
 
-export const useMarkers = ({ geocodeData, firestoreData, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerProps): IUseMapMarkersReturn => {
+export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerProps): IUseMapMarkersReturn => {
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
@@ -21,7 +21,7 @@ export const useMarkers = ({ geocodeData, firestoreData, setVisibleMarkerData, s
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      geocodeData?.forEach((itemData) => {
+      geocodeDatas?.forEach((itemData) => {
         const position = new window.naver.maps.LatLng(itemData.geocode?.latitude, itemData.geocode?.longitude);
         const positionKey = `${itemData.geocode?.latitude},${itemData.geocode?.longitude}`;
 
@@ -42,7 +42,7 @@ export const useMarkers = ({ geocodeData, firestoreData, setVisibleMarkerData, s
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(null);
     },
-    [geocodeData, firestoreData, setVisibleMarkerData, setSelectedMarkerData]
+    [geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData]
   );
 
   return { updateMarkers };

@@ -76,7 +76,7 @@ export interface IGeocodeAPI {
     addressElements?: string[];
   }>;
 }
-export interface IGeocodeAPIReturn {
+export interface IGeocode {
   latitude?: number;
   longitude?: number;
   // roadAddress?: string;
@@ -84,7 +84,7 @@ export interface IGeocodeAPIReturn {
 }
 export interface IGeocodeData {
   data?: IApartmentItem;
-  geocode?: IGeocodeAPIReturn;
+  geocode?: IGeocode;
 }
 
 // firestore
@@ -127,7 +127,8 @@ declare global {
   }
 }
 export interface IMapMarkerProps {
-  geocodeData?: IGeocodeData[];
+  geocode?: IGeocode;
+  geocodeDatas?: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
   firestoreData: IFirestore[];

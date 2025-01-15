@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IGeocodeAPI, IGeocodeAPIReturn } from "@/src/commons/types";
+import type { IGeocodeAPI, IGeocode } from "@/src/commons/types";
 // import { logToFile } from "../utils/logToFile";
 
 // import pLimit from "p-limit";
@@ -42,7 +42,7 @@ import type { IGeocodeAPI, IGeocodeAPIReturn } from "@/src/commons/types";
 //   return { jibunAddress, roadAddress };
 // };
 
-export const geocodeApi = async (address: string): Promise<IGeocodeAPIReturn | null> => {
+export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
   const response = await axios.get<IGeocodeAPI | undefined>(apiUrl, {
     headers: {
