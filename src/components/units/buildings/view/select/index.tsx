@@ -11,29 +11,31 @@ import type { SelectChangeEvent } from "@mui/material/Select";
 import * as S from "./styles";
 
 interface IRegionSelectProps {
+  setRegionName: Dispatch<SetStateAction<string | undefined>>;
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const findRegionCode = (city: string, district: string): string | undefined => {
+const findRegion = (city: string, district: string): { regionCode?: string; regionName?: string } => {
   const region = REGION_DATA.find((data) => data.city === city && data.district === district);
-  return region?.regionCode;
+  return region !== undefined ? { regionCode: region.regionCode, regionName: `${region.city} ${region.district}` } : {};
 };
 
 const getDistrictsByCity = (city: string): string[] => {
   return REGION_DATA.filter((data) => data.city === city).map((data) => data.district);
 };
 
-export default function RegionSelect({ setRegionCode }: IRegionSelectProps): JSX.Element {
+export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSelectProps): JSX.Element {
   const [city, setCity] = useState<string>("서울특별시"); // 기본 시
   const [district, setDistrict] = useState<string>(""); // 기본 구
 
   // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
     if (district !== "") {
-      const code = findRegionCode(city, district);
-      setRegionCode(code);
+      const { regionCode, regionName } = findRegion(city, district);
+      setRegionCode(regionCode);
+      setRegionName(regionName);
     }
-  }, [city, district, setRegionCode]);
+  }, [city, district, setRegionName, setRegionCode]);
 
   // 시 변경 핸들러
   const handleCityChange = (event: SelectChangeEvent): void => {

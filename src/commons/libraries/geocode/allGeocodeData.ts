@@ -1,7 +1,7 @@
-import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
-
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
+
+import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { IApartmentItem, IGeocodeAPIReturn } from "@/src/commons/types";
@@ -38,13 +38,9 @@ const fetchGeocodeData = async (address: string): Promise<IGeocodeAPIReturn | nu
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-// - 지정된 건물 유형의 데이터를 가져와 지오코딩하고, 중복 데이터를 제거합니다.
-export const getAllGeocodeData = async (buildingType: string, regionCode: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
+export const getAllGeocodeData = async (buildingType: string, regionName: string, regionCode: string): Promise<Array<{ data: IApartmentItem; geocode: IGeocodeAPIReturn | null }>> => {
   const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
-  console.log("getAllGeocodeData apartmentCache === ", apartmentCache?.length);
-
-  // 주거 타입 선택
-  // let selectedData: IApartmentItem[] = [];
+  console.log("getAllGeocodeData regionName: ", regionName);
   let selectedData: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
@@ -69,14 +65,6 @@ export const getAllGeocodeData = async (buildingType: string, regionCode: string
           const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
           const geocode = await fetchGeocodeData(address);
 
-          // 데이터를 필터링하여 새로운 객체에 저장
-          // const filteredData: Partial<IApartmentItem> = {};
-
-          // Object.keys(dataItem).forEach((key) => {
-          //   if (!FIELDS_TO_EXCLUDE.includes(key)) {
-          //     filteredData[key] = dataItem[key];
-          //   }
-          // });
           const data = dataItem;
           return { data, geocode }; // 정상적으로 처리된 데이터 리턴
         } catch (error) {
