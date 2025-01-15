@@ -22,19 +22,18 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData(buildingType);
   // API 패치 훅
-  // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
-  const { geocodeData, fetchGeocodeData, loading, error } = useFetchGeocodeData(regionCode, buildingType);
+  const { geocodeData, fetchGeocodeData, error } = useFetchGeocodeData(regionCode, buildingType);
 
   useFetchApi({ regionCode, apartmentData, fetchApartmentData, fetchGeocodeData });
-  useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
+  const { mapLoading } = useAllMarker({ geocodeData, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
       <RegionSelect setRegionCode={setRegionCode} />
       <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-      <NaverMaps geocodeData={geocodeData} loading={loading} />
+      <NaverMaps geocodeData={geocodeData} mapLoading={mapLoading} />
     </S.Container>
   );
 }

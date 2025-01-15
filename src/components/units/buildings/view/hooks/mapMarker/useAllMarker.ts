@@ -4,8 +4,12 @@ import { useClusterScriptLoader } from "./useClusterScriptLoader";
 import { useMarkers } from "./useMarkers";
 
 import type { IMapMarkerProps } from "@/src/commons/types";
+interface IUseAllMarkerReturn {
+  mapLoading: boolean;
+  mapError: boolean;
+}
 
-export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerProps): void => {
+export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerProps): IUseAllMarkerReturn => {
   const { updateMarkers } = useMarkers({ geocodeData, firestoreData, setVisibleMarkerData, setSelectedMarkerData });
   const { loadClusterScript } = useClusterScriptLoader(updateMarkers);
 
@@ -21,7 +25,9 @@ export const useAllMarker = ({ geocodeData, firestoreData, setSelectedMarkerData
     [loadClusterScript, geocodeData]
   );
 
-  // prettier-ignore
-  // const onMapLoaded = useCallback((map: any) => { loadClusterScript(map) },[loadClusterScript]);
-  useMapsLoader({ onMapLoaded });
+  const { loading: mapLoading, error: mapError } = useMapsLoader({ onMapLoaded });
+  return {
+    mapLoading,
+    mapError,
+  };
 };
