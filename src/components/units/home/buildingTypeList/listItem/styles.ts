@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-import type { IBuildingTypeProps } from "../types";
+interface IBuildingTypeProps {
+  isDisabled: boolean;
+}
 
 export const ListItem = styled.div<IBuildingTypeProps>`
   display: flex;

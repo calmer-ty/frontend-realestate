@@ -1,7 +1,15 @@
 import Link from "next/link";
 
-import type { IBuildingTypeListItemProps } from "../types";
 import * as S from "./styles";
+
+import type { ReactNode } from "react";
+interface IBuildingTypeListItemProps {
+  href?: string;
+  desc: string;
+  icon: ReactNode;
+  title: string;
+  isDisabled: boolean;
+}
 
 export default function ListItem(props: IBuildingTypeListItemProps): JSX.Element {
   return (

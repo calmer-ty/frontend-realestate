@@ -6,8 +6,8 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import BuildingTypeList from "./buildingTypeList";
 import RecommendedList from "./recommendedList";
 
-import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
+import type { IFirestore } from "@/src/commons/types";
 
 export default function Home(): JSX.Element {
   const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
