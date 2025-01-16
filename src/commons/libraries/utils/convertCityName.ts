@@ -41,10 +41,10 @@ export const getFullCityName = (address: string, options: FullNameOptions = {}):
     .replace(/충남/, "충청남도")
     .replace(/전남/, "전라남도")
     .replace(/경북/, "경상북도")
-    .replace(/경남/, "경상남도")
-    .replace(/강원/, "강원특별자치도")
-    .replace(/세종/, "세종특별자치시")
-    .replace(/제주/, "제주특별자치도")
-    .replace(/전북/, "전북특별자치도");
+    .replace(/경남/, "경상남도");
+  // .replace(/강원/, "강원특별자치도")
+  // .replace(/세종/, "세종특별자치시")
+  // .replace(/제주/, "제주특별자치도")
+  // .replace(/전북/, "전북특별자치도");
   return result;
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 
 import type { Address } from "react-daum-postcode";
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form";
@@ -37,7 +38,8 @@ export const useAddressSearch = ({ setValue, getValues, onModalToggle }: IUseAdd
   }
 
   const onCompleteAddressSearch = async (data: Address): Promise<void> => {
-    const selectedAddress = data.address; // 검색된 주소를 선택하고
+    const selectedAddress = getFullCityName(data.address); // 검색된 주소를 선택하고 시/도명을 바꿈
+
     setSelectedAddress(selectedAddress); // 상태 변수에 설정합니다
     setValue("address", selectedAddress); // 폼의 'address' 필드에 선택된 주소를 설정합니다
     onModalToggle(); // 주소 검색 완료 후 모달 닫기

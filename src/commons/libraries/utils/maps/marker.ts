@@ -1,5 +1,3 @@
-import { getReduceCityName } from "../convertCityName";
-
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import "./styles.css";
 
@@ -15,7 +13,7 @@ interface ICreateMarkerParams {
 }
 
 const markerIconContent = ({ geocodeData, firestoreData }: IMarkerIconContentParams): string => {
-  const addresses = [geocodeData.geocode?.jibunAddress, geocodeData.geocode?.roadAddress].map((address) => getReduceCityName(address ?? DEFAULT_STRING_VALUE));
+  const addresses = [geocodeData.geocode?.jibunAddress, geocodeData.geocode?.roadAddress].map((address) => address);
   const matchedData = firestoreData.find((data) => addresses.includes(data.address ?? DEFAULT_STRING_VALUE));
 
   const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);

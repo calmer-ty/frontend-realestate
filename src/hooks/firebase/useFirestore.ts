@@ -59,7 +59,7 @@ export const useFirestore = (): IUseFirestoreReturn => {
       await updateDoc(docRef, {
         _id: docRef.id,
       });
-      console.log(`Building ${data._id} archived.`);
+      // console.log(`Building ${data._id} archived.`);
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -71,7 +71,6 @@ export const useFirestore = (): IUseFirestoreReturn => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        console.log("data: ", data);
         if (data != null) {
           return convertFirestoreData(data);
         }
@@ -85,7 +84,6 @@ export const useFirestore = (): IUseFirestoreReturn => {
     try {
       const querySnapshot = await getDocs(collection(db, colName));
       const datas = querySnapshot.docs.map((el) => el.data() as IFirestore);
-      console.log(datas);
       return datas;
     } catch (error) {
       console.error("Error fetching buildings:", error);
