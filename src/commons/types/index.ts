@@ -79,8 +79,8 @@ export interface IGeocodeAPI {
 export interface IGeocode {
   latitude?: number;
   longitude?: number;
-  // roadAddress?: string;
-  // jibunAddress?: string;
+  roadAddress?: string;
+  jibunAddress?: string;
 }
 export interface IGeocodeData {
   data?: IApartmentItem;

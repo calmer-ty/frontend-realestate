@@ -25,7 +25,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
-  const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionName, regionCode, buildingType });
+  const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
 
   useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });

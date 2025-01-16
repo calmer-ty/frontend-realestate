@@ -4,7 +4,6 @@ import type { IGeocodeData } from "@/src/commons/types";
 import axios from "axios";
 
 interface IUseFetchAllGeocodeDataParams {
-  regionName: string | undefined;
   regionCode: string | undefined;
   buildingType: string;
 }
@@ -15,7 +14,7 @@ interface IUseFetchAllGeocodeDataReturn {
   error: string | null;
 }
 
-export const useFetchAllGeocodeData = ({ regionName, regionCode, buildingType }: IUseFetchAllGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
+export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAllGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
   const [geocodeDatas, setGeocodeDatas] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +25,7 @@ export const useFetchAllGeocodeData = ({ regionName, regionCode, buildingType }:
       setError(null); // 이전 에러 상태 초기화
       try {
         const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
-          params: { buildingType, regionName, regionCode },
+          params: { buildingType, regionCode },
         });
         if (response.status === 200) {
           setGeocodeDatas(response.data);
@@ -40,7 +39,7 @@ export const useFetchAllGeocodeData = ({ regionName, regionCode, buildingType }:
         setLoading(false); // 데이터 요청이 끝났으므로 로딩 상태 false로 설정
       }
     },
-    [buildingType, regionName, regionCode] // buildingType이 변경될 때만 함수가 재정의됨
+    [buildingType, regionCode] // buildingType이 변경될 때만 함수가 재정의됨
   );
 
   return { geocodeDatas, fetchGeocodeDatas, loading, error };
