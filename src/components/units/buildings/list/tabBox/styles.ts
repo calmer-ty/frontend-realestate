@@ -1,25 +1,30 @@
+import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  ul {
-    overflow-y: hidden;
-    overflow-y: scroll;
-    display: flex;
-    row-gap: 20px;
-    flex-direction: column;
+  .MuiTabPanel-root {
+    /* width: 878px;
+    height: 747px; */
+    width: 848px;
     height: calc(100vh - 220px);
-    padding-right: 20px;
-
-    ${mediaQueries.mobile(css`
+    > div {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    ul {
+      overflow-y: hidden;
+      overflow-y: scroll;
+      display: flex;
+      row-gap: 20px;
+      flex-direction: column;
+      height: 100%;
       padding-right: 10px;
-    `)}
-  }
-
-  .css-13xfq8m-MuiTabPanel-root {
-    ${mediaQueries.mobile(css`
-      padding: 24px 0;
+    }
+    ${mediaQueries.tablet(css`
+      width: 100%;
     `)}
   }
 `;

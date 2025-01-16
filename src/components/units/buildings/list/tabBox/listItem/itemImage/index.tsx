@@ -14,9 +14,9 @@ export default function ItemImage(props: IItemImageProps): JSX.Element {
   return (
     <S.Container>
       {el.imageUrls?.[0] !== undefined ? (
-        <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} width={200} height={120} unoptimized />
+        <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} fill unoptimized />
       ) : (
-        <BasicUnImage width="200px" height="120px" fontSize="28px" />
+        <BasicUnImage width="180px" height="120px" fontSize="28px" />
       )}
     </S.Container>
   );

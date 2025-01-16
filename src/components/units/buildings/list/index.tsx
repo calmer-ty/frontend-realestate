@@ -10,7 +10,6 @@ import TabBox from "./tabBox";
 
 import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 export default function BuildingList(): JSX.Element {
   const [buildings, setBuildings] = useState<IFirestore[]>([]);
@@ -23,11 +22,7 @@ export default function BuildingList(): JSX.Element {
   return (
     <>
       <S.Container>
-        {buildings.length === 0 && buildings.length === 0 ? (
-          <LoadingSpinner size={100} />
-        ) : (
-          <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
-        )}
+        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
       </S.Container>
 
       {/* 매물 삭제 모달 */}

@@ -1,5 +1,5 @@
 import MatchedList from "./matchedList";
-import NoDataMessage from "../../noDataMessage";
+import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 

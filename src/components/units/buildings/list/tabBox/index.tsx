@@ -10,6 +10,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
+import NoDataMessage from "@/src/components/commons/noDataMessage";
+
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
@@ -52,11 +54,15 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
         </TabList>
 
         <TabPanel value="1">
-          <ul>
-            {sortedMyBuildings.map((el, index) => (
-              <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
-            ))}
-          </ul>
+          {sortedMyBuildings.length === 0 ? (
+            <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
+          ) : (
+            <ul>
+              {sortedMyBuildings.map((el, index) => (
+                <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
+              ))}
+            </ul>
+          )}
         </TabPanel>
         <TabPanel value="2">
           <ul>
