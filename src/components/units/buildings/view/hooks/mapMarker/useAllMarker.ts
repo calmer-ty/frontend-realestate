@@ -3,13 +3,13 @@ import { useMapsLoader } from "@/src/hooks/useMapsLoader";
 import { useClusterScriptLoader } from "./useClusterScriptLoader";
 import { useMarkers } from "./useMarkers";
 
-import type { IMapMarkerProps } from "@/src/commons/types";
+import type { IMapMarkerParams } from "@/src/commons/types";
 interface IUseAllMarkerReturn {
   mapLoading: boolean;
   mapError: boolean;
 }
 
-export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerProps): IUseAllMarkerReturn => {
+export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerParams): IUseAllMarkerReturn => {
   console.log("geocodeData: ", geocode);
   const { updateMarkers } = useMarkers({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData });
   const { loadClusterScript } = useClusterScriptLoader(updateMarkers);

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
+import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
 import { useFetchApi } from "./hooks/useFetchApi";
 
@@ -13,7 +14,6 @@ import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
-import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);

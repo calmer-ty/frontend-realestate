@@ -6,8 +6,13 @@ import Link from "next/link";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IMatchedListProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IMatchedListProps {
+  matchedData: IFirestore[];
+  buildingType: string;
+}
 
 export default function MatchedList(props: IMatchedListProps): JSX.Element {
   return (

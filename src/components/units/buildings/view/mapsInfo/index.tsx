@@ -3,9 +3,17 @@ import { useEffect, useState } from "react";
 import SelectedArea from "./selectedArea";
 import VisibleArea from "./visibleArea";
 
-import type { IMapsInfoProps } from "./types";
-import type { IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
+
+import type { Dispatch, SetStateAction } from "react";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+interface IMapsInfoProps {
+  visibleMarkerData: IGeocodeData[];
+  selectedMarkerData: IGeocodeData | null;
+  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  firestoreData: IFirestore[];
+  buildingType: string;
+}
 
 export default function MapsInfo({ buildingType, selectedMarkerData, setSelectedMarkerData, visibleMarkerData, firestoreData }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);

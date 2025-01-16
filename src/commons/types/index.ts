@@ -126,7 +126,7 @@ declare global {
     HOME_PATH: any;
   }
 }
-export interface IMapMarkerProps {
+export interface IMapMarkerParams {
   geocode?: IGeocode;
   geocodeDatas?: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;

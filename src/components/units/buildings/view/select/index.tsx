@@ -6,11 +6,18 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import { CITIES, REGION_DATA } from "@/src/commons/constants/regionData";
-import type { SelectChangeEvent } from "@mui/material/Select";
-import type { IFindRegionParams, IFindRegionReturn } from "./types";
 import * as S from "./styles";
+import { CITIES, REGION_DATA } from "@/src/commons/constants/regionData";
 
+import type { SelectChangeEvent } from "@mui/material/Select";
+interface IFindRegionParams {
+  city: string;
+  district: string;
+}
+interface IFindRegionReturn {
+  regionCode: string;
+  regionName: string;
+}
 interface IRegionSelectProps {
   setRegionName: Dispatch<SetStateAction<string | undefined>>;
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;

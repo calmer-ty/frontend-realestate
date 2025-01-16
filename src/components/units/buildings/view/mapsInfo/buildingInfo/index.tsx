@@ -1,7 +1,14 @@
 import BuildingInfoTop from "./top";
 import BuildingInfoBottom from "./bottom";
 
-import type { IBuildingInfoProps } from "./types";
+import type { Dispatch, SetStateAction } from "react";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+interface IBuildingInfoProps {
+  selectedData: IGeocodeData;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  firestoreData: IFirestore[];
+  buildingType: string;
+}
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const { selectedData, setSelectedData, firestoreData, buildingType } = props;

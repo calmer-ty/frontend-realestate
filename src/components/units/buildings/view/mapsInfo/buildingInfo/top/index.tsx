@@ -4,8 +4,14 @@ import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 import BasicChip from "@/src/components/commons/chip/basic";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IBuildingInfoTopProps } from "./types";
 import * as S from "./styles";
+
+import type { IGeocodeData } from "@/src/commons/types";
+import type { Dispatch, SetStateAction } from "react";
+interface IBuildingInfoTopProps {
+  selectedData: IGeocodeData;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+}
 
 export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Element {
   const { selectedData, setSelectedData } = props;

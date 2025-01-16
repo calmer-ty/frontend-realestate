@@ -3,8 +3,14 @@ import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 import MatchedList from "./matchedList";
 import NoDataMessage from "../../noDataMessage";
 
-import type { IBuildingInfoBottomProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+interface IBuildingInfoBottomProps {
+  selectedData: IGeocodeData;
+  firestoreData: IFirestore[];
+  buildingType: string;
+}
 
 export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX.Element {
   const { buildingType, firestoreData, selectedData } = props;

@@ -2,13 +2,13 @@ import { useCallback, useRef } from "react";
 import { clusteringOptions } from "@/src/commons/libraries/utils/maps/cluster";
 import { createMarker } from "@/src/commons/libraries/utils/maps/marker";
 
-import type { IGeocodeData, IMapMarkerProps } from "@/src/commons/types";
+import type { IGeocodeData, IMapMarkerParams } from "@/src/commons/types";
 
 interface IUseMapMarkersReturn {
   updateMarkers: (map: any) => Promise<void>;
 }
 
-export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerProps): IUseMapMarkersReturn => {
+export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerParams): IUseMapMarkersReturn => {
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
