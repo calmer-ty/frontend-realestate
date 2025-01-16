@@ -7,6 +7,7 @@ import * as S from "./styles";
 
 import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
+import { getReduceCityName } from "@/src/commons/libraries/utils/convertCityName";
 interface IBuildingInfoTopProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
@@ -26,10 +27,10 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
           <BasicChip label="연식" size="small" /> <span>{selectedData.data?.dealYear}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="지번" size="small" /> <span>{selectedData.geocode?.jibunAddress}</span>
+          <BasicChip label="지번" size="small" /> <span>{getReduceCityName(selectedData.geocode?.jibunAddress ?? DEFAULT_STRING_VALUE)}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="도로명" size="small" /> <span>{selectedData.geocode?.roadAddress}</span>
+          <BasicChip label="도로명" size="small" /> <span>{getReduceCityName(selectedData.geocode?.roadAddress ?? DEFAULT_STRING_VALUE)}</span>
         </S.TextWrap>
       </S.InfoWrap>
 
