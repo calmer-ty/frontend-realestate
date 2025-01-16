@@ -10,7 +10,6 @@ interface IUseAllMarkerReturn {
 }
 
 export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerParams): IUseAllMarkerReturn => {
-  console.log("geocodeData: ", geocode);
   const { updateMarkers } = useMarkers({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData });
   const { loadClusterScript } = useClusterScriptLoader(updateMarkers);
 

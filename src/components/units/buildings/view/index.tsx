@@ -10,7 +10,7 @@ import { useFetchApi } from "./hooks/useFetchApi";
 
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
-import RegionSelect from "./select";
+// import RegionSelect from "./select";
 
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
@@ -35,9 +35,8 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
-      <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
       <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-      <NaverMaps geocodeData={geocodeDatas} mapLoading={mapLoading} />
+      <NaverMaps geocodeData={geocodeDatas} mapLoading={mapLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );
 }

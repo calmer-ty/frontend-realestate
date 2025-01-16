@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import * as S from "./styles";
 import { CITIES, REGION_DATA } from "@/src/commons/constants/regionData";
+import * as S from "./styles";
 
+import type { Dispatch, SetStateAction } from "react";
 import type { SelectChangeEvent } from "@mui/material/Select";
 interface IFindRegionParams {
   city: string;
@@ -54,8 +54,8 @@ const getDistrictsByCity = (city: string): string[] => {
 };
 
 export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSelectProps): JSX.Element {
-  const [city, setCity] = useState<string>("서울특별시"); // 기본 시
-  const [district, setDistrict] = useState<string>(""); // 기본 구
+  const [city, setCity] = useState<string>("경기도"); // 기본 시
+  const [district, setDistrict] = useState<string>("성남시 분당구"); // 기본 구
 
   // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
   return (
     <S.Container>
       <FormControl fullWidth>
-        <InputLabel id="city-select-label">시</InputLabel>
+        {/* <InputLabel id="city-select-label">시</InputLabel> */}
         <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange} MenuProps={menuProps}>
           {CITIES.map((city) => (
             <MenuItem key={city} value={city}>
@@ -93,7 +93,7 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
         </Select>
       </FormControl>
       <FormControl fullWidth>
-        <InputLabel id="district-select-label">구</InputLabel>
+        {/* <InputLabel id="district-select-label">구</InputLabel> */}
         <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""} MenuProps={menuProps}>
           {districts.map((district) => (
             <MenuItem key={district} value={district}>
