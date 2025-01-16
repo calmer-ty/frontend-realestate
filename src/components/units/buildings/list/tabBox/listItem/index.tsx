@@ -5,8 +5,15 @@ import ItemAd from "./itemAd";
 import ItemInfo from "./itemInfo";
 import ItemImage from "./itemImage";
 
-import type { IBuildingListItemProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IBuildingListItemProps {
+  isDeleted: boolean;
+  el: IFirestore;
+  index: number;
+  onDeleteModalOpen?: (building: IFirestore) => void;
+}
 
 export default function ListItem(props: IBuildingListItemProps): JSX.Element {
   const { el, index, isDeleted, onDeleteModalOpen } = props;

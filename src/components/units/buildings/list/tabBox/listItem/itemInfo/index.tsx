@@ -2,8 +2,12 @@ import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IItemInfoProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IItemInfoProps {
+  el: IFirestore;
+}
 
 // 가격 포맷팅 함수 분리
 const formatPrice = (price: number): string => {

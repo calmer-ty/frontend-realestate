@@ -2,8 +2,12 @@ import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IItemImageProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IItemImageProps {
+  el: IFirestore;
+}
 
 export default function ItemImage(props: IItemImageProps): JSX.Element {
   const { el } = props;

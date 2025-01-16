@@ -11,9 +11,15 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
-import type { SyntheticEvent } from "react";
-import type { ITabBoxProps } from "./types";
 import * as S from "./styles";
+
+import type { SyntheticEvent } from "react";
+import type { IFirestore } from "@/src/commons/types";
+interface ITabBoxProps {
+  myBuildings: IFirestore[];
+  myDeletedBuildings: IFirestore[];
+  onDeleteModalOpen: (building: IFirestore) => void;
+}
 
 export default function TabBox(props: ITabBoxProps): JSX.Element {
   const { myBuildings, myDeletedBuildings, onDeleteModalOpen } = props;

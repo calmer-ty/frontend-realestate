@@ -3,12 +3,13 @@ import { useAuth } from "@/src/hooks/useAuth";
 
 import type { IFirestore } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
+interface IUseUserBuildingsParams {
+  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
+  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>;
+  readFirestores: (colName: string) => Promise<IFirestore[]>;
+}
 
-export const useBuildingList = (
-  setBuildings: Dispatch<SetStateAction<IFirestore[]>>,
-  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>,
-  readFirestores: (colName: string) => Promise<IFirestore[]>
-): void => {
+export const useUserBuildings = ({ setBuildings, setDeletedBuildings, readFirestores }: IUseUserBuildingsParams): void => {
   const { user } = useAuth();
   const userId = user?.uid;
 

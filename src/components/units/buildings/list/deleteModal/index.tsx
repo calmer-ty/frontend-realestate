@@ -4,8 +4,21 @@ import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import { Button } from "@mui/material";
 import BasicModal from "@/src/components/commons/modal/basic";
 
-import type { IDeleteModalProps } from "./types";
 import * as S from "./styles";
+
+import type { Dispatch, SetStateAction } from "react";
+import type { IFirestore } from "@/src/commons/types";
+interface IDeleteModalProps {
+  selectedBuilding: IFirestore | null;
+  buildings: IFirestore[];
+  setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
+  setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>;
+  modalOpen: boolean;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
+  archiveFirestore: (data: IFirestore, colName: string) => Promise<void>;
+  deleteFirestore: (colName: string, docId: string) => Promise<void>;
+  readFirestores: (colName: string) => Promise<IFirestore[]>;
+}
 
 export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
   const { readFirestores, deleteFirestore, archiveFirestore, setBuildings, setDeletedBuildings, setModalOpen } = props;

@@ -1,8 +1,13 @@
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
-import type { IItemAdProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IItemAdProps {
+  el: IFirestore;
+  isDeleted: boolean;
+}
 
 // 날짜 포맷팅 함수 분리
 const formatDate = (timestamp: number): string => {

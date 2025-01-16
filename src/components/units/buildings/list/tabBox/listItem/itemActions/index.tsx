@@ -1,8 +1,15 @@
 import Link from "next/link";
 import { Button } from "@mui/material";
 
-import type { IItemActionsProps } from "./types";
 import * as S from "./styles";
+
+import type { IFirestore } from "@/src/commons/types";
+interface IItemActionsProps {
+  isDeleted: boolean;
+  el: IFirestore;
+  index: number;
+  onDeleteModalOpen?: (building: IFirestore) => void;
+}
 
 export default function ItemActions(props: IItemActionsProps): JSX.Element {
   const { el, index, isDeleted, onDeleteModalOpen } = props;
