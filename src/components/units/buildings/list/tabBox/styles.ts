@@ -9,7 +9,6 @@ export const Container = styled.div`
     display: flex;
     row-gap: 20px;
     flex-direction: column;
-    min-width: 360px;
     height: calc(100vh - 220px);
     padding-right: 20px;
 

@@ -8,8 +8,9 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import DeleteModal from "./deleteModal";
 import TabBox from "./tabBox";
 
-import type { IFirestore } from "@/src/commons/types";
 import * as S from "./styles";
+import type { IFirestore } from "@/src/commons/types";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 export default function BuildingList(): JSX.Element {
   const [buildings, setBuildings] = useState<IFirestore[]>([]);
@@ -22,7 +23,11 @@ export default function BuildingList(): JSX.Element {
   return (
     <>
       <S.Container>
-        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+        {buildings.length === 0 && buildings.length === 0 ? (
+          <LoadingSpinner size={100} />
+        ) : (
+          <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+        )}
       </S.Container>
 
       {/* 매물 삭제 모달 */}
