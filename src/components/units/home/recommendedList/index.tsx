@@ -1,9 +1,11 @@
 import { useMemo } from "react";
+
 import ListItem from "./listItem";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 interface IRecommendedListProps {
   firestoreDatas: IFirestore[];
 }
@@ -65,7 +67,7 @@ export default function RecommendedList(props: IRecommendedListProps): JSX.Eleme
                 ))}
               </S.RegisteredList>
             ) : (
-              <div className="unItems">추천드릴 매물이 없습니다</div>
+              <NoDataMessage text="추천드릴 매물이 없습니다." />
             )}
           </div>
         )}
