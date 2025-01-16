@@ -24,15 +24,15 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData("buildings");
 
-  // 가공된 데이터
-  const processedSelectedMarkerData = useProcessedMarkerData(selectedMarkerData);
-  const processedVisibleMarkerData = useProcessedMarkerDatas(visibleMarkerData);
-
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
+
+  // 가공된 데이터
+  const processedSelectedMarkerData = useProcessedMarkerData(selectedMarkerData);
+  const processedVisibleMarkerData = useProcessedMarkerDatas(visibleMarkerData);
 
   useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });
   const { mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });

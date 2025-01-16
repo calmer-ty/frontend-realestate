@@ -21,12 +21,12 @@ export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, 
       markersRef.current.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      geocodeDatas?.forEach((itemData) => {
-        const position = new window.naver.maps.LatLng(itemData.geocode?.latitude, itemData.geocode?.longitude);
-        const positionKey = `${itemData.geocode?.latitude},${itemData.geocode?.longitude}`;
+      geocodeDatas?.forEach((geocodeData) => {
+        const position = new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude);
+        const positionKey = `${geocodeData.geocode?.latitude},${geocodeData.geocode?.longitude}`;
 
         if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
-          const marker = createMarker({ itemData, firestoreData, setSelectedMarkerData });
+          const marker = createMarker({ geocodeData, firestoreData, setSelectedMarkerData });
           markersRef.current.push(marker);
           processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
         }
