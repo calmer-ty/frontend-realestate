@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import InputLabel from "@mui/material/InputLabel";
+// import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -85,6 +85,9 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
       <FormControl fullWidth>
         {/* <InputLabel id="city-select-label">시</InputLabel> */}
         <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange} MenuProps={menuProps}>
+          <MenuItem value="" disabled>
+            <em>시</em>
+          </MenuItem>
           {CITIES.map((city) => (
             <MenuItem key={city} value={city}>
               {city}
@@ -95,6 +98,9 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
       <FormControl fullWidth>
         {/* <InputLabel id="district-select-label">구</InputLabel> */}
         <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""} MenuProps={menuProps}>
+          <MenuItem value="" disabled>
+            <em>구</em>
+          </MenuItem>
           {districts.map((district) => (
             <MenuItem key={district} value={district}>
               {district}

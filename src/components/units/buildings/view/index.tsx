@@ -10,10 +10,9 @@ import { useFetchApi } from "./hooks/useFetchApi";
 
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
-// import RegionSelect from "./select";
 
-import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
+import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);

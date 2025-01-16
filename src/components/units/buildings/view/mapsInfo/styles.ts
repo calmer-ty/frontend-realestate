@@ -1,7 +1,10 @@
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
-import type { IScroll } from "./types";
 import styled from "@emotion/styled";
+
+export interface IScroll {
+  scroll: boolean;
+}
 
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;

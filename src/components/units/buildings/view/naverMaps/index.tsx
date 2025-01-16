@@ -14,7 +14,6 @@ interface INaverMapsProps {
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
   const { mapLoading, setRegionCode, setRegionName, geocodeData } = props;
-  console.log("geocodeData: ", geocodeData);
   return (
     <S.Container>
       {mapLoading ? (
