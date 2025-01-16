@@ -1,7 +1,10 @@
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-import type { INoDataMessageProps } from "./types";
 import * as S from "./styles";
+
+interface INoDataMessageProps {
+  text: string;
+}
 
 export default function NoDataMessage(props: INoDataMessageProps): JSX.Element {
   return (
