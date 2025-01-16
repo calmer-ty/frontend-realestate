@@ -1,5 +1,12 @@
 import { Alert, Snackbar } from "@mui/material";
-import type { IBasicAlert } from "./types";
+
+import type { AlertColor } from "@mui/material";
+interface IBasicAlert {
+  open: boolean;
+  close: () => void;
+  text: string;
+  severity: AlertColor;
+}
 
 export default function BasicAlert(props: IBasicAlert): JSX.Element {
   return (

@@ -5,8 +5,13 @@ import AddIcon from "@mui/icons-material/Add";
 import FilePreview from "./filePreview";
 import BasicAlert from "../../alert/basic";
 
-import type { ChangeEvent, RefObject } from "react";
-import type { IFiles, IBasicUploadProps } from "./types";
+import type { Dispatch, SetStateAction, ChangeEvent, RefObject } from "react";
+import type { IFiles } from "./types";
+interface IBasicUploadProps {
+  imageUrls: string[] | undefined;
+  setSelectedFiles: Dispatch<SetStateAction<File[]>>;
+  setUploadedImageUrls: Dispatch<SetStateAction<string[]>>;
+}
 
 export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
   const [imageUrls, setImageUrls] = useState<string[]>([]); // 업로드된 파일 url

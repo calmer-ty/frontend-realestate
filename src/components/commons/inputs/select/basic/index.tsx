@@ -3,7 +3,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import type { IControlSelect } from "./types";
+
+import type { IWriteForm } from "@/src/commons/types";
+import type { Control } from "react-hook-form";
+interface IControlSelect {
+  label: string;
+  notice: string;
+  selecteItems: string[];
+  required?: boolean;
+  name: keyof IWriteForm;
+  control: Control<IWriteForm>;
+  type: string;
+}
 
 export default function BasicSelect(props: IControlSelect): JSX.Element {
   return (

@@ -5,7 +5,15 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Controller } from "react-hook-form";
 
-import type { IControlRadioProps } from "./types";
+import type { IWriteForm } from "@/src/commons/types";
+import type { Control } from "react-hook-form";
+interface IControlRadioProps {
+  label: string;
+  name: keyof IWriteForm;
+  selectLabel1: string;
+  selectLabel2: string;
+  control: Control<IWriteForm>;
+}
 
 export default function ControlRadio(props: IControlRadioProps): JSX.Element {
   return (

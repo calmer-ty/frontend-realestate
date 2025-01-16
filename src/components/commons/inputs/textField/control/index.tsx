@@ -1,5 +1,15 @@
 import { TextField } from "@mui/material";
-import type { IControlTextField } from "./types";
+
+import type { UseFormRegisterReturn } from "react-hook-form";
+interface IControlTextField {
+  label: string;
+  step?: string;
+  type?: string;
+  value?: string;
+  required?: boolean;
+  readOnly?: boolean;
+  register?: UseFormRegisterReturn;
+}
 
 export default function ControlTextField(props: IControlTextField): JSX.Element {
   return (

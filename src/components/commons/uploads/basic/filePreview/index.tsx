@@ -1,7 +1,14 @@
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
-import type { IFilePreviewProps } from "./types";
+
 import * as S from "./styles";
+
+import type { IFiles } from "../types";
+interface IFilePreviewProps {
+  pendingFiles: IFiles[];
+  imageUrls: string[];
+  onRemoveFile: (index: number, type: "url" | "file") => void;
+}
 
 export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
   return (

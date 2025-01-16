@@ -2,8 +2,14 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 
-import type { IBasicModalProps } from "./types";
 import { modalStyle } from "./styles";
+
+import type { ReactNode } from "react";
+interface IBasicModalProps {
+  children: ReactNode;
+  open: boolean;
+  onToggle: () => void;
+}
 
 export default function BasicModal(props: IBasicModalProps): JSX.Element {
   return (

@@ -1,5 +1,9 @@
-import type { IUnderlineTitleProps } from "./types";
 import * as S from "./styles";
+
+export interface IUnderlineTitleProps {
+  label: string;
+  desc?: string;
+}
 
 export default function UnderlineTitle(props: IUnderlineTitleProps): JSX.Element {
   return (

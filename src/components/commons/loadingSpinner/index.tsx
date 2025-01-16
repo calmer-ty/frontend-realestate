@@ -1,7 +1,9 @@
 import { ClipLoader } from "react-spinners";
 
-import type { ILoadingSpinnerProps } from "./types";
 import * as S from "./styles";
+interface ILoadingSpinnerProps {
+  size: number;
+}
 
 export default function LoadingSpinner(props: ILoadingSpinnerProps): JSX.Element {
   return (

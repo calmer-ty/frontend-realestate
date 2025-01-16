@@ -4,7 +4,16 @@ import Select from "@mui/material/Select";
 import { Controller } from "react-hook-form";
 import { InputLabel } from "@mui/material";
 
-import type { IControlSelect } from "./types";
+import type { IWriteForm } from "@/src/commons/types";
+import type { Control } from "react-hook-form";
+interface IControlSelect {
+  label: string;
+  notice: string;
+  selecteItems: string[];
+  required?: boolean;
+  name: keyof IWriteForm;
+  control: Control<IWriteForm>;
+}
 
 export default function ControlSelect(props: IControlSelect): JSX.Element {
   return (

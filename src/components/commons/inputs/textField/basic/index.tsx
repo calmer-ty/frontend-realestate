@@ -1,5 +1,16 @@
 import { TextField } from "@mui/material";
-import type { IBasicTextField } from "./types";
+
+import type { UseFormRegisterReturn } from "react-hook-form";
+interface IBasicTextField {
+  label: string;
+  type?: string;
+  isEdit?: boolean;
+  step?: string;
+  defaultValue?: string;
+  required?: boolean;
+  readOnly?: boolean;
+  register?: UseFormRegisterReturn;
+}
 
 export default function BasicTextField(props: IBasicTextField): JSX.Element {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
