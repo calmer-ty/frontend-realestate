@@ -226,7 +226,7 @@ export const REGION_DATA = [
   { city: "충청남도", district: "홍성군", regionCode: "44800" },
   { city: "충청남도", district: "예산군", regionCode: "44810" },
   { city: "충청남도", district: "태안군", regionCode: "44825" },
-  { city: "세종특별자치시", district: "", regionCode: "36110" },
+  { city: "세종특별자치시", district: "세종특별자치시", regionCode: "36110" },
   { city: "전북특별자치도", district: "부안군", regionCode: "52800" },
   { city: "전북특별자치도", district: "고창군", regionCode: "52790" },
   { city: "전북특별자치도", district: "순창군", regionCode: "52770" },

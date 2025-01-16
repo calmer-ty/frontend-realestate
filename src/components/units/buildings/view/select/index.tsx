@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 
 import { CITIES, REGION_DATA } from "@/src/commons/constants/regionData";
 import type { SelectChangeEvent } from "@mui/material/Select";
+import type { IFindRegionParams, IFindRegionReturn } from "./types";
 import * as S from "./styles";
 
 interface IRegionSelectProps {
@@ -15,9 +16,30 @@ interface IRegionSelectProps {
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const findRegion = (city: string, district: string): { regionCode?: string; regionName?: string } => {
+const menuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 200,
+    },
+  },
+};
+
+const findRegion = ({ city, district }: IFindRegionParams): IFindRegionReturn => {
   const region = REGION_DATA.find((data) => data.city === city && data.district === district);
-  return region !== undefined ? { regionCode: region.regionCode, regionName: `${region.city} ${region.district}` } : {};
+
+  // region이 없으면 기본값을 제공
+  if (region === undefined) {
+    return {
+      regionCode: "", // 기본값으로 빈 문자열
+      regionName: "", // 기본값으로 빈 문자열
+    };
+  }
+
+  const { city: findCity, district: findDistrict, regionCode } = region;
+  return {
+    regionCode,
+    regionName: findCity === findDistrict ? findDistrict : `${findCity} ${findDistrict}`,
+  };
 };
 
 const getDistrictsByCity = (city: string): string[] => {
@@ -31,7 +53,7 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
   // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
     if (district !== "") {
-      const { regionCode, regionName } = findRegion(city, district);
+      const { regionCode, regionName } = findRegion({ city, district });
       setRegionCode(regionCode);
       setRegionName(regionName);
     }
@@ -55,7 +77,7 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
     <S.Container>
       <FormControl fullWidth>
         <InputLabel id="city-select-label">시</InputLabel>
-        <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange}>
+        <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange} MenuProps={menuProps}>
           {CITIES.map((city) => (
             <MenuItem key={city} value={city}>
               {city}
@@ -65,7 +87,7 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
       </FormControl>
       <FormControl fullWidth>
         <InputLabel id="district-select-label">구</InputLabel>
-        <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""}>
+        <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""} MenuProps={menuProps}>
           {districts.map((district) => (
             <MenuItem key={district} value={district}>
               {district}
