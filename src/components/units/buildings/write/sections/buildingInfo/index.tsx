@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelectMarker } from "../../hooks/useSelectMarker";
-import { useAddressSearch } from "@/src/hooks/useAddressSearch";
+import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";

@@ -22,7 +22,9 @@ export const useAddressSearch = ({ setValue, getValues, onModalToggle }: IUseAdd
 
   const fetchGeocode = async (address: string): Promise<void> => {
     try {
-      const response = await axios.get<IGeocode>(`/api/fetchSelectGeocode?address=${encodeURIComponent(address)}`);
+      const response = await axios.get<IGeocode>("/api/fetchAddressSearch", {
+        params: { address },
+      });
       setGeocodeData(response.data);
     } catch (error) {
       console.error("Error fetching geocode data:", error);
