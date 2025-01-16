@@ -86,6 +86,5 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeo
   );
   const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
 
-  console.log("filteredGeocodeData", filteredGeocodeData);
   return filteredGeocodeData;
 };

@@ -26,7 +26,7 @@ export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, 
         const positionKey = `${itemData.geocode?.latitude},${itemData.geocode?.longitude}`;
 
         if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
-          const marker = createMarker(itemData, firestoreData, setSelectedMarkerData);
+          const marker = createMarker({ itemData, firestoreData, setSelectedMarkerData });
           markersRef.current.push(marker);
           processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
         }

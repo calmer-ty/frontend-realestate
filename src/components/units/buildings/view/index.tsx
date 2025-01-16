@@ -21,7 +21,8 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
   // 파이어스토어 데이터패치  훅
-  const { firestoreData } = useFetchFirestoreData(buildingType);
+  const { firestoreData } = useFetchFirestoreData("buildings");
+
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
