@@ -1,9 +1,14 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IMarkerListProps } from "./types";
-import type { IGeocodeData } from "@/src/commons/types";
 import * as S from "./styles";
+
+import type { IGeocodeData } from "@/src/commons/types";
+import type { Dispatch, SetStateAction } from "react";
+interface IMarkerListProps {
+  matchingMarkerData: IGeocodeData[];
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+}
 
 export default function MarkerList(props: IMarkerListProps): JSX.Element {
   const { matchingMarkerData, setSelectedData } = props;

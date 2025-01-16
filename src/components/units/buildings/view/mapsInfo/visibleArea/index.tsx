@@ -1,9 +1,18 @@
+import NoDataMessage from "@/src/components/commons/noDataMessage";
 import BuildingInfo from "../buildingInfo";
-import NoDataMessage from "../noDataMessage";
 import MarkerList from "./markerList";
 
-import type { IVisibleAreaProps } from "./types";
 import * as S from "./styles";
+
+import type { IGeocodeData, IFirestore } from "@/src/commons/types";
+import type { Dispatch, SetStateAction } from "react";
+interface IVisibleAreaProps {
+  buildingType: string;
+  firestoreData: IFirestore[];
+  visibleMarkerData: IGeocodeData[];
+  selectedData: IGeocodeData | null;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+}
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
   const { visibleMarkerData, firestoreData, buildingType, selectedData, setSelectedData } = props;
@@ -11,7 +20,6 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
   const matchingMarkerData = visibleMarkerData.filter((visData) => {
     const match = firestoreData.some((fireData) => {
       const isMatch = visData.geocode?.jibunAddress === fireData.address || visData.geocode?.roadAddress === fireData.address;
-      // console.log(`Comparing: ${visData.geocode?.jibunAddress} === ${fireData.address} => ${isMatch}`);
       return isMatch;
     });
     return match;
