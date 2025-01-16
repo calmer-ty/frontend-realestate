@@ -1,5 +1,4 @@
 import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
-import { getJibunAddress } from "@/src/commons/libraries/utils/addressUtils";
 
 import BasicChip from "@/src/components/commons/chip/basic";
 
@@ -18,7 +17,6 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
   const onClickClose = (): void => {
     setSelectedData(null);
   };
-  const jibunAddress = getJibunAddress(props.selectedData);
   return (
     <S.Container>
       <S.CloseButton onClick={onClickClose} />
@@ -28,11 +26,11 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
           <BasicChip label="연식" size="small" /> <span>{selectedData.data?.dealYear}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="지번" size="small" /> <span>{jibunAddress}</span>
+          <BasicChip label="지번" size="small" /> <span>{selectedData.geocode?.jibunAddress}</span>
         </S.TextWrap>
-        {/* <S.TextWrap>
-          <BasicChip label="도로명" size="small" /> <span>{props.selectedData.geocode?.roadAddress}</span>
-        </S.TextWrap> */}
+        <S.TextWrap>
+          <BasicChip label="도로명" size="small" /> <span>{selectedData.geocode?.roadAddress}</span>
+        </S.TextWrap>
       </S.InfoWrap>
 
       <S.InfoWrap>
