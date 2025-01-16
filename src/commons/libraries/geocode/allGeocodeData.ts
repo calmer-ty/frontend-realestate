@@ -10,7 +10,6 @@ import pLimit from "p-limit";
 const limit = pLimit(10);
 
 interface IGetAllGeocodeDataParams {
-  regionName: string;
   regionCode: string;
   buildingType: string;
 }
@@ -48,7 +47,7 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async ({ regionName, regionCode, buildingType }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturns[]> => {
+export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
   const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
   let selectedData: IApartmentItem[] = [];

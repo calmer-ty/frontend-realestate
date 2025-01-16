@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 
 import BuildingDetail from "@/src/components/units/buildings/detail";
-import type { IBuildingListParams, IFirestore } from "@/src/commons/types";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+
+import type { IBuildingListParams, IFirestore } from "@/src/commons/types";
 
 export default function BuildingDetailPage({ params }: { params: IBuildingListParams }): JSX.Element {
   const { listId } = params;
