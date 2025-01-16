@@ -1,7 +1,12 @@
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicUpload from "@/src/components/commons/uploads/basic";
 
-import type { IImgUploadProps } from "./types";
+import type { Dispatch, SetStateAction } from "react";
+interface IImgUploadProps {
+  imageUrls: string[] | undefined;
+  setSelectedFiles: Dispatch<SetStateAction<File[]>>;
+  setUploadedImageUrls: Dispatch<SetStateAction<string[]>>;
+}
 
 export default function ImgUpload(props: IImgUploadProps): JSX.Element {
   return (

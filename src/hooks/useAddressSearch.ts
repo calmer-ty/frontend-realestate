@@ -1,16 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
+
 import type { Address } from "react-daum-postcode";
 import type { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import type { IGeocode, IWriteForm } from "@/src/commons/types";
-
-export interface IUseAddressSearchProps {
+interface IUseAddressSearchReturn {
   selectedAddress: string;
   geocodeData: IGeocode | null;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
+interface IUseAddressSearchProps {
+  setValue: UseFormSetValue<IWriteForm>;
+  getValues: UseFormGetValues<IWriteForm>;
+  onModalToggle: () => void;
+}
 
-export const useAddressSearch = (setValue: UseFormSetValue<IWriteForm>, getValues: UseFormGetValues<IWriteForm>, onModalToggle: () => void): IUseAddressSearchProps => {
+export const useAddressSearch = ({ setValue, getValues, onModalToggle }: IUseAddressSearchProps): IUseAddressSearchReturn => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [geocodeData, setGeocodeData] = useState<IGeocode | null>(null);
   const currentAddress = getValues("address");

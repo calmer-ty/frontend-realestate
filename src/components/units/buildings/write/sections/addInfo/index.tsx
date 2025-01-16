@@ -3,7 +3,12 @@ import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import BasicUnit from "@/src/components/commons/units/basic";
 import ControlRadio from "@/src/components/commons/inputs/radio/control";
 
-import type { IAddInfoProps } from "./types";
+import type { Control, UseFormRegister } from "react-hook-form";
+import type { IWriteForm } from "@/src/commons/types";
+interface IAddInfoProps {
+  register: UseFormRegister<IWriteForm>;
+  control: Control<IWriteForm, any>;
+}
 
 export default function AddInfo(props: IAddInfoProps): JSX.Element {
   return (

@@ -15,9 +15,12 @@ import ImgUpload from "./sections/imgUpload";
 import BasicAlert from "@/src/components/commons/alert/basic";
 import { Button } from "@mui/material";
 
-import type { IEditFormData } from "./types";
-import type { IWriteForm } from "@/src/commons/types";
 import * as S from "./styles";
+import type { IFirestore, IWriteForm } from "@/src/commons/types";
+interface IEditFormData {
+  isEdit: boolean;
+  docData?: IFirestore | undefined;
+}
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const initialValues: IWriteForm = {
@@ -38,20 +41,22 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { register, handleSubmit, watch, setValue, getValues, control } = useFormHandler(initialValues);
   const { setSelectedFiles, uploadedImageUrls, setUploadedImageUrls, uploadImages } = useImageUpload(docData);
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
-  const { handleFormSubmit, handleFormUpdate } = useFirestoreHandler(
+  const selectedType = korToEng(watch("type"));
+  const { handleFormSubmit, handleFormUpdate } = useFirestoreHandler({
     initialValues,
     docData,
     uploadedImageUrls,
-    korToEng(watch("type")),
+    selectedType,
     getValues,
     uploadImages,
     setAlertOpen,
     setAlertSeverity,
     setAlertText,
-    setRouting
-  );
+    setRouting,
+  });
+
   // 수정시 파이어베이스 데이터 불러옴
-  useSetFormValues(docData, setValue);
+  useSetFormValues({ docData, setValue });
 
   return (
     <>

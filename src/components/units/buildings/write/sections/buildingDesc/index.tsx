@@ -1,7 +1,11 @@
 import { TextField } from "@mui/material";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 
-import type { IBuildingDescProps } from "./types";
+import type { UseFormRegister } from "react-hook-form";
+import type { IWriteForm } from "@/src/commons/types";
+interface IBuildingDescProps {
+  register: UseFormRegister<IWriteForm>;
+}
 
 export default function BuildingDesc(props: IBuildingDescProps): JSX.Element {
   return (

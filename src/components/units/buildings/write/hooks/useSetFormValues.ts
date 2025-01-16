@@ -3,13 +3,17 @@ import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
 import type { UseFormSetValue } from "react-hook-form";
+interface IUseSetFormValuesParams {
+  docData: IFirestore | undefined;
+  setValue: UseFormSetValue<IWriteForm>;
+}
 
 // 유효한 값인지 체크하는 함수
 const isValidValue = (value: any): value is string | number | string[] => {
   return typeof value === "string" || typeof value === "number" || (Array.isArray(value) && value.every((item) => typeof item === "string"));
 };
 
-export const useSetFormValues = (docData: IFirestore | undefined, setValue: UseFormSetValue<IWriteForm>): void => {
+export const useSetFormValues = ({ docData, setValue }: IUseSetFormValuesParams): void => {
   useEffect(() => {
     if (docData !== undefined) {
       const excludedKeys = ["_id", "user", "createdAt"];

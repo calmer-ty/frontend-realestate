@@ -2,7 +2,11 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import BasicUnit from "@/src/components/commons/units/basic";
 
-import type { IDealInfoProps } from "./types";
+import type { IWriteForm } from "@/src/commons/types";
+import type { UseFormRegister } from "react-hook-form";
+interface IDealInfoProps {
+  register: UseFormRegister<IWriteForm>;
+}
 
 export default function DealInfo(props: IDealInfoProps): JSX.Element {
   return (
