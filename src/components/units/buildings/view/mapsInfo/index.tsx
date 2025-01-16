@@ -8,14 +8,14 @@ import * as S from "./styles";
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
-  visibleMarkerData: IGeocodeData[];
   selectedMarkerData: IGeocodeData | null;
+  visibleMarkerData: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   firestoreData: IFirestore[];
   buildingType: string;
 }
 
-export default function MapsInfo({ buildingType, selectedMarkerData, setSelectedMarkerData, visibleMarkerData, firestoreData }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, firestoreData, buildingType }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 

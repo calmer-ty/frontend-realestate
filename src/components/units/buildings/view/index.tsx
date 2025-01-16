@@ -5,6 +5,7 @@ import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
+import { useProcessedMarkerData, useProcessedMarkerDatas } from "./hooks/useProcessedMarkerData";
 import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
 import { useFetchApi } from "./hooks/useFetchApi";
 
@@ -23,6 +24,10 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData("buildings");
 
+  // 가공된 데이터
+  const processedSelectedMarkerData = useProcessedMarkerData(selectedMarkerData);
+  const processedVisibleMarkerData = useProcessedMarkerDatas(visibleMarkerData);
+
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
@@ -35,7 +40,13 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
-      <MapsInfo visibleMarkerData={visibleMarkerData} selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
+      <MapsInfo
+        selectedMarkerData={processedSelectedMarkerData}
+        visibleMarkerData={processedVisibleMarkerData}
+        setSelectedMarkerData={setSelectedMarkerData}
+        firestoreData={firestoreData}
+        buildingType={buildingType}
+      />
       <NaverMaps geocodeData={geocodeDatas} mapLoading={mapLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );
