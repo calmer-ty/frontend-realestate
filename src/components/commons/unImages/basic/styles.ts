@@ -1,5 +1,10 @@
 import styled from "@emotion/styled";
-import type { IBasicUnImageProps } from "./types";
+
+interface IBasicUnImageProps {
+  width: string;
+  height: string;
+  fontSize: string;
+}
 
 export const UnImage = styled.div<IBasicUnImageProps>`
   display: flex;

@@ -21,7 +21,7 @@ const createClusterIcons = (): IClusterIcon[] => {
 export const clusteringOptions = (map: any, markers: any[]): any => {
   return new window.MarkerClustering({
     minClusterSize: 5, // 클러스터 최소 마커 개수 증가
-    maxZoom: 18, // 최대 줌 레벨 최적화
+    maxZoom: 16, // 최대 줌 레벨 최적화
     map,
     markers,
     disableClickZoom: false,
