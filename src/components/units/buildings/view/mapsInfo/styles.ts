@@ -17,6 +17,9 @@ export const Container = styled.aside<IScroll>`
   transition: flex 300ms ease-in-out;
 
   position: relative;
+  ${mediaQueries.tablet(css`
+    flex: 1;
+  `)}
   ${(props) =>
     mediaQueries.mobile(css`
       flex: ${props.scroll ? "3" : "0"};

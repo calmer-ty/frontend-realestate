@@ -3,17 +3,16 @@ import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import * as S from "./styles";
 
-import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 interface INaverMapsProps {
-  geocodeData?: IGeocodeData[];
   mapLoading: boolean;
+  dataLoading: boolean;
   setRegionName: Dispatch<SetStateAction<string | undefined>>;
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
-  const { mapLoading, setRegionCode, setRegionName, geocodeData } = props;
+  const { mapLoading, setRegionCode, setRegionName, dataLoading } = props;
 
   return (
     <S.Container>
@@ -22,7 +21,7 @@ export default function NaverMaps(props: INaverMapsProps): JSX.Element {
       ) : (
         <S.Maps id="map">
           <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
-          {geocodeData?.length === 0 ? <LoadingSpinner size={100} /> : <></>}
+          {dataLoading ? <LoadingSpinner size={100} /> : <></>}
         </S.Maps>
       )}
     </S.Container>

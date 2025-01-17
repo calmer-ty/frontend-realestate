@@ -20,23 +20,24 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 구 선택 hook
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
+
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData("buildings");
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
-  const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionCode, buildingType });
+  const { geocodeDatas, fetchGeocodeDatas, loading: dataLoading, error } = useFetchAllGeocodeData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
 
   useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });
-  const { mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
+  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
 
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
       <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
-      <NaverMaps geocodeData={geocodeDatas} mapLoading={mapLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
+      <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );
 }
