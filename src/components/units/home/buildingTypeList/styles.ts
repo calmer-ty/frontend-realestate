@@ -32,7 +32,7 @@ export const Container = styled.section`
     width: 100%;
     height: 100%;
     position: absolute;
-    background: #fff url("/images/main.webp") no-repeat center/cover;
+    background: #fff url("/images/main.jpg") no-repeat center/cover;
     opacity: 0.2;
     pointer-events: none;
   }

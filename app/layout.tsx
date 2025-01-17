@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/src/components/layout/header";
+import Head from "next/head"; // next/head를 import
 import "./globals.css";
 
 export default function RootLayout({
@@ -10,6 +11,9 @@ export default function RootLayout({
 }>): JSX.Element {
   return (
     <html lang="en">
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <body>
         <div id="wrapper">
           <Header />
