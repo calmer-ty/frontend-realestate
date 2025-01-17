@@ -14,7 +14,7 @@ interface INaverMapsProps {
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
   const { mapLoading, setRegionCode, setRegionName, geocodeData } = props;
-
+  console.log("geocodeData: ", geocodeData);
   return (
     <S.Container>
       {mapLoading ? (
@@ -22,7 +22,7 @@ export default function NaverMaps(props: INaverMapsProps): JSX.Element {
       ) : (
         <S.Maps id="map">
           <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
-          {geocodeData?.length === 0 ? <LoadingSpinner size={100} /> : <></>}
+          {geocodeData?.length !== 0 ? <LoadingSpinner size={100} /> : <></>}
         </S.Maps>
       )}
     </S.Container>
