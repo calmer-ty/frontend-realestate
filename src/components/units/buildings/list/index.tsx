@@ -16,13 +16,13 @@ export default function BuildingList(): JSX.Element {
   const [deletedBuildings, setDeletedBuildings] = useState<IFirestore[]>([]);
 
   const { archiveFirestore, deleteFirestore, readFirestores } = useFirestore();
-  useUserBuildings({ setBuildings, setDeletedBuildings, readFirestores });
+  const { loading } = useUserBuildings({ setBuildings, setDeletedBuildings, readFirestores });
 
   const { modalOpen, setModalOpen, selectedBuilding, onDeleteModalOpen } = useDeleteModal();
   return (
     <>
       <S.Container>
-        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} />
+        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} loading={loading} />
       </S.Container>
 
       {/* 매물 삭제 모달 */}

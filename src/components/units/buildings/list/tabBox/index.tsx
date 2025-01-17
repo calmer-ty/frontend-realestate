@@ -17,27 +17,39 @@ import * as S from "./styles";
 
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 interface ITabBoxProps {
   myBuildings: IFirestore[];
   myDeletedBuildings: IFirestore[];
   onDeleteModalOpen: (building: IFirestore) => void;
+  loading: boolean;
 }
 
+const sortByCreatedAt = (items: IFirestore[], key: "createdAt" | "deletedAt"): IFirestore[] => {
+  return items.sort((a, b) => {
+    const aTime = a[key]?.seconds ?? DEFAULT_NUMBER_VALUE;
+    const bTime = b[key]?.seconds ?? DEFAULT_NUMBER_VALUE;
+    return aTime - bTime;
+  });
+};
+// const sortedMyBuildings = myBuildings.sort((a, b) => {
+//   const aCreatedAt = a.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE; // createdAt이 없으면 0으로 처리
+//   const bCreatedAt = b.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+
+//   return aCreatedAt - bCreatedAt;
+// });
+// const sortedMyDeleteBuildings = myDeletedBuildings.sort((a, b) => {
+//   const aDeletedAt = a.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE; // DeletedAt이 없으면 0으로 처리
+//   const bDeletedAt = b.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+
+//   return aDeletedAt - bDeletedAt;
+// });
+
 export default function TabBox(props: ITabBoxProps): JSX.Element {
-  const { myBuildings, myDeletedBuildings, onDeleteModalOpen } = props;
+  const { myBuildings, myDeletedBuildings, onDeleteModalOpen, loading } = props;
 
-  const sortedMyBuildings = myBuildings.sort((a, b) => {
-    const aCreatedAt = a.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE; // createdAt이 없으면 0으로 처리
-    const bCreatedAt = b.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE;
-
-    return aCreatedAt - bCreatedAt;
-  });
-  const sortedMyDeleteBuildings = myDeletedBuildings.sort((a, b) => {
-    const aDeletedAt = a.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE; // DeletedAt이 없으면 0으로 처리
-    const bDeletedAt = b.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE;
-
-    return aDeletedAt - bDeletedAt;
-  });
+  const sortedMyBuildings = sortByCreatedAt(myBuildings, "createdAt");
+  const sortedMyDeletedBuildings = sortByCreatedAt(myDeletedBuildings, "deletedAt");
 
   // 탭 로직
   const [tabValue, setTabValue] = useState("1");
@@ -54,7 +66,9 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
         </TabList>
 
         <TabPanel value="1">
-          {sortedMyBuildings.length === 0 ? (
+          {loading ? (
+            <LoadingSpinner size={100} />
+          ) : sortedMyBuildings.length === 0 ? (
             <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
           ) : (
             <ul>
@@ -65,12 +79,14 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
           )}
         </TabPanel>
         <TabPanel value="2">
-          {sortedMyDeleteBuildings.length === 0 ? (
+          {loading ? (
+            <LoadingSpinner size={100} />
+          ) : sortedMyDeletedBuildings.length === 0 ? (
             <NoDataMessage text="삭제된 매물이 없습니다." />
           ) : (
             <ul>
-              {sortedMyDeleteBuildings.map((el, index) => (
-                <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
+              {sortedMyDeletedBuildings.map((el, index) => (
+                <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
               ))}
             </ul>
           )}
@@ -79,3 +95,5 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
     </S.Container>
   );
 }
+// <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
+// {/* sortedMyDeletedBuildings.length === 0 */}

@@ -16,7 +16,7 @@ export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX
   const matchedData = firestoreData.filter((el) => selectedData.geocode?.jibunAddress === el.address || selectedData.geocode?.roadAddress === el.address);
   return (
     <S.Container>
-      {matchedData.length > 0 ? (
+      {matchedData.length === 0 ? (
         <S.Registered>
           <h3>
             총 <strong>{matchedData.length}</strong>개의 매물이 있습니다
