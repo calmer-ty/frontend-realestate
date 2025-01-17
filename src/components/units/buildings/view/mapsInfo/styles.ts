@@ -2,7 +2,7 @@ import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export interface IScroll {
+interface IScroll {
   scroll: boolean;
 }
 

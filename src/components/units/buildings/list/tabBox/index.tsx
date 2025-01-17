@@ -65,11 +65,15 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
           )}
         </TabPanel>
         <TabPanel value="2">
-          <ul>
-            {sortedMyDeleteBuildings.map((el, index) => (
-              <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
-            ))}
-          </ul>
+          {sortedMyDeleteBuildings.length === 0 ? (
+            <NoDataMessage text="삭제된 매물이 없습니다." />
+          ) : (
+            <ul>
+              {sortedMyDeleteBuildings.map((el, index) => (
+                <ListItem key={`${el._id}_${index}`} el={el} index={index} isDeleted={true} />
+              ))}
+            </ul>
+          )}
         </TabPanel>
       </TabContext>
     </S.Container>

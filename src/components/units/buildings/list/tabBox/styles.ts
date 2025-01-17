@@ -6,8 +6,9 @@ export const Container = styled.div`
   .MuiTabPanel-root {
     /* width: 878px;
     height: 747px; */
-    width: 848px;
+    /* width: 848px; */
     height: calc(100vh - 220px);
+
     > div {
       position: absolute;
       left: 50%;

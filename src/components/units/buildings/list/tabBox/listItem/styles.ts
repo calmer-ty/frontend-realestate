@@ -12,8 +12,8 @@ export const ListItem = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    row-gap: 20px;
-    padding: 20px;
+    gap: 20px;
+    padding: 20px 30px;
 
     ${mediaQueries.tablet(css`
       flex-direction: column;
