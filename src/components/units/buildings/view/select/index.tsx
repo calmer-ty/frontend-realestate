@@ -61,7 +61,6 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
 
   // 디바운싱 처리된 함수
   const debouncedFetchRegion = debounce((city: string, district: string) => {
-    console.log("디바운싱 후 실행:", city, district); // 디바운싱 후 호출되는지 확인
     const { regionCode, regionName } = findRegion({ city, district });
     setRegionCode(regionCode);
     setRegionName(regionName);
@@ -70,7 +69,6 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
   // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
     if (district !== "") {
-      console.log("디바운싱 호출 준비:", city, district); // 디바운싱 호출 준비 확인
       debouncedFetchRegion(city, district);
     }
   }, [city, district, setRegionName, setRegionCode, debouncedFetchRegion]);

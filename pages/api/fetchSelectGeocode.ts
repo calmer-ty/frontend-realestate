@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function fetchSelectGeocode(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { regionName } = req.query;
-  console.log("fetchSelectGeocode regionName: ", regionName);
+
   if (typeof regionName !== "string") {
     res.status(400).json({ error: "Invalid regionName parameter" });
     return;

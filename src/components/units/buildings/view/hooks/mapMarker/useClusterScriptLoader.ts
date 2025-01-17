@@ -11,7 +11,7 @@ export const useClusterScriptLoader = (updateMarkers: (map: any) => void): IUseC
   const loadClusterScript = useCallback(
     (map: any) => {
       if (isClusterScriptLoadedRef.current) {
-        console.log("클러스터 스크립트가 이미 로드되었습니다.");
+        // console.log("클러스터 스크립트가 이미 로드되었습니다.");
 
         // 기존 리스너 제거 후 등록
         window.naver.maps.Event.clearListeners(map, "idle");
@@ -25,7 +25,7 @@ export const useClusterScriptLoader = (updateMarkers: (map: any) => void): IUseC
       const MARKER_CLUSTERING_SCRIPT_URL = "/libraries/markerClustering.js";
       loadScript(MARKER_CLUSTERING_SCRIPT_URL, () => {
         try {
-          console.log("클러스터를 실행합니다.");
+          // console.log("클러스터를 실행합니다.");
           isClusterScriptLoadedRef.current = true; // 스크립트가 로드되었음을 기록
 
           window.naver.maps.Event.addListener(map, "idle", () => {
