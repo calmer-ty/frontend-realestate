@@ -65,13 +65,13 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <section>
           <UnderlineTitle label="거래 정보" />
-          <InputUnit label="매매가" type="number" register={register("price")} unitLabel="만원" />
-          <InputUnit label="관리비" type="number" register={register("manageCost")} unitLabel="만원" />
+          <InputUnit label="매매가" type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
+          <InputUnit label="관리비" type="number" register={register("manageCost", { valueAsNumber: true })} unitLabel="만원" />
         </section>
         <section>
           <UnderlineTitle label="추가 정보" />
-          <InputUnit label="층" type="number" register={register("floor")} unitLabel="층" />
-          <InputUnit label="욕실 수" type="number" register={register("bathroomCount")} unitLabel="개" />
+          <InputUnit label="층" type="number" register={register("floor", { valueAsNumber: true })} unitLabel="층" />
+          <InputUnit label="욕실 수" type="number" register={register("bathroomCount", { valueAsNumber: true })} unitLabel="개" />
           <ControlRadio label="엘리베이터" name="elevator" selectLabel1={"없음"} selectLabel2={"있음"} control={control} />
         </section>
         <section>

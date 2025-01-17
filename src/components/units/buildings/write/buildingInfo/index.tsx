@@ -62,8 +62,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
           </S.MapsWrap>
         </S.MapView>
         <S.TwinInputWrap>
-          <InputUnit label="매물 크기" type="number" register={register("area")} unitLabel="m²" step="0.01" />
-          <InputUnit label="방 개수" type="number" register={register("roomCount")} unitLabel="개" />
+          <InputUnit label="매물 크기" type="number" register={register("area", { valueAsNumber: true })} unitLabel="m²" step="0.01" />
+          <InputUnit label="방 개수" type="number" register={register("roomCount", { valueAsNumber: true })} unitLabel="개" />
         </S.TwinInputWrap>
       </section>
 
