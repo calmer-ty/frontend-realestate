@@ -17,7 +17,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
   const onClickClose = (): void => {
     setSelectedData(null);
   };
-  console.log("selectedData: ", Number(selectedData.data?.dealAmount?.replace(/,/g, "")));
+
   return (
     <S.Container>
       <S.CloseButton onClick={onClickClose} />

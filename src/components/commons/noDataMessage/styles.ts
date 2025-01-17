@@ -5,6 +5,11 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 10px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   > p {
     width: 220px;
     text-align: center;

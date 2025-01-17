@@ -6,10 +6,14 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - 367px);
+  position: relative;
 `;
 
 export const Registered = styled.div`
+  overflow-y: scroll;
   width: 100%;
+  height: 100%;
   border-top: 1px solid #dedede;
   > h3 {
     font-size: 16px;

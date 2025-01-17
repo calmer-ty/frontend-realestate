@@ -8,13 +8,15 @@ interface IScroll {
 
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
-  flex: 1;
   width: 100%;
   height: 100%;
   border-right: 1px solid #dedede;
   background-color: #fff;
+  flex: 1;
   z-index: 1;
   transition: flex 300ms ease-in-out;
+
+  position: relative;
   ${(props) =>
     mediaQueries.mobile(css`
       flex: ${props.scroll ? "3" : "0"};

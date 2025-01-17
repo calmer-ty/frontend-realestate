@@ -4,15 +4,9 @@ import { css } from "@emotion/react";
 
 export const Container = styled.div`
   .MuiTabPanel-root {
+    position: relative;
     width: 878px;
     height: calc(100vh - 220px);
-
-    > div {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
     ul {
       overflow-y: hidden;
       overflow-y: scroll;
