@@ -23,7 +23,7 @@ export const getMapInitOptions: () => IGetMapInitOptionsProps = () => ({
   zoom: 14,
   zoomControl: true,
   zoomControlOptions: {
-    position: window.naver.maps.Position.TOP_RIGHT,
+    position: window.naver.maps.Position.BOTTOM_LEFT,
     style: window.naver.maps.ZoomControlStyle.SMALL,
   },
 });
