@@ -7,13 +7,13 @@ import { useImageUpload } from "./hooks/useImageUpload";
 import { useSetFormValues } from "./hooks/useSetFormValues";
 import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
-import BuildingInfo from "./sections/buildingInfo";
-import DealInfo from "./sections/dealInfo";
-import AddInfo from "./sections/addInfo";
-import BuildingDesc from "./sections/buildingDesc";
-import ImgUpload from "./sections/imgUpload";
+import BuildingInfo from "./buildingInfo";
 import BasicAlert from "@/src/components/commons/alert/basic";
-import { Button } from "@mui/material";
+import UnderlineTitle from "@/src/components/commons/titles/underline";
+import InputUnit from "./inputUnit";
+import ControlRadio from "@/src/components/commons/inputs/radio/control";
+import BasicUpload from "@/src/components/commons/uploads/basic";
+import { Button, TextField } from "@mui/material";
 
 import * as S from "./styles";
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
@@ -63,10 +63,34 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       {/* 폼 */}
       <S.Form onSubmit={handleSubmit(isEdit ? handleFormUpdate : handleFormSubmit)}>
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
-        <DealInfo register={register} />
-        <AddInfo register={register} control={control} />
-        <BuildingDesc register={register} />
-        <ImgUpload setSelectedFiles={setSelectedFiles} setUploadedImageUrls={setUploadedImageUrls} imageUrls={docData?.imageUrls} />
+        <section>
+          <UnderlineTitle label="거래 정보" />
+          <InputUnit label="매매가" type="number" register={register("price")} unitLabel="만원" />
+          <InputUnit label="관리비" type="number" register={register("manageCost")} unitLabel="만원" />
+        </section>
+        <section>
+          <UnderlineTitle label="추가 정보" />
+          <InputUnit label="층" type="number" register={register("floor")} unitLabel="층" />
+          <InputUnit label="욕실 수" type="number" register={register("bathroomCount")} unitLabel="개" />
+          <ControlRadio label="엘리베이터" name="elevator" selectLabel1={"없음"} selectLabel2={"있음"} control={control} />
+        </section>
+        <section>
+          <UnderlineTitle label="매물 설명" />
+          <TextField
+            id="description-field"
+            label="설명 내용"
+            multiline
+            rows={5}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            {...register("desc")}
+          />
+        </section>
+        <section>
+          <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
+          <BasicUpload imageUrls={docData?.imageUrls} setSelectedFiles={setSelectedFiles} setUploadedImageUrls={setUploadedImageUrls} />
+        </section>
         <S.Footer>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기

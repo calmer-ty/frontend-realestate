@@ -18,6 +18,11 @@ export const AddressSearch = styled.div`
   row-gap: 20px;
   width: 50%;
   align-self: flex-start;
+
+  .left {
+    display: flex;
+    column-gap: 20px;
+  }
   ${mediaQueries.mobile(css`
     width: 100%;
     flex-direction: column;

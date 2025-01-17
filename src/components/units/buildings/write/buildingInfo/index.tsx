@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelectMarker } from "../../hooks/useSelectMarker";
+import { useSelectMarker } from "../hooks/useSelectMarker";
 import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
 
 import { Button } from "@mui/material";
@@ -9,12 +9,12 @@ import ControlSelect from "@/src/components/commons/inputs/select/control";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
-import BasicUnit from "@/src/components/commons/units/basic";
 
 import * as S from "./styles";
 
 import type { Control, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import type { IWriteForm } from "@/src/commons/types";
+import InputUnit from "../inputUnit";
 interface IBuildingInfoProps {
   register: UseFormRegister<IWriteForm>;
   setValue: UseFormSetValue<IWriteForm>;
@@ -40,7 +40,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
         <ControlSelect required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
         <S.MapView>
           <S.AddressSearch>
-            <div className="inputUnit">
+            <div className="left">
               <ControlTextField required readOnly label="주소" register={register("address")} />
               <Button sx={{ flexShrink: 0 }} variant="outlined" onClick={onModalToggle}>
                 주소 찾기
@@ -62,14 +62,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
           </S.MapsWrap>
         </S.MapView>
         <S.TwinInputWrap>
-          <div className="inputUnit">
-            <BasicTextField required label="매물 크기" type="number" step="0.01" register={register("area")} />
-            <BasicUnit label="m²" />
-          </div>
-          <div className="inputUnit">
-            <BasicTextField required label="방 개수" type="number" register={register("roomCount")} />
-            <BasicUnit label="개" />
-          </div>
+          <InputUnit label="매물 크기" type="number" register={register("area")} unitLabel="m²" step="0.01" />
+          <InputUnit label="방 개수" type="number" register={register("roomCount")} unitLabel="개" />
         </S.TwinInputWrap>
       </section>
 

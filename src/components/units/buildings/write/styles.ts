@@ -14,13 +14,6 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     row-gap: 20px;
-    .inputUnit {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      column-gap: 10px;
-      width: 100%;
-    }
   }
 
   ${mediaQueries.mobile(css`
