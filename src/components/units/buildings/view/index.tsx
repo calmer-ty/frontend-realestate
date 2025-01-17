@@ -13,6 +13,7 @@ import MapsInfo from "./mapsInfo";
 
 import * as S from "./styles";
 import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
+import { useFetchUserInputGeocodeData } from "@/src/hooks/api/useFetchUserInputGeocodeData";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -22,21 +23,30 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
 
   // 파이어스토어 데이터패치  훅
-  const { firestoreData } = useFetchFirestoreData("buildings");
+  const { firestoreDatas } = useFetchFirestoreData("buildings");
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeDatas, fetchGeocodeDatas, loading: dataLoading, error } = useFetchAllGeocodeData({ regionCode, buildingType });
+  const { geocodeDatas: userInputGeocodeDatas, fetchGeocodeDatas: fetchUserInputGeocodeDatas } = useFetchUserInputGeocodeData({ firestoreDatas });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
 
-  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });
-  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
+  console.log("userInputGeocodeDatas: ", userInputGeocodeDatas);
+
+  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas, fetchUserInputGeocodeDatas });
+  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreDatas });
 
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
-      <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} firestoreData={firestoreData} buildingType={buildingType} />
+      <MapsInfo
+        selectedMarkerData={selectedMarkerData}
+        visibleMarkerData={visibleMarkerData}
+        setSelectedMarkerData={setSelectedMarkerData}
+        firestoreData={firestoreDatas}
+        buildingType={buildingType}
+      />
       <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );

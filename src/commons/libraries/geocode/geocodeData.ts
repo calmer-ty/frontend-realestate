@@ -4,18 +4,22 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import type { IApartmentItem, IGeocode } from "@/src/commons/types";
+import type { IApartmentItem, IFirestore, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
+import { DEFAULT_STRING_VALUE } from "../../constants";
 const limit = pLimit(10);
 
 interface IGetAllGeocodeDataParams {
-  regionCode: string;
   buildingType: string;
+  regionCode: string;
 }
 interface IGetAllGeocodeDataReturn {
   data: IApartmentItem;
   geocode: IGeocode | null;
+}
+interface IGetUserInputGeocodeDataParams {
+  firestoreDatas: IFirestore[];
 }
 
 // 제외 필드 상수
@@ -47,15 +51,15 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+export const getAllGeocodeData = async ({ buildingType, regionCode }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
   const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
-  let selectedData: IApartmentItem[] = [];
+  let selectedDatas: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
       try {
         if (apartmentCache !== undefined) {
-          selectedData = apartmentCache;
+          selectedDatas = apartmentCache;
         }
       } catch (error) {
         console.error("Error in fetching apartment data: ", error);
@@ -68,13 +72,12 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeo
   }
 
   const geocodeData = await Promise.all(
-    selectedData.map((dataItem) =>
+    selectedDatas.map((data) =>
       limit(async () => {
         try {
-          const address = `${dataItem.estateAgentSggNm} ${dataItem.umdNm} ${dataItem.jibun}`;
+          const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
           const geocode = await fetchGeocodeData(address);
 
-          const data = dataItem;
           return { data, geocode }; // 정상적으로 처리된 데이터 리턴
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
@@ -87,4 +90,41 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeo
   const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
 
   return filteredGeocodeData;
+};
+
+export const getUserInputGeocodeData = async ({ firestoreDatas }: IGetUserInputGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+  // const selectedDatas: IApartmentItem[] = [];
+  // switch (firestoreData) {
+  //   case "apartment":
+  //     try {
+  //       // if (apartmentCache !== undefined) {
+  //       //   selectedDatas = apartmentCache;
+  //       // }
+  //       console.log(selectedDatas);
+  //     } catch (error) {
+  //       console.error("Error in fetching apartment data: ", error);
+  //     }
+  //     break;
+  //   // 다른 buildingType에 대한 분기 추가 가능
+  //   default:
+  //     console.error("찾을 수 없는 buildingType 입니다.:", buildingType);
+  //     return [];
+  // }
+
+  // 사용자 입력 주소를 기반으로 지오코딩 처리
+  const geocodeData = await Promise.all(
+    firestoreDatas.map((data) =>
+      limit(async () => {
+        try {
+          const geocode = await fetchGeocodeData(data.address ?? DEFAULT_STRING_VALUE);
+          return { data: { data }, geocode };
+        } catch (error) {
+          console.error(`Error processing user input geocode data`, error);
+          return { data: { data }, geocode: null };
+        }
+      })
+    )
+  );
+
+  return geocodeData.filter((item) => item.geocode !== null); // 유효한 데이터만 반환
 };

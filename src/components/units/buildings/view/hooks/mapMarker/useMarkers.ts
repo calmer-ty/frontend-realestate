@@ -8,7 +8,7 @@ interface IUseMapMarkersReturn {
   updateMarkers: (map: any) => Promise<void>;
 }
 
-export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerParams): IUseMapMarkersReturn => {
+export const useMarkers = ({ geocodeDatas, firestoreDatas, setVisibleMarkerData, setSelectedMarkerData }: IMapMarkerParams): IUseMapMarkersReturn => {
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
@@ -26,7 +26,7 @@ export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, 
         const positionKey = `${geocodeData.geocode?.latitude},${geocodeData.geocode?.longitude}`;
 
         if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
-          const marker = createMarker({ geocodeData, firestoreData, setSelectedMarkerData });
+          const marker = createMarker({ geocodeData, firestoreDatas, setSelectedMarkerData });
           markersRef.current.push(marker);
           processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
         }
@@ -42,7 +42,7 @@ export const useMarkers = ({ geocodeDatas, firestoreData, setVisibleMarkerData, 
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(null);
     },
-    [geocodeDatas, firestoreData, setVisibleMarkerData, setSelectedMarkerData]
+    [geocodeDatas, firestoreDatas, setVisibleMarkerData, setSelectedMarkerData]
   );
 
   return { updateMarkers };

@@ -1,11 +1,10 @@
 import { useCallback, useState } from "react";
 
-import type { IGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import axios from "axios";
 
-interface IUseFetchAllGeocodeDataParams {
-  regionCode: string | undefined;
-  buildingType: string;
+interface IUseFetchUserInputGeocodeDataParams {
+  firestoreDatas: IFirestore[];
 }
 interface IUseFetchAllGeocodeDataReturn {
   geocodeDatas: IGeocodeData[];
@@ -14,7 +13,7 @@ interface IUseFetchAllGeocodeDataReturn {
   error: string | null;
 }
 
-export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAllGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
+export const useFetchUserInputGeocodeData = ({ firestoreDatas }: IUseFetchUserInputGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
   const [geocodeDatas, setGeocodeDatas] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,8 +23,10 @@ export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAl
       setLoading(true); // 데이터 요청 시작 시 로딩 상태 true로 설정
       setError(null); // 이전 에러 상태 초기화
       try {
-        const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
-          params: { buildingType, regionCode },
+        const response = await axios.get<IGeocodeData[]>("/api/fetchUserInputGeocode", {
+          params: {
+            firestoreDatas: JSON.stringify(firestoreDatas), // 배열을 JSON 문자열로 변환
+          },
         });
         if (response.status === 200) {
           setGeocodeDatas(response.data);
@@ -39,7 +40,7 @@ export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAl
         setLoading(false); // 데이터 요청이 끝났으므로 로딩 상태 false로 설정
       }
     },
-    [buildingType, regionCode] // buildingType이 변경될 때만 함수가 재정의됨
+    [firestoreDatas] // buildingType이 변경될 때만 함수가 재정의됨
   );
 
   return { geocodeDatas, fetchGeocodeDatas, loading, error };

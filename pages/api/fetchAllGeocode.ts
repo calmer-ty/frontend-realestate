@@ -1,4 +1,4 @@
-import { getAllGeocodeData } from "@/src/commons/libraries/geocode/allGeocodeData";
+import { getAllGeocodeData } from "@/src/commons/libraries/geocode/geocodeData";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function fetchAllGeocode(req: NextApiRequest, res: NextApiResponse): Promise<void> {

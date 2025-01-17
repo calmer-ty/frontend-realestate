@@ -131,7 +131,7 @@ export interface IMapMarkerParams {
   geocodeDatas?: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
-  firestoreData: IFirestore[];
+  firestoreDatas: IFirestore[];
 }
 
 // Write Form
