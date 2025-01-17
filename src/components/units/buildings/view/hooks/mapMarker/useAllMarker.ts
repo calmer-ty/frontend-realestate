@@ -5,8 +5,8 @@ import { useMarkers } from "./useMarkers";
 
 import type { IMapMarkerParams } from "@/src/commons/types";
 interface IUseAllMarkerReturn {
-  mapLoading: boolean;
-  mapError: boolean;
+  loading: boolean;
+  error: boolean;
 }
 
 export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelectedMarkerData, setVisibleMarkerData }: IMapMarkerParams): IUseAllMarkerReturn => {
@@ -26,9 +26,9 @@ export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelected
     [geocode, loadClusterScript]
   );
 
-  const { mapLoading, mapError } = useMapsLoader({ onMapLoaded });
+  const { loading, error } = useMapsLoader({ onMapLoaded });
   return {
-    mapLoading,
-    mapError,
+    loading,
+    error,
   };
 };

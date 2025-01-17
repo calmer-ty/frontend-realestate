@@ -16,7 +16,7 @@ interface IUseFetchAllGeocodeDataReturn {
 
 export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAllGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
   const [geocodeDatas, setGeocodeDatas] = useState<IGeocodeData[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchGeocodeDatas = useCallback(
