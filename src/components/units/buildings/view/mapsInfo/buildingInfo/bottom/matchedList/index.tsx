@@ -1,4 +1,4 @@
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import Image from "next/image";
@@ -26,10 +26,7 @@ export default function MatchedList(props: IMatchedListProps): JSX.Element {
               <BasicUnImage width="80px" height="80px" fontSize="24px" />
             )}
             <p>
-              <strong>
-                매매 {isBillion(el.price ?? DEFAULT_NUMBER_VALUE)}
-                {isTenMillion(el.price ?? DEFAULT_NUMBER_VALUE)}원
-              </strong>
+              <strong>매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</strong>
               <br />
               {engToKor(el.type ?? DEFAULT_STRING_VALUE)}・{el.addressDetail}
               <br />

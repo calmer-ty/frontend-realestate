@@ -1,5 +1,5 @@
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 
 import UnderlineTitle from "@/src/components/commons/titles/underline";
@@ -28,10 +28,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <S.InfoList>
           <li>
             <h3>매물 가격</h3>
-            <span>
-              매매 {isBillion(buildingData.price ?? DEFAULT_NUMBER_VALUE)}&nbsp;
-              {isTenMillion(buildingData.price ?? DEFAULT_NUMBER_VALUE)} 원
-            </span>
+            <span>매매 {formatPrice(buildingData.price ?? DEFAULT_NUMBER_VALUE)}</span>
           </li>
           <li>
             <h3>관리비</h3>

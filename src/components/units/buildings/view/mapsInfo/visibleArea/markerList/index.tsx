@@ -1,4 +1,4 @@
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
@@ -27,10 +27,7 @@ export default function MarkerList(props: IMarkerListProps): JSX.Element {
                 onClickInfo(visData);
               }}
             >
-              <h2>
-                매매 {isBillion(visData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}&nbsp;
-                {isTenMillion(visData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}원
-              </h2>
+              <h2>매매 {formatPrice(Number(visData.data?.dealAmount?.replace(/,/g, "")) ?? DEFAULT_STRING_VALUE)}</h2>
               <p>
                 아파트・{visData.data?.aptNm}
                 <br />

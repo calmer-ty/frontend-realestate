@@ -1,5 +1,5 @@
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -14,24 +14,22 @@ interface IRecommendedListItemProps {
 }
 
 export default function ListItem(props: IRecommendedListItemProps): JSX.Element {
+  const { el } = props;
   return (
-    <S.ListItem key={props.el._id}>
-      <Link href={`/${props.el.type}/${props.el._id}`}>
-        {props.el.imageUrls?.[0] !== undefined ? (
-          <Image src={props.el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} alt={props.el.type ?? DEFAULT_STRING_VALUE} width={300} height={180} unoptimized />
+    <S.ListItem key={el._id}>
+      <Link href={`/${el.type}/${el._id}`}>
+        {el.imageUrls?.[0] !== undefined ? (
+          <Image src={el.imageUrls?.[0] ?? DEFAULT_STRING_VALUE} alt={el.type ?? DEFAULT_STRING_VALUE} width={300} height={180} unoptimized />
         ) : (
           <BasicUnImage width="300px" height="180px" fontSize="36px" />
         )}
         <p className="buildingDesc">
           <span>
-            {engToKor(props.el.type ?? DEFAULT_STRING_VALUE)}・{props.el.addressDetail}
+            {engToKor(el.type ?? DEFAULT_STRING_VALUE)}・{el.addressDetail}
           </span>
-          <strong>
-            매매 {isBillion(props.el.price ?? DEFAULT_NUMBER_VALUE)}
-            {isTenMillion(props.el.price ?? DEFAULT_NUMBER_VALUE)} 원
-          </strong>
+          <strong>매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</strong>
           <span>
-            {props.el.floor}층・{props.el.area}m²・관리비 {props.el.manageCost}만
+            {el.floor}층・{el.area}m²・관리비 {el.manageCost}만
           </span>
         </p>
       </Link>

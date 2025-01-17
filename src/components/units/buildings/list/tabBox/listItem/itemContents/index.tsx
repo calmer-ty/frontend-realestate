@@ -1,5 +1,5 @@
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
 import Image from "next/image";
@@ -15,9 +15,7 @@ interface IItemInfoProps {
 }
 
 // 가격 포맷팅 함수 분리
-const formatPrice = (price: number): string => {
-  return `${isBillion(price)} ${isTenMillion(price)}원`;
-};
+
 // 날짜 포맷팅 함수 분리
 const formatDate = (timestamp: number): string => {
   const { year, month, day, hours, minutes, seconds } = convertTimestamp(timestamp);

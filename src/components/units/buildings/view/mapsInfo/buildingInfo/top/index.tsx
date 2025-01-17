@@ -1,4 +1,4 @@
-import { isBillion, isTenMillion } from "@/src/commons/libraries/utils/priceFormatter";
+import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import BasicChip from "@/src/components/commons/chip/basic";
 
@@ -17,6 +17,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
   const onClickClose = (): void => {
     setSelectedData(null);
   };
+  console.log("selectedData: ", Number(selectedData.data?.dealAmount?.replace(/,/g, "")));
   return (
     <S.Container>
       <S.CloseButton onClick={onClickClose} />
@@ -36,10 +37,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
       <S.InfoWrap>
         <h3>최근 실거래가</h3>
         <S.SelectedContent>
-          <strong>
-            매매 {isBillion(selectedData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}
-            &nbsp;{isTenMillion(selectedData.data?.dealAmount?.replace(/,/g, "") ?? DEFAULT_STRING_VALUE)}원
-          </strong>
+          <strong>매매 {formatPrice(Number(selectedData.data?.dealAmount?.replace(/,/g, "")) ?? DEFAULT_STRING_VALUE)}</strong>
           <p>
             {selectedData.data?.dealYear}.{selectedData.data?.dealMonth}.{selectedData.data?.dealDay}・{selectedData.data?.floor}층・{selectedData.data?.excluUseAr}m²
           </p>
