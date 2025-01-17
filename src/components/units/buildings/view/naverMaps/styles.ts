@@ -10,7 +10,7 @@ export const Container = styled.div`
   ${mediaQueries.largeDesktop(css`
     flex: 2;
   `)}
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     flex: 1;
   `)}
 `;
