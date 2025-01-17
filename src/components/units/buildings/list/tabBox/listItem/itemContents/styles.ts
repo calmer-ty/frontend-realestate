@@ -13,6 +13,7 @@ export const Container = styled.div`
   ${mediaQueries.tablet(css`
     flex-direction: column;
   `)}
+
   .itemImage {
     position: relative;
     display: flex;
@@ -20,8 +21,8 @@ export const Container = styled.div`
     row-gap: 4px;
     width: 200px;
     height: 120px;
-    flex-shrink: 0;
   }
+
   .itemInfo {
     display: flex;
     flex-direction: column;
@@ -42,7 +43,6 @@ export const Container = styled.div`
   }
 
   .itemAd {
-    flex-shrink: 0;
     h3 {
       margin-bottom: 5px;
       color: #454545;

@@ -4,9 +4,7 @@ import { css } from "@emotion/react";
 
 export const Container = styled.div`
   .MuiTabPanel-root {
-    /* width: 878px;
-    height: 747px; */
-    /* width: 848px; */
+    width: 878px;
     height: calc(100vh - 220px);
 
     > div {
@@ -21,11 +19,13 @@ export const Container = styled.div`
       display: flex;
       row-gap: 20px;
       flex-direction: column;
+
       height: 100%;
       padding-right: 10px;
     }
     ${mediaQueries.tablet(css`
       width: 100%;
+      padding: 24px 0;
     `)}
   }
 `;
