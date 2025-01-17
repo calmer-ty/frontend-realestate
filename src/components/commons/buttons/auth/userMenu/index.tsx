@@ -4,8 +4,8 @@ import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import * as S from "./styles";
-import type { User } from "firebase/auth";
 
+import type { User } from "firebase/auth";
 interface IUserMenuProps {
   user: User;
   onLogout: () => void;

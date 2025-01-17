@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { debounce } from "lodash"; // lodash의 debounce 함수 사용
 
 // import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,6 +11,7 @@ import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { SelectChangeEvent } from "@mui/material/Select";
+
 interface IFindRegionParams {
   city: string;
   district: string;
@@ -57,14 +59,21 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
   const [city, setCity] = useState<string>("경기도"); // 기본 시
   const [district, setDistrict] = useState<string>("성남시 분당구"); // 기본 구
 
+  // 디바운싱 처리된 함수
+  const debouncedFetchRegion = debounce((city: string, district: string) => {
+    console.log("디바운싱 후 실행:", city, district); // 디바운싱 후 호출되는지 확인
+    const { regionCode, regionName } = findRegion({ city, district });
+    setRegionCode(regionCode);
+    setRegionName(regionName);
+  }, 500); // 500ms 대기 후 실행
+
   // 구 선택에 따라 regionCode 업데이트
   useEffect(() => {
     if (district !== "") {
-      const { regionCode, regionName } = findRegion({ city, district });
-      setRegionCode(regionCode);
-      setRegionName(regionName);
+      console.log("디바운싱 호출 준비:", city, district); // 디바운싱 호출 준비 확인
+      debouncedFetchRegion(city, district);
     }
-  }, [city, district, setRegionName, setRegionCode]);
+  }, [city, district, setRegionName, setRegionCode, debouncedFetchRegion]);
 
   // 시 변경 핸들러
   const handleCityChange = (event: SelectChangeEvent): void => {

@@ -13,7 +13,7 @@ interface INaverMapsProps {
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
   const { mapLoading, setRegionCode, setRegionName, dataLoading } = props;
-  // console.log("geocodeData: ", geocodeData);
+
   return (
     <S.Container>
       {mapLoading ? (

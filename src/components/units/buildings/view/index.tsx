@@ -20,6 +20,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // 구 선택 hook
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
+
   // 파이어스토어 데이터패치  훅
   const { firestoreData } = useFetchFirestoreData("buildings");
 
