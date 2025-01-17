@@ -5,8 +5,8 @@ interface IUseMapsLoaderParams {
   onMapLoaded: (map: any) => void;
 }
 interface IUseMapsLoaderReturn {
-  loading: boolean;
-  error: boolean;
+  mapLoading: boolean;
+  mapError: boolean;
 }
 
 const loadScriptAsync = (url: string): Promise<void> => {
@@ -19,14 +19,14 @@ const loadScriptAsync = (url: string): Promise<void> => {
 
 export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLoaderReturn => {
   const ncpClientId = process.env.NEXT_PUBLIC_NCP_CLIENT_ID;
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const [error, setError] = useState(false); // 에러 상태 추가
+  const [mapLoading, setMapLoading] = useState(true); // 로딩 상태 추가
+  const [mapError, setMapError] = useState(false); // 에러 상태 추가
 
   const handleScriptLoad = useCallback((): void => {
     if (window.naver === undefined) {
       console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
-      setError(true);
-      setLoading(false);
+      setMapError(true);
+      setMapLoading(false);
       return;
     }
 
@@ -34,27 +34,27 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLo
     const mapContainer = document.getElementById("map");
     if (mapContainer == null) {
       console.error("지도 컨테이너가 렌더링되지 않았습니다.");
-      setError(true);
-      setLoading(false);
+      setMapError(true);
+      setMapLoading(false);
       return;
     }
 
     try {
       const map = new window.naver.maps.Map("map", getMapInitOptions());
       onMapLoaded(map);
-      setLoading(false); // 지도 로딩 완료
+      setMapLoading(false); // 지도 로딩 완료
     } catch (error) {
       console.error("네이버 지도를 초기화하는 데 실패했습니다:", error);
-      setError(true);
-      setLoading(false);
+      setMapError(true);
+      setMapLoading(false);
     }
   }, [onMapLoaded]);
 
   const initMap = useCallback(async (): Promise<void> => {
     if (ncpClientId === undefined) {
       console.error("NCP Client ID가 정의되지 않았습니다.");
-      setError(true);
-      setLoading(false);
+      setMapError(true);
+      setMapLoading(false);
       return;
     }
 
@@ -73,5 +73,5 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLo
     void initMap(); // 지도 로딩 시작
   }, [initMap]);
 
-  return { loading, error };
+  return { mapLoading, mapError };
 };

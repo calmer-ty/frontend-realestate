@@ -20,12 +20,13 @@ export const useAllMarker = ({ geocode, geocodeDatas, firestoreData, setSelected
         const firstPosition = new window.naver.maps.LatLng(geocode.latitude, geocode.longitude);
         map.setCenter(firstPosition); // 지도 중심 설정
       }
+
       loadClusterScript(map); // 클러스터 스크립트 로드
     },
     [geocode, loadClusterScript]
   );
 
-  const { loading: mapLoading, error: mapError } = useMapsLoader({ onMapLoaded });
+  const { mapLoading, mapError } = useMapsLoader({ onMapLoaded });
   return {
     mapLoading,
     mapError,
