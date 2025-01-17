@@ -16,7 +16,7 @@ interface IItemInfoProps {
 
 // 가격 포맷팅 함수 분리
 const formatPrice = (price: number): string => {
-  return price === 0 ? `${isBillion(price)}억` : isTenMillion(price ?? DEFAULT_NUMBER_VALUE) + "원";
+  return `${isBillion(price)} ${isTenMillion(price)}원`;
 };
 // 날짜 포맷팅 함수 분리
 const formatDate = (timestamp: number): string => {
@@ -26,6 +26,7 @@ const formatDate = (timestamp: number): string => {
 
 export default function ItemContents(props: IItemInfoProps): JSX.Element {
   const { el, isDeleted } = props;
+  // console.log("el: ", el);
   return (
     <S.Container>
       {/* prettier-ignore */}
