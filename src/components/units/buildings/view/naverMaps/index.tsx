@@ -8,13 +8,13 @@ import type { Dispatch, SetStateAction } from "react";
 interface INaverMapsProps {
   geocodeData?: IGeocodeData[];
   mapLoading: boolean;
-
   setRegionName: Dispatch<SetStateAction<string | undefined>>;
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
-  const { mapLoading, setRegionCode, setRegionName } = props;
+  const { mapLoading, setRegionCode, setRegionName, geocodeData } = props;
+
   return (
     <S.Container>
       {mapLoading ? (
@@ -22,6 +22,7 @@ export default function NaverMaps(props: INaverMapsProps): JSX.Element {
       ) : (
         <S.Maps id="map">
           <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
+          {geocodeData?.length === 0 ? <LoadingSpinner size={100} /> : <></>}
         </S.Maps>
       )}
     </S.Container>

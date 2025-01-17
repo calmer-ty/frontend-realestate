@@ -5,7 +5,6 @@ import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
 import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
-// import { useProcessedMarkerData, useProcessedMarkerDatas } from "./hooks/useProcessedMarkerData";
 import { useAllMarker } from "./hooks/mapMarker/useAllMarker";
 import { useFetchApi } from "./hooks/useFetchApi";
 
@@ -29,10 +28,6 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeDatas, fetchGeocodeDatas, error } = useFetchAllGeocodeData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
-
-  // 가공된 데이터
-  // const processedSelectedMarkerData = useProcessedMarkerData(selectedMarkerData);
-  // const processedVisibleMarkerData = useProcessedMarkerDatas(visibleMarkerData);
 
   useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas });
   const { mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreData });
