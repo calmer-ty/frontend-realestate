@@ -28,25 +28,22 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
   const { el, isDeleted } = props;
   return (
     <S.Container>
+      {/* prettier-ignore */}
       <div className="itemImage">
-        {el.imageUrls?.[0] !== undefined ? (
-          <Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} fill unoptimized />
-        ) : (
-          <BasicUnImage width="200px" height="120px" fontSize="28px" />
-        )}
+        {el.imageUrls?.[0] !== undefined 
+        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} fill unoptimized />) 
+        : (<BasicUnImage width="200px" height="120px" fontSize="28px" />)}
       </div>
+      {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>
-            {engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개
-          </p>
+          <p>{engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
           <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
         </h3>
-        <p className="address">
-          {el.address} {el.addressDetail}
-        </p>
+        <p className="address">{`${el.address} ${el.addressDetail}`}</p>
         <p className="desc">{el.desc}</p>
       </div>
+
       <div className="itemAd">
         <h3>광고 정보</h3>
         {isDeleted && (

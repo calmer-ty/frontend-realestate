@@ -11,11 +11,12 @@ const findElementByType = (elements: any[], type: string): string => {
 
 // 주소를 추출하는 함수
 const extractAddress = (addressElements: string[]): { jibunAddress: string; roadAddress: string } => {
+  console.log("addressElements === ", addressElements);
   const addressTypes: Record<string, string[]> = {
     // 지번 주소 조합: RI + LAND_NUMBER + BUILDING_NAME
     // 도로명 주소 조합: ROAD_NAME + BUILDING_NUMBER + BUILDING_NAME
     jibunAddress: ["SIDO", "SIGUGUN", "DONGMYUN", "RI", "LAND_NUMBER"],
-    roadAddress: ["SIDO", "SIGUGUN", "DONGMYUN", "ROAD_NAME", "BUILDING_NUMBER"],
+    roadAddress: ["SIDO", "SIGUGUN", "ROAD_NAME", "BUILDING_NUMBER"],
   };
 
   const getAddress = (types: string[]): string =>
@@ -44,6 +45,8 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
 
       // extractAddress 함수로 지번 주소와 도로명 주소를 가져옴
       const { jibunAddress, roadAddress } = addressElements !== undefined ? extractAddress(addressElements) : { jibunAddress: "", roadAddress: "" };
+      // console.log("jibunAddress: ", jibunAddress);
+      // console.log("roadAddress: ", roadAddress);
 
       return {
         latitude: parseFloat(y ?? DEFAULT_STRING_VALUE),
