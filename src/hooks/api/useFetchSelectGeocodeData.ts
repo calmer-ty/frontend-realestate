@@ -9,7 +9,7 @@ interface IUseFetchSelectGeocodeDataParams {
 }
 interface IUseFetchSelectGeocodeDataReturn {
   geocode: IGeocode | undefined;
-  fetchGeocodeData: (regionName: string) => Promise<void>;
+  fetchGeocodeData: () => Promise<void>;
   loading: boolean;
   error: string | null;
 }

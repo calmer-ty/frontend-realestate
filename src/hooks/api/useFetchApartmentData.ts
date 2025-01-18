@@ -5,7 +5,7 @@ import axios from "axios";
 
 interface IUseFetchApartmentDataReturn {
   apartmentDatas: IApartmentItem[];
-  fetchApartmentDatas: (regionCode: string) => Promise<void>;
+  fetchApartmentDatas: () => Promise<void>;
 }
 
 export const useFetchApartmentData = (regionCode: string | undefined): IUseFetchApartmentDataReturn => {

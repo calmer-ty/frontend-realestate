@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function fetchUserInputGeocode(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { firestoreDatas } = req.query; // 쿼리 문자열에서 buildingType을 추출합니다.
-  console.log("firestoreData: ", firestoreDatas);
 
   if (firestoreDatas === undefined || firestoreDatas === "") {
     res.status(400).json({ error: "No address provided" });

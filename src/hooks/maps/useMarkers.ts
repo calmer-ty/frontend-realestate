@@ -12,9 +12,6 @@ export const useMarkers = ({ geocodeDatas, userGeocodeDatas, firestoreDatas, set
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
-  // console.log("geocodeDatas: ", geocodeDatas);
-  // console.log("userGeocodeDatas: ", userGeocodeDatas);
-
   const updateMarkers = useCallback(
     async (map: any) => {
       // console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
@@ -45,7 +42,7 @@ export const useMarkers = ({ geocodeDatas, userGeocodeDatas, firestoreDatas, set
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(null);
     },
-    [geocodeDatas, firestoreDatas, userGeocodeDatas, setVisibleMarkerData, setSelectedMarkerData]
+    [geocodeDatas, firestoreDatas, setVisibleMarkerData, setSelectedMarkerData]
   );
 
   return { updateMarkers };
