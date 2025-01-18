@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useMapsLoader } from "@/src/hooks/useMapsLoader";
+import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { useClusterScriptLoader } from "./useClusterScriptLoader";
 import { useMarkers } from "./useMarkers";
 

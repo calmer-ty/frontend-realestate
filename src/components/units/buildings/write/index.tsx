@@ -1,26 +1,33 @@
 "use client";
 
-import { useFormHandler } from "./hooks/useFormHandler";
-import { useAlert } from "./hooks/useAlert";
-import { useFirestoreHandler } from "./hooks/useFirestoreHandler";
-import { useImageUpload } from "./hooks/useImageUpload";
-import { useSetFormValues } from "./hooks/useSetFormValues";
-import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
+import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useAlert } from "@/src/hooks/useAlert";
 
-import BuildingInfo from "./buildingInfo";
+import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
-import InputUnit from "./inputUnit";
 import ControlRadio from "@/src/components/commons/inputs/radio/control";
 import BasicUpload from "@/src/components/commons/uploads/basic";
-import { Button, TextField } from "@mui/material";
+import BuildingInfo from "./buildingInfo";
+import InputUnit from "./inputUnit";
 
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
+
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useStorage } from "@/src/hooks/firebase/useStorage";
 interface IEditFormData {
   isEdit: boolean;
   docData?: IFirestore | undefined;
 }
+
+const isValidValue = (value: any): value is string | number | string[] => {
+  return typeof value === "string" || typeof value === "number" || (Array.isArray(value) && value.every((item) => typeof item === "string"));
+};
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const initialValues: IWriteForm = {
@@ -38,25 +45,121 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     imageUrls: docData?.imageUrls ?? [],
   };
 
-  const { register, handleSubmit, watch, setValue, getValues, control } = useFormHandler(initialValues);
-  const { setSelectedFiles, uploadedImageUrls, setUploadedImageUrls, uploadImages } = useImageUpload(docData);
+  const { user } = useAuth();
+  const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
+    defaultValues: initialValues,
+  });
+  // const { setSelectedFiles, uploadedImageUrls, setUploadedImageUrls, uploadImages } = useImageUpload(docData);
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
   const selectedType = korToEng(watch("type"));
-  const { handleFormSubmit, handleFormUpdate } = useFirestoreHandler({
-    initialValues,
-    docData,
-    uploadedImageUrls,
-    selectedType,
-    getValues,
-    uploadImages,
-    setAlertOpen,
-    setAlertSeverity,
-    setAlertText,
-    setRouting,
-  });
+  const { createFirestore, updateFirestore } = useFirestore();
+
+  // 등록 수정
+  const handleFormSubmit = async (data: IWriteForm): Promise<void> => {
+    try {
+      const selectImageUrls = await uploadImages();
+      const formData = {
+        ...data,
+        imageUrls: selectImageUrls,
+        user: {
+          name: user?.displayName,
+          email: user?.email,
+          _id: user?.uid,
+        },
+      };
+
+      await createFirestore(formData, "buildings", selectedType);
+      setAlertOpen(true);
+      setAlertText("매물 등록이 완료되었습니다.");
+      setAlertSeverity("success");
+
+      setRouting(true);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  };
+
+  const handleFormUpdate = async (): Promise<void> => {
+    try {
+      const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
+      const updatedValues: Partial<IWriteForm> = {};
+
+      const selectImageUrls = await uploadImages();
+      const currentImageUrls = [...uploadedImageUrls, ...selectImageUrls];
+
+      Object.entries(currentValues).forEach(([key, currentValue]) => {
+        const fieldKey = key as keyof IWriteForm;
+        const initialValue = initialValues[fieldKey];
+
+        if (fieldKey === "type" && typeof currentValue === "string") {
+          currentValue = korToEng(currentValue);
+        }
+
+        if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
+          updatedValues[fieldKey] = currentValue;
+        }
+        if (JSON.stringify(initialValues.imageUrls) !== JSON.stringify(currentImageUrls)) {
+          updatedValues.imageUrls = [...currentImageUrls];
+        }
+      });
+
+      if (currentImageUrls.length > 5) {
+        setAlertOpen(true);
+        setAlertText("이미지는 5개까지 업로드가 가능합니다.");
+        setAlertSeverity("info");
+        return;
+      }
+
+      if (Object.keys(updatedValues).length === 0 && JSON.stringify(initialValues.imageUrls) === JSON.stringify(currentImageUrls)) {
+        setAlertOpen(true);
+        setAlertText("수정된 내역이 없습니다.");
+        setAlertSeverity("info");
+        return;
+      }
+
+      await updateFirestore(updatedValues, "buildings", docData?._id ?? DEFAULT_STRING_VALUE);
+      setAlertOpen(true);
+      setAlertText("매물 수정이 완료되었습니다.");
+      setAlertSeverity("success");
+
+      // 알람 후 페이지 이동
+      setRouting(true);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  };
+
+  // 이미지 업로드 기능
+  const { uploadFiles } = useStorage();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (docData?.imageUrls !== undefined) {
+      setUploadedImageUrls(docData.imageUrls);
+    }
+  }, [docData]);
+
+  const uploadImages = async (): Promise<string[]> => {
+    return await uploadFiles(selectedFiles);
+  };
 
   // 수정시 파이어베이스 데이터 불러옴
-  useSetFormValues({ docData, setValue });
+  useEffect(() => {
+    if (docData !== undefined) {
+      const excludedKeys = ["_id", "user", "createdAt"];
+
+      Object.entries(docData).forEach(([key, value]) => {
+        if (!excludedKeys.includes(key) && isValidValue(value)) {
+          setValue(key as keyof IWriteForm, value);
+        }
+      });
+      // type이 있을 경우 한글로 변환하여 설정
+      if (typeof docData.type === "string") {
+        setValue("type", engToKor(docData.type));
+      }
+    }
+  }, [docData, setValue]);
 
   return (
     <>

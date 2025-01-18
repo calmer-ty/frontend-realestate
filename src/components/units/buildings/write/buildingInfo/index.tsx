@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelectMarker } from "../hooks/useSelectMarker";
+import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
 
 import { Button } from "@mui/material";
@@ -9,12 +9,12 @@ import ControlSelect from "@/src/components/commons/inputs/select/control";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
+import InputUnit from "../inputUnit";
 
 import * as S from "./styles";
 
 import type { Control, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import type { IWriteForm } from "@/src/commons/types";
-import InputUnit from "../inputUnit";
 interface IBuildingInfoProps {
   register: UseFormRegister<IWriteForm>;
   setValue: UseFormSetValue<IWriteForm>;
@@ -31,7 +31,24 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
 
   const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch({ setValue, getValues, onModalToggle });
 
-  useSelectMarker(geocodeData);
+  const onMapLoaded = (map: any): void => {
+    if (geocodeData !== null) {
+      const markerPosition = new window.naver.maps.LatLng(geocodeData.latitude, geocodeData.longitude);
+
+      // 마커를 변수에 저장하고 이를 활용
+      const marker = new window.naver.maps.Marker({
+        position: markerPosition,
+        map,
+      });
+      marker.setMap(map);
+
+      // 지도 중심을 마커 위치로 이동
+      map.setCenter(markerPosition);
+    }
+  };
+  useMapsLoader({
+    onMapLoaded,
+  });
 
   return (
     <>
