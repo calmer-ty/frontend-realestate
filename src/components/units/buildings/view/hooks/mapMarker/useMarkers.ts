@@ -12,6 +12,9 @@ export const useMarkers = ({ geocodeDatas, userGeocodeDatas, firestoreDatas, set
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
+  // console.log("geocodeDatas: ", geocodeDatas);
+  // console.log("userGeocodeDatas: ", userGeocodeDatas);
+
   const updateMarkers = useCallback(
     async (map: any) => {
       // console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인
@@ -25,7 +28,7 @@ export const useMarkers = ({ geocodeDatas, userGeocodeDatas, firestoreDatas, set
         const position = new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude);
         const positionKey = `${geocodeData.geocode?.latitude},${geocodeData.geocode?.longitude}`;
 
-        if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey) && firestoreDatas !== undefined) {
+        if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
           const marker = createMarker({ geocodeData, firestoreDatas, userGeocodeDatas, setSelectedMarkerData });
           markersRef.current.push(marker);
           processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
