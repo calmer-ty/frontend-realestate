@@ -117,10 +117,10 @@ export const getUserInputGeocodeData = async ({ firestoreDatas }: IGetUserInputG
       limit(async () => {
         try {
           const geocode = await fetchGeocodeData(data.address ?? DEFAULT_STRING_VALUE);
-          return { data: { data }, geocode };
+          return { data, geocode };
         } catch (error) {
           console.error(`Error processing user input geocode data`, error);
-          return { data: { data }, geocode: null };
+          return { data, geocode: null };
         }
       })
     )

@@ -1,18 +1,20 @@
 import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import "./styles.css";
 
-import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
   firestoreDatas: IFirestore[];
+  userGeocodeDatas: IUserInputGeocodeData[];
 }
 interface ICreateMarkerParams {
   geocodeData: IGeocodeData;
   firestoreDatas: IFirestore[];
+  userGeocodeDatas: IUserInputGeocodeData[];
   setSelectedMarkerData: (data: IGeocodeData) => void;
 }
 
-const markerIconContent = ({ geocodeData, firestoreDatas }: IMarkerIconContentParams): string => {
+const markerIconContent = ({ geocodeData, firestoreDatas, userGeocodeDatas }: IMarkerIconContentParams): string => {
   const addresses = [geocodeData.geocode?.jibunAddress, geocodeData.geocode?.roadAddress].map((address) => address);
   const matchedData = firestoreDatas.find((data) => addresses.includes(data.address ?? DEFAULT_STRING_VALUE));
 
@@ -27,13 +29,13 @@ const markerIconContent = ({ geocodeData, firestoreDatas }: IMarkerIconContentPa
     </div>`;
 };
 
-export const createMarker = ({ geocodeData, firestoreDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
+export const createMarker = ({ geocodeData, firestoreDatas, userGeocodeDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
   if (geocodeData === null) return;
   const markerOptions = {
     position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),
     map: null, // Set map to null initially
     icon: {
-      content: markerIconContent({ geocodeData, firestoreDatas }),
+      content: markerIconContent({ geocodeData, firestoreDatas, userGeocodeDatas }),
     },
   };
 

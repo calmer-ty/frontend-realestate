@@ -2,9 +2,9 @@ import type { Dispatch, SetStateAction } from "react";
 
 // 지역코드 API
 export interface IRegion {
-  StanReginCd?: [
-    { head?: [IRegionHeadTotalCount, IRegionHeadPageInfo] }, // 첫 번째 요소는 head
-    { row?: IRegionItem[] } // 두 번째 요소는 row
+  StanReginCd: [
+    { head: [IRegionHeadTotalCount, IRegionHeadPageInfo] }, // 첫 번째 요소는 head
+    { row: IRegionItem[] } // 두 번째 요소는 row
   ];
 }
 
@@ -17,12 +17,12 @@ export interface IRegionHeadPageInfo {
 }
 
 export interface IRegionItem {
-  region_cd?: string;
-  locatadd_nm?: string;
-  umd_cd?: string;
-  sido_cd?: string;
-  sgg_cd?: string;
-  locallow_nm?: string;
+  region_cd: string;
+  locatadd_nm: string;
+  umd_cd: string;
+  sido_cd: string;
+  sgg_cd: string;
+  locallow_nm: string;
 }
 
 export interface IRegionItemFiltered {
@@ -33,85 +33,89 @@ export interface IRegionItemFiltered {
 
 // 아파트 API
 export interface IApartment {
-  response?: {
-    body?: {
-      items?: {
-        item?: IApartmentItem[]; // Item 배열 형태로 정의
+  response: {
+    body: {
+      items: {
+        item: IApartmentItem[]; // Item 배열 형태로 정의
       };
-      numOfRows?: number;
-      pageNo?: number;
-      totalCount?: number;
+      numOfRows: number;
+      pageNo: number;
+      totalCount: number;
     };
   };
 }
 export interface IApartmentItem {
-  estateAgentSggNm?: string;
-  umdNm?: string;
-  jibun?: string;
-  aptNm?: string;
-  floor?: number;
-  dealAmount?: string;
-  excluUseAr?: number;
-  dealDay?: number;
-  dealMonth?: number;
-  dealYear?: number;
-  buildYear?: number;
-  rgstDate?: string;
+  estateAgentSggNm: string;
+  umdNm: string;
+  jibun: string;
+  aptNm: string;
+  floor: number;
+  dealAmount: string;
+  excluUseAr: number;
+  dealDay: number;
+  dealMonth: number;
+  dealYear: number;
+  buildYear: number;
+  rgstDate: string;
 
   // 인덱스 시그니처 추가
   [key: string]: any;
 }
 export interface IApartmentLocation {
-  responses?: IApartment;
-  locatadd_nm?: string;
+  responses: IApartment;
+  locatadd_nm: string;
 }
 
 // Geocode API
 export interface IGeocodeAPI {
-  addresses?: Array<{
-    x?: string; // 경도
-    y?: string; // 위도
-    roadAddress?: string;
-    jibunAddress?: string;
-    addressElements?: string[];
+  addresses: Array<{
+    x: string; // 경도
+    y: string; // 위도
+    roadAddress: string;
+    jibunAddress: string;
+    addressElements: string[];
   }>;
 }
 export interface IGeocode {
-  latitude?: number;
-  longitude?: number;
-  roadAddress?: string;
-  jibunAddress?: string;
+  latitude: number;
+  longitude: number;
+  roadAddress: string;
+  jibunAddress: string;
 }
 export interface IGeocodeData {
-  data?: IApartmentItem;
-  geocode?: IGeocode;
+  data: IApartmentItem;
+  geocode: IGeocode;
+}
+export interface IUserInputGeocodeData {
+  data: IFirestore;
+  geocode: IGeocode;
 }
 
 // firestore
 export interface IFirestore {
-  _id?: string;
-  type?: string;
-  address?: string;
-  addressDetail?: string;
-  area?: number;
-  roomCount?: number;
-  price?: number;
-  manageCost?: number;
-  floor?: number;
-  bathroomCount?: number;
-  elevator?: string;
+  _id: string;
+  type: string;
+  address: string;
+  addressDetail: string;
+  area: number;
+  roomCount: number;
+  price: number;
+  manageCost: number;
+  floor: number;
+  bathroomCount: number;
+  elevator: string;
   desc?: string;
   imageUrls?: string[];
-  user?: {
+  user: {
     _id: string;
     name: string;
     email: string;
   };
-  createdAt?: {
+  createdAt: {
     seconds: number;
     nanoseconds: number;
   };
-  deletedAt?: {
+  deletedAt: {
     seconds: number;
     nanoseconds: number;
   };
@@ -128,10 +132,11 @@ declare global {
 }
 export interface IMapMarkerParams {
   geocode?: IGeocode;
-  geocodeDatas?: IGeocodeData[];
+  geocodeDatas: IGeocodeData[];
+  userGeocodeDatas: IUserInputGeocodeData[];
+  firestoreDatas: IFirestore[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
-  firestoreDatas: IFirestore[];
 }
 
 // Write Form

@@ -29,13 +29,21 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentData, fetchApartmentData } = useFetchApartmentData(regionCode);
   const { geocodeDatas, fetchGeocodeDatas, loading: dataLoading, error } = useFetchAllGeocodeData({ regionCode, buildingType });
-  const { geocodeDatas: userInputGeocodeDatas, fetchGeocodeDatas: fetchUserInputGeocodeDatas } = useFetchUserInputGeocodeData({ firestoreDatas });
+  const { geocodeDatas: userGeocodeDatas, fetchGeocodeDatas: fetchUserGeocodeDatas } = useFetchUserInputGeocodeData({ firestoreDatas });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
 
-  console.log("userInputGeocodeDatas: ", userInputGeocodeDatas);
+  // const filteredUserGeocodeDatas = userGeocodeDatas.filter((el) => {
+  //   if (regionName !== undefined) {
+  //     return el.data.address.includes(regionName);
+  //   }
+  //   return false; // regionName이 없으면 필터링에서 제외
+  // });
 
-  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas, fetchUserInputGeocodeDatas });
-  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, setSelectedMarkerData, setVisibleMarkerData, firestoreDatas });
+  // const geocodeDatas = [...allGeocodeDatas, ...filteredUserGeocodeDatas];
+  // console.log("Updated geocodeDatas: ", geocodeDatas);
+
+  useFetchApi({ regionName, regionCode, apartmentData, fetchApartmentData, fetchGeocodeData, fetchGeocodeDatas, fetchUserGeocodeDatas });
+  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, userGeocodeDatas, firestoreDatas, setSelectedMarkerData, setVisibleMarkerData });
 
   if (error !== null) return <div>{error}</div>;
   return (
