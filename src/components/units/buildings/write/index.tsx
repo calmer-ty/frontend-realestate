@@ -1,8 +1,12 @@
 "use client";
 
-import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useStorage } from "@/src/hooks/firebase/useStorage";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useAlert } from "@/src/hooks/useAlert";
+import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
@@ -16,10 +20,6 @@ import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { useStorage } from "@/src/hooks/firebase/useStorage";
 interface IEditFormData {
   isEdit: boolean;
   docData?: IFirestore | undefined;
@@ -49,9 +49,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues,
   });
-  // const { setSelectedFiles, uploadedImageUrls, setUploadedImageUrls, uploadImages } = useImageUpload(docData);
+
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
-  const selectedType = korToEng(watch("type"));
   const { createFirestore, updateFirestore } = useFirestore();
 
   // 등록 수정
@@ -68,12 +67,12 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         },
       };
 
-      await createFirestore(formData, "buildings", selectedType);
+      await createFirestore(formData, "buildings", korToEng(watch("type")));
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
 
-      setRouting(true);
+      setRouting("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }
@@ -123,7 +122,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       setAlertSeverity("success");
 
       // 알람 후 페이지 이동
-      setRouting(true);
+      setRouting("/list");
     } catch (error) {
       if (error instanceof Error) console.error(error.message);
     }

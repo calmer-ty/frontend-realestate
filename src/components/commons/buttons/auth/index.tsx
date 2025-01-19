@@ -1,6 +1,5 @@
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { signInWithPopup } from "firebase/auth";
+import { useAlert } from "@/src/hooks/useAlert";
 import { useAuth } from "@/src/hooks/useAuth";
 import { auth, googleProvider } from "@/src/commons/libraries/firebase/firebaseApp";
 
@@ -10,14 +9,9 @@ import UserMenu from "./userMenu";
 
 export default function AuthButton(): JSX.Element {
   const { user } = useAuth();
-  const router = useRouter();
 
   // 알림창 상태
-  const [alertOpen, setAlertOpen] = useState(false);
-  const alertClose = (): void => {
-    setAlertOpen(false);
-    router.push("/");
-  };
+  const { alertOpen, alertClose, setAlertOpen, setRouting } = useAlert();
 
   // Google 로그인 처리
   const handleGoogleLogin = async (): Promise<void> => {
@@ -33,6 +27,7 @@ export default function AuthButton(): JSX.Element {
     try {
       await auth.signOut();
       setAlertOpen(true);
+      setRouting("/");
     } catch (error) {
       console.error("로그아웃 실패:", error);
     }

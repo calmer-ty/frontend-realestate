@@ -12,7 +12,7 @@ interface IUseAlertReturn {
   setAlertText: Dispatch<SetStateAction<string>>;
   setAlertSeverity: Dispatch<SetStateAction<AlertColor>>;
   alertClose: () => void;
-  setRouting: Dispatch<SetStateAction<boolean>>;
+  setRouting: Dispatch<SetStateAction<string>>;
 }
 
 export const useAlert = (): IUseAlertReturn => {
@@ -21,12 +21,12 @@ export const useAlert = (): IUseAlertReturn => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<AlertColor>("info");
-  const [routing, setRouting] = useState(false);
+  const [routing, setRouting] = useState("");
 
   const alertClose = (): void => {
     setAlertOpen(false);
-    if (routing) {
-      router.push("/list");
+    if (routing !== "") {
+      router.push(routing);
     }
   };
 

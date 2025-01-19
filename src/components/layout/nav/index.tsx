@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { useAuth } from "@/src/hooks/useAuth";
 
 import Link from "next/link";
@@ -9,16 +9,12 @@ import { Button } from "@mui/material";
 
 import * as S from "./styles";
 import BasicAlert from "../../commons/alert/basic";
+import { useAlert } from "@/src/hooks/useAlert";
 
 export default function Nav(): JSX.Element {
   const { user } = useAuth();
 
-  // 알림창 상태
-  const [alertOpen, setAlertOpen] = useState(false);
-  const alertClose = (): void => {
-    setAlertOpen(false);
-  };
-
+  const { alertOpen, alertClose, setAlertOpen } = useAlert();
   const moveToBuildingNew = (): void => {
     if (user === null) {
       setAlertOpen(true);
