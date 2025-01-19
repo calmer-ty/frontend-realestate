@@ -1,41 +1,47 @@
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import "./styles.css";
 
-import type { IFirestore, IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
-  firestoreDatas: IFirestore[];
-  userGeocodeDatas: IUserInputGeocodeData[];
+  matchingDatas: IUserInputGeocodeData[];
 }
 interface ICreateMarkerParams {
   geocodeData: IGeocodeData;
-  firestoreDatas: IFirestore[];
-  userGeocodeDatas: IUserInputGeocodeData[];
+  matchingDatas: IUserInputGeocodeData[];
+  setSelectedMarkerData: (data: IGeocodeData) => void;
+}
+interface IMarkerIconContentUserParams {
+  newData: IUserInputGeocodeData;
+  matchingDatas: IUserInputGeocodeData[];
+}
+interface ICreateMarkerUserParams {
+  newData: IUserInputGeocodeData;
+  matchingDatas: IUserInputGeocodeData[];
   setSelectedMarkerData: (data: IGeocodeData) => void;
 }
 
-const markerIconContent = ({ geocodeData, firestoreDatas, userGeocodeDatas }: IMarkerIconContentParams): string => {
-  const addresses = [geocodeData.geocode?.jibunAddress, geocodeData.geocode?.roadAddress].map((address) => address);
-  const matchedData = firestoreDatas.find((data) => addresses.includes(data.address ?? DEFAULT_STRING_VALUE));
+const markerIconContent = ({ geocodeData, matchingDatas }: IMarkerIconContentParams): string => {
+  const isMatched = matchingDatas.some((data) => data.geocode.jibunAddress === geocodeData.geocode.jibunAddress);
 
   const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
   const peng = Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);
 
   return `
-    <div class="markerBox ${matchedData !== undefined ? "hasData" : ""}">
+    <div class="markerBox ${isMatched ? "hasData" : ""}">
       <div class="top">${peng}평</div>
       <div class="bottom"> 
       <span>매</span> <strong>${amount}억</strong></div>
     </div>`;
 };
 
-export const createMarker = ({ geocodeData, firestoreDatas, userGeocodeDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
+export const createMarker = ({ geocodeData, matchingDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
   if (geocodeData === null) return;
   const markerOptions = {
     position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),
     map: null, // Set map to null initially
     icon: {
-      content: markerIconContent({ geocodeData, firestoreDatas, userGeocodeDatas }),
+      content: markerIconContent({ geocodeData, matchingDatas }),
     },
   };
 
@@ -45,6 +51,42 @@ export const createMarker = ({ geocodeData, firestoreDatas, userGeocodeDatas, se
   window.naver.maps.Event.addListener(marker, "click", () => {
     if (geocodeData.data !== undefined) {
       setSelectedMarkerData(geocodeData);
+    }
+  });
+
+  return marker;
+};
+
+const markerIconContentUser = ({ newData, matchingDatas }: IMarkerIconContentUserParams): string => {
+  const isMatched = matchingDatas.some((data) => data.geocode.jibunAddress === newData.geocode.jibunAddress);
+
+  const amount = (newData.data?.price / 10000).toFixed(2);
+  const peng = Math.round((newData.data?.area ?? DEFAULT_NUMBER_VALUE) * 0.3025);
+
+  return `
+    <div class="markerBox ${isMatched ? "hasData" : ""}">
+      <div class="top">${peng}평</div>
+      <div class="bottom"> 
+      <span>매</span> <strong>${amount}억</strong></div>
+    </div>`;
+};
+
+export const createMarkerUser = ({ newData, matchingDatas, setSelectedMarkerData }: ICreateMarkerUserParams): any => {
+  if (newData === null) return;
+  const markerOptions = {
+    position: new window.naver.maps.LatLng(newData.geocode?.latitude, newData.geocode?.longitude),
+    map: null, // Set map to null initially
+    icon: {
+      content: markerIconContentUser({ newData, matchingDatas }),
+    },
+  };
+
+  const marker = new window.naver.maps.Marker(markerOptions);
+  marker.set("data", newData);
+
+  window.naver.maps.Event.addListener(marker, "click", () => {
+    if (newData.data !== undefined) {
+      setSelectedMarkerData(newData);
     }
   });
 

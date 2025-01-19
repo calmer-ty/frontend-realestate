@@ -31,28 +31,26 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { geocodeDatas, fetchGeocodeDatas, loading: dataLoading, error } = useFetchAllGeocodeData({ regionCode, buildingType });
   const { geocodeDatas: userGeocodeDatas, fetchGeocodeDatas: fetchUserGeocodeDatas } = useFetchUserInputGeocodeData({ firestoreDatas });
 
-  const filteredUserGeocodeDatas = useMemo(() => {
-    if (regionName === undefined) return [];
-    return userGeocodeDatas.filter((el) => el.data.address.includes(regionName));
-  }, [userGeocodeDatas, regionName]);
-
-  const { matchingGeocodeDatas, nonMatchingGeocodeDatas } = useMemo(() => {
-    const matching: IUserInputGeocodeData[] = [];
-    const nonMatching: IUserInputGeocodeData[] = [];
+  const registeredGeocodeDatas = useMemo(() => {
+    // 유저가 등록한 매물 데이터를 현재 보고있는 지역의 데이터와 일치하는지 필터링을 거침
+    const filteredUserGeocodeDatas = regionName !== undefined ? userGeocodeDatas.filter((el) => el.data.address.includes(regionName)) : [];
+    const matchingDatas: IUserInputGeocodeData[] = [];
+    const newDatas: IUserInputGeocodeData[] = [];
 
     filteredUserGeocodeDatas.forEach((userGeocodeData) => {
       const matched = geocodeDatas.find((geocodeData) => geocodeData.geocode.jibunAddress === userGeocodeData.geocode.jibunAddress);
 
       if (matched !== undefined) {
-        matching.push(userGeocodeData); // 매칭된 데이터
+        matchingDatas.push(userGeocodeData); // 매칭된 데이터
       } else {
-        nonMatching.push(userGeocodeData); // 매칭되지 않는 데이터
+        newDatas.push(userGeocodeData); // 매칭되지 않는 데이터
       }
     });
-    return { matchingGeocodeDatas: matching, nonMatchingGeocodeDatas: nonMatching };
-  }, [filteredUserGeocodeDatas, geocodeDatas]);
-  console.log("matchingGeocodeDatas: ", matchingGeocodeDatas);
-  console.log("nonMatchingGeocodeDatas: ", nonMatchingGeocodeDatas);
+    // matchingDatas에 newDatas를 추가
+    matchingDatas.push(...newDatas);
+
+    return { matchingDatas, newDatas };
+  }, [userGeocodeDatas, regionName, geocodeDatas]);
 
   // regionCode가 변경되면 아파트 데이터를 요청
   // useEffect(() => {
@@ -84,7 +82,14 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     if (geocodeDatas.length === 0) return;
     void fetchUserGeocodeDatas();
   }, [geocodeDatas, fetchUserGeocodeDatas]);
-  const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, userGeocodeDatas: filteredUserGeocodeDatas, firestoreDatas, setSelectedMarkerData, setVisibleMarkerData });
+
+  const { loading: mapLoading } = useAllMarker({
+    geocode,
+    geocodeDatas,
+    registeredGeocodeDatas,
+    setSelectedMarkerData,
+    setVisibleMarkerData,
+  });
 
   if (error !== null) return <div>{error}</div>;
   return (
