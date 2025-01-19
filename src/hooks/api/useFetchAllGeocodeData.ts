@@ -41,6 +41,6 @@ export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAl
     },
     [buildingType, regionCode] // buildingType이 변경될 때만 함수가 재정의됨
   );
-
+  console.log("geocodeDatas", geocodeDatas);
   return { geocodeDatas, fetchGeocodeDatas, loading, error };
 };

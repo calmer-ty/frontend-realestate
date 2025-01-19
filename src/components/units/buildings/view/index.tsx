@@ -75,14 +75,16 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
 
   // apartmentData가 변경되면 지오코드 데이터를 요청 - apartmentDatas 값 의존성 배열로 추가
   useEffect(() => {
-    if (regionCode === undefined || apartmentDatas.length === 0) return;
+    if (apartmentDatas.length === 0) return;
+
     void fetchGeocodeDatas();
-  }, [regionCode, apartmentDatas, fetchGeocodeDatas]);
+  }, [apartmentDatas, fetchGeocodeDatas]);
 
   //
   useEffect(() => {
+    if (geocodeDatas.length === 0) return;
     void fetchUserGeocodeDatas();
-  }, [fetchUserGeocodeDatas]);
+  }, [geocodeDatas, fetchUserGeocodeDatas]);
   const { loading: mapLoading } = useAllMarker({ geocode, geocodeDatas, userGeocodeDatas: filteredUserGeocodeDatas, firestoreDatas, setSelectedMarkerData, setVisibleMarkerData });
 
   if (error !== null) return <div>{error}</div>;
