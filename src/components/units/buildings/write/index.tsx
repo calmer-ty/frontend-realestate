@@ -174,7 +174,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           <UnderlineTitle label="추가 정보" />
           <InputUnit label="층" type="number" register={register("floor", { valueAsNumber: true })} unitLabel="층" />
           <InputUnit label="욕실 수" type="number" register={register("bathroomCount", { valueAsNumber: true })} unitLabel="개" />
-          <ControlRadio label="엘리베이터" name="elevator" selectLabel1={"없음"} selectLabel2={"있음"} control={control} />
+          <ControlRadio label="엘리베이터" name="elevator" selectLabels={["없음", "있음"]} control={control} />
         </section>
         <section>
           <UnderlineTitle label="매물 설명" />

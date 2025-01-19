@@ -76,7 +76,6 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // apartmentData가 변경되면 지오코드 데이터를 요청 - apartmentDatas 값 의존성 배열로 추가
   useEffect(() => {
     if (apartmentDatas.length === 0) return;
-
     void fetchGeocodeDatas();
   }, [apartmentDatas, fetchGeocodeDatas]);
 
