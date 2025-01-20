@@ -12,9 +12,9 @@ import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicUpload from "@/src/components/commons/uploads/basic";
-import WriteRadio from "./writeRadio";
+import WriteRadio from "./ui/writeRadio";
 import BuildingInfo from "./buildingInfo";
-import InputUnit from "./inputUnit";
+import InputUnit from "./ui/inputUnit";
 
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";

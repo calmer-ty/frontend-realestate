@@ -8,8 +8,8 @@ import UnderlineTitle from "@/src/components/commons/titles/underline";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
-import InputUnit from "../inputUnit";
-import WriteSelect from "../writeSelect";
+import InputUnit from "../ui/inputUnit";
+import WriteSelect from "../ui/writeSelect";
 
 import * as S from "./styles";
 
