@@ -86,7 +86,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   const { loading: mapLoading } = useAllMarker({
     geocode,
     geocodeDatas,
-    registeredGeocodeDatas,
+    matchingDatas: registeredGeocodeDatas.matchingDatas,
     setSelectedMarkerData,
     setvisibleMarkerDatass,
   });

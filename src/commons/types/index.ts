@@ -133,10 +133,11 @@ declare global {
 export interface IMapMarkerParams {
   geocode?: IGeocode;
   geocodeDatas: IGeocodeData[];
-  registeredGeocodeDatas: {
-    matchingDatas: IUserInputGeocodeData[];
-    newDatas: IUserInputGeocodeData[];
-  };
+  matchingDatas: IUserInputGeocodeData[];
+  // registeredGeocodeDatas: {
+  //   matchingDatas: IUserInputGeocodeData[];
+  //   newDatas: IUserInputGeocodeData[];
+  // };
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   setvisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
