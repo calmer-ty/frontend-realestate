@@ -15,7 +15,7 @@ interface IControlSelect {
   control: Control<IWriteForm>;
 }
 
-export default function ControlSelect(props: IControlSelect): JSX.Element {
+export default function WriteSelect(props: IControlSelect): JSX.Element {
   return (
     <FormControl fullWidth required={props.required}>
       <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>

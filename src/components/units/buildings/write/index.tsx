@@ -11,8 +11,8 @@ import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollect
 import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
-import ControlRadio from "@/src/components/commons/inputs/radio/control";
 import BasicUpload from "@/src/components/commons/uploads/basic";
+import WriteRadio from "./writeRadio";
 import BuildingInfo from "./buildingInfo";
 import InputUnit from "./inputUnit";
 
@@ -174,7 +174,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           <UnderlineTitle label="추가 정보" />
           <InputUnit label="층" type="number" register={register("floor", { valueAsNumber: true })} unitLabel="층" />
           <InputUnit label="욕실 수" type="number" register={register("bathroomCount", { valueAsNumber: true })} unitLabel="개" />
-          <ControlRadio label="엘리베이터" name="elevator" selectLabels={["없음", "있음"]} control={control} />
+          <WriteRadio label="엘리베이터" name="elevator" selectLabels={["없음", "있음"]} control={control} />
         </section>
         <section>
           <UnderlineTitle label="매물 설명" />

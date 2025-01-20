@@ -8,7 +8,6 @@ export const Container = styled.aside<IScroll>`
   overflow-y: auto;
   border-right: 1px solid #dedede;
   background-color: #fff;
-  transition: all 300ms ease-in-out;
   position: absolute;
   z-index: 1;
   min-width: 300px;

@@ -94,6 +94,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
+      <div>{/* <ControlRadio label="엘리베이터" name="elevator" selectLabels={["test1", "test2"]} /> */}</div>
       <MapsInfo
         selectedMarkerData={selectedMarkerData}
         visibleMarkerDatas={visibleMarkerDatas}

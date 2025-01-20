@@ -5,11 +5,11 @@ import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import UnderlineTitle from "@/src/components/commons/titles/underline";
-import ControlSelect from "@/src/components/commons/inputs/select/control";
 import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "../inputUnit";
+import WriteSelect from "../writeSelect";
 
 import * as S from "./styles";
 
@@ -54,7 +54,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
     <>
       <section>
         <UnderlineTitle label="매물 정보" />
-        <ControlSelect required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
+        <WriteSelect required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
         <S.MapView>
           <S.AddressSearch>
             <div className="left">
