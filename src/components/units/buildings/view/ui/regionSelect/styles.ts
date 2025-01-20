@@ -9,13 +9,14 @@ export const Container = styled.div`
   border: 2px solid #1976d2;
   border-radius: 30px;
   background-color: #fff;
-
   .MuiFormControl-root {
     width: max-content;
     min-width: 100px;
 
     .MuiInputBase-root {
-      font-weight: 700;
+      .MuiSelect-select {
+        font-weight: bold;
+      }
     }
   }
 
