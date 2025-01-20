@@ -12,7 +12,6 @@ interface IControlRadioProps {
 
 export default function BuildingTypeButtons(props: IControlRadioProps): JSX.Element {
   const [value, setValue] = useState("아파트");
-  console.log("value", value);
 
   const handleClick = (newValue: string): void => {
     setValue(newValue);

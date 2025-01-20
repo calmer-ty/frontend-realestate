@@ -7,7 +7,7 @@ interface ILoadingSpinnerProps {
 
 export default function LoadingSpinner(props: ILoadingSpinnerProps): JSX.Element {
   return (
-    <S.Wrap>
+    <S.Wrap className="loadingSpinner">
       <ClipLoader size={props.size} color={"#123abc"} loading={true} />
     </S.Wrap>
   );

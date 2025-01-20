@@ -20,7 +20,8 @@ export default function NaverMaps(props: INaverMapsProps): JSX.Element {
         <LoadingSpinner size={100} />
       ) : (
         <>
-          <S.Maps id="map">{dataLoading ? <LoadingSpinner size={100} /> : <></>}</S.Maps>
+          <div id="map"></div>
+          {dataLoading && <LoadingSpinner size={100} />}
           <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
         </>
       )}
