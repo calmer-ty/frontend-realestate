@@ -18,13 +18,13 @@ interface IControlSelect {
 export default function WriteSelect(props: IControlSelect): JSX.Element {
   return (
     <FormControl fullWidth required={props.required}>
-      <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
+      <InputLabel id="write-select-label">{props.label}</InputLabel>
       <Controller
         name={props.name}
         control={props.control}
         defaultValue=""
         render={({ field }) => (
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" label={props.label} {...field}>
+          <Select labelId="write-select-label" id="write-select" label={props.label} {...field}>
             <MenuItem value="">
               <em>{props.notice}</em>
             </MenuItem>
