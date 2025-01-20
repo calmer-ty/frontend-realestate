@@ -98,7 +98,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
         selectedMarkerData={selectedMarkerData}
         visibleMarkerData={visibleMarkerData}
         setSelectedMarkerData={setSelectedMarkerData}
-        firestoreData={firestoreDatas}
+        matchingDatas={registeredGeocodeDatas.matchingDatas}
         buildingType={buildingType}
       />
       <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />

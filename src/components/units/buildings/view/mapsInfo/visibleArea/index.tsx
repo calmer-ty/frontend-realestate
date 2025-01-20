@@ -4,22 +4,21 @@ import MarkerList from "./markerList";
 
 import * as S from "./styles";
 
-import type { IGeocodeData, IFirestore } from "@/src/commons/types";
+import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 interface IVisibleAreaProps {
-  buildingType: string;
-  firestoreData: IFirestore[];
+  matchingDatas: IUserInputGeocodeData[];
   visibleMarkerData: IGeocodeData[];
   selectedData: IGeocodeData | null;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
 }
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  const { visibleMarkerData, firestoreData, buildingType, selectedData, setSelectedData } = props;
+  const { visibleMarkerData, matchingDatas, selectedData, setSelectedData } = props;
 
   const matchingMarkerData = visibleMarkerData.filter((visData) => {
-    const match = firestoreData.some((fireData) => {
-      const isMatch = visData.geocode?.jibunAddress === fireData.address || visData.geocode?.roadAddress === fireData.address;
+    const match = matchingDatas.some((matchingData) => {
+      const isMatch = visData.geocode?.jibunAddress === matchingData.data.address || visData.geocode?.roadAddress === matchingData.data.address;
       return isMatch;
     });
     return match;
@@ -34,7 +33,7 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
             <MarkerList matchingMarkerData={matchingMarkerData} setSelectedData={setSelectedData} />
           ) : (
             // 마커 리스트 아이템을 선택할 때 보이는 건물 정보
-            <BuildingInfo selectedData={selectedData} setSelectedData={setSelectedData} firestoreData={firestoreData} buildingType={buildingType} />
+            <BuildingInfo matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
           )}
         </>
       ) : (

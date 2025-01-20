@@ -12,8 +12,6 @@ export const useMarkers = ({ geocodeDatas, registeredGeocodeDatas, setVisibleMar
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
-  console.log(registeredGeocodeDatas.matchingDatas);
-
   const updateMarkers = useCallback(
     async (map: any) => {
       // console.log("Current geocodeData:", geocodeData); // 여기서 geocodeData 상태를 확인

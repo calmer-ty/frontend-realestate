@@ -6,16 +6,16 @@ import VisibleArea from "./visibleArea";
 import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | null;
   visibleMarkerData: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  firestoreData: IFirestore[];
+  matchingDatas: IUserInputGeocodeData[];
   buildingType: string;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, firestoreData, buildingType }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, matchingDatas }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 
@@ -34,13 +34,15 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     setScroll((prev) => !prev);
   };
 
+  console.log("matchingDatas: ", matchingDatas);
+
   return (
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} buildingType={buildingType} firestoreData={firestoreData} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />
         ) : (
-          <VisibleArea visibleMarkerData={visibleMarkerData} buildingType={buildingType} firestoreData={firestoreData} selectedData={selectedData} setSelectedData={setSelectedData} />
+          <VisibleArea visibleMarkerData={visibleMarkerData} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
         )}
       </S.Container>
       {/* 모바일 해상도일 때 리스트 여닫이 버튼 */}

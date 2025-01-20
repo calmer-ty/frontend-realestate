@@ -2,16 +2,15 @@ import BuildingInfoTop from "./top";
 import BuildingInfoBottom from "./bottom";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 interface IBuildingInfoProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  firestoreData: IFirestore[];
-  buildingType: string;
+  matchingDatas: IUserInputGeocodeData[];
 }
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { selectedData, setSelectedData, firestoreData, buildingType } = props;
+  const { selectedData, setSelectedData, matchingDatas } = props;
 
   return (
     <>
@@ -19,7 +18,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
         <>
           <BuildingInfoTop selectedData={selectedData} setSelectedData={setSelectedData} />
           {/* 등록된 건물 정보 */}
-          <BuildingInfoBottom selectedData={selectedData} firestoreData={firestoreData} buildingType={buildingType} />
+          <BuildingInfoBottom selectedData={selectedData} matchingDatas={matchingDatas} />
         </>
       )}
     </>
