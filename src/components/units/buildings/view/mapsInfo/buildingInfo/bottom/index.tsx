@@ -12,9 +12,7 @@ interface IBuildingInfoBottomProps {
 export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX.Element {
   const { selectedData, matchingDatas } = props;
 
-  console.log("matchingDatas: ", matchingDatas);
-  console.log("selectedData: ", selectedData);
-
+  // 매칭된 데이터와 파이어베이스에서 값을 대조하여 해당 조건에 맞는 것만 필터링합니다.
   const matchedDatas = matchingDatas.filter((el) => selectedData.geocode?.jibunAddress === el.data.address || selectedData.geocode?.roadAddress === el.data.address);
   return (
     <S.Container>

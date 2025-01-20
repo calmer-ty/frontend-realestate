@@ -16,12 +16,9 @@ interface IVisibleAreaProps {
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
   const { visibleMarkerDatas, matchingDatas, selectedData, setSelectedData } = props;
 
+  // visibleData를 순회하면서 matchingData와 대조하여 동일한 데이터만 걸러냅니다.
   const matchingMarkerData = visibleMarkerDatas.filter((visibleData) => {
-    const match = matchingDatas.some((matchingData) => {
-      const isMatch = visibleData.geocode?.jibunAddress === matchingData.data.address || visibleData.geocode?.roadAddress === matchingData.data.address;
-      return isMatch;
-    });
-    return match;
+    return matchingDatas.some((matchingData) => visibleData.geocode?.jibunAddress === matchingData.data.address || visibleData.geocode?.roadAddress === matchingData.data.address);
   });
 
   return (
