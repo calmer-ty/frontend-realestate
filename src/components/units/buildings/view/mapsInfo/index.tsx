@@ -9,13 +9,13 @@ import type { Dispatch, SetStateAction } from "react";
 import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | null;
-  visibleMarkerData: IGeocodeData[];
+  visibleMarkerDatas: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   matchingDatas: IUserInputGeocodeData[];
   buildingType: string;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, matchingDatas }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 
@@ -28,7 +28,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
   useEffect(() => {
     setScroll(false);
     setSelectedData(null);
-  }, [visibleMarkerData]);
+  }, [visibleMarkerDatas]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
@@ -42,7 +42,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
         {selectedMarkerData !== null ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />
         ) : (
-          <VisibleArea visibleMarkerData={visibleMarkerData} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
+          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
         )}
       </S.Container>
       {/* 모바일 해상도일 때 리스트 여닫이 버튼 */}

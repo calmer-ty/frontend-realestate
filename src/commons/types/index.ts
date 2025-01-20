@@ -138,7 +138,7 @@ export interface IMapMarkerParams {
     newDatas: IUserInputGeocodeData[];
   };
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
+  setvisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 
 // Write Form

@@ -15,8 +15,8 @@ import * as S from "./styles";
 import type { IBuildingParams, IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
-  const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
+  const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
   // 구 선택 hook
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
@@ -88,7 +88,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     geocodeDatas,
     registeredGeocodeDatas,
     setSelectedMarkerData,
-    setVisibleMarkerData,
+    setvisibleMarkerDatass,
   });
 
   if (error !== null) return <div>{error}</div>;
@@ -96,7 +96,7 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     <S.Container>
       <MapsInfo
         selectedMarkerData={selectedMarkerData}
-        visibleMarkerData={visibleMarkerData}
+        visibleMarkerDatas={visibleMarkerDatas}
         setSelectedMarkerData={setSelectedMarkerData}
         matchingDatas={registeredGeocodeDatas.matchingDatas}
         buildingType={buildingType}

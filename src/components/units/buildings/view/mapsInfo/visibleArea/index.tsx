@@ -8,17 +8,17 @@ import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 interface IVisibleAreaProps {
   matchingDatas: IUserInputGeocodeData[];
-  visibleMarkerData: IGeocodeData[];
+  visibleMarkerDatas: IGeocodeData[];
   selectedData: IGeocodeData | null;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
 }
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  const { visibleMarkerData, matchingDatas, selectedData, setSelectedData } = props;
+  const { visibleMarkerDatas, matchingDatas, selectedData, setSelectedData } = props;
 
-  const matchingMarkerData = visibleMarkerData.filter((visData) => {
+  const matchingMarkerData = visibleMarkerDatas.filter((visibleData) => {
     const match = matchingDatas.some((matchingData) => {
-      const isMatch = visData.geocode?.jibunAddress === matchingData.data.address || visData.geocode?.roadAddress === matchingData.data.address;
+      const isMatch = visibleData.geocode?.jibunAddress === matchingData.data.address || visibleData.geocode?.roadAddress === matchingData.data.address;
       return isMatch;
     });
     return match;
