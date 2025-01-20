@@ -78,3 +78,7 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* hover 시 색 변화 */
 }
+
+.MuiButton-root {
+  font-family: "NotoSansKR-Regular", "sans-serif";
+}

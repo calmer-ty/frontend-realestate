@@ -17,14 +17,14 @@ interface IControlRadioProps {
 export default function WriteRadio(props: IControlRadioProps): JSX.Element {
   return (
     <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">{props.label}</FormLabel>
+      <FormLabel id="writeRadio-label">{props.label}</FormLabel>
       <Controller
         name={props.name}
         control={props.control}
         defaultValue={props.selectLabels[0]}
         render={({ field }) => {
           return (
-            <RadioGroup row aria-labelledby="demo-controlled-radio-buttons-group" value={field.value} onChange={field.onChange}>
+            <RadioGroup row aria-labelledby="writeRadio-group" value={field.value} onChange={field.onChange}>
               {props.selectLabels.map((label, index) => (
                 <FormControlLabel key={index} value={label} control={<Radio />} label={label} />
               ))}

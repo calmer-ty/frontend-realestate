@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { debounce } from "lodash"; // lodash의 debounce 함수 사용
 
-// import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -90,7 +89,6 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
   return (
     <S.Container>
       <FormControl fullWidth>
-        {/* <InputLabel id="city-select-label">시</InputLabel> */}
         <Select labelId="city-select-label" id="city-select" value={city} label="시" onChange={handleCityChange} MenuProps={menuProps}>
           <MenuItem value="" disabled>
             <em>시</em>
@@ -103,7 +101,6 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
         </Select>
       </FormControl>
       <FormControl fullWidth>
-        {/* <InputLabel id="district-select-label">구</InputLabel> */}
         <Select labelId="district-select-label" id="district-select" value={district} label="구" onChange={handleDistrictChange} disabled={city === ""} MenuProps={menuProps}>
           <MenuItem value="" disabled>
             <em>구</em>

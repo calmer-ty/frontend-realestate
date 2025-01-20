@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
   display: flex;
   position: absolute;
-  top: 20px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
   border: 2px solid #1976d2;
@@ -13,8 +13,9 @@ export const Container = styled.div`
   .MuiFormControl-root {
     width: max-content;
     min-width: 100px;
+
     .MuiInputBase-root {
-      font-weight: 500;
+      font-weight: 700;
     }
   }
 

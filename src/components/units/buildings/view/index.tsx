@@ -10,6 +10,7 @@ import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
+import BuildingTypeButtons from "./ui/buildingTypeButtons";
 
 import * as S from "./styles";
 import type { IBuildingParams, IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
@@ -94,7 +95,9 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
-      <div>{/* <ControlRadio label="엘리베이터" name="elevator" selectLabels={["test1", "test2"]} /> */}</div>
+      <S.MapMenu>
+        <BuildingTypeButtons label="buildingType" name="buildingType" selectLabels={["아파트", "오피스텔", "연립다세대"]} />
+      </S.MapMenu>
       <MapsInfo
         selectedMarkerData={selectedMarkerData}
         visibleMarkerDatas={visibleMarkerDatas}
