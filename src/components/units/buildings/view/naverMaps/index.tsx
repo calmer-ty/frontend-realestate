@@ -1,4 +1,4 @@
-import RegionSelect from "../select";
+import RegionSelect from "../regionSelect";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import * as S from "./styles";

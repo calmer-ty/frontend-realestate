@@ -36,11 +36,6 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null && <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />}
-
-        {/* <S.TabButton className="tabBtn" type="button" onClick={onClickScroll}>
-          <div className="stroke"></div>
-          매물 정보
-        </S.TabButton> */}
       </S.Container>
     </>
   );
