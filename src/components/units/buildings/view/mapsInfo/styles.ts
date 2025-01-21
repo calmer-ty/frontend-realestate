@@ -1,3 +1,5 @@
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 interface IScroll {
@@ -10,5 +12,9 @@ export const Container = styled.aside<IScroll>`
   background-color: #fff;
   position: absolute;
   z-index: 101;
-  min-width: 300px;
+  width: 400px;
+
+  ${mediaQueries.mobile(css`
+    width: 300px;
+  `)}
 `;
