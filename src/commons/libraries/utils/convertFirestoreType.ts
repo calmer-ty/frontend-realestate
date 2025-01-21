@@ -16,16 +16,8 @@ export const convertFirestoreData = (data: DocumentData): IFirestore => {
     elevator: data.elevator as string,
     desc: data.desc as string,
     imageUrls: data.imageUrls as string[],
-    // prettier-ignore
-    user: data.user !== undefined ? {
-      _id: data.user._id as string,
-      name: data.user.name as string,
-      email: data.user.email as string,
-    }: undefined,
-    // prettier-ignore
-    createdAt: data.createdAt !== undefined ? {
-      seconds: data.seconds as  number,
-      nanoseconds: data.nanoseconds as  number,
-    }: undefined,
+    user: data.user as { _id: string; name: string; email: string },
+    createdAt: data.createdAt as { seconds: number; nanoseconds: number },
+    deletedAt: data.deletedAt as { seconds: number; nanoseconds: number },
   };
 };
