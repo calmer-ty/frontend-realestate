@@ -1,11 +1,11 @@
 import BuildingInfo from "../buildingInfo";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface ISelectedAreaProps {
   selectedMarkerData: IGeocodeData;
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
 }
 
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {

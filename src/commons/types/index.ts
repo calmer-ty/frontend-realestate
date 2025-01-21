@@ -45,18 +45,18 @@ export interface IApartment {
   };
 }
 export interface IApartmentItem {
-  estateAgentSggNm?: string;
-  umdNm?: string;
-  jibun?: string;
-  aptNm?: string;
-  floor?: number;
-  dealAmount?: string;
-  excluUseAr?: number;
-  dealDay?: number;
-  dealMonth?: number;
-  dealYear?: number;
-  buildYear?: number;
-  rgstDate?: string;
+  estateAgentSggNm: string;
+  umdNm: string;
+  jibun: string;
+  aptNm: string;
+  floor: number;
+  dealAmount: string;
+  excluUseAr: number;
+  dealDay: number;
+  dealMonth: number;
+  dealYear: number;
+  buildYear: number;
+  rgstDate: string;
 
   // 인덱스 시그니처 추가
   [key: string]: any;
@@ -133,7 +133,7 @@ declare global {
 export interface IMapMarkerParams {
   geocode?: IGeocode;
   geocodeDatas: IGeocodeData[];
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
   // registeredGeocodeDatas: {
   //   matchingDatas: IUserInputGeocodeData[];
   //   newDatas: IUserInputGeocodeData[];

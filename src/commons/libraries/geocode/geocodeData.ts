@@ -1,14 +1,12 @@
-import { geocodeApi } from "./geocodeApi";
-import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
-
 import { getCachedApartmentData } from "@/src/commons/libraries/apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { handleError } from "@/src/commons/libraries/utils/handleError";
+import { geocodeApi } from "./geocodeApi";
+import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
+import { getApartmentData } from "../apartment/apartmentData";
 
-import type { IApartmentItem, IFirestore, IGeocode } from "@/src/commons/types";
+import type { IApartmentItem, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
-import { DEFAULT_STRING_VALUE } from "../../constants";
-import { getApartmentData } from "../apartment/apartmentData";
 const limit = pLimit(10);
 
 interface IGetAllGeocodeDataParams {
@@ -19,9 +17,9 @@ interface IGetAllGeocodeDataReturn {
   data: IApartmentItem;
   geocode: IGeocode | null;
 }
-interface IGetUserInputGeocodeDataParams {
-  firestoreDatas: IFirestore[];
-}
+// interface IGetUserInputGeocodeDataParams {
+//   firestoreDatas: IFirestore[];
+// }
 
 // 제외 필드 상수
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
@@ -88,7 +86,7 @@ export const getAllGeocodeData = async ({ buildingType, regionCode }: IGetAllGeo
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
           console.error(`Error processing geocode data`, error);
-          return { data: {}, geocode: null }; // 기본값 리턴
+          return { data, geocode: null }; // 기본값 리턴
         }
       })
     )
@@ -98,21 +96,21 @@ export const getAllGeocodeData = async ({ buildingType, regionCode }: IGetAllGeo
   return filteredGeocodeData;
 };
 
-export const getUserInputGeocodeData = async ({ firestoreDatas }: IGetUserInputGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
-  // 사용자 입력 주소를 기반으로 지오코딩 처리
-  const geocodeData = await Promise.all(
-    firestoreDatas.map((data) =>
-      limit(async () => {
-        try {
-          const geocode = await fetchGeocodeData(data.address ?? DEFAULT_STRING_VALUE);
-          return { data, geocode };
-        } catch (error) {
-          console.error(`Error processing user input geocode data`, error);
-          return { data, geocode: null };
-        }
-      })
-    )
-  );
+// export const getUserInputGeocodeData = async ({ firestoreDatas }: IGetUserInputGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+//   // 사용자 입력 주소를 기반으로 지오코딩 처리
+//   const geocodeData = await Promise.all(
+//     firestoreDatas.map((data) =>
+//       limit(async () => {
+//         try {
+//           const geocode = await fetchGeocodeData(data.address ?? DEFAULT_STRING_VALUE);
+//           return { data, geocode };
+//         } catch (error) {
+//           console.error(`Error processing user input geocode data`, error);
+//           return { data, geocode: null };
+//         }
+//       })
+//     )
+//   );
 
-  return geocodeData.filter((item) => item.geocode !== null); // 유효한 데이터만 반환
-};
+//   return geocodeData.filter((item) => item.geocode !== null); // 유효한 데이터만 반환
+// };

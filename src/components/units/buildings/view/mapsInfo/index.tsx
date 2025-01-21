@@ -5,12 +5,12 @@ import SelectedArea from "./selectedArea";
 import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | null;
   visibleMarkerDatas: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
   buildingType: string;
 }
 

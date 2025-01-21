@@ -21,25 +21,42 @@ const createApiUrl = (regionCode: string, pageNo: number): string => {
   return `${BASE_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
 };
 
-const processResponseData = (data: IApartment | undefined): Array<Partial<IApartmentItem>> => {
+const processResponseData = (data: IApartment | undefined): IApartmentItem[] => {
   // 아이템 배열 추출
   const itemsRaw = data?.response?.body?.items?.item ?? [];
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && el.estateAgentSggNm?.includes(",") === false;
+  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && !el.estateAgentSggNm?.includes(",");
 
-  return items.filter(isValidData).map((item) => {
-    const filteredItem: Partial<IApartmentItem> = {};
-    Object.keys(item).forEach((key) => {
-      // 불필요한 필드 제거
+  // 필드 필터링 함수
+  const filterItemFields = (item: IApartmentItem): IApartmentItem => {
+    const filteredItem: IApartmentItem = {
+      estateAgentSggNm: "",
+      umdNm: "",
+      jibun: "",
+      aptNm: "",
+      floor: 0,
+      dealAmount: "",
+      excluUseAr: 0,
+      dealDay: 0,
+      dealMonth: 0,
+      dealYear: 0,
+      buildYear: 0,
+      rgstDate: "",
+    };
+    // item의 각 속성을 filteredItem에 덮어쓰기
+    for (const key in item) {
       if (!FIELDS_TO_EXCLUDE.includes(key)) {
-        filteredItem[key] = item[key];
+        filteredItem[key as keyof IApartmentItem] = item[key];
       }
-    });
-
+    }
     return filteredItem;
-  });
+  };
+
+  return items
+    .filter(isValidData) // 유효한 데이터만 필터링
+    .map(filterItemFields); // 각 아이템에서 불필요한 필드 제거
 };
 
 // 최신 데이터 필터링 함수

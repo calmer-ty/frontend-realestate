@@ -23,8 +23,6 @@ export const useFetchUserInputGeocodeData = ({ firestoreDatas }: IUseFetchUserIn
       setLoading(true); // 데이터 요청 시작 시 로딩 상태 true로 설정
       setError(null); // 이전 에러 상태 초기화
       try {
-        // const filteredFirestoreDatas = firestoreDatas.filter((data) => data.address).map((data) => data.address);
-        // console.log("filteredFirestoreDatas: ", filteredFirestoreDatas);
         const response = await axios.get<IUserInputGeocodeData[]>("/api/fetchUserInputGeocode", {
           params: {
             firestoreDatas: JSON.stringify(firestoreDatas), // 배열을 JSON 문자열로 변환

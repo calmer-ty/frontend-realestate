@@ -3,17 +3,17 @@ import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 
-import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IBuildingInfoBottomProps {
   selectedData: IGeocodeData;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
 }
 
 export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX.Element {
   const { selectedData, matchingDatas } = props;
 
   // 매칭된 데이터와 파이어베이스에서 값을 대조하여 해당 조건에 맞는 것만 필터링합니다.
-  const matchedDatas = matchingDatas.filter((el) => selectedData.geocode?.jibunAddress === el.data.address || selectedData.geocode?.roadAddress === el.data.address);
+  const matchedDatas = matchingDatas.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
   return (
     <S.Container>
       {matchedDatas.length !== 0 ? (

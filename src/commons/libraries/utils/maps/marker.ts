@@ -1,14 +1,14 @@
 import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import "./styles.css";
 
-import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
 }
 interface ICreateMarkerParams {
   geocodeData: IGeocodeData;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
   setSelectedMarkerData: (data: IGeocodeData) => void;
 }
 // interface IMarkerIconContentUserParams {
@@ -22,7 +22,7 @@ interface ICreateMarkerParams {
 // }
 
 const markerIconContent = ({ geocodeData, matchingDatas }: IMarkerIconContentParams): string => {
-  const isMatched = matchingDatas.some((data) => data.geocode.jibunAddress === geocodeData.geocode.jibunAddress);
+  const isMatched = matchingDatas.some((matchingData) => matchingData.address === geocodeData.geocode.jibunAddress || matchingData.address === geocodeData.geocode.roadAddress);
 
   const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
   const peng = Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);

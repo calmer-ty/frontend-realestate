@@ -2,11 +2,11 @@ import BuildingInfoTop from "./top";
 import BuildingInfoBottom from "./bottom";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { IGeocodeData, IUserInputGeocodeData } from "@/src/commons/types";
+import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IBuildingInfoProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
-  matchingDatas: IUserInputGeocodeData[];
+  matchingDatas: IFirestore[];
 }
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
