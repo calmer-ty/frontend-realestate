@@ -6,15 +6,16 @@
 
 - **목적:** 거래된 부동산 시세를 파악하고 직접 매물을 올려볼 수 있도록 한다.
 - **주요 기능:**
+  - 반응형 디자인 구현
   - 로그인 및 인증
   - CRUD 기능
   - 이미지 업로드
   - 데이터 시각화(맵)
 
 ## 시연 영상
-
-https://youtu.be/vNQ4D9yL9i0
-
+  - 등록 기능 및 로그인: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/Eic1vmnDDPs)
+  - 맵 기능: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/AaKmrj0IZYU)
+  - 매물 리스트 기능: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/Jwc6LpftWF0)
 ## 기술 스택
 
 - **Frontend:** React, Next.js
