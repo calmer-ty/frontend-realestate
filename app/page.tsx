@@ -1,3 +1,5 @@
+"use client";
+
 import Home from "@/src/components/units/home";
 import Head from "next/head";
 
