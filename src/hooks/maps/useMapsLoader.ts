@@ -24,7 +24,7 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLo
 
   const handleScriptLoad = useCallback((): void => {
     if (window.naver === undefined) {
-      console.error("네이버 맵 라이브러리가 로드되지 않았습니다.");
+      console.warn("네이버 맵 라이브러리가 로드되지 않았습니다.");
       setError(true);
       setLoading(false);
       return;
@@ -33,7 +33,7 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLo
     // 지도 컨테이너가 존재하는지 확인하는 콘솔 로그 추가
     const mapContainer = document.getElementById("map");
     if (mapContainer == null) {
-      console.error("지도 컨테이너가 렌더링되지 않았습니다.");
+      console.warn("지도 컨테이너가 렌더링되지 않았습니다.");
       setError(true);
       setLoading(false);
       return;
