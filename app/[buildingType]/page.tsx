@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import BuildingView from "@/src/components/units/buildings/view";
