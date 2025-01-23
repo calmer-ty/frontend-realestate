@@ -166,3 +166,22 @@ export interface IBuildingListParams {
   buildingType: string;
   listId: string;
 }
+export interface IBuildingListParamsProps {
+  params: IBuildingListParams;
+}
+export interface IBuildingListParamsPromiseProps {
+  params: Promise<IBuildingListParams>;
+}
+
+// metaData
+export interface IOpenGraphMetadata {
+  title: string;
+  description: string;
+  images: string[];
+  url?: string;
+}
+export interface IMetadata {
+  title?: string;
+  description?: string;
+  openGraph: IOpenGraphMetadata;
+}

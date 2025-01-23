@@ -1,17 +1,6 @@
 import Home from "@/src/components/units/home";
 
-// metaData
-interface IOpenGraphMetadata {
-  title: string;
-  description: string;
-  url: string;
-  images: string[];
-}
-interface IMetadata {
-  title: string;
-  description: string;
-  openGraph: IOpenGraphMetadata;
-}
+import type { IMetadata } from "@/src/commons/types";
 
 export const generateMetadata = async (): Promise<IMetadata> => {
   return {
@@ -20,8 +9,8 @@ export const generateMetadata = async (): Promise<IMetadata> => {
     openGraph: {
       title: "부동산 웹 어플리케이션",
       description: "거래된 매물을 조회하고, 직접 매물을 등록해보세요.",
-      url: "/images/main.jpg",
       images: ["/images/main.jpg"],
+      url: "/images/main.jpg",
     },
   };
 };

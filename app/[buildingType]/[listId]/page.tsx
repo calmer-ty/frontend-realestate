@@ -1,62 +1,44 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore";
-
 import BuildingDetail from "@/src/components/units/buildings/detail";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
-import type { IBuildingListParams, IFirestore } from "@/src/commons/types";
-interface IBuildingListParamsProps {
-  params: Promise<IBuildingListParams>;
-}
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 
-export default function BuildingDetailPage({ params }: IBuildingListParamsProps): JSX.Element {
-  const [listId, setListId] = useState<string | null>(null);
+import type { IBuildingListParamsPromiseProps, IBuildingListParamsProps, IMetadata } from "@/src/commons/types";
+import type { DocumentData } from "firebase/firestore";
 
-  // params를 비동기적으로 처리하려면 await로 기다려야 함
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const resolvedParams = await params;
-      setListId(resolvedParams.listId);
-    };
+// Firestore 데이터 읽기 함수
+export const fetchBuildingData = async (colName: string, docId: string): Promise<DocumentData | null> => {
+  try {
+    const docRef = doc(db, colName, docId);
+    const docSnap = await getDoc(docRef);
 
-    void fetchData();
-  }, [params]);
-
-  const [buildings, setBuildings] = useState<IFirestore | null>(null);
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-  const { readFirestore } = useFirestore();
-
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        if (listId === null) return;
-
-        // readFirestores를 통해 Firestore에서 데이터 가져오기
-        const buildings = await readFirestore("buildings", listId);
-        if (buildings !== undefined) {
-          setBuildings(buildings);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching document: ", error);
-      } finally {
-        setLoading(false); // 로딩 상태 완료
-      }
-    };
-
-    void fetchData();
-  }, [listId, readFirestore]);
-
-  if (loading) {
-    return <LoadingSpinner size={100} />; // 로딩 상태 표시
+    if (docSnap.exists()) {
+      return docSnap.data(); // Firestore 데이터 반환
+    } else {
+      console.error("문서를 찾을 수 없습니다.");
+      return null;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Firestore 오류:", error.message);
+    }
+    return null;
   }
+};
 
-  if (buildings === null) {
-    return <div>Error fetching document.</div>;
-  }
+export const generateMetadata = async ({ params }: IBuildingListParamsProps): Promise<IMetadata> => {
+  const buildingData = await fetchBuildingData("buildings", params.listId);
 
-  return <BuildingDetail buildingData={buildings} />;
+  // 데이터 기반 메타데이터 반환
+  return {
+    openGraph: {
+      title: buildingData?.type,
+      description: `${buildingData?.address}_${buildingData?.addressDetail}`,
+      images: buildingData?.imageUrls[0],
+    },
+  };
+};
+
+export default function BuildingDetailPage({ params }: IBuildingListParamsPromiseProps): JSX.Element {
+  return <BuildingDetail params={params} />;
 }

@@ -11,7 +11,6 @@ interface IBuildingParamsProps {
 }
 
 export default function BuildingsPage({ params }: IBuildingParamsProps): JSX.Element {
-  // const buildingType = params.buildingType; // URL 파라미터 추출
   const [buildingType, setBuildingType] = useState<string | null>(null);
 
   // params를 비동기적으로 처리하려면 await로 기다려야 함
