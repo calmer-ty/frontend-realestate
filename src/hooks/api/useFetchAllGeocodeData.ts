@@ -4,7 +4,7 @@ import type { IGeocodeData } from "@/src/commons/types";
 import axios from "axios";
 
 interface IUseFetchAllGeocodeDataParams {
-  regionCode: string | undefined;
+  regionCode: string;
   buildingType: string;
 }
 interface IUseFetchAllGeocodeDataReturn {

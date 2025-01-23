@@ -1,31 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 import BuildingView from "@/src/components/units/buildings/view";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
-import type { IBuildingParams } from "@/src/commons/types";
-interface IBuildingParamsProps {
-  params: Promise<IBuildingParams>;
-}
+import type { IBuildingParamsPromiseProps } from "@/src/commons/types";
 
-export default function BuildingsPage({ params }: IBuildingParamsProps): JSX.Element {
-  const [buildingType, setBuildingType] = useState<string | null>(null);
-
-  // params를 비동기적으로 처리하려면 await로 기다려야 함
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const resolvedParams = await params;
-      setBuildingType(resolvedParams.buildingType);
-    };
-
-    void fetchData();
-  }, [params]);
-
-  if (buildingType === null) {
-    return <LoadingSpinner size={100} />;
-  }
-
-  return <BuildingView buildingType={buildingType} />;
+export default function BuildingsPage({ params }: IBuildingParamsPromiseProps): JSX.Element {
+  return <BuildingView params={params} />;
 }

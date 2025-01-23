@@ -12,7 +12,6 @@ import type { IBuildingListParamsPromiseProps, IFirestore } from "@/src/commons/
 
 export default function BuildingDetail({ params }: IBuildingListParamsPromiseProps): JSX.Element {
   const [listId, setListId] = useState<string | null>(null);
-
   // params를 비동기적으로 처리하려면 await로 기다려야 함
   useEffect(() => {
     const fetchData = async (): Promise<void> => {

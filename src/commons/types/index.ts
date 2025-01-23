@@ -159,9 +159,13 @@ export interface IWriteForm {
 }
 
 // params
-export interface IBuildingParams {
+export interface IBuildingsParams {
   buildingType: string;
 }
+export interface IBuildingParamsPromiseProps {
+  params: Promise<IBuildingsParams>;
+}
+
 export interface IBuildingListParams {
   buildingType: string;
   listId: string;

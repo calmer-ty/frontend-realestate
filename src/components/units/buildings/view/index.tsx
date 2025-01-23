@@ -7,14 +7,27 @@ import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreDat
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 import BuildingTypeButtons from "./ui/buildingTypeButtons";
 
 import * as S from "./styles";
-import type { IBuildingParams, IGeocodeData } from "@/src/commons/types";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+import type { IBuildingParamsPromiseProps, IGeocodeData } from "@/src/commons/types";
 
-export default function BuildingView({ buildingType }: IBuildingParams): JSX.Element {
+export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
+  const [buildingType, setBuildingType] = useState<string | null>(null);
+  // params를 비동기적으로 처리하려면 await로 기다려야 함
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      const resolvedParams = await params;
+      setBuildingType(resolvedParams.buildingType);
+    };
+
+    void fetchData();
+  }, [params]);
+
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
   // 구 선택 hook
@@ -27,8 +40,13 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentDatas, fetchApartmentDatas } = useFetchApartmentData(regionCode);
-  const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName, buildingType });
-  const { geocodeDatas, fetchGeocodeDatas, loading: dataLoading, error } = useFetchAllGeocodeData({ regionCode, buildingType });
+  const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
+  const {
+    geocodeDatas,
+    fetchGeocodeDatas,
+    loading: dataLoading,
+    error,
+  } = useFetchAllGeocodeData({ regionCode: regionCode ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
 
   // geocodeDatas와 firestoreDatas를 비교하여 매칭되는 데이터만 필터링
   const matchingDatas = useMemo(() => {
@@ -74,6 +92,10 @@ export default function BuildingView({ buildingType }: IBuildingParams): JSX.Ele
     setvisibleMarkerDatass,
   });
 
+  // buildingType이 null일 때 로딩 상태 표시
+  if (buildingType === null) {
+    return <LoadingSpinner size={100} />;
+  }
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
