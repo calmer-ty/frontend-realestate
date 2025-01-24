@@ -2,7 +2,7 @@ import { fetchBuildingData } from "@/src/commons/libraries/firebase/fetchBuildin
 
 import BuildingDetail from "@/src/components/units/buildings/detail";
 
-import type { IBuildingListParamsPromiseProps, IBuildingListParamsProps, IMetadata } from "@/src/commons/types";
+import type { IBuildingListParamsProps, IMetadata } from "@/src/commons/types";
 
 export const generateMetadata = async ({ params }: IBuildingListParamsProps): Promise<IMetadata> => {
   const buildingData = await fetchBuildingData("buildings", params.listId);
@@ -17,6 +17,6 @@ export const generateMetadata = async ({ params }: IBuildingListParamsProps): Pr
   };
 };
 
-export default function BuildingDetailPage({ params }: IBuildingListParamsPromiseProps): JSX.Element {
+export default function BuildingDetailPage({ params }: IBuildingListParamsProps): JSX.Element {
   return <BuildingDetail params={params} />;
 }
