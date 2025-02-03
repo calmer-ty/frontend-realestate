@@ -1,4 +1,3 @@
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
@@ -22,9 +21,21 @@ const formatDate = (timestamp: number): string => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
+// 거래 방식에 따른 가격 표시법
+const getTransactionText = (transactionType: string, price: number, rent: number | null): string => {
+  switch (transactionType) {
+    case "월세":
+      return `월세 ${price} / ${rent}`;
+    case "전세":
+      return `전세 ${formatPrice(price ?? DEFAULT_NUMBER_VALUE)}`;
+    default:
+      return `매매 ${formatPrice(price ?? DEFAULT_NUMBER_VALUE)}`;
+  }
+};
+
 export default function ItemContents(props: IItemInfoProps): JSX.Element {
   const { el, isDeleted } = props;
-  // console.log("el: ", el);
+
   return (
     <S.Container>
       {/* prettier-ignore */}
@@ -36,8 +47,8 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>{engToKor(el.buildingType ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
-          <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
+          <p>{el.buildingType ?? DEFAULT_STRING_VALUE} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
+          <p className="price">{getTransactionText(el.transactionType, el.price, el.rent)}</p>
         </h3>
         <p className="address">{`${el.address} ${el.addressDetail}`}</p>
         <p className="desc">{el.desc}</p>
