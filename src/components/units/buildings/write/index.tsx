@@ -31,12 +31,14 @@ const isValidValue = (value: any): value is string | number | string[] => {
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const initialValues: IWriteForm = {
-    type: docData?.type ?? "",
+    buildingType: docData?.buildingType ?? "",
+    transactionType: docData?.transactionType ?? "월세",
     address: docData?.address ?? "",
     addressDetail: docData?.addressDetail ?? "",
     area: docData?.area ?? null,
     roomCount: docData?.roomCount ?? null,
     price: docData?.price ?? null,
+    rent: docData?.rent ?? null,
     manageCost: docData?.manageCost ?? null,
     floor: docData?.floor ?? null,
     bathroomCount: docData?.bathroomCount ?? null,
@@ -50,6 +52,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     defaultValues: initialValues,
   });
 
+  console.log("watch: ", watch("transactionType"));
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
   const { createFirestore, updateFirestore } = useFirestore();
 
@@ -67,7 +70,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         },
       };
 
-      await createFirestore(formData, "buildings", korToEng(watch("type")));
+      await createFirestore(formData, "buildings", korToEng(watch("buildingType")));
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -90,7 +93,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         const fieldKey = key as keyof IWriteForm;
         const initialValue = initialValues[fieldKey];
 
-        if (fieldKey === "type" && typeof currentValue === "string") {
+        if (fieldKey === "buildingType" && typeof currentValue === "string") {
           currentValue = korToEng(currentValue);
         }
 
@@ -154,12 +157,14 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         }
       });
       // type이 있을 경우 한글로 변환하여 설정
-      if (typeof docData.type === "string") {
-        setValue("type", engToKor(docData.type));
+      if (typeof docData.buildingType === "string") {
+        setValue("buildingType", engToKor(docData.buildingType));
       }
     }
   }, [docData, setValue]);
 
+  const transactionType = watch("transactionType"); // 거래 유형 감시
+  const priceLabel = transactionType === "월세" ? "보증금" : transactionType === "전세" ? "전세가" : "매매가"; // 기본값: 매매가
   return (
     <>
       {/* 폼 */}
@@ -167,7 +172,11 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <section>
           <UnderlineTitle label="거래 정보" />
-          <InputUnit label="매매가" type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
+          <WriteRadio label="거래종류" name="transactionType" selectLabels={["월세", "전세", "매매"]} control={control} />
+          <div className="inputWrap">
+            <InputUnit label={priceLabel} type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
+            {transactionType === "월세" && <InputUnit label="월세" type="number" register={register("rent", { valueAsNumber: true })} unitLabel="만원" />}
+          </div>
           <InputUnit label="관리비" type="number" register={register("manageCost", { valueAsNumber: true })} unitLabel="만원" />
         </section>
         <section>

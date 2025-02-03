@@ -56,10 +56,3 @@ export const MapsWrap = styled.div`
     z-index: 101;
   }
 `;
-export const TwinInputWrap = styled.div`
-  display: flex;
-  gap: 20px;
-  ${mediaQueries.mobile(css`
-    flex-direction: column;
-  `)}
-`;

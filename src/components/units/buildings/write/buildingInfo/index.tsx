@@ -54,7 +54,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
     <>
       <section>
         <UnderlineTitle label="매물 정보" />
-        <WriteSelect required label="매물유형" name="type" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
+        <WriteSelect required label="매물유형" name="buildingType" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
         <S.MapView>
           <S.AddressSearch>
             <div className="left">
@@ -78,10 +78,10 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
             <div id="map"></div>
           </S.MapsWrap>
         </S.MapView>
-        <S.TwinInputWrap>
+        <div className="inputWrap">
           <InputUnit label="매물 크기" type="number" register={register("area", { valueAsNumber: true })} unitLabel="m²" step="0.01" />
           <InputUnit label="방 개수" type="number" register={register("roomCount", { valueAsNumber: true })} unitLabel="개" />
-        </S.TwinInputWrap>
+        </div>
       </section>
 
       {/* 주소찾기 모달 */}
