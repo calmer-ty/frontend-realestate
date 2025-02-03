@@ -9,7 +9,8 @@ import BasicTextField from "@/src/components/commons/inputs/textField/basic";
 import ControlTextField from "@/src/components/commons/inputs/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "../ui/inputUnit";
-import WriteSelect from "../ui/writeSelect";
+import WriteRadio from "../ui/writeRadio";
+// import WriteSelect from "../ui/writeSelect";
 
 import * as S from "./styles";
 
@@ -54,7 +55,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
     <>
       <section>
         <UnderlineTitle label="매물 정보" />
-        <WriteSelect required label="매물유형" name="buildingType" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} />
+        <WriteRadio label="매물유형" name="buildingType" selectLabels={["아파트", "오피스텔", "연립다세대"]} control={control} />
+        {/* <WriteSelect required label="매물유형" name="buildingType" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} /> */}
         <S.MapView>
           <S.AddressSearch>
             <div className="left">

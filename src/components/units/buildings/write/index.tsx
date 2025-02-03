@@ -6,7 +6,6 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useStorage } from "@/src/hooks/firebase/useStorage";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useAlert } from "@/src/hooks/useAlert";
-import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
@@ -31,7 +30,7 @@ const isValidValue = (value: any): value is string | number | string[] => {
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const initialValues: IWriteForm = {
-    buildingType: docData?.buildingType ?? "",
+    buildingType: docData?.buildingType ?? "아파트",
     transactionType: docData?.transactionType ?? "월세",
     address: docData?.address ?? "",
     addressDetail: docData?.addressDetail ?? "",
@@ -52,7 +51,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     defaultValues: initialValues,
   });
 
-  console.log("watch: ", watch("transactionType"));
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
   const { createFirestore, updateFirestore } = useFirestore();
 
@@ -69,8 +67,9 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           _id: user?.uid,
         },
       };
+      console.log("formData: ", formData);
 
-      await createFirestore(formData, "buildings", korToEng(watch("buildingType")));
+      await createFirestore(formData, "buildings");
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -92,10 +91,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteForm;
         const initialValue = initialValues[fieldKey];
-
-        if (fieldKey === "buildingType" && typeof currentValue === "string") {
-          currentValue = korToEng(currentValue);
-        }
 
         if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
           updatedValues[fieldKey] = currentValue;
@@ -152,17 +147,15 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const excludedKeys = ["_id", "user", "createdAt"];
 
       Object.entries(docData).forEach(([key, value]) => {
+        console.log("key: ", key);
         if (!excludedKeys.includes(key) && isValidValue(value)) {
           setValue(key as keyof IWriteForm, value);
         }
       });
-      // type이 있을 경우 한글로 변환하여 설정
-      if (typeof docData.buildingType === "string") {
-        setValue("buildingType", engToKor(docData.buildingType));
-      }
     }
   }, [docData, setValue]);
 
+  // transactionType
   const transactionType = watch("transactionType"); // 거래 유형 감시
   const priceLabel = transactionType === "월세" ? "보증금" : transactionType === "전세" ? "전세가" : "매매가"; // 기본값: 매매가
   return (
@@ -172,7 +165,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <section>
           <UnderlineTitle label="거래 정보" />
-          <WriteRadio label="거래종류" name="transactionType" selectLabels={["월세", "전세", "매매"]} control={control} />
+          <WriteRadio label="거래유형" name="transactionType" selectLabels={["월세", "전세", "매매"]} control={control} />
           <div className="inputWrap">
             <InputUnit label={priceLabel} type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
             {transactionType === "월세" && <InputUnit label="월세" type="number" register={register("rent", { valueAsNumber: true })} unitLabel="만원" />}

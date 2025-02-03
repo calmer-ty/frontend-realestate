@@ -36,7 +36,7 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>{engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
+          <p>{engToKor(el.buildingType ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
           <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
         </h3>
         <p className="address">{`${el.address} ${el.addressDetail}`}</p>

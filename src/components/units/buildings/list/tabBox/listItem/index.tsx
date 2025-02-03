@@ -21,7 +21,7 @@ export default function ListItem(props: IBuildingListItemProps): JSX.Element {
       {isDeleted ? (
         <ItemContents el={el} isDeleted={isDeleted} />
       ) : (
-        <Link href={`/${props.el.type}/${props.el._id}`}>
+        <Link href={`/${props.el.buildingType}/${props.el._id}`}>
           <ItemContents el={el} isDeleted={isDeleted} />
         </Link>
       )}

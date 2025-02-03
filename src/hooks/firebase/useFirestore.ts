@@ -6,7 +6,7 @@ import { convertFirestoreData } from "@/src/commons/libraries/utils/convertFires
 import type { IWriteForm, IFirestore } from "@/src/commons/types";
 
 interface IUseFirestoreReturn {
-  createFirestore: (data: IWriteForm, colName: string, selectedType: string) => Promise<void>;
+  createFirestore: (data: IWriteForm, colName: string) => Promise<void>;
   updateFirestore: (data: Partial<IWriteForm>, colName: string, docId: string) => Promise<void>;
   archiveFirestore: (data: IFirestore, colName: string) => Promise<void>;
   deleteFirestore: (colName: string, docId: string) => Promise<void>;
@@ -15,11 +15,10 @@ interface IUseFirestoreReturn {
 }
 
 export const useFirestore = (): IUseFirestoreReturn => {
-  const createFirestore = useCallback(async (data: IWriteForm, colName: string, selectedType: string) => {
+  const createFirestore = useCallback(async (data: IWriteForm, colName: string) => {
     try {
       const docRef = await addDoc(collection(db, colName), {
         ...data,
-        type: selectedType,
         createdAt: serverTimestamp(), // 서버 시간 추가
       });
 

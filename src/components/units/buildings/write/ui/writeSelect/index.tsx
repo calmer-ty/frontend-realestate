@@ -22,9 +22,8 @@ export default function WriteSelect(props: IControlSelect): JSX.Element {
       <Controller
         name={props.name}
         control={props.control}
-        defaultValue=""
         render={({ field }) => (
-          <Select labelId="write-select-label" id="write-select" label={props.label} {...field}>
+          <Select labelId="write-select-label" id="write-select" label={props.label} {...field} value={field.value ?? ""}>
             <MenuItem value="">
               <em>{props.notice}</em>
             </MenuItem>

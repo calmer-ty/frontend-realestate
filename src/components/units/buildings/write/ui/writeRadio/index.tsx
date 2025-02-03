@@ -21,7 +21,6 @@ export default function WriteRadio(props: IControlRadioProps): JSX.Element {
       <Controller
         name={props.name}
         control={props.control}
-        defaultValue={props.selectLabels[0]}
         render={({ field }) => {
           return (
             <RadioGroup row aria-labelledby="write-radio-group" value={field.value} onChange={field.onChange}>
