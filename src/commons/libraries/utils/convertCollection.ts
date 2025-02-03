@@ -1,21 +1,21 @@
 const COLLECTIONS = {
-  APT: "아파트",
+  APARTMENT: "아파트",
 };
 const COLLECTIONS_ENG = {
-  apt: "apt",
+  apartment: "apartment",
 };
 
 export const korToEng = (type: string): string => {
   switch (type) {
-    case COLLECTIONS.APT:
-      return "apt";
+    case COLLECTIONS.APARTMENT:
+      return "apartment";
     default:
       return "";
   }
 };
 export const engToKor = (type: string): string => {
   switch (type) {
-    case COLLECTIONS_ENG.apt:
+    case COLLECTIONS_ENG.apartment:
       return "아파트";
     default:
       return "";
