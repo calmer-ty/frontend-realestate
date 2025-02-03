@@ -23,7 +23,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
       <S.InfoWrap>
         <h2>{selectedData.data?.aptNm}</h2>
         <S.TextWrap>
-          <BasicChip label="연식" size="small" /> <span>{selectedData.data?.dealYear}</span>
+          <BasicChip label="연식" size="small" /> <span>{selectedData.data?.buildYear}</span>
         </S.TextWrap>
         <S.TextWrap>
           <BasicChip label="지번" size="small" /> <span>{selectedData.geocode?.jibunAddress}</span>
