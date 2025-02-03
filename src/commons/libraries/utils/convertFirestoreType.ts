@@ -4,7 +4,9 @@ import type { IFirestore } from "@/src/commons/types";
 export const convertFirestoreData = (data: DocumentData): IFirestore => {
   return {
     _id: data._id as string,
-    type: data.type as string,
+    buildingType: data.buildingType as string,
+    transactionType: data.transactionType as string,
+    rent: data.rent as number,
     address: data.address as string,
     addressDetail: data.addressDetail as string,
     area: data.area as number,

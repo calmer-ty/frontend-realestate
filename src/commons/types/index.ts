@@ -94,12 +94,14 @@ export interface IUserInputGeocodeData {
 // firestore
 export interface IFirestore {
   _id: string;
-  type: string;
+  buildingType: string;
+  transactionType: string;
   address: string;
   addressDetail: string;
   area: number;
   roomCount: number;
   price: number;
+  rent: number;
   manageCost: number;
   floor: number;
   bathroomCount: number;
@@ -144,12 +146,14 @@ export interface IMapMarkerParams {
 
 // Write Form
 export interface IWriteForm {
-  type: string;
+  buildingType: string;
+  transactionType: string;
   address: string;
   addressDetail: string;
   area: number | null;
   roomCount: number | null;
   price: number | null;
+  rent: number | null;
   manageCost: number | null;
   floor: number | null;
   bathroomCount: number | null;

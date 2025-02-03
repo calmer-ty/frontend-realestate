@@ -6,7 +6,6 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { useStorage } from "@/src/hooks/firebase/useStorage";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useAlert } from "@/src/hooks/useAlert";
-import { engToKor, korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import { Button, TextField } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
@@ -20,6 +19,7 @@ import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
+import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 interface IEditFormData {
   isEdit: boolean;
   docData?: IFirestore | undefined;
@@ -31,12 +31,14 @@ const isValidValue = (value: any): value is string | number | string[] => {
 
 export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.Element {
   const initialValues: IWriteForm = {
-    type: docData?.type ?? "",
+    buildingType: docData?.buildingType ?? "아파트",
+    transactionType: docData?.transactionType ?? "월세",
     address: docData?.address ?? "",
     addressDetail: docData?.addressDetail ?? "",
     area: docData?.area ?? null,
     roomCount: docData?.roomCount ?? null,
     price: docData?.price ?? null,
+    rent: docData?.rent ?? null,
     manageCost: docData?.manageCost ?? null,
     floor: docData?.floor ?? null,
     bathroomCount: docData?.bathroomCount ?? null,
@@ -59,6 +61,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const selectImageUrls = await uploadImages();
       const formData = {
         ...data,
+        // 건물 유형을 영어로 바꿈
+        buildingType: korToEng(data.buildingType),
         imageUrls: selectImageUrls,
         user: {
           name: user?.displayName,
@@ -67,7 +71,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         },
       };
 
-      await createFirestore(formData, "buildings", korToEng(watch("type")));
+      await createFirestore(formData, "buildings");
       setAlertOpen(true);
       setAlertText("매물 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -89,10 +93,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       Object.entries(currentValues).forEach(([key, currentValue]) => {
         const fieldKey = key as keyof IWriteForm;
         const initialValue = initialValues[fieldKey];
-
-        if (fieldKey === "type" && typeof currentValue === "string") {
-          currentValue = korToEng(currentValue);
-        }
 
         if (currentValue != null && currentValue !== initialValue && key !== "imageUrls") {
           updatedValues[fieldKey] = currentValue;
@@ -149,17 +149,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const excludedKeys = ["_id", "user", "createdAt"];
 
       Object.entries(docData).forEach(([key, value]) => {
+        console.log("key: ", key);
         if (!excludedKeys.includes(key) && isValidValue(value)) {
           setValue(key as keyof IWriteForm, value);
         }
       });
-      // type이 있을 경우 한글로 변환하여 설정
-      if (typeof docData.type === "string") {
-        setValue("type", engToKor(docData.type));
-      }
     }
   }, [docData, setValue]);
 
+  // transactionType
+  const transactionType = watch("transactionType"); // 거래 유형 감시
+  const priceLabel = transactionType === "월세" ? "보증금" : transactionType === "전세" ? "전세가" : "매매가"; // 기본값: 매매가
   return (
     <>
       {/* 폼 */}
@@ -167,7 +167,11 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <section>
           <UnderlineTitle label="거래 정보" />
-          <InputUnit label="매매가" type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
+          <WriteRadio label="거래유형" name="transactionType" selectLabels={["월세", "전세", "매매"]} control={control} />
+          <div className="inputWrap">
+            <InputUnit label={priceLabel} type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
+            {transactionType === "월세" && <InputUnit label="월세" type="number" register={register("rent", { valueAsNumber: true })} unitLabel="만원" />}
+          </div>
           <InputUnit label="관리비" type="number" register={register("manageCost", { valueAsNumber: true })} unitLabel="만원" />
         </section>
         <section>

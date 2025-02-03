@@ -1,4 +1,3 @@
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import "./styles.css";
 
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
@@ -25,7 +24,7 @@ const markerIconContent = ({ geocodeData, matchingDatas }: IMarkerIconContentPar
   const isMatched = matchingDatas.some((matchingData) => matchingData.address === geocodeData.geocode.jibunAddress || matchingData.address === geocodeData.geocode.roadAddress);
 
   const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
-  const peng = Math.round((geocodeData.data?.excluUseAr ?? DEFAULT_NUMBER_VALUE) * 0.3025);
+  const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
 
   return `
     <div class="markerBox ${isMatched ? "hasData" : ""}">
@@ -61,7 +60,7 @@ export const createMarker = ({ geocodeData, matchingDatas, setSelectedMarkerData
 //   const isMatched = matchingDatas.some((data) => data.geocode.jibunAddress === newData.geocode.jibunAddress);
 
 //   const amount = (newData.data?.price / 10000).toFixed(2);
-//   const peng = Math.round((newData.data?.area ?? DEFAULT_NUMBER_VALUE) * 0.3025);
+//   const peng = Math.round((newData.data?.area ) * 0.3025);
 
 //   return `
 //     <div class="markerBox ${isMatched ? "hasData" : ""}">

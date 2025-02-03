@@ -1,14 +1,13 @@
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
+import { getTransactionText } from "@/src/commons/libraries/utils/priceFormatter";
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImages/basic";
 
-import { DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore } from "@/src/commons/types";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 interface IItemInfoProps {
   el: IFirestore;
   isDeleted: boolean;
@@ -24,20 +23,20 @@ const formatDate = (timestamp: number): string => {
 
 export default function ItemContents(props: IItemInfoProps): JSX.Element {
   const { el, isDeleted } = props;
-  // console.log("el: ", el);
+
   return (
     <S.Container>
       {/* prettier-ignore */}
       <div className="itemImage">
         {el.imageUrls?.[0] !== undefined 
-        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address ?? DEFAULT_STRING_VALUE} fill unoptimized />) 
+        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill unoptimized />) 
         : (<BasicUnImage width="200px" height="120px" fontSize="28px" />)}
       </div>
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>{engToKor(el.type ?? DEFAULT_STRING_VALUE)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
-          <p className="price">매매 {formatPrice(el.price ?? DEFAULT_NUMBER_VALUE)}</p>
+          <p>{engToKor(el.buildingType)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
+          <p className="price">{getTransactionText(el.transactionType, el.price, el.rent)}</p>
         </h3>
         <p className="address">{`${el.address} ${el.addressDetail}`}</p>
         <p className="desc">{el.desc}</p>
@@ -48,7 +47,7 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
         {isDeleted && (
           <p className="adEnd">
             <span>광고 종료: </span>
-            {formatDate(el.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
+            {formatDate(el.deletedAt?.seconds)}
           </p>
         )}
         {/* <p>
@@ -57,7 +56,7 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
               </p> */}
         <p>
           <span>광고 시작: </span>
-          {formatDate(el.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE)}
+          {formatDate(el.createdAt?.seconds)}
         </p>
       </div>
     </S.Container>

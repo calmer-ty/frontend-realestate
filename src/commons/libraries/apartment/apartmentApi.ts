@@ -2,7 +2,6 @@ import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import type { IApartment, IApartmentItem } from "@/src/commons/types";
 
 import pLimit from "p-limit";
@@ -72,11 +71,11 @@ export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
     } else {
       const isNewer =
         // 연도 비교
-        (item.dealYear ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealYear ?? DEFAULT_NUMBER_VALUE) ||
+        item.dealYear > existingItem.dealYear ||
         // 연도가 같고, 월 비교
-        (item.dealYear === existingItem.dealYear && (item.dealMonth ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealMonth ?? DEFAULT_NUMBER_VALUE)) ||
+        (item.dealYear === existingItem.dealYear && item.dealMonth > existingItem.dealMonth) ||
         // 연도, 월이 같고, 날 비교
-        (item.dealYear === existingItem.dealYear && item.dealMonth === existingItem.dealMonth && (item.dealDay ?? DEFAULT_NUMBER_VALUE) > (existingItem.dealDay ?? DEFAULT_NUMBER_VALUE));
+        (item.dealYear === existingItem.dealYear && item.dealMonth === existingItem.dealMonth && item.dealDay > existingItem.dealDay);
 
       if (isNewer) {
         // console.log(`Filtering out older item:`, `${existingItem.umdNm}_${existingItem.jibun}_${existingItem.aptNm}__${existingItem.dealYear}${existingItem.dealMonth}${existingItem.dealDay}`); // 필터링된 이전 데이터

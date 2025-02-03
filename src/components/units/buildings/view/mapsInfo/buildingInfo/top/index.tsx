@@ -2,7 +2,6 @@ import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import BasicChip from "@/src/components/commons/chip/basic";
 
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IGeocodeData } from "@/src/commons/types";
@@ -37,7 +36,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
       <S.InfoWrap>
         <h3>최근 실거래가</h3>
         <S.SelectedContent>
-          <strong>매매 {formatPrice(Number(selectedData.data?.dealAmount?.replace(/,/g, "")) ?? DEFAULT_STRING_VALUE)}</strong>
+          <strong>매매 {formatPrice(Number(selectedData.data?.dealAmount?.replace(/,/g, "")))}</strong>
           <p>
             {selectedData.data?.dealYear}.{selectedData.data?.dealMonth}.{selectedData.data?.dealDay}・{selectedData.data?.floor}층・{selectedData.data?.excluUseAr}m²
           </p>

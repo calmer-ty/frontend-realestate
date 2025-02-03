@@ -19,7 +19,7 @@ export default function ItemActions(props: IItemActionsProps): JSX.Element {
         <>
           <span>No. {index}</span>
           <div className="buttonWrap">
-            <Link href={`/${el.type}/${el._id}/edit/`}>
+            <Link href={`/${el.buildingType}/${el._id}/edit/`}>
               <Button variant="outlined">수정</Button>
             </Link>
             <Button

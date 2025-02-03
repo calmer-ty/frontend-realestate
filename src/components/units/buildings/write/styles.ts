@@ -14,6 +14,14 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+
+    .inputWrap {
+      display: flex;
+      gap: 20px;
+      ${mediaQueries.mobile(css`
+        flex-direction: column;
+      `)}
+    }
   }
 
   ${mediaQueries.mobile(css`

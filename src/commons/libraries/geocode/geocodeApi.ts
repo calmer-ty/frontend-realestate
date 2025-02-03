@@ -1,7 +1,6 @@
 import axios from "axios";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IGeocodeAPI, IGeocode } from "@/src/commons/types";
 
 // addressElements에서 특정 타입 값을 찾는 함수
@@ -48,8 +47,8 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
       // console.log("roadAddress: ", roadAddress);
 
       return {
-        latitude: parseFloat(y ?? DEFAULT_STRING_VALUE),
-        longitude: parseFloat(x ?? DEFAULT_STRING_VALUE),
+        latitude: parseFloat(y),
+        longitude: parseFloat(x),
         jibunAddress,
         roadAddress,
       };
