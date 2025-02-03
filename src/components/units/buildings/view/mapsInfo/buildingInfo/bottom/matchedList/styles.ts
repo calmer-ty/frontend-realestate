@@ -11,6 +11,11 @@ export const List = styled.ul`
       > img {
         object-fit: cover;
       }
+
+      > p {
+        display: flex;
+        flex-direction: column;
+      }
     }
     :hover {
       background-color: #efefef;
