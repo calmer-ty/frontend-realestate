@@ -4,9 +4,9 @@ import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
 
 import { Button } from "@mui/material";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import UnderlineTitle from "@/src/components/commons/titles/underline";
-import BasicTextField from "@/src/components/commons/inputs/textField/basic";
-import ControlTextField from "@/src/components/commons/inputs/textField/control";
+import UnderlineTitle from "@/src/components/commons/title/underline";
+import BasicTextField from "@/src/components/commons/input/textField/basic";
+import ControlTextField from "@/src/components/commons/input/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "../ui/inputUnit";
 import WriteRadio from "../ui/writeRadio";

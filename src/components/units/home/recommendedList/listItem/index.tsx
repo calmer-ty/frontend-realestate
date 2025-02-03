@@ -2,7 +2,7 @@ import { formatPrice, getTransactionText } from "@/src/commons/libraries/utils/p
 
 import Link from "next/link";
 import Image from "next/image";
-import BasicUnImage from "../../../../commons/unImages/basic";
+import BasicUnImage from "../../../../commons/unImage/basic";
 
 import * as S from "./styles";
 

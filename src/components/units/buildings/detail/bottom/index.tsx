@@ -1,6 +1,6 @@
 import { formatPrice, getTransactionText } from "@/src/commons/libraries/utils/priceFormatter";
 
-import UnderlineTitle from "@/src/components/commons/titles/underline";
+import UnderlineTitle from "@/src/components/commons/title/underline";
 
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";

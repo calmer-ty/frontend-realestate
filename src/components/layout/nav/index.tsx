@@ -4,7 +4,7 @@
 import { useAuth } from "@/src/hooks/useAuth";
 
 import Link from "next/link";
-import AuthButton from "@/src/components/commons/buttons/auth/index";
+import AuthButton from "@/src/components/commons/button/auth/index";
 import { Button } from "@mui/material";
 
 import * as S from "./styles";

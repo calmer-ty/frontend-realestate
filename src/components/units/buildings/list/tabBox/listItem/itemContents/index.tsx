@@ -2,7 +2,7 @@ import { getTransactionText } from "@/src/commons/libraries/utils/priceFormatter
 import { convertTimestamp } from "@/src/commons/libraries/utils/convertTimestamp";
 
 import Image from "next/image";
-import BasicUnImage from "@/src/components/commons/unImages/basic";
+import BasicUnImage from "@/src/components/commons/unImage/basic";
 
 import * as S from "./styles";
 

@@ -1,7 +1,7 @@
 import { useMediaQuery } from "@mui/material";
 
 import Image from "next/image";
-import BasicUnImage from "@/src/components/commons/unImages/basic";
+import BasicUnImage from "@/src/components/commons/unImage/basic";
 
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
