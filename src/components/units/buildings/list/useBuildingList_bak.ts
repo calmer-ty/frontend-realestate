@@ -25,9 +25,9 @@ const processExpiredBuilding = (
   deleteFirestore: (selectedType: string, docId: string) => Promise<void>,
   archivedIds: MutableRefObject<Set<string>>
 ): void => {
-  if (building._id !== undefined && building.type !== undefined) {
+  if (building._id !== undefined && building.buildingType !== undefined) {
     void archiveFirestore(building);
-    void deleteFirestore(building.type, building._id);
+    void deleteFirestore(building.buildingType, building._id);
     archivedIds.current.add(building._id);
   }
 };

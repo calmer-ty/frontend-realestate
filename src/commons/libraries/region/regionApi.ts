@@ -1,7 +1,6 @@
 import axios from "axios";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import { DEFAULT_STRING_VALUE } from "../../constants";
 import type { IRegion, IRegionItem, IRegionItemFiltered } from "@/src/commons/types"; // 지역 데이터 타입 정의를 가져옵니다
 
 import pLimit from "p-limit";
@@ -33,7 +32,7 @@ const processRegionData = (rows: IRegionItem[]): Map<string, IRegionItemFiltered
   rows.forEach((el) => {
     const isValidRegion = el.umd_cd === "000" && el.sgg_cd !== "000";
     if (el.locatadd_nm !== undefined && isValidRegion) {
-      const regionCode = (el.sido_cd ?? DEFAULT_STRING_VALUE) + (el.sgg_cd ?? DEFAULT_STRING_VALUE);
+      const regionCode = el.sido_cd + el.sgg_cd;
 
       // locatadd_nm을 공백 기준으로 나누기
       const parts = el.locatadd_nm.split(" ");

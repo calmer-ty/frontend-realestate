@@ -12,7 +12,6 @@ import TabPanel from "@mui/lab/TabPanel";
 
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { SyntheticEvent } from "react";
@@ -27,20 +26,20 @@ interface ITabBoxProps {
 
 const sortByCreatedAt = (items: IFirestore[], key: "createdAt" | "deletedAt"): IFirestore[] => {
   return items.sort((a, b) => {
-    const aTime = a[key]?.seconds ?? DEFAULT_NUMBER_VALUE;
-    const bTime = b[key]?.seconds ?? DEFAULT_NUMBER_VALUE;
+    const aTime = a[key]?.seconds;
+    const bTime = b[key]?.seconds;
     return aTime - bTime;
   });
 };
 // const sortedMyBuildings = myBuildings.sort((a, b) => {
-//   const aCreatedAt = a.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE; // createdAt이 없으면 0으로 처리
-//   const bCreatedAt = b.createdAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+//   const aCreatedAt = a.createdAt?.seconds; // createdAt이 없으면 0으로 처리
+//   const bCreatedAt = b.createdAt?.seconds;
 
 //   return aCreatedAt - bCreatedAt;
 // });
 // const sortedMyDeleteBuildings = myDeletedBuildings.sort((a, b) => {
-//   const aDeletedAt = a.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE; // DeletedAt이 없으면 0으로 처리
-//   const bDeletedAt = b.deletedAt?.seconds ?? DEFAULT_NUMBER_VALUE;
+//   const aDeletedAt = a.deletedAt?.seconds; // DeletedAt이 없으면 0으로 처리
+//   const bDeletedAt = b.deletedAt?.seconds;
 
 //   return aDeletedAt - bDeletedAt;
 // });
