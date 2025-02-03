@@ -10,7 +10,6 @@ import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
-import BuildingTypeButtons from "./ui/buildingTypeButtons";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
@@ -99,9 +98,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   if (error !== null) return <div>{error}</div>;
   return (
     <S.Container>
-      <S.MapMenu>
-        <BuildingTypeButtons label="buildingType" name="buildingType" selectLabels={["아파트", "오피스텔", "연립다세대"]} />
-      </S.MapMenu>
       <MapsInfo
         selectedMarkerData={selectedMarkerData}
         visibleMarkerDatas={visibleMarkerDatas}

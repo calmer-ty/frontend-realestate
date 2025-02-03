@@ -15,7 +15,7 @@ import WriteRadio from "./ui/writeRadio";
 import BuildingInfo from "./buildingInfo";
 import InputUnit from "./ui/inputUnit";
 
-import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+import { BUILDING_TYPE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
@@ -167,7 +167,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
         <BuildingInfo register={register} setValue={setValue} getValues={getValues} control={control} />
         <section>
           <UnderlineTitle label="거래 정보" />
-          <WriteRadio label="거래유형" name="transactionType" selectLabels={["월세", "전세", "매매"]} control={control} />
+          <WriteRadio label="거래유형" name="transactionType" selectLabels={BUILDING_TYPE} control={control} />
           <div className="inputWrap">
             <InputUnit label={priceLabel} type="number" register={register("price", { valueAsNumber: true })} unitLabel="만원" />
             {transactionType === "월세" && <InputUnit label="월세" type="number" register={register("rent", { valueAsNumber: true })} unitLabel="만원" />}
