@@ -1,6 +1,4 @@
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
-import { DEFAULT_NUMBER_VALUE } from "@/src/commons/constants";
+import { formatPrice, getTransactionText } from "@/src/commons/libraries/utils/priceFormatter";
 
 import UnderlineTitle from "@/src/components/commons/titles/underline";
 
@@ -28,11 +26,11 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <S.InfoList>
           <li>
             <h3>매물 가격</h3>
-            <span>매매 {formatPrice(buildingData.price ?? DEFAULT_NUMBER_VALUE)}</span>
+            <span>{getTransactionText(buildingData.transactionType, buildingData.price, buildingData.rent)}</span>
           </li>
           <li>
             <h3>관리비</h3>
-            <span>매월 {buildingData.manageCost}만 원</span>
+            <span>매월 {formatPrice(buildingData.manageCost)}</span>
           </li>
         </S.InfoList>
       </S.InfoItem>
@@ -42,7 +40,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <S.InfoList>
           <li>
             <h3>건물 형태</h3>
-            <span>{engToKor(buildingData.type ?? "")}</span>
+            <span>{buildingData.buildingType}</span>
           </li>
           <li>
             <h3>건물 이름</h3>

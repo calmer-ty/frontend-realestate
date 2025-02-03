@@ -15,5 +15,17 @@ const isTenMillion = (price: number): string => {
 };
 
 export const formatPrice = (price: number): string => {
-  return `${isBillion(price)} ${isTenMillion(price)}원`;
+  return `${isBillion(price)} ${isTenMillion(price)} 원`;
+};
+
+// 거래 방식에 따른 가격 표시법
+export const getTransactionText = (transactionType: string, price: number, rent: number | null): string => {
+  switch (transactionType) {
+    case "월세":
+      return `월세 ${price} / ${rent}`;
+    case "전세":
+      return `전세 ${formatPrice(price)}`;
+    default:
+      return `매매 ${formatPrice(price)}`;
+  }
 };
