@@ -181,7 +181,7 @@ export interface IBuildingListParamsPromiseProps {
 export interface IOpenGraphMetadata {
   title: string;
   description: string;
-  images: string[];
+  images: string | string[];
   url?: string;
 }
 export interface IMetadata {
