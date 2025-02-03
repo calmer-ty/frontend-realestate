@@ -14,7 +14,7 @@ interface IRecommendedListItemProps {
 
 export default function ListItem(props: IRecommendedListItemProps): JSX.Element {
   const { el } = props;
-  console.log("el: ", el.buildingType);
+
   return (
     <S.ListItem key={el._id}>
       <Link href={`/${el.buildingType}/${el._id}`}>
