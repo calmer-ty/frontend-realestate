@@ -30,8 +30,8 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
   // 구 선택 hook
-  const [regionName, setRegionName] = useState<string | null>(null);
-  const [regionCode, setRegionCode] = useState<string | null>(null);
+  const [regionName, setRegionName] = useState<string | undefined>(undefined);
+  const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
 
   // 파이어스토어 데이터패치  훅
   const { firestoreDatas } = useFetchFirestoreData("buildings");

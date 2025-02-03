@@ -20,8 +20,8 @@ interface IFindRegionReturn {
   regionName: string;
 }
 interface IRegionSelectProps {
-  setRegionName: Dispatch<SetStateAction<string | null>>;
-  setRegionCode: Dispatch<SetStateAction<string | null>>;
+  setRegionName: Dispatch<SetStateAction<string | undefined>>;
+  setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
 const menuProps = {

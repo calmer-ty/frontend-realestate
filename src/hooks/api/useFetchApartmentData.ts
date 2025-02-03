@@ -8,11 +8,11 @@ interface IUseFetchApartmentDataReturn {
   fetchApartmentDatas: () => Promise<void>;
 }
 
-export const useFetchApartmentData = (regionCode: string | null): IUseFetchApartmentDataReturn => {
+export const useFetchApartmentData = (regionCode: string | undefined): IUseFetchApartmentDataReturn => {
   const [apartmentDatas, setApartmentDatas] = useState<IApartmentItem[]>([]);
 
   const fetchApartmentDatas = useCallback(async (): Promise<void> => {
-    if (regionCode === null) {
+    if (regionCode === undefined) {
       console.error("존재하지 않는 지역입니다.");
       return;
     }

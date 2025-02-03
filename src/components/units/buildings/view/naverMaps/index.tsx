@@ -7,8 +7,8 @@ import type { Dispatch, SetStateAction } from "react";
 interface INaverMapsProps {
   mapLoading: boolean;
   dataLoading: boolean;
-  setRegionName: Dispatch<SetStateAction<string | null>>;
-  setRegionCode: Dispatch<SetStateAction<string | null>>;
+  setRegionName: Dispatch<SetStateAction<string | undefined>>;
+  setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export default function NaverMaps(props: INaverMapsProps): JSX.Element {
@@ -22,7 +22,7 @@ export default function NaverMaps(props: INaverMapsProps): JSX.Element {
         <>
           <div id="map"></div>
           {dataLoading && <LoadingSpinner size={100} />}
-          <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />
+          {!mapLoading && <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />}
         </>
       )}
     </S.Container>
