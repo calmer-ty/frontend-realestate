@@ -42,9 +42,9 @@ yarn dev
 ## 업데이트 내용
 **2025.02.04**
 - 월세/전세 등록이 추가했습니다.
-  ![recording](https://github.com/user-attachments/assets/18ca1758-e27f-44db-be9f-d9e79ed5ed71)
+![recording](https://github.com/user-attachments/assets/18ca1758-e27f-44db-be9f-d9e79ed5ed71)
 
 
 - 월세/전세/매매 필터링이 추가되었습니다.
-  ![recording (2)](https://github.com/user-attachments/assets/fe2911e8-aa81-46ea-b961-0efc730514b5)
+![recording (2)](https://github.com/user-attachments/assets/fe2911e8-aa81-46ea-b961-0efc730514b5)
 
