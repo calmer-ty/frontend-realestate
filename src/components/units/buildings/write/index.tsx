@@ -19,7 +19,6 @@ import { BUILDING_TYPE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
-import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 interface IEditFormData {
   isEdit: boolean;
   docData?: IFirestore | undefined;
@@ -47,6 +46,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     imageUrls: docData?.imageUrls ?? [],
   };
 
+  console.log("docData: ", docData);
+
   const { user } = useAuth();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues,
@@ -61,8 +62,8 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const selectImageUrls = await uploadImages();
       const formData = {
         ...data,
-        // 건물 유형을 영어로 바꿈
-        buildingType: korToEng(data.buildingType),
+
+        buildingType: data.buildingType,
         imageUrls: selectImageUrls,
         user: {
           name: user?.displayName,

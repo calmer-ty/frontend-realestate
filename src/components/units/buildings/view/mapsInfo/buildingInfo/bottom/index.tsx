@@ -21,8 +21,6 @@ export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX
     setAlignment(newAlignment);
   };
 
-  console.log("alignment: ", alignment);
-
   // 매칭된 데이터와 파이어베이스에서 값을 대조하여 해당 조건에 맞는 것만 필터링합니다.
   const matchedDatas = matchingDatas.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
 

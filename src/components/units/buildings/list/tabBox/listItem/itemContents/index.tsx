@@ -7,7 +7,6 @@ import BasicUnImage from "@/src/components/commons/unImage/basic";
 import * as S from "./styles";
 
 import type { IFirestore } from "@/src/commons/types";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 interface IItemInfoProps {
   el: IFirestore;
   isDeleted: boolean;
@@ -21,9 +20,7 @@ const formatDate = (timestamp: number): string => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
-export default function ItemContents(props: IItemInfoProps): JSX.Element {
-  const { el, isDeleted } = props;
-
+export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Element {
   return (
     <S.Container>
       {/* prettier-ignore */}
@@ -35,7 +32,7 @@ export default function ItemContents(props: IItemInfoProps): JSX.Element {
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>{engToKor(el.buildingType)} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
+          <p>{el.buildingType} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
           <p className="price">{getTransactionText(el.transactionType, el.price, el.rent)}</p>
         </h3>
         <p className="address">{`${el.address} ${el.addressDetail}`}</p>

@@ -4,7 +4,6 @@ import UnderlineTitle from "@/src/components/commons/title/underline";
 
 import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function BuildingDetailBottom({ buildingData }: IBuildingDetailProps): JSX.Element {
   return (
@@ -41,7 +40,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <S.InfoList>
           <li>
             <h3>건물 형태</h3>
-            <span>{engToKor(buildingData.buildingType)}</span>
+            <span>{buildingData.buildingType}</span>
           </li>
           <li>
             <h3>건물 이름</h3>

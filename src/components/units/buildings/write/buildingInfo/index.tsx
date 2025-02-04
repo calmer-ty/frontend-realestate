@@ -55,8 +55,8 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
     <>
       <section>
         <UnderlineTitle label="매물 정보" />
-        <WriteRadio label="매물유형" name="buildingType" selectLabels={["아파트", "오피스텔", "연립다세대"]} control={control} />
-        {/* <WriteSelect required label="매물유형" name="buildingType" control={control} notice="매물 유형을 선택하세요" selecteItems={["아파트"]} /> */}
+        <WriteRadio label="매물유형" name="buildingType" selectLabels={["아파트"]} control={control} />
+        {/* <WriteRadio label="매물유형" name="buildingType" selectLabels={["아파트", "오피스텔", "연립다세대"]} control={control} /> */}
         <S.MapView>
           <S.AddressSearch>
             <div className="left">

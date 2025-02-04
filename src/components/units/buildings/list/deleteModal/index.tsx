@@ -1,5 +1,3 @@
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
-
 import { Button } from "@mui/material";
 import BasicModal from "@/src/components/commons/modal/basic";
 
@@ -49,7 +47,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
           <div className="top">
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {engToKor(props.selectedBuilding.buildingType)} - {props.selectedBuilding.address} {props.selectedBuilding.addressDetail}
+              {props.selectedBuilding.buildingType} - {props.selectedBuilding.address} {props.selectedBuilding.addressDetail}
             </p>
           </div>
           <div className="buttonWrap">

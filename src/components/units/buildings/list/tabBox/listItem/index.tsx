@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
+import Link from "next/link";
 import ItemActions from "./itemActions";
 import ItemContents from "./itemContents";
 
@@ -21,7 +22,7 @@ export default function ListItem(props: IBuildingListItemProps): JSX.Element {
       {isDeleted ? (
         <ItemContents el={el} isDeleted={isDeleted} />
       ) : (
-        <Link href={`/${props.el.buildingType}/${props.el._id}`}>
+        <Link href={`/${korToEng(props.el.buildingType)}/${props.el._id}`}>
           <ItemContents el={el} isDeleted={isDeleted} />
         </Link>
       )}
