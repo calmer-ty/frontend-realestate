@@ -46,8 +46,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
     imageUrls: docData?.imageUrls ?? [],
   };
 
-  console.log("docData: ", docData);
-
   const { user } = useAuth();
   const { register, handleSubmit, watch, setValue, getValues, control } = useForm<IWriteForm>({
     defaultValues: initialValues,
@@ -150,7 +148,6 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
       const excludedKeys = ["_id", "user", "createdAt"];
 
       Object.entries(docData).forEach(([key, value]) => {
-        console.log("key: ", key);
         if (!excludedKeys.includes(key) && isValidValue(value)) {
           setValue(key as keyof IWriteForm, value);
         }
