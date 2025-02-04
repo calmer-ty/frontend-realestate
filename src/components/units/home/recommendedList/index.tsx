@@ -10,8 +10,7 @@ interface IRecommendedListProps {
   firestoreDatas: IFirestore[];
 }
 
-export default function RecommendedList(props: IRecommendedListProps): JSX.Element {
-  const { firestoreDatas } = props;
+export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
   const randomFirestores = useMemo(() => {
     return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreDatas]);

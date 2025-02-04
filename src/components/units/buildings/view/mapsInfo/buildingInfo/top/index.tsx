@@ -11,8 +11,7 @@ interface IBuildingInfoTopProps {
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
 }
 
-export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Element {
-  const { selectedData, setSelectedData } = props;
+export default function BuildingInfoTop({ selectedData, setSelectedData }: IBuildingInfoTopProps): JSX.Element {
   const onClickClose = (): void => {
     setSelectedData(null);
   };

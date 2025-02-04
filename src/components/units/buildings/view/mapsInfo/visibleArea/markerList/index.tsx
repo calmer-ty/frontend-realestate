@@ -9,8 +9,7 @@ interface IMarkerListProps {
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
 }
 
-export default function MarkerList(props: IMarkerListProps): JSX.Element {
-  const { matchingMarkerData, setSelectedData } = props;
+export default function MarkerList({ matchingMarkerData, setSelectedData }: IMarkerListProps): JSX.Element {
   const onClickInfo = (el: IGeocodeData): void => {
     setSelectedData(el); // 선택된 el을 상태에 저장
   };

@@ -14,9 +14,7 @@ interface IMatchedListProps {
   alignment: string | null;
 }
 
-export default function MatchedList(props: IMatchedListProps): JSX.Element {
-  const { matchedDatas, alignment } = props;
-
+export default function MatchedList({ matchedDatas, alignment }: IMatchedListProps): JSX.Element {
   // alignment 값이 있을 경우 transactionType이 alignment와 일치하는 항목만 필터링
   const filteredDatas = alignment !== null ? matchedDatas.filter((el) => el.transactionType === alignment) : matchedDatas;
 

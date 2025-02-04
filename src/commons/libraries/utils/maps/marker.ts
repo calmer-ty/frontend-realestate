@@ -34,7 +34,9 @@ const markerIconContent = ({ geocodeData, matchingDatas }: IMarkerIconContentPar
     </div>`;
 };
 
-export const createMarker = ({ geocodeData, matchingDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
+export const createMarker = (params: ICreateMarkerParams): any => {
+  const { geocodeData, matchingDatas, setSelectedMarkerData } = params;
+
   if (geocodeData === null) return;
   const markerOptions = {
     position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),
@@ -55,39 +57,3 @@ export const createMarker = ({ geocodeData, matchingDatas, setSelectedMarkerData
 
   return marker;
 };
-
-// const markerIconContentUser = ({ newData, matchingDatas }: IMarkerIconContentUserParams): string => {
-//   const isMatched = matchingDatas.some((data) => data.geocode.jibunAddress === newData.geocode.jibunAddress);
-
-//   const amount = (newData.data?.price / 10000).toFixed(2);
-//   const peng = Math.round((newData.data?.area ) * 0.3025);
-
-//   return `
-//     <div class="markerBox ${isMatched ? "hasData" : ""}">
-//       <div class="top">${peng}평</div>
-//       <div class="bottom">
-//       <span>매</span> <strong>${amount}억</strong></div>
-//     </div>`;
-// };
-
-// export const createMarkerUser = ({ newData, matchingDatas, setSelectedMarkerData }: ICreateMarkerUserParams): any => {
-//   if (newData === null) return;
-//   const markerOptions = {
-//     position: new window.naver.maps.LatLng(newData.geocode?.latitude, newData.geocode?.longitude),
-//     map: null, // Set map to null initially
-//     icon: {
-//       content: markerIconContentUser({ newData, matchingDatas }),
-//     },
-//   };
-
-//   const marker = new window.naver.maps.Marker(markerOptions);
-//   marker.set("data", newData);
-
-//   window.naver.maps.Event.addListener(marker, "click", () => {
-//     if (newData.data !== undefined) {
-//       setSelectedMarkerData(newData);
-//     }
-//   });
-
-//   return marker;
-// };

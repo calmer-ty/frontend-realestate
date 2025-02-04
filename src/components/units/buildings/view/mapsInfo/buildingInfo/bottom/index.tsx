@@ -12,9 +12,7 @@ interface IBuildingInfoBottomProps {
   matchingDatas: IFirestore[];
 }
 
-export default function BuildingInfoBottom(props: IBuildingInfoBottomProps): JSX.Element {
-  const { selectedData, matchingDatas } = props;
-
+export default function BuildingInfoBottom({ selectedData, matchingDatas }: IBuildingInfoBottomProps): JSX.Element {
   // 토글 로직 빼옴
   const [alignment, setAlignment] = useState<string | null>("월세");
   const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null): void => {
