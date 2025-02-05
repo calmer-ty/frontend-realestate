@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
-export const List = styled.ul`
-  > li {
+export const Container = styled.div`
+  li {
     border-bottom: 1px solid #dedede;
     > a {
       display: flex;

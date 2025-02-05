@@ -19,7 +19,6 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 
-  console.log("scroll: ", scroll);
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
     setScroll(true);
@@ -48,8 +47,14 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
       {/* 모바일 해상도일 때 리스트 여닫이 버튼 */}
       <S.TabButton type="button" onClick={onClickScroll}>
         <div className="stroke"></div>
-        매물 보기
+        매물 정보 {scroll ? "닫기" : "열기"}
       </S.TabButton>
+
+      {/* <Button
+        onClick={() => {
+          alert("clicked");
+        }}
+      ></Button> */}
     </>
   );
 }

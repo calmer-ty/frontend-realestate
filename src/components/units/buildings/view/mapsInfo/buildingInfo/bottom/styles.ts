@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 // 클릭 된 건물 상세 정보
 
@@ -8,6 +10,10 @@ export const Container = styled.section`
   height: calc(100vh - 367px);
   position: relative;
   border-top: 1px solid #dedede;
+
+  ${mediaQueries.mobile(css`
+    height: calc(50vh - 367px);
+  `)}
 
   .topMenu {
     display: flex;

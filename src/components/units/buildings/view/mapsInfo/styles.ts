@@ -2,6 +2,8 @@ import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import Button from "@mui/material/Button";
+
 interface IScroll {
   scroll: boolean;
 }
@@ -25,9 +27,10 @@ export const Container = styled.aside<IScroll>`
     `)}
 `;
 
-export const TabButton = styled.button`
+export const TabButton = styled(Button)`
   display: none;
   position: relative;
+  color: #000;
   .stroke {
     width: 50px;
     height: 3px;
@@ -54,7 +57,4 @@ export const TabButton = styled.button`
     bottom: 0px;
     left: 15px;
   }
-  /* &:hover {
-    bgc
-  } */
 `;
