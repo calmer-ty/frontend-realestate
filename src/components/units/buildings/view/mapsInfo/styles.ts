@@ -18,8 +18,6 @@ interface IScroll {
 // `;
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
-  width: 100%;
-  height: 100%;
   border-right: 1px solid #dedede;
   background-color: #fff;
   flex: 1;
@@ -46,10 +44,8 @@ export const TabButton = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin: 0 15px; */
     padding: 4px 0 10px 0;
     border-top: 1px solid #dedede;
-    /* border-bottom: 2px solid #999; */
     background-color: #fff;
   `)}
 
