@@ -12,7 +12,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
         <UnderlineTitle label="주소 정보" />
         <S.InfoList>
           <li>
-            <h3>지번 주소</h3>
+            <h3>주소</h3>
             <span>{buildingData.address}</span>
           </li>
           <li>
