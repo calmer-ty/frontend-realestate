@@ -9,21 +9,18 @@ interface IScroll {
 }
 
 export const Container = styled.aside<IScroll>`
-  overflow-y: auto;
+  overflow-y: scroll;
   border-right: 1px solid #dedede;
   background-color: #fff;
   flex: 1;
-  z-index: 1;
   transition: flex 300ms ease-in-out;
 
   position: relative;
-  ${mediaQueries.tablet(css`
-    flex: 1;
-  `)}
+  z-index: 1;
 
   ${(props) =>
     mediaQueries.mobile(css`
-      flex: ${props.scroll ? "1" : "0"};
+      flex: ${props.scroll ? "3" : "0"};
     `)}
 `;
 
