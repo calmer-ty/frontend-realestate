@@ -7,6 +7,7 @@ import { getApartmentData } from "../apartment/apartmentData";
 import type { IApartmentItem, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
+import { getOfficetelData } from "../officetel/officetelData";
 const limit = pLimit(10);
 
 interface IGetAllGeocodeDataParams {
@@ -54,6 +55,9 @@ export const getAllGeocodeData = async ({ buildingType, regionCode }: IGetAllGeo
   const apartmentData = await getApartmentData(regionCode);
   const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
+  const officetelData = await getOfficetelData(regionCode);
+  const officetelCache = getCachedApartmentData(`officetel_${regionCode}`);
+
   let selectedDatas: IApartmentItem[] = [];
   switch (buildingType) {
     case "apartment":
@@ -65,6 +69,18 @@ export const getAllGeocodeData = async ({ buildingType, regionCode }: IGetAllGeo
       } else {
         selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
         console.log("getAllGeocodeData / apartmentData가 없습니다. ");
+      }
+
+      break;
+    case "officetel":
+      // apartmentData가 있을 경우 사용하고, 없으면 캐시에서 가져옴
+      if (officetelCache !== undefined) {
+        selectedDatas = officetelCache; // 데이터가 있으면 그대로 사용
+      } else if (officetelData.length > 0) {
+        selectedDatas = officetelData; // 캐시가 있으면 캐시 데이터 사용
+      } else {
+        selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
+        console.log("getAllGeocodeData / officetelData가 없습니다. ");
       }
 
       break;

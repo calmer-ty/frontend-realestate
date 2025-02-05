@@ -66,6 +66,41 @@ export interface IApartmentLocation {
   locatadd_nm: string;
 }
 
+// 오피스텔 API
+export interface IOfficetel {
+  response: {
+    body: {
+      items: {
+        item: IOfficetelItem[]; // Item 배열 형태로 정의
+      };
+      numOfRows: number;
+      pageNo: number;
+      totalCount: number;
+    };
+  };
+}
+export interface IOfficetelItem {
+  estateAgentSggNm: string;
+  umdNm: string;
+  jibun: string;
+  aptNm: string;
+  floor: number;
+  dealAmount: string;
+  excluUseAr: number;
+  dealDay: number;
+  dealMonth: number;
+  dealYear: number;
+  buildYear: number;
+  rgstDate: string;
+
+  // 인덱스 시그니처 추가
+  [key: string]: any;
+}
+export interface IOfficetelLocation {
+  responses: IApartment;
+  locatadd_nm: string;
+}
+
 // Geocode API
 export interface IGeocodeAPI {
   addresses: Array<{
