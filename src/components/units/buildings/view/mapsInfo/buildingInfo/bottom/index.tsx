@@ -31,7 +31,9 @@ export default function BuildingInfoBottom({ selectedData, matchingDatas }: IBui
         </h3>
         <BasicToggleButton options={BUILDING_TYPE} value={alignment} onChange={handleAlignment} />
       </div>
-      {matchedDatas.length !== 0 ? <MatchedList matchedDatas={matchedDatas} alignment={alignment} /> : <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />}
+      <div className="bottomContents">
+        {matchedDatas.length !== 0 ? <MatchedList matchedDatas={matchedDatas} alignment={alignment} /> : <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />}
+      </div>
     </S.Container>
   );
 }

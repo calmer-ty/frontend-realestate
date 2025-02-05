@@ -49,12 +49,6 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
         <div className="stroke"></div>
         매물 정보 {scroll ? "닫기" : "열기"}
       </S.TabButton>
-
-      {/* <Button
-        onClick={() => {
-          alert("clicked");
-        }}
-      ></Button> */}
     </>
   );
 }
