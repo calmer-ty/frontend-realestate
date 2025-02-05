@@ -1,11 +1,15 @@
 import styled from "@emotion/styled";
+import { mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
-  position: relative;
+
+  ${mediaQueries.mobile(css`
+    flex-direction: column-reverse;
+  `)}
 `;
 
 export const MapMenu = styled.div`

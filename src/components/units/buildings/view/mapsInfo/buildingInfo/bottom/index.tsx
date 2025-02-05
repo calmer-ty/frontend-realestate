@@ -1,12 +1,13 @@
+import { useState } from "react";
+
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 import MatchedList from "./matchedList";
 import BasicToggleButton from "@/src/components/commons/button/toggle/basic";
 
 import * as S from "./styles";
-import { BUILDING_TYPE } from "@/src/commons/constants";
 
+import { BUILDING_TYPE } from "@/src/commons/constants";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-import { useState } from "react";
 interface IBuildingInfoBottomProps {
   selectedData: IGeocodeData;
   matchingDatas: IFirestore[];
@@ -30,13 +31,7 @@ export default function BuildingInfoBottom({ selectedData, matchingDatas }: IBui
         </h3>
         <BasicToggleButton options={BUILDING_TYPE} value={alignment} onChange={handleAlignment} />
       </div>
-      {matchedDatas.length !== 0 ? (
-        <S.Registered>
-          <MatchedList matchedDatas={matchedDatas} alignment={alignment} />
-        </S.Registered>
-      ) : (
-        <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />
-      )}
+      {matchedDatas.length !== 0 ? <MatchedList matchedDatas={matchedDatas} alignment={alignment} /> : <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />}
     </S.Container>
   );
 }

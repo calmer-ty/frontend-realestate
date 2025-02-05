@@ -22,9 +22,3 @@ export const Container = styled.section`
     }
   }
 `;
-
-export const Registered = styled.div`
-  overflow-y: scroll;
-  width: 100%;
-  height: 100%;
-`;
