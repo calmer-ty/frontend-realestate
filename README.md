@@ -52,6 +52,7 @@ yarn dev
 ![필터](https://github.com/user-attachments/assets/dafa75bb-9f34-4f2f-8161-c3f7f6dd05f8)
 
 - 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다. 
+
 https://youtu.be/A6zHCStmT8g
 
 
