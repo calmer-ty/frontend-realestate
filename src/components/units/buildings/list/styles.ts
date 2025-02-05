@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.article`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  min-width: 360px;
+  /*tab 컴포넌트를 감싸는 상위 요소 */
+  > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 340px;
+  }
+
   h2 {
     margin-bottom: 20px;
   }
