@@ -19,16 +19,17 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 
+  console.log("scroll: ", scroll);
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
     setScroll(true);
   }, [selectedMarkerData]);
 
   // 지도 이동시 탭 스크롤 다운
-  useEffect(() => {
-    setScroll(false);
-    setSelectedData(null);
-  }, [visibleMarkerDatas]);
+  // useEffect(() => {
+  //   setScroll(false);
+  //   setSelectedData(null);
+  // }, [visibleMarkerDatas]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);

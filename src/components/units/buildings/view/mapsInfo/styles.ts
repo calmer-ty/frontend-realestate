@@ -6,16 +6,6 @@ interface IScroll {
   scroll: boolean;
 }
 
-// export const Container = styled.aside<IScroll>`
-//   overflow-y: auto;
-//   border-right: 1px solid #dedede;
-//   background-color: #fff;
-//   width: 400px;
-
-//   ${mediaQueries.mobile(css`
-//     width: 300px;
-//   `)}
-// `;
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
   border-right: 1px solid #dedede;
@@ -28,6 +18,11 @@ export const Container = styled.aside<IScroll>`
   ${mediaQueries.tablet(css`
     flex: 1;
   `)}
+
+  ${(props) =>
+    mediaQueries.mobile(css`
+      flex: ${props.scroll ? "1" : "0"};
+    `)}
 `;
 
 export const TabButton = styled.button`
