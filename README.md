@@ -51,4 +51,9 @@ yarn dev
 
 ![필터](https://github.com/user-attachments/assets/dafa75bb-9f34-4f2f-8161-c3f7f6dd05f8)
 
+- 월세/전세/매매 필터링이 추가되었습니다.
+
+![지도영역 정보창](https://github.com/user-attachments/assets/5594b431-ed6f-4b3f-b469-ee82bd68d047)
+
+
 
