@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import type { IBuildingDataParams, IGeocodeData } from "@/src/commons/types";
+import type { IGeocodeData, IGeocodeDataParams } from "@/src/commons/types";
 import axios from "axios";
 
 interface IUseFetchAllGeocodeDataReturn {
@@ -10,7 +10,7 @@ interface IUseFetchAllGeocodeDataReturn {
   error: string | null;
 }
 
-export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IBuildingDataParams): IUseFetchAllGeocodeDataReturn => {
+export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IGeocodeDataParams): IUseFetchAllGeocodeDataReturn => {
   const [geocodeDatas, setGeocodeDatas] = useState<IGeocodeData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -39,7 +39,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
 
-  const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, buildingType });
+  const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, regionName, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
     geocodeDatas,
@@ -68,7 +68,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   useEffect(() => {
     if (regionCode === undefined || buildingType === null) return;
-
     void fetchBuildingDatas();
   }, [regionCode, buildingType, fetchBuildingDatas]);
 

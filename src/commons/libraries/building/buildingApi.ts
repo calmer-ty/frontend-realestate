@@ -30,7 +30,7 @@ const API_URLS = {
 const NUM_OF_ROWS = 10;
 
 // 제외 필드 상수
-const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
+const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
 
 const createApiUrl = ({ regionCode, buildingType, pageNo }: ICreateApiUrlParams): string => {
   const currentDate = getCurrentDate();
@@ -43,19 +43,19 @@ const createApiUrl = ({ regionCode, buildingType, pageNo }: ICreateApiUrlParams)
   return `${baseUrl}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
 };
 
-const processResponseData = (data: IBuilding | undefined): IBuildingItem[] => {
+const processResponseData = (data: IBuilding | undefined, regionName: string): IBuildingItem[] => {
   // 아이템 배열 추출
   const itemsRaw = data?.response?.body?.items?.item ?? [];
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IBuildingItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
+  const isValidData = (el: IBuildingItem): boolean => el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
   // && !el.estateAgentSggNm?.includes(",")
 
   // 필드 필터링 함수
   const filterItemFields = (item: IBuildingItem): IBuildingItem => {
     const filteredItem: IBuildingItem = {
-      estateAgentSggNm: "",
+      regionName,
       umdNm: "",
       jibun: "",
       floor: 0,
@@ -119,7 +119,7 @@ export const getLatestData = (items: IBuildingItem[]): IBuildingItem[] => {
 };
 
 // 메인 함수
-export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IBuildingItem[]> => {
+export const buildingApi = async ({ regionCode, regionName, buildingType }: IBuildingDataParams): Promise<IBuildingItem[]> => {
   try {
     // 첫 번째 요청으로 총 페이지 수 계산
     const initialUrl = createApiUrl({ regionCode, buildingType, pageNo: 1 });
@@ -140,7 +140,7 @@ export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataPa
       limit(async () => {
         const url = createApiUrl({ regionCode, pageNo, buildingType });
         const response = await axios.get<IBuilding | undefined>(url);
-        const data = processResponseData(response.data);
+        const data = processResponseData(response.data, regionName);
 
         return data;
       })
@@ -150,8 +150,6 @@ export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataPa
 
     // 모든 데이터를 하나로 합치고 최신 데이터만 추출
     const latestData = getLatestData(allItems.flat());
-
-    console.log("latestData: ", latestData);
     return latestData;
   } catch (error) {
     handleError(error, "officetelApi"); // 에러 처리

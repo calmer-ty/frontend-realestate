@@ -8,7 +8,7 @@ interface IUseFetchBuildingDataReturn {
   fetchBuildingDatas: () => Promise<void>;
 }
 
-export const useFetchBuildingData = ({ regionCode, buildingType }: IBuildingDataParamsOptional): IUseFetchBuildingDataReturn => {
+export const useFetchBuildingData = ({ regionCode, regionName, buildingType }: IBuildingDataParamsOptional): IUseFetchBuildingDataReturn => {
   const [buildingDatas, setBuildingDatas] = useState<IBuildingItem[]>([]);
 
   const fetchBuildingDatas = useCallback(async (): Promise<void> => {
@@ -19,7 +19,7 @@ export const useFetchBuildingData = ({ regionCode, buildingType }: IBuildingData
 
     try {
       const response = await axios.get<IBuildingItem[]>("/api/fetchBuilding", {
-        params: { regionCode, buildingType },
+        params: { regionCode, regionName, buildingType },
       });
 
       if (response.status === 200) {
@@ -31,6 +31,6 @@ export const useFetchBuildingData = ({ regionCode, buildingType }: IBuildingData
     } catch (err) {
       console.error("Error fetching data:", err);
     }
-  }, [regionCode, buildingType]);
+  }, [regionCode, regionName, buildingType]);
   return { buildingDatas, fetchBuildingDatas };
 };

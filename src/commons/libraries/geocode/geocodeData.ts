@@ -6,7 +6,7 @@ import { getBuildingData } from "../building/buildingData";
 // import { getCachedApartmentData } from "../apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { getCachedBuildingData } from "../building/buildingCache";
 
-import type { IBuildingItem, IBuildingDataParams, IGeocode } from "@/src/commons/types";
+import type { IBuildingItem, IGeocode, IGeocodeDataParams } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
@@ -48,59 +48,29 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+export const getAllGeocodeData = async ({ regionCode, buildingType }: IGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
   // const apartmentData = await getApartmentData(regionCode);
   // const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
-  const officetelData = await getBuildingData({ regionCode, buildingType });
-  const officetelCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
+  const buildingData = await getBuildingData({ regionCode, regionName: "경기도 성남시 분당구", buildingType });
+  const buildingCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
 
   let selectedDatas: IBuildingItem[] = [];
 
-  if (officetelCache !== undefined) {
-    selectedDatas = officetelCache; // 데이터가 있으면 그대로 사용
-  } else if (officetelData.length > 0) {
-    selectedDatas = officetelData; // 캐시가 있으면 캐시 데이터 사용
+  if (buildingCache !== undefined) {
+    selectedDatas = buildingCache; // 데이터가 있으면 그대로 사용
+  } else if (buildingData.length > 0) {
+    selectedDatas = buildingData; // 캐시가 있으면 캐시 데이터 사용
   } else {
     selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
-    console.log("getAllGeocodeData / officetelData가 없습니다. ");
+    console.log("getAllGeocodeData / buildingData가 없습니다. ");
   }
-  // switch (buildingType) {
-  //   case "apartment":
-  //     // apartmentData가 있을 경우 사용하고, 없으면 캐시에서 가져옴
-  //     if (apartmentCache !== undefined) {
-  //       selectedDatas = apartmentCache; // 데이터가 있으면 그대로 사용
-  //     } else if (apartmentData.length > 0) {
-  //       selectedDatas = apartmentData; // 캐시가 있으면 캐시 데이터 사용
-  //     } else {
-  //       selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
-  //       console.log("getAllGeocodeData / apartmentData가 없습니다. ");
-  //     }
-
-  //     break;
-  //   case "officetel":
-  //     // apartmentData가 있을 경우 사용하고, 없으면 캐시에서 가져옴
-  //     if (officetelCache !== undefined) {
-  //       selectedDatas = officetelCache; // 데이터가 있으면 그대로 사용
-  //     } else if (officetelData.length > 0) {
-  //       selectedDatas = officetelData; // 캐시가 있으면 캐시 데이터 사용
-  //     } else {
-  //       selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
-  //       console.log("getAllGeocodeData / officetelData가 없습니다. ");
-  //     }
-
-  //     break;
-  //   // 다른 buildingType에 대한 분기 추가 가능
-  //   default:
-  //     console.error("찾을 수 없는 buildingType 입니다.:", buildingType);
-  //     return [];
-  // }
 
   const geocodeData = await Promise.all(
     selectedDatas.map((data) =>
       limit(async () => {
         try {
-          const address = `${data.estateAgentSggNm} ${data.umdNm} ${data.jibun}`;
+          const address = `${data.regionName} ${data.umdNm} ${data.jibun}`;
           const geocode = await fetchGeocodeData(address);
 
           return { data, geocode }; // 정상적으로 처리된 데이터 리턴

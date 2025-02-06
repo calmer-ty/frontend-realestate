@@ -80,7 +80,8 @@ export interface IBuilding {
   };
 }
 export interface IBuildingItem {
-  estateAgentSggNm: string;
+  // estateAgentSggNm: string;
+  regionName: string;
   umdNm: string;
   jibun: string;
   floor: number;
@@ -132,11 +133,17 @@ export interface IUserInputGeocodeData {
 
 export interface IBuildingDataParams {
   regionCode: string;
+  regionName: string;
   buildingType: string;
 }
 export interface IBuildingDataParamsOptional {
   regionCode?: string;
+  regionName?: string;
   buildingType?: string;
+}
+export interface IGeocodeDataParams {
+  regionCode: string;
+  buildingType: string;
 }
 
 // firestore
