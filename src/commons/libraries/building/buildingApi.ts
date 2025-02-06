@@ -14,25 +14,29 @@ const limit = pLimit(10);
 
 // API 설정 상수
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
+
 const APARTMENT_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
 const OFFICETEL_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
-const NUM_OF_ROWS = 100;
+const API_URLS = {
+  apartment: APARTMENT_URL,
+  officetel: OFFICETEL_URL,
+  // 추가적인 URL이 있을 경우 여기에 추가
+};
+
+const NUM_OF_ROWS = 10;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
 
 const createApiUrl = ({ regionCode, buildingType, pageNo }: ICreateApiUrlParams): string => {
   const currentDate = getCurrentDate();
-  switch (buildingType) {
-    case "apartment":
-      return `${APARTMENT_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
+  const baseUrl = API_URLS[buildingType as "apartment" | "officetel"];
 
-    case "officetel":
-      return `${OFFICETEL_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
-
-    default:
-      throw new Error(`잘못된 buildingType: ${buildingType}`);
+  if (typeof baseUrl !== "string") {
+    throw new Error(`잘못된 buildingType: ${buildingType}`);
   }
+
+  return `${baseUrl}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
 };
 
 const processResponseData = (data: IBuilding | undefined): IBuildingItem[] => {
