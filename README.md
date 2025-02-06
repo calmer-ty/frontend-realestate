@@ -55,6 +55,8 @@ yarn dev
 
 https://youtu.be/A6zHCStmT8g
 
+- 오피스텔 항목이 추가됐습니다.
+
 
 
 
