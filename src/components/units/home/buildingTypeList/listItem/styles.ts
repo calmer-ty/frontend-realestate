@@ -24,8 +24,21 @@ export const ListItem = styled.div<IBuildingTypeProps>`
     align-items: center;
     width: 100%;
     height: 100%;
+
+    .descWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      height: 48px;
+      p {
+        word-break: keep-all;
+        color: #979797;
+      }
+    }
   }
-  .textWrap {
+  .textBox {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
