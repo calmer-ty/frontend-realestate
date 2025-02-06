@@ -17,7 +17,7 @@ import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingParamsPromiseProps, IGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
-  const [buildingType, setBuildingType] = useState<string | null>(null);
+  const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
   // params를 비동기적으로 처리하려면 await로 기다려야 함
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -41,7 +41,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentDatas, fetchApartmentDatas } = useFetchApartmentData(regionCode);
-  const { officetelDatas, fetchOfficetelDatas } = useFetchOfficetelData(regionCode, buildingType);
+  const { officetelDatas, fetchOfficetelDatas } = useFetchOfficetelData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
     geocodeDatas,
@@ -113,13 +113,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   return (
     <S.Container>
-      <MapsInfo
-        selectedMarkerData={selectedMarkerData}
-        visibleMarkerDatas={visibleMarkerDatas}
-        setSelectedMarkerData={setSelectedMarkerData}
-        matchingDatas={matchingDatas}
-        buildingType={buildingType}
-      />
+      <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerDatas={visibleMarkerDatas} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />
       <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );

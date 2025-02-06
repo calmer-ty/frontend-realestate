@@ -1,28 +1,24 @@
 import { useCallback, useState } from "react";
 
-import type { IOfficetelItem } from "@/src/commons/types";
+import type { IBuildingDataParamsOptional, IBuildingItem } from "@/src/commons/types";
 import axios from "axios";
 
 interface IUseFetchOfficetelDataReturn {
-  officetelDatas: IOfficetelItem[];
+  officetelDatas: IBuildingItem[];
   fetchOfficetelDatas: () => Promise<void>;
 }
 
-export const useFetchOfficetelData = (regionCode: string | undefined, buildingType: string | null): IUseFetchOfficetelDataReturn => {
-  const [officetelDatas, setOfficetelDatas] = useState<IOfficetelItem[]>([]);
+export const useFetchOfficetelData = ({ regionCode, buildingType }: IBuildingDataParamsOptional): IUseFetchOfficetelDataReturn => {
+  const [officetelDatas, setOfficetelDatas] = useState<IBuildingItem[]>([]);
 
   const fetchOfficetelDatas = useCallback(async (): Promise<void> => {
-    if (regionCode === undefined) {
+    if (regionCode === undefined || buildingType === undefined) {
       console.error("존재하지 않는 지역입니다.");
-      return;
-    }
-    if (buildingType === null) {
-      console.error("건물 타입이 없습니다.");
       return;
     }
 
     try {
-      const response = await axios.get<IOfficetelItem[]>("/api/fetchOfficetel", {
+      const response = await axios.get<IBuildingItem[]>("/api/fetchOfficetel", {
         params: { regionCode, buildingType },
       });
 

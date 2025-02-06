@@ -12,7 +12,6 @@ interface IMapsInfoProps {
   visibleMarkerDatas: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   matchingDatas: IFirestore[];
-  buildingType: string;
 }
 
 export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas }: IMapsInfoProps): JSX.Element {

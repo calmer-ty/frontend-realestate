@@ -67,11 +67,11 @@ export interface IApartmentLocation {
 }
 
 // 오피스텔 API
-export interface IOfficetel {
+export interface IBuilding {
   response: {
     body: {
       items: {
-        item: IOfficetelItem[]; // Item 배열 형태로 정의
+        item: IBuildingItem[]; // Item 배열 형태로 정의
       };
       numOfRows: number;
       pageNo: number;
@@ -79,7 +79,7 @@ export interface IOfficetel {
     };
   };
 }
-export interface IOfficetelItem {
+export interface IBuildingItem {
   estateAgentSggNm: string;
   umdNm: string;
   jibun: string;
@@ -96,7 +96,7 @@ export interface IOfficetelItem {
   // 인덱스 시그니처 추가
   [key: string]: any;
 }
-export interface IOfficetelLocation {
+export interface IBuildingLocation {
   responses: IApartment;
   locatadd_nm: string;
 }
@@ -124,6 +124,15 @@ export interface IGeocodeData {
 export interface IUserInputGeocodeData {
   data: IFirestore;
   geocode: IGeocode;
+}
+
+export interface IBuildingDataParams {
+  regionCode: string;
+  buildingType: string;
+}
+export interface IBuildingDataParamsOptional {
+  regionCode?: string;
+  buildingType?: string;
 }
 
 // firestore

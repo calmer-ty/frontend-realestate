@@ -6,15 +6,11 @@ import { getOfficetelData } from "../officetel/officetelData";
 // import { getCachedApartmentData } from "../apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { getCachedOfficetelData } from "../officetel/officetelCache";
 
-import type { IApartmentItem, IGeocode } from "@/src/commons/types";
+import type { IApartmentItem, IBuildingDataParams, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
 
-interface IGetAllGeocodeDataParams {
-  buildingType: string;
-  regionCode: string;
-}
 interface IGetAllGeocodeDataReturn {
   data: IApartmentItem;
   geocode: IGeocode | null;
@@ -52,11 +48,11 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async ({ regionCode, buildingType }: IGetAllGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+export const getAllGeocodeData = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
   // const apartmentData = await getApartmentData(regionCode);
   // const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
-  const officetelData = await getOfficetelData(regionCode, buildingType);
+  const officetelData = await getOfficetelData({ regionCode, buildingType });
   const officetelCache = getCachedOfficetelData(`${buildingType}_${regionCode}`);
 
   let selectedDatas: IApartmentItem[] = [];

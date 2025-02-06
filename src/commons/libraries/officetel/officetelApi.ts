@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 
-import type { IApartment, IApartmentItem } from "@/src/commons/types";
+import type { IApartment, IApartmentItem, IBuildingDataParams } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
@@ -101,8 +101,7 @@ export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
 };
 
 // 메인 함수
-export const officetelApi = async (regionCode: string, buildingType: string): Promise<IApartmentItem[]> => {
-  console.log("officetelApi...buildingType", buildingType);
+export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IApartmentItem[]> => {
   try {
     // 첫 번째 요청으로 총 페이지 수 계산
     const initialUrl = createApiUrl(regionCode, 1, buildingType);
