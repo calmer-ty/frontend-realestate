@@ -1,7 +1,7 @@
 import { getBuildingData } from "@/src/commons/libraries/building/buildingData";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function fetchOfficetel(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function fetchBuilding(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { regionCode, buildingType } = req.query; // 쿼리 문자열에서 buildingType을 추출합니다.
 
   if (typeof regionCode !== "string" || typeof buildingType !== "string") {

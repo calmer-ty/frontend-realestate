@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useFetchBuildingData } from "@/src/hooks/api/useFetchOfficetelData";
+import { useFetchBuildingData } from "@/src/hooks/api/useFetchBuildingData";
 import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
