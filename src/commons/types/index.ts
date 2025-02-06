@@ -92,6 +92,7 @@ export interface IBuildingItem {
   buildYear: number;
   rgstDate: string;
 
+  // 건물 이름
   aptNm: string;
   offiNm: string;
 
@@ -120,7 +121,6 @@ export interface IGeocode {
   jibunAddress: string;
 }
 export interface IGeocodeData {
-  // data: IApartmentItem;
   data: IBuildingItem;
   geocode: IGeocode;
 }

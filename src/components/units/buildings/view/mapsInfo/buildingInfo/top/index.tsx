@@ -6,21 +6,26 @@ import * as S from "./styles";
 
 import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
+import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 interface IBuildingInfoTopProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  buildingType: string;
 }
 
-export default function BuildingInfoTop({ selectedData, setSelectedData }: IBuildingInfoTopProps): JSX.Element {
+export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Element {
+  const { selectedData, setSelectedData, buildingType } = props;
   const onClickClose = (): void => {
     setSelectedData(null);
   };
+
+  const buildingName = buildingType === "apartment" ? selectedData.data?.aptNm : buildingType === "officetel" ? selectedData.data?.offiNm : DEFAULT_STRING_VALUE;
 
   return (
     <S.Container>
       <S.CloseButton onClick={onClickClose} />
       <S.InfoWrap>
-        <h2>{selectedData.data?.aptNm}</h2>
+        <h2>{buildingName}</h2>
         <S.TextWrap>
           <BasicChip label="연식" size="small" /> <span>{selectedData.data?.buildYear}</span>
         </S.TextWrap>

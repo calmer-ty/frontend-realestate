@@ -12,9 +12,12 @@ interface IMapsInfoProps {
   visibleMarkerDatas: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   matchingDatas: IFirestore[];
+  buildingType: string;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
+  const { selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas, buildingType } = props;
+
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
 
@@ -37,9 +40,9 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== null ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />
         ) : (
-          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
+          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
         )}
       </S.Container>
 

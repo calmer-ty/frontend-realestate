@@ -26,7 +26,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
     void fetchData();
   }, [params]);
-  console.log("params: ", buildingType);
 
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
   const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
@@ -39,6 +38,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
+
   const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
@@ -87,14 +87,20 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   });
 
   // buildingType이 null일 때 로딩 상태 표시
-  if (buildingType === null) {
+  if (buildingType === undefined) {
     return <LoadingSpinner size={100} />;
   }
   if (error !== null) return <div>{error}</div>;
 
   return (
     <S.Container>
-      <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerDatas={visibleMarkerDatas} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} />
+      <MapsInfo
+        selectedMarkerData={selectedMarkerData}
+        visibleMarkerDatas={visibleMarkerDatas}
+        setSelectedMarkerData={setSelectedMarkerData}
+        matchingDatas={matchingDatas}
+        buildingType={buildingType}
+      />
       <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
     </S.Container>
   );

@@ -7,16 +7,17 @@ interface IBuildingInfoProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
   matchingDatas: IFirestore[];
+  buildingType: string;
 }
 
 export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { selectedData, setSelectedData, matchingDatas } = props;
+  const { selectedData, setSelectedData, matchingDatas, buildingType } = props;
 
   return (
     <>
       {selectedData != null && (
         <>
-          <BuildingInfoTop selectedData={selectedData} setSelectedData={setSelectedData} />
+          <BuildingInfoTop selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
           {/* 등록된 건물 정보 */}
           <BuildingInfoBottom selectedData={selectedData} matchingDatas={matchingDatas} />
         </>

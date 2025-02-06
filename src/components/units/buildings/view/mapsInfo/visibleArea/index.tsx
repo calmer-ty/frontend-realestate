@@ -11,10 +11,11 @@ interface IVisibleAreaProps {
   visibleMarkerDatas: IGeocodeData[];
   selectedData: IGeocodeData | null;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  buildingType: string;
 }
 
 export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
-  const { visibleMarkerDatas, matchingDatas, selectedData, setSelectedData } = props;
+  const { visibleMarkerDatas, matchingDatas, selectedData, setSelectedData, buildingType } = props;
 
   // visibleData를 순회하면서 matchingData와 대조하여 동일한 데이터만 걸러냅니다.
   const matchingMarkerData = visibleMarkerDatas.filter((visibleData) => {
@@ -30,7 +31,7 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
             <MarkerList matchingMarkerData={matchingMarkerData} setSelectedData={setSelectedData} />
           ) : (
             // 마커 리스트 아이템을 선택할 때 보이는 건물 정보
-            <BuildingInfo matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} />
+            <BuildingInfo matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
           )}
         </>
       ) : (

@@ -6,10 +6,11 @@ interface ISelectedAreaProps {
   selectedMarkerData: IGeocodeData;
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
   matchingDatas: IFirestore[];
+  buildingType: string;
 }
 
 export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
-  const { selectedMarkerData, setSelectedMarkerData, matchingDatas } = props;
+  const { selectedMarkerData, setSelectedMarkerData, matchingDatas, buildingType } = props;
 
-  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingDatas={matchingDatas} />;
+  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />;
 }

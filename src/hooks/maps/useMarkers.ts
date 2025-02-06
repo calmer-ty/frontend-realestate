@@ -8,7 +8,9 @@ interface IUseMapMarkersReturn {
   updateMarkers: (map: any) => Promise<void>;
 }
 
-export const useMarkers = ({ geocodeDatas, matchingDatas, setvisibleMarkerDatass, setSelectedMarkerData }: IMapMarkerParams): IUseMapMarkersReturn => {
+export const useMarkers = (params: IMapMarkerParams): IUseMapMarkersReturn => {
+  const { geocodeDatas, matchingDatas, setSelectedMarkerData, setvisibleMarkerDatass } = params;
+
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
 
