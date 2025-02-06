@@ -25,7 +25,7 @@ export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IUseFetchAl
       setError(null); // 이전 에러 상태 초기화
       try {
         const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
-          params: { buildingType, regionCode },
+          params: { regionCode, buildingType },
         });
         if (response.status === 200) {
           setGeocodeDatas(response.data);

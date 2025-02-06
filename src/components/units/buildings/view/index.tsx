@@ -41,7 +41,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
   const { apartmentDatas, fetchApartmentDatas } = useFetchApartmentData(regionCode);
-  const { officetelDatas, fetchOfficetelDatas } = useFetchOfficetelData(regionCode);
+  const { officetelDatas, fetchOfficetelDatas } = useFetchOfficetelData(regionCode, buildingType);
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
     geocodeDatas,
@@ -69,20 +69,25 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }, [regionName, fetchGeocodeData]);
 
   // regionCode가 변경되면 아파트 데이터를 요청
+  // useEffect(() => {
+  //   if (regionCode === undefined) return;
+
+  //   switch (buildingType) {
+  //     case "apartment":
+  //       void fetchApartmentDatas();
+  //       break;
+  //     case "officetel":
+  //       void fetchOfficetelDatas();
+  //       break;
+
+  //     default:
+  //       console.warn("알 수 없는 지역 타입:", buildingType);
+  //   }
+  // }, [regionCode, buildingType, fetchApartmentDatas, fetchOfficetelDatas]);
   useEffect(() => {
-    if (regionCode === undefined) return;
+    if (regionCode === undefined || buildingType === null) return;
 
-    switch (buildingType) {
-      case "apartment":
-        void fetchApartmentDatas();
-        break;
-      case "officetel":
-        void fetchOfficetelDatas();
-        break;
-
-      default:
-        console.warn("알 수 없는 지역 타입:", buildingType);
-    }
+    void fetchOfficetelDatas();
   }, [regionCode, buildingType, fetchApartmentDatas, fetchOfficetelDatas]);
 
   // apartmentData가 변경되면 지오코드 데이터를 요청 - apartmentDatas 값 의존성 배열로 추가

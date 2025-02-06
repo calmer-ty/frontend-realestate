@@ -9,15 +9,25 @@ const limit = pLimit(10);
 
 // API 설정 상수
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
-const BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
+const APARTMENT_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
+const OFFICETEL_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
 const NUM_OF_ROWS = 100;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
 
-const createApiUrl = (regionCode: string, pageNo: number): string => {
+const createApiUrl = (regionCode: string, pageNo: number, buildingType: string): string => {
   const currentDate = getCurrentDate();
-  return `${BASE_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
+  switch (buildingType) {
+    case "apartment":
+      return `${APARTMENT_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
+
+    case "officetel":
+      return `${OFFICETEL_URL}?serviceKey=${API_KEY}&LAWD_CD=${regionCode}&DEAL_YMD=${currentDate}&pageNo=${pageNo}&numOfRows=${NUM_OF_ROWS}`;
+
+    default:
+      throw new Error(`잘못된 buildingType: ${buildingType}`);
+  }
 };
 
 const processResponseData = (data: IApartment | undefined): IApartmentItem[] => {
@@ -91,10 +101,11 @@ export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
 };
 
 // 메인 함수
-export const officetelApi = async (regionCode: string): Promise<IApartmentItem[]> => {
+export const officetelApi = async (regionCode: string, buildingType: string): Promise<IApartmentItem[]> => {
+  console.log("officetelApi...buildingType", buildingType);
   try {
     // 첫 번째 요청으로 총 페이지 수 계산
-    const initialUrl = createApiUrl(regionCode, 1);
+    const initialUrl = createApiUrl(regionCode, 1, buildingType);
     const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
@@ -110,7 +121,7 @@ export const officetelApi = async (regionCode: string): Promise<IApartmentItem[]
     // 페이지 요청을 병렬로 실행
     const requests = pageNumbers.map((pageNo) =>
       limit(async () => {
-        const url = createApiUrl(regionCode, pageNo);
+        const url = createApiUrl(regionCode, pageNo, buildingType);
         const response = await axios.get<IApartment | undefined>(url);
         const data = processResponseData(response.data);
 

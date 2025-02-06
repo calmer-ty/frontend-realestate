@@ -8,7 +8,7 @@ interface IUseFetchOfficetelDataReturn {
   fetchOfficetelDatas: () => Promise<void>;
 }
 
-export const useFetchOfficetelData = (regionCode: string | undefined): IUseFetchOfficetelDataReturn => {
+export const useFetchOfficetelData = (regionCode: string | undefined, buildingType: string | null): IUseFetchOfficetelDataReturn => {
   const [officetelDatas, setOfficetelDatas] = useState<IOfficetelItem[]>([]);
 
   const fetchOfficetelDatas = useCallback(async (): Promise<void> => {
@@ -16,10 +16,14 @@ export const useFetchOfficetelData = (regionCode: string | undefined): IUseFetch
       console.error("존재하지 않는 지역입니다.");
       return;
     }
+    if (buildingType === null) {
+      console.error("건물 타입이 없습니다.");
+      return;
+    }
 
     try {
       const response = await axios.get<IOfficetelItem[]>("/api/fetchOfficetel", {
-        params: { regionCode },
+        params: { regionCode, buildingType },
       });
 
       if (response.status === 200) {
@@ -31,6 +35,6 @@ export const useFetchOfficetelData = (regionCode: string | undefined): IUseFetch
     } catch (err) {
       console.error("Error fetching data:", err);
     }
-  }, [regionCode]);
+  }, [regionCode, buildingType]);
   return { officetelDatas, fetchOfficetelDatas };
 };

@@ -4,13 +4,16 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { IOfficetelItem } from "@/src/commons/types";
 
-export const getOfficetelData = async (regionCode: string): Promise<IOfficetelItem[]> => {
-  if (regionCode === "") {
-    console.warn("regionCode is undefined, skipping API call");
+export const getOfficetelData = async (regionCode: string, buildingType: string): Promise<IOfficetelItem[]> => {
+  if (typeof regionCode !== "string" || typeof buildingType !== "string") {
+    console.warn("regionCode/buildingType is undefined, skipping API call");
     return []; // regionCode가 없으면 빈 배열 반환
   }
 
-  const cacheKey = `officetel_${regionCode}`;
+  console.log("getOfficetelData...regionCode", regionCode);
+  console.log("getOfficetelData...buildingType", buildingType);
+
+  const cacheKey = `${buildingType}_${regionCode}`;
   const cachedData = getCachedOfficetelData(cacheKey);
 
   if (cachedData !== undefined) {
@@ -18,13 +21,13 @@ export const getOfficetelData = async (regionCode: string): Promise<IOfficetelIt
   }
 
   try {
-    const response = await officetelApi(regionCode);
+    const response = await officetelApi(regionCode, buildingType);
     setOfficetelCache(cacheKey, response);
     // console.log("API 데이터 캐시 저장 결과: ", response);
 
     return response;
   } catch (error) {
-    handleError(error, `getOfficetelData - ${regionCode}`);
+    handleError(error, "getOfficetelData");
     return []; // 에러가 발생하면 빈 배열 반환
   }
 };
