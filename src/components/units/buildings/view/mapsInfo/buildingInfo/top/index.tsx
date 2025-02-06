@@ -19,7 +19,14 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
     setSelectedData(null);
   };
 
-  const buildingName = buildingType === "apartment" ? selectedData.data?.aptNm : buildingType === "officetel" ? selectedData.data?.offiNm : DEFAULT_STRING_VALUE;
+  const buildingName =
+    buildingType === "apartment"
+      ? selectedData.data?.aptNm
+      : buildingType === "officetel"
+      ? selectedData.data?.offiNm
+      : buildingType === "townHouse"
+      ? selectedData.data?.mhouseNm
+      : DEFAULT_STRING_VALUE;
 
   return (
     <S.Container>

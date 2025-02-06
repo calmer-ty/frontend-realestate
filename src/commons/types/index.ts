@@ -95,6 +95,7 @@ export interface IBuildingItem {
   // 건물 이름
   aptNm: string;
   offiNm: string;
+  mhouseNm: string;
 
   // 인덱스 시그니처 추가
   [key: string]: any;

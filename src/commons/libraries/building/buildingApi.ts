@@ -69,6 +69,7 @@ const processResponseData = (data: IBuilding | undefined): IBuildingItem[] => {
       // 건물 이름
       aptNm: "",
       offiNm: "",
+      mhouseNm: "",
     };
     // item의 각 속성을 filteredItem에 덮어쓰기
     for (const key in item) {
