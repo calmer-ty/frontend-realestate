@@ -17,9 +17,13 @@ const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 
 const APARTMENT_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
 const OFFICETEL_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
+const HOUSE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcSHTrade/getRTMSDataSvcSHTrade";
+const TOWNHOUSE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcRHTrade/getRTMSDataSvcRHTrade";
 const API_URLS = {
   apartment: APARTMENT_URL,
   officetel: OFFICETEL_URL,
+  house: HOUSE_URL,
+  townHouse: TOWNHOUSE_URL,
   // 추가적인 URL이 있을 경우 여기에 추가
 };
 

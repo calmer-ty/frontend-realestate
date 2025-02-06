@@ -31,7 +31,7 @@ export const ListItem = styled.div<IBuildingTypeProps>`
       align-items: center;
       justify-content: center;
 
-      height: 48px;
+      max-height: 72px;
       p {
         word-break: keep-all;
         color: #979797;
