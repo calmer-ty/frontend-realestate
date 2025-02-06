@@ -40,21 +40,17 @@ yarn dev
 - **동적 라우팅을 활용하여 새로운 건물 유형이 추가될 경우, URL에 파라미터 값을 받아 추후에 건물 타입에 맞는 API를 요청할 수 있도록 설계하였습니다.**
 
 ## 업데이트 내용
+
 **2025.02.04**
-- 월세/전세 등록이 추가됐습니다.
- 
-![등록](https://github.com/user-attachments/assets/eab63b6a-e581-4811-ab8f-472d6757bcf5)
+
+- 월세/전세 등록이 추가됐습니다.  ![등록](https://github.com/user-attachments/assets/eab63b6a-e581-4811-ab8f-472d6757bcf5)
+
+- 월세/전세/매매 필터링이 추가됐습니다.  ![필터](https://github.com/user-attachments/assets/dafa75bb-9f34-4f2f-8161-c3f7f6dd05f8)
+
+- 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다.  https://youtu.be/A6zHCStmT8g
 
 
 
-- 월세/전세/매매 필터링이 추가됐습니다.
+**2025.02.06**
 
-![필터](https://github.com/user-attachments/assets/dafa75bb-9f34-4f2f-8161-c3f7f6dd05f8)
-
-- 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다. 
-
-https://youtu.be/A6zHCStmT8g
-
-
-
-
+- 오피스텔 항목이 추가됐습니다.
