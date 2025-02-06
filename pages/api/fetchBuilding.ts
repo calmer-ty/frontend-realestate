@@ -1,4 +1,4 @@
-import { getOfficetelData } from "@/src/commons/libraries/officetel/officetelData";
+import { getBuildingData } from "@/src/commons/libraries/building/buildingData";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function fetchOfficetel(req: NextApiRequest, res: NextApiResponse): Promise<void> {
@@ -10,7 +10,7 @@ export default async function fetchOfficetel(req: NextApiRequest, res: NextApiRe
   }
 
   try {
-    const data = await getOfficetelData({ regionCode, buildingType }); // 지역 데이터 처리 함수를 호출하고 결과를 기다립니다
+    const data = await getBuildingData({ regionCode, buildingType }); // 지역 데이터 처리 함수를 호출하고 결과를 기다립니다
     res.status(200).json(data); // 성공적으로 데이터를 받아 클라이언트에게 JSON 형태로 응답합니다
   } catch (error) {
     console.error("Error processing request:", error);

@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useFetchApartmentData } from "@/src/hooks/api/useFetchApartmentData";
-import { useFetchOfficetelData } from "@/src/hooks/api/useFetchOfficetelData";
+import { useFetchBuildingData } from "@/src/hooks/api/useFetchOfficetelData";
 import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
@@ -40,8 +39,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
-  const { apartmentDatas, fetchApartmentDatas } = useFetchApartmentData(regionCode);
-  const { officetelDatas, fetchOfficetelDatas } = useFetchOfficetelData({ regionCode, buildingType });
+  const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
     geocodeDatas,
@@ -68,34 +66,17 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     void fetchGeocodeData();
   }, [regionName, fetchGeocodeData]);
 
-  // regionCode가 변경되면 아파트 데이터를 요청
-  // useEffect(() => {
-  //   if (regionCode === undefined) return;
-
-  //   switch (buildingType) {
-  //     case "apartment":
-  //       void fetchApartmentDatas();
-  //       break;
-  //     case "officetel":
-  //       void fetchOfficetelDatas();
-  //       break;
-
-  //     default:
-  //       console.warn("알 수 없는 지역 타입:", buildingType);
-  //   }
-  // }, [regionCode, buildingType, fetchApartmentDatas, fetchOfficetelDatas]);
   useEffect(() => {
     if (regionCode === undefined || buildingType === null) return;
 
-    void fetchOfficetelDatas();
-  }, [regionCode, buildingType, fetchApartmentDatas, fetchOfficetelDatas]);
+    void fetchBuildingDatas();
+  }, [regionCode, buildingType, fetchBuildingDatas]);
 
-  // apartmentData가 변경되면 지오코드 데이터를 요청 - apartmentDatas 값 의존성 배열로 추가
+  // buildingDatas가 변경되면 지오코드 데이터를 요청 - buildingDatas 값 의존성 배열로 추가
   useEffect(() => {
-    if (apartmentDatas.length === 0 && officetelDatas.length === 0) return;
-    // if (apartmentDatas.length === 0) return;
+    if (buildingDatas.length === 0) return;
     void fetchGeocodeDatas();
-  }, [apartmentDatas, officetelDatas, fetchGeocodeDatas]);
+  }, [buildingDatas, fetchGeocodeDatas]);
 
   const { loading: mapLoading } = useAllMarker({
     geocode,

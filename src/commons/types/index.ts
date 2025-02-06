@@ -31,40 +31,40 @@ export interface IRegionItemFiltered {
   regionCode: string;
 }
 
-// 아파트 API
-export interface IApartment {
-  response: {
-    body: {
-      items: {
-        item: IApartmentItem[]; // Item 배열 형태로 정의
-      };
-      numOfRows: number;
-      pageNo: number;
-      totalCount: number;
-    };
-  };
-}
-export interface IApartmentItem {
-  estateAgentSggNm: string;
-  umdNm: string;
-  jibun: string;
-  aptNm: string;
-  floor: number;
-  dealAmount: string;
-  excluUseAr: number;
-  dealDay: number;
-  dealMonth: number;
-  dealYear: number;
-  buildYear: number;
-  rgstDate: string;
+// // 아파트 API
+// export interface IApartment {
+//   response: {
+//     body: {
+//       items: {
+//         item: IApartmentItem[]; // Item 배열 형태로 정의
+//       };
+//       numOfRows: number;
+//       pageNo: number;
+//       totalCount: number;
+//     };
+//   };
+// }
+// export interface IApartmentItem {
+//   estateAgentSggNm: string;
+//   umdNm: string;
+//   jibun: string;
+//   aptNm: string;
+//   floor: number;
+//   dealAmount: string;
+//   excluUseAr: number;
+//   dealDay: number;
+//   dealMonth: number;
+//   dealYear: number;
+//   buildYear: number;
+//   rgstDate: string;
 
-  // 인덱스 시그니처 추가
-  [key: string]: any;
-}
-export interface IApartmentLocation {
-  responses: IApartment;
-  locatadd_nm: string;
-}
+//   // 인덱스 시그니처 추가
+//   [key: string]: any;
+// }
+// export interface IApartmentLocation {
+//   responses: IApartment;
+//   locatadd_nm: string;
+// }
 
 // 오피스텔 API
 export interface IBuilding {
@@ -83,7 +83,6 @@ export interface IBuildingItem {
   estateAgentSggNm: string;
   umdNm: string;
   jibun: string;
-  aptNm: string;
   floor: number;
   dealAmount: string;
   excluUseAr: number;
@@ -93,11 +92,14 @@ export interface IBuildingItem {
   buildYear: number;
   rgstDate: string;
 
+  aptNm: string;
+  offiNm: string;
+
   // 인덱스 시그니처 추가
   [key: string]: any;
 }
 export interface IBuildingLocation {
-  responses: IApartment;
+  responses: IBuilding;
   locatadd_nm: string;
 }
 
@@ -118,7 +120,8 @@ export interface IGeocode {
   jibunAddress: string;
 }
 export interface IGeocodeData {
-  data: IApartmentItem;
+  // data: IApartmentItem;
+  data: IBuildingItem;
   geocode: IGeocode;
 }
 export interface IUserInputGeocodeData {

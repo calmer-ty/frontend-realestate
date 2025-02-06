@@ -2,17 +2,17 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 // import { getApartmentData } from "../apartment/apartmentData";
-import { getOfficetelData } from "../officetel/officetelData";
+import { getBuildingData } from "../building/buildingData";
 // import { getCachedApartmentData } from "../apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
-import { getCachedOfficetelData } from "../officetel/officetelCache";
+import { getCachedBuildingData } from "../building/buildingCache";
 
-import type { IApartmentItem, IBuildingDataParams, IGeocode } from "@/src/commons/types";
+import type { IBuildingItem, IBuildingDataParams, IGeocode } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
 
 interface IGetAllGeocodeDataReturn {
-  data: IApartmentItem;
+  data: IBuildingItem;
   geocode: IGeocode | null;
 }
 // interface IGetUserInputGeocodeDataParams {
@@ -52,10 +52,10 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IBuildingD
   // const apartmentData = await getApartmentData(regionCode);
   // const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
-  const officetelData = await getOfficetelData({ regionCode, buildingType });
-  const officetelCache = getCachedOfficetelData(`${buildingType}_${regionCode}`);
+  const officetelData = await getBuildingData({ regionCode, buildingType });
+  const officetelCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
 
-  let selectedDatas: IApartmentItem[] = [];
+  let selectedDatas: IBuildingItem[] = [];
 
   if (officetelCache !== undefined) {
     selectedDatas = officetelCache; // 데이터가 있으면 그대로 사용

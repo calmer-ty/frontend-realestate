@@ -1,22 +1,27 @@
 import axios from "axios";
 import { getCurrentDate } from "@/src/commons/libraries/utils/currentDate";
 import { handleError } from "@/src/commons/libraries/utils/handleError";
-
-import type { IApartment, IApartmentItem, IBuildingDataParams } from "@/src/commons/types";
-
 import pLimit from "p-limit";
+
+import type { IBuilding, IBuildingItem, IBuildingDataParams } from "@/src/commons/types";
+interface ICreateApiUrlParams {
+  regionCode: string;
+  buildingType: string;
+  pageNo: number;
+}
+
 const limit = pLimit(10);
 
 // API 설정 상수
 const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const APARTMENT_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
-const OFFICETEL_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
+const OFFICETEL_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
 const NUM_OF_ROWS = 100;
 
 // 제외 필드 상수
 const FIELDS_TO_EXCLUDE = ["buyerGbn", "cdealDay", "cdealType", "landLeaseholdGbn", "sggCd", "dealingGbn", "slerGbn", "rgstDate"]; // 제외할 필드들
 
-const createApiUrl = (regionCode: string, pageNo: number, buildingType: string): string => {
+const createApiUrl = ({ regionCode, buildingType, pageNo }: ICreateApiUrlParams): string => {
   const currentDate = getCurrentDate();
   switch (buildingType) {
     case "apartment":
@@ -30,21 +35,20 @@ const createApiUrl = (regionCode: string, pageNo: number, buildingType: string):
   }
 };
 
-const processResponseData = (data: IApartment | undefined): IApartmentItem[] => {
+const processResponseData = (data: IBuilding | undefined): IBuildingItem[] => {
   // 아이템 배열 추출
   const itemsRaw = data?.response?.body?.items?.item ?? [];
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IApartmentItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && !el.estateAgentSggNm?.includes(",");
+  const isValidData = (el: IBuildingItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && !el.estateAgentSggNm?.includes(",");
 
   // 필드 필터링 함수
-  const filterItemFields = (item: IApartmentItem): IApartmentItem => {
-    const filteredItem: IApartmentItem = {
+  const filterItemFields = (item: IBuildingItem): IBuildingItem => {
+    const filteredItem: IBuildingItem = {
       estateAgentSggNm: "",
       umdNm: "",
       jibun: "",
-      aptNm: "",
       floor: 0,
       dealAmount: "",
       excluUseAr: 0,
@@ -53,11 +57,15 @@ const processResponseData = (data: IApartment | undefined): IApartmentItem[] => 
       dealYear: 0,
       buildYear: 0,
       rgstDate: "",
+
+      // 건물 이름
+      aptNm: "",
+      offiNm: "",
     };
     // item의 각 속성을 filteredItem에 덮어쓰기
     for (const key in item) {
       if (!FIELDS_TO_EXCLUDE.includes(key)) {
-        filteredItem[key as keyof IApartmentItem] = item[key];
+        filteredItem[key as keyof IBuildingItem] = item[key];
       }
     }
     return filteredItem;
@@ -69,8 +77,8 @@ const processResponseData = (data: IApartment | undefined): IApartmentItem[] => 
 };
 
 // 최신 데이터 필터링 함수
-export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
-  const grouped: Map<string, IApartmentItem> = new Map<string, IApartmentItem>();
+export const getLatestData = (items: IBuildingItem[]): IBuildingItem[] => {
+  const grouped: Map<string, IBuildingItem> = new Map<string, IBuildingItem>();
 
   items.forEach((item) => {
     const key = `${item.umdNm}_${item.jibun}_${item.aptNm}`;
@@ -101,11 +109,11 @@ export const getLatestData = (items: IApartmentItem[]): IApartmentItem[] => {
 };
 
 // 메인 함수
-export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IApartmentItem[]> => {
+export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataParams): Promise<IBuildingItem[]> => {
   try {
     // 첫 번째 요청으로 총 페이지 수 계산
-    const initialUrl = createApiUrl(regionCode, 1, buildingType);
-    const initialResponse = await axios.get<IApartment | undefined>(initialUrl);
+    const initialUrl = createApiUrl({ regionCode, buildingType, pageNo: 1 });
+    const initialResponse = await axios.get<IBuilding | undefined>(initialUrl);
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
       console.warn("officetelApi - 총 데이터 개수가 없습니다.");
@@ -120,8 +128,8 @@ export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataPa
     // 페이지 요청을 병렬로 실행
     const requests = pageNumbers.map((pageNo) =>
       limit(async () => {
-        const url = createApiUrl(regionCode, pageNo, buildingType);
-        const response = await axios.get<IApartment | undefined>(url);
+        const url = createApiUrl({ regionCode, pageNo, buildingType });
+        const response = await axios.get<IBuilding | undefined>(url);
         const data = processResponseData(response.data);
 
         return data;
