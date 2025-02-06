@@ -55,7 +55,7 @@ export default function BuildingTypeList(): JSX.Element {
         <Slider {...settings}>
           <ListItem title="아파트" desc="편리한 생활을 위한 공간" icon={<ApartmentIcon fontSize="large" color="primary" />} isDisabled={false} href={"/apartment"} />
           <ListItem title="오피스텔" desc="다목적 공간, 직장과 집을 한 번에" icon={<HomeWorkIcon fontSize="large" color="primary" />} isDisabled={false} href={"/officetel"} />
-          <ListItem title="빌라" desc="이웃과 함께하는 아늑한 일상" icon={<OtherHousesIcon fontSize="large" color="primary" />} isDisabled={false} href={"/townHouse"} />
+          <ListItem title="빌라" desc="이웃과 함께하는 아늑한 일상" icon={<OtherHousesIcon fontSize="large" color="primary" />} isDisabled={false} href={"/familyHousing"} />
           <ListItem title="주택" desc="나만의 공간, 때로는 함께하는 따뜻한 보금자리" icon={<HouseIcon fontSize="large" color="primary" />} isDisabled={true} href={"/house"} />
         </Slider>
       </div>

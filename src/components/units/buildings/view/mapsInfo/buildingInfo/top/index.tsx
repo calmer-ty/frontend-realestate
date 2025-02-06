@@ -24,7 +24,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
       ? selectedData.data?.aptNm
       : buildingType === "officetel"
       ? selectedData.data?.offiNm
-      : buildingType === "townHouse"
+      : buildingType === "familyHousing"
       ? selectedData.data?.mhouseNm
       : DEFAULT_STRING_VALUE;
 

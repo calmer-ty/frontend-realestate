@@ -18,12 +18,12 @@ const API_KEY = process.env.GOVERNMENT_PUBLIC_DATA;
 const APARTMENT_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade";
 const OFFICETEL_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcOffiTrade/getRTMSDataSvcOffiTrade";
 const HOUSE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcSHTrade/getRTMSDataSvcSHTrade";
-const TOWNHOUSE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcRHTrade/getRTMSDataSvcRHTrade";
+const FAMILYHOUSING_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcRHTrade/getRTMSDataSvcRHTrade";
 const API_URLS = {
   apartment: APARTMENT_URL,
   officetel: OFFICETEL_URL,
   house: HOUSE_URL,
-  townHouse: TOWNHOUSE_URL,
+  familyHousing: FAMILYHOUSING_URL,
   // 추가적인 URL이 있을 경우 여기에 추가
 };
 
@@ -49,7 +49,8 @@ const processResponseData = (data: IBuilding | undefined): IBuildingItem[] => {
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IBuildingItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "" && !el.estateAgentSggNm?.includes(",");
+  const isValidData = (el: IBuildingItem): boolean => el.estateAgentSggNm?.trim() !== "" && el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
+  // && !el.estateAgentSggNm?.includes(",")
 
   // 필드 필터링 함수
   const filterItemFields = (item: IBuildingItem): IBuildingItem => {
@@ -90,7 +91,7 @@ export const getLatestData = (items: IBuildingItem[]): IBuildingItem[] => {
   const grouped: Map<string, IBuildingItem> = new Map<string, IBuildingItem>();
 
   items.forEach((item) => {
-    const key = `${item.umdNm}_${item.jibun}_${item.aptNm}`;
+    const key = `${item.umdNm}_${item.jibun}`;
     const existingItem = grouped.get(key);
 
     if (existingItem === undefined) {
@@ -149,6 +150,8 @@ export const officetelApi = async ({ regionCode, buildingType }: IBuildingDataPa
 
     // 모든 데이터를 하나로 합치고 최신 데이터만 추출
     const latestData = getLatestData(allItems.flat());
+
+    console.log("latestData: ", latestData);
     return latestData;
   } catch (error) {
     handleError(error, "officetelApi"); // 에러 처리
