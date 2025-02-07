@@ -19,7 +19,7 @@ export default function BasicToggleButton(props: IBasicToggleButtonProps): JSX.E
   return (
     <ToggleButtonGroup value={value} exclusive onChange={onChange} aria-label="text alignment">
       {options.map((option) => (
-        <ToggleButton key={option} value={option} aria-label={`${option}만 보기`} style={{ padding: "0 10px" }}>
+        <ToggleButton key={option} value={option} aria-label={`${option}만 보기`} style={{ padding: "2px 14px", fontSize: "16px" }}>
           {option}
         </ToggleButton>
       ))}

@@ -6,7 +6,14 @@ export const Container = styled.section`
   display: flex;
   width: 100%;
   height: 100%;
-
+  ${mediaQueries.tablet(css`
+    flex-direction: column;
+  `)}
+`;
+export const MapsWrap = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
   ${mediaQueries.tablet(css`
     flex-direction: column-reverse;
   `)}
@@ -15,6 +22,7 @@ export const MapsLink = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
   padding: 6px;
   border-right: 1px solid #dedede;
   > a {
@@ -38,6 +46,11 @@ export const MapsLink = styled.article`
       background-color: #f6fafd;
     }
   }
+
+  ${mediaQueries.tablet(css`
+    flex-direction: row;
+    height: initial;
+  `)}
 `;
 
 export const MapMenu = styled.div`

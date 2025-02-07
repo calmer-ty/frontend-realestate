@@ -116,14 +116,16 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
           <span>빌라</span>
         </Link> */}
       </S.MapsLink>
-      <MapsInfo
-        selectedMarkerData={selectedMarkerData}
-        visibleMarkerDatas={visibleMarkerDatas}
-        setSelectedMarkerData={setSelectedMarkerData}
-        matchingDatas={matchingDatas}
-        buildingType={buildingType}
-      />
-      <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
+      <S.MapsWrap>
+        <MapsInfo
+          selectedMarkerData={selectedMarkerData}
+          visibleMarkerDatas={visibleMarkerDatas}
+          setSelectedMarkerData={setSelectedMarkerData}
+          matchingDatas={matchingDatas}
+          buildingType={buildingType}
+        />
+        <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
+      </S.MapsWrap>
     </S.Container>
   );
 }
