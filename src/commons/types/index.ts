@@ -99,7 +99,7 @@ export interface IBuildingItem {
   mhouseNm: string;
 
   // 인덱스 시그니처 추가
-  // [key: string]: any;
+  [key: string]: string | number;
 }
 export interface IBuildingLocation {
   responses: IBuilding;

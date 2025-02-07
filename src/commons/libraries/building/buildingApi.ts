@@ -75,7 +75,7 @@ const processResponseData = (data: IBuilding | undefined, regionName: string): I
     // item의 각 속성을 filteredItem에 덮어쓰기
     for (const key in item) {
       if (!FIELDS_TO_EXCLUDE.includes(key)) {
-        filteredItem[key as keyof IBuildingItem] = item[key];
+        filteredItem[key] = item[key];
       }
     }
     return filteredItem;
