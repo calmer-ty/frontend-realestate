@@ -7,6 +7,7 @@ import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreDat
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 
+import Link from "next/link";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
@@ -19,7 +20,6 @@ import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingParamsPromiseProps, IGeocodeData } from "@/src/commons/types";
-import Link from "next/link";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -97,7 +97,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   return (
     <S.Container>
-      <S.MapsLink>
+      <S.MapsMenu>
         <Link href={"/apartment"} className={buildingType === "apartment" ? "active" : ""}>
           <ApartmentIcon fontSize="medium" color="primary" />
           <span>아파트</span>
@@ -114,7 +114,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
           <HouseIcon fontSize="large" color="primary" />
           <span>빌라</span>
         </Link> */}
-      </S.MapsLink>
+      </S.MapsMenu>
       <S.MapsWrap>
         <MapsInfo
           selectedMarkerData={selectedMarkerData}

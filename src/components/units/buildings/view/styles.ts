@@ -18,7 +18,7 @@ export const MapsWrap = styled.div`
     flex-direction: column-reverse;
   `)}
 `;
-export const MapsLink = styled.article`
+export const MapsMenu = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -30,7 +30,7 @@ export const MapsLink = styled.article`
     flex-direction: column;
     align-items: center;
     width: 70px;
-    height: 64px;
+
     padding: 10px;
     border-radius: 6px;
     span {
@@ -44,12 +44,22 @@ export const MapsLink = styled.article`
     }
     &:hover {
       background-color: #f6fafd;
+      border: 1px solid #1976d2;
     }
   }
 
   ${mediaQueries.tablet(css`
     flex-direction: row;
     height: initial;
+
+    > a {
+      height: initial;
+      border: 1px solid #c5c9cc;
+      border-radius: 20px;
+      svg {
+        display: none;
+      }
+    }
   `)}
 `;
 
