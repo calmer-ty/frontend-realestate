@@ -6,7 +6,7 @@ import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 interface IMarkerListProps {
   matchingMarkerData: IGeocodeData[];
-  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
 }
 
 export default function MarkerList({ matchingMarkerData, setSelectedData }: IMarkerListProps): JSX.Element {

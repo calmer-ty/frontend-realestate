@@ -195,7 +195,7 @@ export interface IMapMarkerParams {
   //   matchingDatas: IUserInputGeocodeData[];
   //   newDatas: IUserInputGeocodeData[];
   // };
-  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   setvisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 

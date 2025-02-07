@@ -9,14 +9,14 @@ import type { Dispatch, SetStateAction } from "react";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 interface IBuildingInfoTopProps {
   selectedData: IGeocodeData;
-  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   buildingType: string;
 }
 
 export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Element {
   const { selectedData, setSelectedData, buildingType } = props;
   const onClickClose = (): void => {
-    setSelectedData(null);
+    setSelectedData(undefined);
   };
 
   const buildingName =

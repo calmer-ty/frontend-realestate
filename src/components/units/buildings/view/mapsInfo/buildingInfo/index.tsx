@@ -5,7 +5,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IBuildingInfoProps {
   selectedData: IGeocodeData;
-  setSelectedData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingDatas: IFirestore[];
   buildingType: string;
 }

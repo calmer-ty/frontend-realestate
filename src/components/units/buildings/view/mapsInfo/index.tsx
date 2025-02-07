@@ -8,9 +8,9 @@ import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import VisibleArea from "./visibleArea";
 interface IMapsInfoProps {
-  selectedMarkerData: IGeocodeData | null;
+  selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerDatas: IGeocodeData[];
-  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | null>>;
+  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingDatas: IFirestore[];
   buildingType: string;
 }
@@ -19,7 +19,9 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   const { selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas, buildingType } = props;
 
   const [scroll, setScroll] = useState(false);
-  const [selectedData, setSelectedData] = useState<IGeocodeData | null>(null);
+  const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
+  console.log("scroll: ", scroll);
+  console.log("selectedMarkerData: ", selectedMarkerData);
 
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
   return (
     <>
       <S.Container scroll={scroll}>
-        {selectedMarkerData !== null ? (
+        {selectedMarkerData !== undefined ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />
         ) : (
           <VisibleArea visibleMarkerDatas={visibleMarkerDatas} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />

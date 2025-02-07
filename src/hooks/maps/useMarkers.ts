@@ -54,7 +54,7 @@ export const useMarkers = (params: IMapMarkerParams): IUseMapMarkersReturn => {
       const markerDataArray: IGeocodeData[] = markersRef.current.map((marker) => marker.get("data"));
 
       setvisibleMarkerDatass(markerDataArray);
-      setSelectedMarkerData(null);
+      setSelectedMarkerData(undefined);
     },
     [geocodeDatas, matchingDatas, setvisibleMarkerDatass, setSelectedMarkerData]
   );

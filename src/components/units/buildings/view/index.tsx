@@ -33,7 +33,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     void fetchData();
   }, [params]);
 
-  const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | null>(null);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | undefined>(undefined);
   const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
   // 구 선택 hook
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
@@ -95,7 +95,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }
   if (error !== null) return <div>{error}</div>;
 
-  console.log(buildingType);
   return (
     <S.Container>
       <S.MapsLink>

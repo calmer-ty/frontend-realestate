@@ -16,7 +16,7 @@ export default function BuildingDetailBottom({ buildingData }: IBuildingDetailPr
             <span>{buildingData.address}</span>
           </li>
           <li>
-            <h3>건물명</h3>
+            <h3>상세 주소</h3>
             <span>{buildingData.addressDetail}</span>
           </li>
         </S.InfoList>
