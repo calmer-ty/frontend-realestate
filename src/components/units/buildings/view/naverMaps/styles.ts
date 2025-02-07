@@ -7,14 +7,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 4;
+  flex: 3;
   ${mediaQueries.extraLargeDesktop(css`
-    flex: 3;
-  `)}
-  ${mediaQueries.largeDesktop(css`
     flex: 2;
   `)}
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.largeDesktop(css`
     flex: 1;
   `)}
 

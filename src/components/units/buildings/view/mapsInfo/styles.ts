@@ -19,7 +19,7 @@ export const Container = styled.aside<IScroll>`
   z-index: 1;
 
   ${(props) =>
-    mediaQueries.mobile(css`
+    mediaQueries.tablet(css`
       flex: ${props.scroll ? "3" : "0"};
     `)}
 `;
@@ -34,7 +34,7 @@ export const TabButton = styled(Button)`
     margin: 5px 0;
     background-color: #dedede;
   }
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     display: flex;
     flex-direction: column;
     align-items: center;

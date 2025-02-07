@@ -7,7 +7,7 @@ export const Container = styled.section`
   width: 100%;
   height: 100%;
 
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     flex-direction: column-reverse;
   `)}
 `;
