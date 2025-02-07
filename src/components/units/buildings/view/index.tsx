@@ -11,9 +11,15 @@ import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
 
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
+import OtherHousesIcon from "@mui/icons-material/OtherHouses";
+// import HouseIcon from "@mui/icons-material/House";
+
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingParamsPromiseProps, IGeocodeData } from "@/src/commons/types";
+import Link from "next/link";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -38,7 +44,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
-
   const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, regionName, buildingType });
   const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
   const {
@@ -59,8 +64,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     });
   }, [geocodeDatas, firestoreDatas]);
 
-  // 스테이트 값 바뀔 때마다 api 재요청
-  // 구 선택시 리렌더링
+  // 스테이트 값 바뀔 때마다 api 재요청 - 구 선택시 리렌더링
   useEffect(() => {
     if (regionName === undefined) return;
     void fetchGeocodeData();
@@ -91,8 +95,27 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }
   if (error !== null) return <div>{error}</div>;
 
+  console.log(buildingType);
   return (
     <S.Container>
+      <S.MapsLink>
+        <Link href={"/apartment"} className={buildingType === "apartment" ? "active" : ""}>
+          <ApartmentIcon fontSize="medium" color="primary" />
+          <span>아파트</span>
+        </Link>
+        <Link href={"/officetel"} className={buildingType === "officetel" ? "active" : ""}>
+          <HomeWorkIcon fontSize="medium" color="primary" />
+          <span>오피스텔</span>
+        </Link>
+        <Link href={"/familyHousing"} className={buildingType === "familyHousing" ? "active" : ""}>
+          <OtherHousesIcon fontSize="medium" color="primary" />
+          <span>빌라</span>
+        </Link>
+        {/* <Link href={"/familyHousing"}>
+          <HouseIcon fontSize="large" color="primary" />
+          <span>빌라</span>
+        </Link> */}
+      </S.MapsLink>
       <MapsInfo
         selectedMarkerData={selectedMarkerData}
         visibleMarkerDatas={visibleMarkerDatas}
