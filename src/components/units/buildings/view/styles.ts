@@ -65,5 +65,5 @@ export const MapsMenu = styled.article`
 
 export const MapMenu = styled.div`
   padding: 6px 10px;
-  border-bottom: 1px solid ${colors.outline}e;
+  border-bottom: 1px solid ${colors.outline};
 `;
