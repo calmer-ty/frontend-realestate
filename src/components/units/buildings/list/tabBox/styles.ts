@@ -11,7 +11,7 @@ export const Container = styled.div`
 
     /* 매물 리스트가 있는 경우 */
     ul {
-      overflow-y: scroll;
+      overflow-y: auto;
       display: flex;
       row-gap: 20px;
       flex-direction: column;

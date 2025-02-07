@@ -3,7 +3,7 @@ import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const Form = styled.form`
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   row-gap: 40px;

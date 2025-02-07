@@ -9,7 +9,7 @@ interface IScroll {
 }
 
 export const Container = styled.aside<IScroll>`
-  overflow-y: scroll;
+  overflow-y: auto;
   border-right: 1px solid #dedede;
   background-color: #fff;
   flex: 1;

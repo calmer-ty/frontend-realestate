@@ -3,7 +3,7 @@ import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const Container = styled.article`
-  overflow-y: scroll; /* Y축 스크롤 활성화 */
+  overflow-y: auto; /* Y축 스크롤 활성화 */
   overflow-x: hidden; /* X축 스크롤 제거 */
   display: flex;
   flex-direction: column;
