@@ -15,7 +15,7 @@ import WriteRadio from "./ui/writeRadio";
 import BuildingInfo from "./buildingInfo";
 import InputUnit from "./ui/inputUnit";
 
-import { BUILDING_TYPE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+import { BUILDING_TYPE, DEFAULT_NUMBER_VALUE, DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
 import type { IFirestore, IWriteForm } from "@/src/commons/types";
@@ -32,17 +32,17 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
   const initialValues: IWriteForm = {
     buildingType: docData?.buildingType ?? "아파트",
     transactionType: docData?.transactionType ?? "월세",
-    address: docData?.address ?? "",
-    addressDetail: docData?.addressDetail ?? "",
-    area: docData?.area ?? null,
-    roomCount: docData?.roomCount ?? null,
-    price: docData?.price ?? null,
-    rent: docData?.rent ?? null,
-    manageCost: docData?.manageCost ?? null,
-    floor: docData?.floor ?? null,
-    bathroomCount: docData?.bathroomCount ?? null,
+    address: docData?.address ?? DEFAULT_STRING_VALUE,
+    addressDetail: docData?.addressDetail ?? DEFAULT_STRING_VALUE,
+    area: docData?.area ?? DEFAULT_NUMBER_VALUE,
+    roomCount: docData?.roomCount ?? DEFAULT_NUMBER_VALUE,
+    price: docData?.price ?? DEFAULT_NUMBER_VALUE,
+    rent: docData?.rent ?? DEFAULT_NUMBER_VALUE,
+    manageCost: docData?.manageCost ?? DEFAULT_NUMBER_VALUE,
+    floor: docData?.floor ?? DEFAULT_NUMBER_VALUE,
+    bathroomCount: docData?.bathroomCount ?? DEFAULT_NUMBER_VALUE,
     elevator: docData?.elevator ?? "없음",
-    desc: docData?.desc ?? "",
+    desc: docData?.desc ?? DEFAULT_STRING_VALUE,
     imageUrls: docData?.imageUrls ?? [],
   };
 

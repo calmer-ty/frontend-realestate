@@ -22,7 +22,7 @@ export const formatRent = (price: number): string => {
 };
 
 // 거래 방식에 따른 가격 표시법
-export const getTransactionText = (transactionType: string, price: number, rent: number | null): string => {
+export const getTransactionText = (transactionType: string, price: number, rent: number | undefined): string => {
   switch (transactionType) {
     case "월세":
       return `월세 ${formatRent(price)} / ${rent}`;

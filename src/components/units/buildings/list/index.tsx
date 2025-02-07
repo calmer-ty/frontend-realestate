@@ -46,7 +46,7 @@ export default function BuildingList(): JSX.Element {
   }, [userId, fetchBuildings]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedBuilding, setSelectedBuilding] = useState<IFirestore | null>(null);
+  const [selectedBuilding, setSelectedBuilding] = useState<IFirestore | undefined>(undefined);
 
   const onDeleteModalOpen = (building: IFirestore): void => {
     setSelectedBuilding(building); // 클릭된 매물 데이터 저장

@@ -6,7 +6,7 @@ import * as S from "./styles";
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore } from "@/src/commons/types";
 interface IDeleteModalProps {
-  selectedBuilding: IFirestore | null;
+  selectedBuilding: IFirestore | undefined;
   buildings: IFirestore[];
   setBuildings: Dispatch<SetStateAction<IFirestore[]>>;
   setDeletedBuildings: Dispatch<SetStateAction<IFirestore[]>>;
@@ -24,7 +24,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
   };
 
   const onDeleteBuildingItem = async (): Promise<void> => {
-    if (props.selectedBuilding !== null) {
+    if (props.selectedBuilding !== undefined) {
       // 1. Firestore에서 데이터 삭제 및 동기화
       await deleteFirestore("buildings", props.selectedBuilding._id);
       // 2. 삭제된 데이터 아카이브
@@ -47,7 +47,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
           <div className="top">
             <h2>이 매물을 삭제하시겠습니까? </h2>
             <p>
-              {props.selectedBuilding.buildingType} - {props.selectedBuilding.address} {props.selectedBuilding.addressDetail}
+              {props.selectedBuilding?.buildingType} - {props.selectedBuilding?.address} {props.selectedBuilding?.addressDetail}
             </p>
           </div>
           <div className="buttonWrap">

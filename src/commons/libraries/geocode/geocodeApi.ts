@@ -28,7 +28,7 @@ const extractAddress = (addressElements: string[]): { jibunAddress: string; road
   };
 };
 
-export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
+export const geocodeApi = async (address: string): Promise<IGeocode | undefined> => {
   const apiUrl = `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${encodeURIComponent(address)}`;
   const response = await axios.get<IGeocodeAPI | undefined>(apiUrl, {
     headers: {
@@ -53,10 +53,10 @@ export const geocodeApi = async (address: string): Promise<IGeocode | null> => {
         roadAddress,
       };
     } else {
-      return null;
+      return undefined;
     }
   } catch (error) {
     handleError(error, "geocodeApi"); // 에러 처리
-    return null;
+    return undefined;
   }
 };

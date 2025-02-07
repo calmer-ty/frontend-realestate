@@ -13,7 +13,7 @@ const limit = pLimit(10);
 
 interface IGetAllGeocodeDataReturn {
   data: IBuildingItem;
-  geocode: IGeocode | null;
+  geocode: IGeocode | undefined;
 }
 // interface IGetUserInputGeocodeDataParams {
 //   firestoreDatas: IFirestore[];
@@ -23,7 +23,7 @@ interface IGetAllGeocodeDataReturn {
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
 // - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
+const fetchGeocodeData = async (address: string): Promise<IGeocode | undefined> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -35,15 +35,15 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | null> => {
   try {
     const response = await geocodeApi(address);
 
-    if (response === null) {
-      return null; // null을 리턴하기 전에 로깅
+    if (response === undefined) {
+      return undefined; // null을 리턴하기 전에 로깅
     }
     // API 응답이 정상일 경우 캐시하고 반환
     setGeocodeCache(cacheKey, response);
     return response;
   } catch (error) {
     handleError(error, `fetchGeocodeData - ${address}`); // 에러 처리
-    return null;
+    return undefined;
   }
 };
 
@@ -77,12 +77,12 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IGeocodeDa
         } catch (error) {
           // 개별 요청에서 발생한 오류를 잡고, null로 처리하고 계속 진행
           console.error(`Error processing geocode data`, error);
-          return { data, geocode: null }; // 기본값 리턴
+          return { data, geocode: undefined }; // 기본값 리턴
         }
       })
     )
   );
-  const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== null);
+  const filteredGeocodeData = geocodeData.filter((item) => item.geocode !== undefined);
 
   return filteredGeocodeData;
 };

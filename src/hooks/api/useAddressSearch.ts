@@ -7,7 +7,7 @@ import type { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import type { IGeocode, IWriteForm } from "@/src/commons/types";
 interface IUseAddressSearchReturn {
   selectedAddress: string;
-  geocodeData: IGeocode | null;
+  geocodeData: IGeocode | undefined;
   onCompleteAddressSearch: (data: Address) => Promise<void>;
 }
 interface IUseAddressSearchProps {
@@ -18,7 +18,7 @@ interface IUseAddressSearchProps {
 
 export const useAddressSearch = ({ setValue, getValues, onModalToggle }: IUseAddressSearchProps): IUseAddressSearchReturn => {
   const [selectedAddress, setSelectedAddress] = useState<string>("");
-  const [geocodeData, setGeocodeData] = useState<IGeocode | null>(null);
+  const [geocodeData, setGeocodeData] = useState<IGeocode | undefined>(undefined);
   const currentAddress = getValues("address");
 
   const fetchGeocode = async (address: string): Promise<void> => {

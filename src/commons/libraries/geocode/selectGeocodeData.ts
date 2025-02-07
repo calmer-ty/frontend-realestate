@@ -4,7 +4,7 @@ import { handleError } from "@/src/commons/libraries/utils/handleError";
 
 import type { IGeocode } from "@/src/commons/types";
 
-export const getSelectGeocodeData = async (address: string): Promise<IGeocode | null> => {
+export const getSelectGeocodeData = async (address: string): Promise<IGeocode | undefined> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -14,13 +14,13 @@ export const getSelectGeocodeData = async (address: string): Promise<IGeocode | 
 
   try {
     const response = await geocodeApi(address);
-    if (response === null) {
-      return null;
+    if (response === undefined) {
+      return undefined;
     }
     setGeocodeCache(cacheKey, response);
     return response;
   } catch (error) {
     handleError(error, `getGeocodeByRegionName - ${address}`);
-    return null;
+    return undefined;
   }
 };

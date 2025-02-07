@@ -33,7 +33,7 @@ export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
   const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch({ setValue, getValues, onModalToggle });
 
   const onMapLoaded = (map: any): void => {
-    if (geocodeData !== null) {
+    if (geocodeData !== undefined) {
       const markerPosition = new window.naver.maps.LatLng(geocodeData.latitude, geocodeData.longitude);
 
       // 마커를 변수에 저장하고 이를 활용

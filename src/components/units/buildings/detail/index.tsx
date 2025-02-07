@@ -11,7 +11,7 @@ import * as S from "./styles";
 import type { IBuildingListParamsProps, IFirestore } from "@/src/commons/types";
 
 export default function BuildingDetail({ params }: IBuildingListParamsProps): JSX.Element {
-  const [listId, setListId] = useState<string | null>(null);
+  const [listId, setListId] = useState<string | undefined>(undefined);
 
   // params를 비동기적으로 처리하려면 await로 기다려야 함
   useEffect(() => {
@@ -22,13 +22,13 @@ export default function BuildingDetail({ params }: IBuildingListParamsProps): JS
     void fetchData();
   }, [params]);
 
-  const [buildingData, setBuildingData] = useState<IFirestore | null>(null);
+  const [buildingData, setBuildingData] = useState<IFirestore | undefined>(undefined);
   const { readFirestore } = useFirestore();
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
-        if (listId === null) {
+        if (listId === undefined) {
           console.warn("listId 값을 찾을 수 없습니다.");
           return;
         }
@@ -47,7 +47,7 @@ export default function BuildingDetail({ params }: IBuildingListParamsProps): JS
     void fetchData();
   }, [listId, readFirestore]);
 
-  if (buildingData === null) {
+  if (buildingData === undefined) {
     return <LoadingSpinner size={100} />; // 로딩 상태 표시
   }
 
