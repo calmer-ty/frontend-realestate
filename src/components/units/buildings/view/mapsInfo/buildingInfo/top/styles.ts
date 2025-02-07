@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { colors } from "@/src/commons/styles";
+
 // 클릭 된 건물 상세 정보
 
 export const Container = styled.section`
@@ -27,7 +29,7 @@ export const TextWrap = styled.div`
   display: flex;
   column-gap: 4px;
   font-size: 14px;
-  color: #656565;
+  color: ${colors.blur};
   > span {
     line-height: 1.7;
   }
@@ -35,13 +37,13 @@ export const TextWrap = styled.div`
 
 export const SelectedContent = styled.div`
   padding: 20px;
-  border: 1px solid #dedede;
+  border: 1px solid ${colors.outline};
   border-radius: 10px;
   background-color: #fafafa;
 
   > p {
     font-size: 14px;
-    color: #979797;
+    color: ${colors.blur};
   }
 `;
 

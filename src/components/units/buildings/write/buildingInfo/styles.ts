@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const MapView = styled.div`
@@ -49,7 +49,7 @@ export const MapsWrap = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
-    border: 1px solid #dedede;
+    border: 1px solid ${colors.blur};
     background-color: #efefef;
     text-align: center;
     line-height: 2.1;

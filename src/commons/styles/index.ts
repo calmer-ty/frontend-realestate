@@ -31,3 +31,15 @@ export const mediaQueries = {
     }
   `,
 };
+
+// colors
+export const colors = {
+  active: "#1976d2",
+  activeHover: "#f6fafd",
+
+  hover: "#efefef",
+  normal: "#e0e0e0",
+  blur: "#656565",
+  outline: "#dedede",
+  background: "#ffffff",
+};

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const Container = styled.section`
@@ -24,7 +24,7 @@ export const MapsMenu = styled.article`
   gap: 10px;
   height: 100%;
   padding: 6px;
-  border-right: 1px solid #dedede;
+  border-right: 1px solid ${colors.outline};
   > a {
     display: flex;
     flex-direction: column;
@@ -37,14 +37,14 @@ export const MapsMenu = styled.article`
       font-size: 12px;
     }
 
-    &.active {
-      background-color: #f6fafd;
-      border: 1px solid #1976d2;
-      color: #1976d2;
-    }
+    &.active,
     &:hover {
-      background-color: #f6fafd;
-      border: 1px solid #1976d2;
+      background-color: ${colors.activeHover};
+      outline: 1px solid ${colors.active};
+      font-weight: bold;
+    }
+    &.active {
+      color: ${colors.active};
     }
   }
 
@@ -65,5 +65,5 @@ export const MapsMenu = styled.article`
 
 export const MapMenu = styled.div`
   padding: 6px 10px;
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid ${colors.outline}e;
 `;

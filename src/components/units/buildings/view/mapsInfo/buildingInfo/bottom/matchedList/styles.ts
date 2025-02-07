@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
+import { colors } from "@/src/commons/styles";
 
 export const Container = styled.div`
   li {
-    border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid ${colors.outline};
     > a {
       display: flex;
-      align-items: center;
       column-gap: 20px;
       padding: 20px;
       > img {
@@ -18,7 +18,7 @@ export const Container = styled.div`
       }
     }
     :hover {
-      background-color: #efefef;
+      background-color: ${colors.hover};
     }
   }
 `;

@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
+import { colors } from "@/src/commons/styles";
 
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #dedede;
+  border-top: 1px solid ${colors.outline};
 
   .topMenu {
     display: flex;

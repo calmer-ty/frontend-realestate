@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 interface IBuildingTypeProps {
@@ -15,7 +15,7 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   height: 200px;
   margin: 0 auto;
   border-radius: 10px;
-  background-color: ${(props) => (props.isDisabled ? "#ccc" : "#ffffff")};
+  background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};
   pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
 
   > a {
@@ -34,7 +34,7 @@ export const ListItem = styled.div<IBuildingTypeProps>`
       max-height: 72px;
       p {
         word-break: keep-all;
-        color: #979797;
+        color: ${colors.blur};
       }
     }
   }

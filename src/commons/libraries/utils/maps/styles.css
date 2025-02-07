@@ -14,14 +14,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #888;
-  background-color: #888;
+  border: 1px solid #979797;
+  background-color: #979797;
   border-radius: 5px 5px 0 0;
   color: #fff;
 }
 .markerBox.hasData .top {
-  border: 1px solid #1565c0;
-  background-color: #1565c0;
+  border: 1px solid #1976d2;
+  background-color: #1976d2;
 }
 .markerBox .bottom {
   display: flex;

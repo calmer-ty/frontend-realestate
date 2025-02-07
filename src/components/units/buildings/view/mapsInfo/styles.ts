@@ -1,4 +1,4 @@
-import { mediaQueries } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -10,7 +10,7 @@ interface IScroll {
 
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
-  border-right: 1px solid #dedede;
+  border-right: 1px solid ${colors.outline};
   background-color: #fff;
   flex: 1;
   transition: flex 300ms ease-in-out;
@@ -40,7 +40,7 @@ export const TabButton = styled(Button)`
     align-items: center;
     justify-content: center;
     padding: 4px 0 10px 0;
-    border-top: 1px solid #dedede;
+    border-top: 1px solid ${colors.outline};
     background-color: #fff;
   `)}
 
