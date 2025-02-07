@@ -12,7 +12,7 @@ export const useFetchBuildingData = ({ regionCode, regionName, buildingType }: I
   const [buildingDatas, setBuildingDatas] = useState<IBuildingItem[]>([]);
 
   const fetchBuildingDatas = useCallback(async (): Promise<void> => {
-    if (regionCode === undefined || buildingType === undefined) {
+    if (regionCode === undefined || regionName === undefined || buildingType === undefined) {
       console.error("존재하지 않는 지역입니다.");
       return;
     }
