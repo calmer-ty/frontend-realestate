@@ -43,9 +43,9 @@ yarn dev
 
 **2025.02.04**
 
-- 월세/전세 등록이 추가됐습니다.  ![등록](https://github.com/user-attachments/assets/eab63b6a-e581-4811-ab8f-472d6757bcf5)
+- 월세/전세 등록이 추가됐습니다.![매물유형 추가](https://github.com/user-attachments/assets/2bbbf10d-dcfd-42fb-b7cb-9d5427033574)
 
-- 월세/전세/매매 필터링이 추가됐습니다.  ![필터](https://github.com/user-attachments/assets/dafa75bb-9f34-4f2f-8161-c3f7f6dd05f8)
+- 월세/전세/매매 필터링이 추가됐습니다.![맵 건물필터](https://github.com/user-attachments/assets/fe6ad3fc-1412-45c7-b1f4-5449d58a2c8d)
 
 - 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다.  https://youtu.be/A6zHCStmT8g
 
