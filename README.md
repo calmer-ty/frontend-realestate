@@ -45,13 +45,15 @@ yarn dev
 
 - 월세/전세 등록이 추가됐습니다.
 
-  ![매물유형 추가](https://github.com/user-attachments/assets/2bbbf10d-dcfd-42fb-b7cb-9d5427033574)
+![매물유형 추가](https://github.com/user-attachments/assets/2bbbf10d-dcfd-42fb-b7cb-9d5427033574)
 
 - 월세/전세/매매 필터링이 추가됐습니다.
   
-  ![맵 건물필터](https://github.com/user-attachments/assets/fe6ad3fc-1412-45c7-b1f4-5449d58a2c8d)
+![맵 건물필터](https://github.com/user-attachments/assets/fe6ad3fc-1412-45c7-b1f4-5449d58a2c8d)
 
 - 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다.
+
+![맵 영역의 정보](https://github.com/user-attachments/assets/439a40bb-206a-4d4b-ae29-14d769593d82)
 
 
 
@@ -63,3 +65,7 @@ yarn dev
 
 - 빌라 항목이 추가됐습니다.
 - 건물 유형 선택 버튼이 추가됐습니다.
+
+![건물유형 선택](https://github.com/user-attachments/assets/53a968c1-2dc7-4681-8821-1228a339f697)
+
+
