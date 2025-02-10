@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { debounce } from "lodash"; // lodash의 debounce 함수 사용
 
 import MenuItem from "@mui/material/MenuItem";
@@ -54,7 +54,7 @@ const getDistrictsByCity = (city: string): string[] => {
   return REGION_DATA.filter((data) => data.city === city).map((data) => data.district);
 };
 
-export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSelectProps): JSX.Element {
+function RegionSelect({ setRegionName, setRegionCode }: IRegionSelectProps): JSX.Element {
   const [city, setCity] = useState<string>("경기도"); // 기본 시
   const [district, setDistrict] = useState<string>("성남시 분당구"); // 기본 구
 
@@ -115,3 +115,5 @@ export default function RegionSelect({ setRegionName, setRegionCode }: IRegionSe
     </S.Container>
   );
 }
+
+export default memo(RegionSelect);

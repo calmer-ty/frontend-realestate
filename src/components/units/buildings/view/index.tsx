@@ -7,15 +7,10 @@ import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreDat
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
 
-import Link from "next/link";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
-
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import OtherHousesIcon from "@mui/icons-material/OtherHouses";
-// import HouseIcon from "@mui/icons-material/House";
+import MapsMenu from "./ui/mapsMenu";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
@@ -97,7 +92,8 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   return (
     <S.Container>
-      <S.MapsMenu>
+      <MapsMenu buildingType={buildingType} />
+      {/* <S.MapsMenu>
         <Link href={"/apartment"} className={buildingType === "apartment" ? "active" : ""}>
           <ApartmentIcon fontSize="medium" color="primary" />
           <span>아파트</span>
@@ -109,12 +105,12 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
         <Link href={"/familyHousing"} className={buildingType === "familyHousing" ? "active" : ""}>
           <OtherHousesIcon fontSize="medium" color="primary" />
           <span>빌라</span>
-        </Link>
-        {/* <Link href={"/familyHousing"}>
+        </Link> */}
+      {/* <Link href={"/familyHousing"}>
           <HouseIcon fontSize="large" color="primary" />
           <span>빌라</span>
         </Link> */}
-      </S.MapsMenu>
+      {/* </S.MapsMenu> */}
       <S.MapsWrap>
         <MapsInfo
           selectedMarkerData={selectedMarkerData}
