@@ -3,7 +3,7 @@ import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import Link from "next/link";
 import Image from "next/image";
-import BasicUnImage from "../../../../commons/unImage/basic";
+import BasicUnImage from "../../../commons/unImage/basic";
 
 import * as S from "./styles";
 
@@ -16,7 +16,9 @@ export default function ListItem({ el }: IRecommendedListItemProps): JSX.Element
   return (
     <S.ListItem key={el._id}>
       <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
-        {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el.buildingType} width={300} height={180} unoptimized /> : <BasicUnImage width="300px" height="180px" fontSize="36px" />}
+        <div className="imgWrap">
+          {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el.buildingType} layout="fill" unoptimized /> : <BasicUnImage width="16rem" height="12rem" fontSize="2.25rem" />}
+        </div>
         <p className="buildingDesc">
           <span>
             {el.buildingType}・{el.addressDetail}

@@ -1,15 +1,14 @@
 "use client";
 
-// import { useState } from "react";
 import { useAuth } from "@/src/hooks/useAuth";
+import { useAlert } from "@/src/hooks/useAlert";
 
 import Link from "next/link";
-import AuthButton from "@/src/components/commons/button/auth/index";
+import AuthButton from "@/src/components/commons/button/auth";
+import BasicAlert from "../commons/alert/basic";
 import { Button } from "@mui/material";
 
 import * as S from "./styles";
-import BasicAlert from "../../commons/alert/basic";
-import { useAlert } from "@/src/hooks/useAlert";
 
 export default function Nav(): JSX.Element {
   const { user } = useAuth();
