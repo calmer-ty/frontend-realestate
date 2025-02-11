@@ -27,11 +27,11 @@ export default function VisibleArea(props: IVisibleAreaProps): JSX.Element {
       {matchingMarkerData.length !== 0 ? (
         <>
           {/* 지도에 보이는 마커 정보 리스트 */}
-          {selectedData === undefined ? (
-            <MarkerList matchingMarkerData={matchingMarkerData} setSelectedData={setSelectedData} />
-          ) : (
+          {selectedData !== undefined ? (
             // 마커 리스트 아이템을 선택할 때 보이는 건물 정보
             <BuildingInfo matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
+          ) : (
+            <MarkerList matchingMarkerData={matchingMarkerData} setSelectedData={setSelectedData} />
           )}
         </>
       ) : (

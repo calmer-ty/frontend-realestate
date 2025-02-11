@@ -4,11 +4,11 @@ import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 import Image from "next/image";
 import Link from "next/link";
 import BasicUnImage from "@/src/components/commons/unImage/basic";
+import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 
 import type { IFirestore } from "@/src/commons/types";
-import NoDataMessage from "@/src/components/commons/noDataMessage";
 interface IMatchedListProps {
   matchedDatas: IFirestore[];
   alignment: string | null;

@@ -16,25 +16,25 @@ export default function MarkerList({ matchingMarkerData, setSelectedData }: IMar
 
   return (
     <>
-      <ul>
+      <S.List>
         {matchingMarkerData.map((visData, index) => {
           return (
-            <S.ListItem
+            <li
               key={`${visData.data?.aptNm}_${index}`}
               onClick={() => {
                 onClickInfo(visData);
               }}
             >
-              <h2>매매 {formatPrice(Number(visData.data?.dealAmount?.replace(/,/g, "")))}</h2>
+              <h3>매매 {formatPrice(Number(visData.data?.dealAmount?.replace(/,/g, "")))}</h3>
               <p>
                 아파트・{visData.data?.aptNm}
                 <br />
                 {visData.data?.excluUseAr}m² {visData.data?.floor}층
               </p>
-            </S.ListItem>
+            </li>
           );
         })}
-      </ul>
+      </S.List>
     </>
   );
 }

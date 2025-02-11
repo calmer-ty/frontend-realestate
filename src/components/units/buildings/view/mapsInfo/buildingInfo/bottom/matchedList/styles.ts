@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
 
 export const List = styled.ul`
+  width: 100%;
+  height: 100%;
   li {
-    border-bottom: 1px solid ${colors.outline};
+    border-bottom: 0.063rem solid ${colors.outline};
     > a {
       display: flex;
-      column-gap: 20px;
-      padding: 20px;
+      column-gap: 1.25rem;
+      padding: 1.25rem;
       > img {
         object-fit: cover;
       }
