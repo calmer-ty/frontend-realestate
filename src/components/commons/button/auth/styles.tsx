@@ -27,4 +27,8 @@ export const UserMenu = styled.div`
 `;
 export const ArrowButton = styled(Button)`
   padding: 0;
+
+  ${mediaQueries.mobile(css`
+    display: none;
+  `)}
 `;
