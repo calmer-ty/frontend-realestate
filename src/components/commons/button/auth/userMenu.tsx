@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, Menu, MenuItem, useMediaQuery } from "@mui/material";
+import { Menu, MenuItem, useMediaQuery } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import * as S from "./styles";
@@ -32,21 +32,21 @@ export default function UserMenu({ user, onLogout }: IUserMenuProps): JSX.Elemen
   };
 
   return (
-    <S.Container>
+    <S.UserMenu>
       <p>
         <em>Welcome,</em> <strong>{isSmallScreen ? user?.displayName?.[0] : user?.displayName}</strong>
       </p>
       {/* 화살표 */}
-      <Button id="basic-button" aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} onClick={handleOpen} sx={{ minWidth: "36px" }}>
+      <S.ArrowButton onClick={handleOpen} sx={{ minWidth: "36px" }}>
         {isSmallScreen ? <></> : <KeyboardArrowDownIcon />}
-      </Button>
+      </S.ArrowButton>
       {/* 유저 메뉴 */}
-      <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ "aria-labelledby": "basic-button" }}>
+      <Menu id="user-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ "aria-labelledby": "basic-button" }}>
         <MenuItem onClick={handleClose}>
           <Link href={"/list"}>내 매물 보기</Link>
         </MenuItem>
         <MenuItem onClick={onLogout}>로그아웃</MenuItem>
       </Menu>
-    </S.Container>
+    </S.UserMenu>
   );
 }

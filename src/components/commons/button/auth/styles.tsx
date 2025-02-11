@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-export const Container = styled.div`
+import { Button } from "@mui/material";
+
+export const UserMenu = styled.div`
   display: flex;
   align-items: center;
 
@@ -15,15 +17,6 @@ export const Container = styled.div`
       height: 40px;
       background-color: ${colors.normal};
       border-radius: 50%;
-
-      + button {
-        padding: 0;
-        width: 36px;
-        height: 36px;
-
-        position: absolute;
-        right: 22px;
-      }
     `)}
     em {
       ${mediaQueries.mobile(css`
@@ -31,4 +24,7 @@ export const Container = styled.div`
       `)}
     }
   }
+`;
+export const ArrowButton = styled(Button)`
+  padding: 0;
 `;

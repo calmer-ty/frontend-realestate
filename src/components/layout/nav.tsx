@@ -1,15 +1,13 @@
 "use client";
 
-// import { useState } from "react";
 import { useAuth } from "@/src/hooks/useAuth";
+import { useAlert } from "@/src/hooks/useAlert";
 
 import Link from "next/link";
-import AuthButton from "@/src/components/commons/button/auth/index";
-import { Button } from "@mui/material";
+import AuthButton from "@/src/components/commons/button/auth";
+import BasicAlert from "../commons/alert/basic";
 
 import * as S from "./styles";
-import BasicAlert from "../../commons/alert/basic";
-import { useAlert } from "@/src/hooks/useAlert";
 
 export default function Nav(): JSX.Element {
   const { user } = useAuth();
@@ -25,7 +23,7 @@ export default function Nav(): JSX.Element {
     <>
       <S.Nav>
         <Link href={user !== null ? "/new" : "/"} onClick={moveToBuildingNew}>
-          <Button variant="contained">방 내놓기</Button>
+          <S.RoomButton variant="contained">방 내놓기</S.RoomButton>
         </Link>
         <AuthButton />
       </S.Nav>
