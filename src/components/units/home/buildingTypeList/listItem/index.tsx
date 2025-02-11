@@ -11,17 +11,17 @@ interface IBuildingTypeListItemProps {
   isDisabled: boolean;
 }
 
-export default function ListItem(props: IBuildingTypeListItemProps): JSX.Element {
+export default function ListItem({ href, desc, icon, title, isDisabled }: IBuildingTypeListItemProps): JSX.Element {
   return (
-    <S.ListItem isDisabled={props.isDisabled}>
-      <Link href={props.href ?? ""}>
+    <S.ListItem isDisabled={isDisabled}>
+      <Link href={href ?? ""}>
         <div className="textBox">
-          <h2>{props.title}</h2>
+          <h2>{title}</h2>
           <div className="descWrap">
-            <p>{props.desc}</p>
+            <p>{desc}</p>
           </div>
         </div>
-        <div className="iconWrap">{props.icon}</div>
+        <div className="iconWrap">{icon}</div>
       </Link>
     </S.ListItem>
   );

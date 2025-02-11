@@ -11,52 +11,57 @@ import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 
 import * as S from "./styles";
 
-export default function BuildingTypeList(): JSX.Element {
-  const settings = {
-    arrows: false,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    autoplaySpeed: 4000,
-    responsive: [
-      {
-        breakpoint: 1690,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          autoplay: true,
-          dots: true,
-        },
+const buildingTypes = [
+  { title: "아파트", desc: "편리한 생활을 위한 공간", icon: <ApartmentIcon fontSize="large" color="primary" />, isDisabled: false, href: "/apartment" },
+  { title: "오피스텔", desc: "다목적 공간, 직장과 집을 한 번에", icon: <HomeWorkIcon fontSize="large" color="primary" />, isDisabled: false, href: "/officetel" },
+  { title: "빌라", desc: "이웃과 함께하는 아늑한 일상", icon: <OtherHousesIcon fontSize="large" color="primary" />, isDisabled: false, href: "/familyHousing" },
+  { title: "주택", desc: "나만의 공간, 때로는 함께하는 따뜻한 보금자리", icon: <HouseIcon fontSize="large" color="primary" />, isDisabled: true, href: "/house" },
+];
+const settings = {
+  arrows: false,
+  slidesToShow: 4,
+  slidesToScroll: 4,
+  initialSlide: 0,
+  autoplaySpeed: 4000,
+  responsive: [
+    {
+      breakpoint: 1690,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        autoplay: true,
+        dots: true,
       },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          autoplay: true,
-          dots: true,
-        },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        autoplay: true,
+        dots: true,
       },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          autoplay: true,
-          dots: true,
-        },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        dots: true,
       },
-    ],
-  };
+    },
+  ],
+};
 
+export default function BuildingTypeList(): JSX.Element {
   return (
     <S.Container>
       <div className="inner">
         <Slider {...settings}>
-          <ListItem title="아파트" desc="편리한 생활을 위한 공간" icon={<ApartmentIcon fontSize="large" color="primary" />} isDisabled={false} href={"/apartment"} />
-          <ListItem title="오피스텔" desc="다목적 공간, 직장과 집을 한 번에" icon={<HomeWorkIcon fontSize="large" color="primary" />} isDisabled={false} href={"/officetel"} />
-          <ListItem title="빌라" desc="이웃과 함께하는 아늑한 일상" icon={<OtherHousesIcon fontSize="large" color="primary" />} isDisabled={false} href={"/familyHousing"} />
-          <ListItem title="주택" desc="나만의 공간, 때로는 함께하는 따뜻한 보금자리" icon={<HouseIcon fontSize="large" color="primary" />} isDisabled={true} href={"/house"} />
+          {buildingTypes.map((building, index) => (
+            <ListItem key={index} {...building} />
+          ))}
         </Slider>
       </div>
     </S.Container>

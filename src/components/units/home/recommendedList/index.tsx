@@ -10,46 +10,47 @@ interface IRecommendedListProps {
   firestoreDatas: IFirestore[];
 }
 
+const settings = {
+  arrows: false,
+  slidesToShow: 5,
+  slidesToScroll: 5,
+  initialSlide: 0,
+  autoplaySpeed: 4000,
+  responsive: [
+    {
+      breakpoint: 1690,
+      settings: {
+        autoplay: true,
+        dots: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        autoplay: true,
+        dots: true,
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        dots: true,
+      },
+    },
+  ],
+};
+
 export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
   const randomFirestores = useMemo(() => {
     return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreDatas]);
-  const settings = {
-    arrows: false,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    initialSlide: 0,
-    autoplaySpeed: 4000,
-    responsive: [
-      {
-        breakpoint: 1690,
-        settings: {
-          autoplay: true,
-          dots: true,
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          autoplay: true,
-          dots: true,
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          autoplay: true,
-          dots: true,
-        },
-      },
-    ],
-  };
 
   return (
     <>
