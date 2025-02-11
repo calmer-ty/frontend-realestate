@@ -4,8 +4,8 @@ export const ModalInner = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  row-gap: 10px;
-  padding: 0 0;
+  row-gap: 0.625rem;
+  padding: 0;
   .top {
     display: flex;
     flex-direction: column;
@@ -13,6 +13,6 @@ export const ModalInner = styled.div`
   .buttonWrap {
     display: flex;
     justify-content: flex-end;
-    column-gap: 10px;
+    column-gap: 0.625rem;
   }
 `;

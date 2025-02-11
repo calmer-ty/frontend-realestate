@@ -55,7 +55,6 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
   const onChangeTabs = (event: SyntheticEvent, tabNewValue: string): void => {
     setTabValue(tabNewValue);
   };
-  console.log("tabValue: ", tabValue);
 
   return (
     <S.Container>
