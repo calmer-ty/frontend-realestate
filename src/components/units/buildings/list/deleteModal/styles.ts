@@ -9,6 +9,11 @@ export const ModalInner = styled.div`
   .top {
     display: flex;
     flex-direction: column;
+    row-gap: 0.375rem;
+
+    p {
+      word-break: keep-all;
+    }
   }
   .buttonWrap {
     display: flex;

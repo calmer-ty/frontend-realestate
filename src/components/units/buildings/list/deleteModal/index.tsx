@@ -45,7 +45,7 @@ export default function DeleteModal(props: IDeleteModalProps): JSX.Element {
       {props.selectedBuilding !== null ? (
         <S.ModalInner>
           <div className="top">
-            <h2>이 매물을 삭제하시겠습니까? </h2>
+            <h3>이 매물을 삭제하시겠습니까?</h3>
             <p>
               {props.selectedBuilding?.buildingType} - {props.selectedBuilding?.address} {props.selectedBuilding?.addressDetail}
             </p>

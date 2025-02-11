@@ -1,5 +1,4 @@
-import Modal from "@mui/material/Modal";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseButton from "@/src/components/commons/button/close";
 
 import * as S from "./styles";
 
@@ -12,11 +11,11 @@ interface IBasicModalProps {
 
 export default function BasicModal({ children, open, onToggle }: IBasicModalProps): JSX.Element {
   return (
-    <Modal open={open} onClose={onToggle}>
-      <S.Box>
-        <CloseIcon onClick={onToggle} />
+    <S.StyleModal open={open} onClose={onToggle}>
+      <div className="inner">
+        <CloseButton onClickClose={onToggle} />
         {children}
-      </S.Box>
-    </Modal>
+      </div>
+    </S.StyleModal>
   );
 }

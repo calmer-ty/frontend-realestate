@@ -1,13 +1,13 @@
 import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import BasicChip from "@/src/components/commons/chip/basic";
-import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "./styles";
 
 import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
+import CloseButton from "@/src/components/commons/button/close";
 interface IBuildingInfoTopProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
@@ -31,9 +31,7 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
 
   return (
     <S.Container>
-      <S.CloseButton onClick={onClickClose}>
-        <CloseIcon />
-      </S.CloseButton>
+      <CloseButton onClickClose={onClickClose} />
       <S.InfoWrap>
         <h2>{buildingName}</h2>
         <S.TextWrap>

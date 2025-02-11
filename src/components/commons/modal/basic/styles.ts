@@ -1,19 +1,16 @@
 import styled from "@emotion/styled";
 
-export const Box = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 25rem;
-  background-color: #fff;
-  border: 2px solid #000;
-  padding: 40px 32px 32px;
+import Modal from "@mui/material/Modal";
 
-  svg {
+export const StyleModal = styled(Modal)`
+  .inner {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20rem;
+    background-color: #fff;
+    border: 0.125rem solid #000;
+    padding: 2.5rem 2rem 2rem;
   }
 `;
