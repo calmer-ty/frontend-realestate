@@ -18,6 +18,7 @@ export default function BuildingTypeList(): JSX.Element {
     slidesToScroll: 4,
     initialSlide: 0,
     autoplaySpeed: 4000,
+
     responsive: [
       {
         breakpoint: 1690,

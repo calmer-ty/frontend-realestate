@@ -2,10 +2,6 @@ import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 export const Container = styled.section`
   display: flex;
   justify-content: center;
@@ -14,30 +10,64 @@ export const Container = styled.section`
   .inner {
     display: flex;
     flex-direction: column;
-    min-width: 360px;
-    padding: 0 20px;
+    min-width: 22.5rem;
     > h2 {
-      width: 100%;
-      padding-left: 40px;
-      margin-bottom: 20px;
-
+      margin-bottom: 1.25rem;
       ${mediaQueries.mobile(css`
-        width: max-content;
-        padding-left: 0;
-        margin: 10px auto 10px;
-        font-size: 20px;
+        text-align: center;
       `)}
     }
-
     .slick-dots {
-      bottom: -30px;
+      bottom: -1.875rem;
     }
-  }
-
-  /* unItems */
-  .unItems {
-    margin: 80px auto;
   }
 `;
 
-export const RegisteredList = styled(Slider)``;
+export const ListItem = styled.div`
+  width: 16rem;
+  margin: 0 auto;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.625rem;
+    position: relative;
+
+    .imgWrap {
+      position: relative;
+      width: 16rem;
+      height: 12rem;
+
+      /* 이미지 랩 */
+      > img,
+      div {
+        object-fit: cover;
+      }
+      ::before {
+        content: "";
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.3;
+        z-index: 1;
+      }
+    }
+
+    /* buildingDesc */
+    > p.buildingDesc {
+      display: flex;
+      flex-direction: column;
+      > strong {
+        font-size: 1.25rem;
+        margin-bottom: 0.625rem;
+      }
+    }
+    :hover {
+      ::before {
+        display: block;
+      }
+    }
+  }
+`;
