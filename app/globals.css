@@ -60,17 +60,6 @@ button {
   cursor: pointer;
 }
 
-#logo a {
-  display: flex;
-  align-items: center;
-}
-
-@media screen and (max-width: 480px) {
-  #wrapper {
-    min-width: initial;
-  }
-}
-
 /* 기본 스크롤바 크기 */
 ::-webkit-scrollbar {
   width: 8px; /* 세로 스크롤바 */
