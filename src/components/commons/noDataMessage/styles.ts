@@ -4,14 +4,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 10px;
+  row-gap: 0.625rem;
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   > p {
-    width: 220px;
+    width: 13.75rem;
     text-align: center;
     word-break: keep-all;
   }

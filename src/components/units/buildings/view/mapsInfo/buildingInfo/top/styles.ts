@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import CloseIcon from "@mui/icons-material/Close";
+import { Button } from "@mui/material";
 
 import { colors } from "@/src/commons/styles";
 
@@ -9,48 +9,40 @@ export const Container = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
-  padding: 15px;
+  row-gap: 1.25rem;
+  padding: 0.875rem;
 
   h2 {
-    font-size: 24px;
-    margin-right: 20px;
-  }
-  h3 {
-    font-size: 16px;
+    margin-right: 1.25rem;
   }
 `;
 export const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 0.625rem;
 `;
 export const TextWrap = styled.div`
   display: flex;
-  column-gap: 4px;
-  font-size: 14px;
+  column-gap: 0.25rem;
   color: ${colors.blur};
-  > span {
-    line-height: 1.7;
-  }
 `;
 
 export const SelectedContent = styled.div`
-  padding: 20px;
-  border: 1px solid ${colors.outline};
-  border-radius: 10px;
+  padding: 1.25rem;
+  border: 0.0625rem solid ${colors.outline};
+  border-radius: 0.625rem;
   background-color: #fafafa;
 
   > p {
-    font-size: 14px;
     color: ${colors.blur};
   }
 `;
 
-export const CloseButton = styled(CloseIcon)`
-  font-size: 30px;
+export const CloseButton = styled(Button)`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0;
+  min-width: 1.875rem;
   cursor: pointer;
 `;

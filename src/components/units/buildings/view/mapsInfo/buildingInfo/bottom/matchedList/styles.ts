@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
 
-export const Container = styled.div`
+export const List = styled.ul`
   li {
     border-bottom: 1px solid ${colors.outline};
     > a {

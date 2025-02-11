@@ -19,9 +19,9 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
   const filteredDatas = alignment !== null ? matchedDatas.filter((el) => el.transactionType === alignment) : matchedDatas;
 
   return (
-    <S.Container>
+    <>
       {filteredDatas.length !== 0 ? (
-        <ul>
+        <S.List>
           {filteredDatas.map((el, index) => (
             <li key={`${el.buildingType}_${el.address}_${index}`}>
               <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
@@ -38,10 +38,10 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
               </Link>
             </li>
           ))}
-        </ul>
+        </S.List>
       ) : (
         <NoDataMessage text="거래 가능한 매물이 없습니다. 조건을 다시 설정해주세요." />
       )}
-    </S.Container>
+    </>
   );
 }

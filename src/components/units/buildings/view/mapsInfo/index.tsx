@@ -51,7 +51,7 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
       {/* 모바일 해상도일 때 리스트 여닫이 버튼 */}
       <S.TabButton type="button" onClick={onClickScroll}>
         <div className="stroke"></div>
-        매물 정보 {scroll ? "닫기" : "열기"}
+        <span>매물 정보 {scroll ? "닫기" : "열기"}</span>
       </S.TabButton>
     </>
   );

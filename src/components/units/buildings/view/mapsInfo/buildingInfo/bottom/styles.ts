@@ -4,13 +4,13 @@ import { colors } from "@/src/commons/styles";
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid ${colors.outline};
-
+  border-top: 0.063rem solid ${colors.outline};
+  flex: 1;
   .topMenu {
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
-    margin: 10px 10px 0;
+    row-gap: 0.625rem;
+    padding: 0.875rem 0.875rem 0;
     h3 {
       font-size: 16px;
       > strong {
@@ -20,6 +20,9 @@ export const Container = styled.section`
   }
   .bottomContents {
     position: relative;
-    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
   }
 `;

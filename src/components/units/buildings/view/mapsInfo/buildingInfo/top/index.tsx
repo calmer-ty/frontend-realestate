@@ -1,6 +1,7 @@
 import { formatPrice } from "@/src/commons/libraries/utils/priceFormatter";
 
 import BasicChip from "@/src/components/commons/chip/basic";
+import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "./styles";
 
@@ -30,17 +31,19 @@ export default function BuildingInfoTop(props: IBuildingInfoTopProps): JSX.Eleme
 
   return (
     <S.Container>
-      <S.CloseButton onClick={onClickClose} />
+      <S.CloseButton onClick={onClickClose}>
+        <CloseIcon />
+      </S.CloseButton>
       <S.InfoWrap>
         <h2>{buildingName}</h2>
         <S.TextWrap>
-          <BasicChip label="연식" size="small" /> <span>{selectedData.data?.buildYear}</span>
+          <BasicChip label="연식" size="medium" /> <span>{selectedData.data?.buildYear}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="지번" size="small" /> <span>{selectedData.geocode?.jibunAddress}</span>
+          <BasicChip label="지번" size="medium" /> <span>{selectedData.geocode?.jibunAddress}</span>
         </S.TextWrap>
         <S.TextWrap>
-          <BasicChip label="도로명" size="small" /> <span>{selectedData.geocode?.roadAddress}</span>
+          <BasicChip label="도로명" size="medium" /> <span>{selectedData.geocode?.roadAddress}</span>
         </S.TextWrap>
       </S.InfoWrap>
 

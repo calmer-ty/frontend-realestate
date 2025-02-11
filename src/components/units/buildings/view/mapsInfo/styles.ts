@@ -10,7 +10,9 @@ interface IScroll {
 
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
-  border-right: 1px solid ${colors.outline};
+  display: flex;
+  flex-direction: column;
+  border-right: 0.063rem solid ${colors.outline};
   background-color: #fff;
   flex: 1;
   transition: flex 300ms ease-in-out;
@@ -29,9 +31,9 @@ export const TabButton = styled(Button)`
   position: relative;
   color: #000;
   .stroke {
-    width: 50px;
-    height: 3px;
-    margin: 5px 0;
+    width: 3.125rem;
+    height: 0.125rem;
+    margin: 0.375rem 0;
     background-color: #dedede;
   }
   ${mediaQueries.tablet(css`
@@ -39,15 +41,15 @@ export const TabButton = styled(Button)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4px 0 10px 0;
+    padding: 0.25rem 0 0.625rem 0;
     border-top: 1px solid ${colors.outline};
     background-color: #fff;
   `)}
 
   &::after {
     content: "";
-    width: calc(100% - 30px);
-    height: 2px;
+    width: calc(100% - 1.875rem);
+    height: 0.125rem;
     background-color: #999;
 
     position: absolute;
