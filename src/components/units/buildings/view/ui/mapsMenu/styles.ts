@@ -5,26 +5,26 @@ import { mediaQueries, colors } from "@/src/commons/styles";
 export const MapsMenu = styled.article`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
   height: 100%;
-  padding: 6px;
-  border-right: 1px solid ${colors.outline};
+  padding: 0.375rem;
+  border-right: 0.063rem solid ${colors.outline};
   > a {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 70px;
-
-    padding: 10px;
-    border-radius: 6px;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.375rem;
     span {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
 
     &.active,
     &:hover {
       background-color: ${colors.activeHover};
-      outline: 1px solid ${colors.active};
+      outline: 0.063rem solid ${colors.active};
       font-weight: bold;
     }
     &.active {
@@ -37,9 +37,9 @@ export const MapsMenu = styled.article`
     height: initial;
 
     > a {
-      height: initial;
-      border: 1px solid #c5c9cc;
-      border-radius: 20px;
+      height: 2rem;
+      border: 0.063rem solid #c5c9cc;
+      border-radius: 1.25rem;
       svg {
         display: none;
       }

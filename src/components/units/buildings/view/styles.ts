@@ -4,16 +4,13 @@ import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
-  width: 100%;
-  height: 100%;
   ${mediaQueries.tablet(css`
     flex-direction: column;
   `)}
 `;
 export const MapsWrap = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  flex: 1;
   ${mediaQueries.tablet(css`
     flex-direction: column-reverse;
   `)}

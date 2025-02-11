@@ -93,24 +93,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   return (
     <S.Container>
       <MapsMenu buildingType={buildingType} />
-      {/* <S.MapsMenu>
-        <Link href={"/apartment"} className={buildingType === "apartment" ? "active" : ""}>
-          <ApartmentIcon fontSize="medium" color="primary" />
-          <span>아파트</span>
-        </Link>
-        <Link href={"/officetel"} className={buildingType === "officetel" ? "active" : ""}>
-          <HomeWorkIcon fontSize="medium" color="primary" />
-          <span>오피스텔</span>
-        </Link>
-        <Link href={"/familyHousing"} className={buildingType === "familyHousing" ? "active" : ""}>
-          <OtherHousesIcon fontSize="medium" color="primary" />
-          <span>빌라</span>
-        </Link> */}
-      {/* <Link href={"/familyHousing"}>
-          <HouseIcon fontSize="large" color="primary" />
-          <span>빌라</span>
-        </Link> */}
-      {/* </S.MapsMenu> */}
+
       <S.MapsWrap>
         <MapsInfo
           selectedMarkerData={selectedMarkerData}
