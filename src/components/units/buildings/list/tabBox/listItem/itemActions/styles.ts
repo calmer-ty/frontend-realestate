@@ -4,13 +4,13 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  column-gap: 10px;
-  height: 48px;
-  padding: 0 20px;
+  column-gap: 0.625rem;
+  height: 3rem;
+  padding: 0 1.25rem;
   background-color: #fafafa;
   .buttonWrap {
     display: flex;
-    column-gap: 10px;
+    column-gap: 0.625rem;
   }
   > span {
     justify-self: flex-start;

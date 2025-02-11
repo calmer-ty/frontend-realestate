@@ -3,36 +3,25 @@ import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const Container = styled.div`
+  .MuiTabs-root {
+    margin-top: 1.25rem;
+  }
   .MuiTabPanel-root {
-    position: relative;
-    width: 840px;
-    padding: 0;
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25rem 0;
+    flex: 1;
 
-    /* 매물 리스트가 있는 경우 */
     ul {
       overflow-y: auto;
       display: flex;
-      row-gap: 20px;
+      row-gap: 1.25rem;
       flex-direction: column;
-      padding-right: 10px;
-    }
-
-    /* 매물 리스트 O/X */
-    ul,
-    .noDataInner {
-      height: 900px;
-
-      ${mediaQueries.mobile(
-        css`
-          max-height: 450px;
-        `
-      )}
     }
 
     ${mediaQueries.tablet(css`
       width: 100%;
-      /* padding: 24px 0; */
     `)}
   }
 `;

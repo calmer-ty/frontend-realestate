@@ -24,10 +24,10 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
   return (
     <S.Container>
       {/* prettier-ignore */}
-      <div className="itemImage">
+      <div className="imgWrap">
         {el.imageUrls?.[0] !== undefined 
-        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill unoptimized />) 
-        : (<BasicUnImage width="200px" height="120px" fontSize="28px" />)}
+        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill unoptimized objectFit="cover"/>) 
+        : (<BasicUnImage width="12.5rem" height="7.5rem" fontSize="1.75rem" />)}
       </div>
       {/* prettier-ignore */}
       <div className="itemInfo">
@@ -38,7 +38,6 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
         <p className="address">{`${el.address} ${el.addressDetail}`}</p>
         <p className="desc">{el.desc}</p>
       </div>
-
       <div className="itemAd">
         <h3>광고 정보</h3>
         {isDeleted && (

@@ -11,12 +11,12 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import NoDataMessage from "@/src/components/commons/noDataMessage";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import * as S from "./styles";
 
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 interface ITabBoxProps {
   myBuildings: IFirestore[];
   myDeletedBuildings: IFirestore[];
@@ -55,6 +55,7 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
   const onChangeTabs = (event: SyntheticEvent, tabNewValue: string): void => {
     setTabValue(tabNewValue);
   };
+  console.log("tabValue: ", tabValue);
 
   return (
     <S.Container>
@@ -64,39 +65,41 @@ export default function TabBox(props: ITabBoxProps): JSX.Element {
           <Tab label="광고종료" value="2" />
         </TabList>
 
-        <TabPanel value="1">
-          {loading ? (
-            <LoadingSpinner size={100} />
-          ) : sortedMyBuildings.length !== 0 ? (
-            <ul>
-              {sortedMyBuildings.map((el, index) => (
-                <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
-              ))}
-            </ul>
-          ) : (
-            <div className="noDataInner">
-              <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
-            </div>
-          )}
-        </TabPanel>
-        <TabPanel value="2">
-          {loading ? (
-            <LoadingSpinner size={100} />
-          ) : sortedMyDeletedBuildings.length !== 0 ? (
-            <ul>
-              {sortedMyDeletedBuildings.map((el, index) => (
-                <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={true} />
-              ))}
-            </ul>
-          ) : (
-            <div className="noDataInner">
-              <NoDataMessage text="삭제된 매물이 없습니다." />
-            </div>
-          )}
-        </TabPanel>
+        {tabValue === "1" && (
+          <TabPanel value="1">
+            {loading ? (
+              <LoadingSpinner size={100} />
+            ) : sortedMyBuildings.length !== 0 ? (
+              <ul>
+                {sortedMyBuildings.map((el, index) => (
+                  <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
+                ))}
+              </ul>
+            ) : (
+              <div className="noDataInner">
+                <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
+              </div>
+            )}
+          </TabPanel>
+        )}
+        {tabValue === "2" && (
+          <TabPanel value="2">
+            {loading ? (
+              <LoadingSpinner size={100} />
+            ) : sortedMyDeletedBuildings.length !== 0 ? (
+              <ul>
+                {sortedMyDeletedBuildings.map((el, index) => (
+                  <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={true} />
+                ))}
+              </ul>
+            ) : (
+              <div className="noDataInner">
+                <NoDataMessage text="삭제된 매물이 없습니다." />
+              </div>
+            )}
+          </TabPanel>
+        )}
       </TabContext>
     </S.Container>
   );
 }
-// <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
-// {/* sortedMyDeletedBuildings.length === 0 */}
