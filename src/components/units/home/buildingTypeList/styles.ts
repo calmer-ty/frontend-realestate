@@ -39,7 +39,7 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   align-items: center;
   position: relative;
   width: 16rem;
-  height: 12rem;
+  height: 10rem;
   margin: 0 auto;
   border-radius: 0.625rem;
   background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};

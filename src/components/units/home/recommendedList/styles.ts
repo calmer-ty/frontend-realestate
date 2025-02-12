@@ -6,13 +6,13 @@ export const Container = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  flex: 1.5;
   .inner {
     display: flex;
     flex-direction: column;
     min-width: 22.5rem;
-    > h2 {
-      margin-bottom: 1.25rem;
+    > h3 {
+      margin-bottom: 0.625rem;
       ${mediaQueries.mobile(css`
         text-align: center;
       `)}
@@ -30,13 +30,13 @@ export const ListItem = styled.div`
   a {
     display: flex;
     flex-direction: column;
-    row-gap: 0.625rem;
+    row-gap: 0.5rem;
     position: relative;
 
     .imgWrap {
       position: relative;
       width: 16rem;
-      height: 12rem;
+      height: 10rem;
 
       /* 이미지 랩 */
       > img,
@@ -60,8 +60,7 @@ export const ListItem = styled.div`
       display: flex;
       flex-direction: column;
       > strong {
-        font-size: 1.25rem;
-        margin-bottom: 0.625rem;
+        margin-bottom: 0.25rem;
       }
     }
     :hover {

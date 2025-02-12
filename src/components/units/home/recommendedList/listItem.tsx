@@ -17,7 +17,7 @@ export default function ListItem({ el }: IRecommendedListItemProps): JSX.Element
     <S.ListItem key={el._id}>
       <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
         <div className="imgWrap">
-          {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el.buildingType} layout="fill" unoptimized /> : <BasicUnImage width="16rem" height="12rem" fontSize="2.25rem" />}
+          {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el.buildingType} layout="fill" unoptimized /> : <BasicUnImage width="16rem" height="10rem" fontSize="2.25rem" />}
         </div>
         <p className="buildingDesc">
           <span>

@@ -63,7 +63,7 @@ export default function RecommendedList({ firestoreDatas }: IRecommendedListProp
           <LoadingSpinner size={100} />
         ) : (
           <div className="inner">
-            <h2>추천드리는 매물입니다.</h2>
+            <h3>추천드리는 매물입니다.</h3>
             {randomFirestores.length !== 0 ? (
               <Slider {...settings}>
                 {randomFirestores.map((el, index) => (
