@@ -7,30 +7,33 @@ import BasicAlert from "../../alert/basic";
 
 import type { Dispatch, SetStateAction, ChangeEvent, RefObject } from "react";
 import type { IFiles } from "./types";
+import { checkValidationImg } from "@/src/commons/libraries/validation";
+import { useAlert } from "@/src/hooks/useAlert";
 interface IBasicUploadProps {
   imageUrls: string[] | undefined;
   setSelectedFiles: Dispatch<SetStateAction<File[]>>;
   setUploadedImageUrls: Dispatch<SetStateAction<string[]>>;
 }
 
-export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
-  const [imageUrls, setImageUrls] = useState<string[]>([]); // 업로드된 파일 url
+export default function BasicUpload({ imageUrls, setSelectedFiles, setUploadedImageUrls }: IBasicUploadProps): JSX.Element {
+  const [uploadImageUrls, setUploadImageUrls] = useState<string[]>([]); // 업로드된 파일 url
   const [pendingFiles, setPendingFiles] = useState<IFiles[]>([]); // 업로드할 파일
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // 알림창 스테이트
-  const [alertOpen, setAlertOpen] = useState(false);
-  const alertClose = (): void => {
-    setAlertOpen(false);
-  };
+  // const [alertOpen, setAlertOpen] = useState(false);
+  // const alertClose = (): void => {
+  //   setAlertOpen(false);
+  // };
+  const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
 
   // 이미지 데이터 값을 리딩
   useEffect(() => {
-    if (props.imageUrls !== undefined) {
-      setImageUrls(props.imageUrls);
+    if (imageUrls !== undefined) {
+      setUploadImageUrls(imageUrls);
     }
-  }, [props.imageUrls]);
+  }, [imageUrls]);
 
   const resetFileInput = (inputRef: RefObject<HTMLInputElement>): void => {
     if (inputRef.current !== null) {
@@ -56,14 +59,32 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
   };
 
+  console.log("alertOpen: ", alertOpen);
+
   // 이미지 파일을 업데이트하는 기능
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if (e.target.files !== null) {
       const targetFiles = Array.from(e.target.files);
 
+      // 🔹 파일 유효성 검사 (모든 파일 체크)
+      const validFiles = [];
+      for (const file of targetFiles) {
+        const isValid = await checkValidationImg(file);
+        if (isValid) {
+          validFiles.push(file);
+        } else {
+          // 유효하지 않은 파일일 경우 알림 띄우기
+          setAlertOpen(true);
+          setAlertText(`${file.name}은(는) 유효하지 않은 파일입니다.`);
+          setAlertSeverity("error");
+        }
+      }
+
+      if (validFiles.length === 0) return; // 유효한 파일이 하나도 없으면 종료
+
       // 여러 파일이 올라가기에 all로 해준다
       const fileWithFileUrls = await Promise.all(
-        targetFiles.map(async (file) => {
+        validFiles.map(async (file) => {
           try {
             const fileUrl = await readFileAsURL(file);
             return {
@@ -82,14 +103,14 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
       // 새로운 파일과 기존 파일을 합쳐서 상태 업데이트
       const updateFiles = [...pendingFiles, ...validFileUrls];
 
-      if (imageUrls.length + updateFiles.length > 5) {
+      if (uploadImageUrls.length + updateFiles.length > 5) {
         setAlertOpen(true);
         resetFileInput(fileInputRef);
         return;
       }
 
       setPendingFiles(updateFiles);
-      props.setSelectedFiles(updateFiles.map((updateFile) => updateFile.file));
+      setSelectedFiles(updateFiles.map((updateFile) => updateFile.file));
     }
   };
 
@@ -100,15 +121,15 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
     });
     if (type === "url") {
       // firestore 이미지 preview url 로직 추가
-      const updatedFileUrls = imageUrls.filter((_, i) => i !== index);
-      setImageUrls(updatedFileUrls);
-      props.setUploadedImageUrls(updatedFileUrls.map((el) => el));
+      const updatedFileUrls = uploadImageUrls.filter((_, i) => i !== index);
+      setUploadImageUrls(updatedFileUrls);
+      setUploadedImageUrls(updatedFileUrls.map((el) => el));
     } else if (type === "file") {
       // 새로 추가하는 이미지 preview 로직 추가
       const updatedFiles = pendingFiles.filter((_, i) => i !== index);
       setPendingFiles(updatedFiles);
       // setSelectedFiles을 업데이트 해주어야 지울떄도 업로드 목록에서 사라짐
-      props.setSelectedFiles(updatedFiles.map((el) => el.file));
+      setSelectedFiles(updatedFiles.map((el) => el.file));
       resetFileInput(fileInputRef);
     }
   };
@@ -126,10 +147,10 @@ export default function BasicUpload(props: IBasicUploadProps): JSX.Element {
         </Button>
         <input type="file" multiple ref={fileInputRef} onChange={onChangeFile} style={{ display: "none" }} />
       </>
-      <FilePreview imageUrls={imageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
+      <FilePreview imageUrls={uploadImageUrls} pendingFiles={pendingFiles} onRemoveFile={onRemoveFile} />
 
       {/* 알림창 */}
-      <BasicAlert open={alertOpen} close={alertClose} severity="warning" text="이미지는 최대 5개까지 업로드가 가능합니다." />
+      <BasicAlert open={alertOpen} close={alertClose} severity={alertSeverity} text={alertText} />
     </>
   );
 }

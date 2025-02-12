@@ -11,6 +11,7 @@ export const schemaBuildingWrite = yup.object({
 });
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]; // 허용할 이미지 확장자만 명확히 지정
 
 export const checkValidationImg = async (file?: File, setModalMessage?: Dispatch<SetStateAction<string>>, setOpenModal?: Dispatch<SetStateAction<boolean>>): Promise<boolean> => {
   if (file === undefined) {
@@ -25,11 +26,13 @@ export const checkValidationImg = async (file?: File, setModalMessage?: Dispatch
     setOpenModal?.(true);
     return false;
   }
-  if (!file.type.includes("jpeg") && !file.type.includes("png") && !file.type.includes("webp")) {
+
+  if (!ALLOWED_TYPES.includes(file.type)) {
     // alert("파일 확장자가 올바르지 않습니다. (jpeg/png/webp만 가능합니다.)");
     setModalMessage?.("파일 확장자가 올바르지 않습니다. (jpeg/png/webp만 가능합니다.)");
     setOpenModal?.(true);
     return false;
   }
+
   return true;
 };

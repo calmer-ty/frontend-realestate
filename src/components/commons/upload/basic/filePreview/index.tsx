@@ -5,8 +5,8 @@ import * as S from "./styles";
 
 import type { IFiles } from "../types";
 interface IFilePreviewProps {
-  pendingFiles: IFiles[];
   imageUrls: string[];
+  pendingFiles: IFiles[];
   onRemoveFile: (index: number, type: "url" | "file") => void;
 }
 
