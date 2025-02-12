@@ -2,8 +2,8 @@ import { formatPrice, getTransactionText } from "@/src/commons/libraries/utils/p
 
 import UnderlineTitle from "@/src/components/commons/title/underline";
 
-import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
+import type { IBuildingDetailProps } from "../types";
 
 export default function BuildingDetailBottom({ buildingData }: IBuildingDetailProps): JSX.Element {
   return (

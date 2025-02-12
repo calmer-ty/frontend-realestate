@@ -3,8 +3,8 @@ import { useMediaQuery } from "@mui/material";
 import Image from "next/image";
 import BasicUnImage from "@/src/components/commons/unImage/basic";
 
-import type { IBuildingDetailProps } from "../types";
 import * as S from "./styles";
+import type { IBuildingDetailProps } from "../types";
 
 export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps): JSX.Element {
   const settings = {
@@ -15,7 +15,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+  const isSmallScreen = useMediaQuery("(max-width: 480px)");
 
   return (
     <>

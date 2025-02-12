@@ -10,7 +10,7 @@ export const PCView = styled.section`
 
   figure {
     position: relative;
-    height: 27.5rem;
+    height: 28rem;
     > img {
       object-fit: cover;
     }
@@ -38,6 +38,6 @@ export const PCView = styled.section`
 export const MobileView = styled(Slider)`
   figure {
     position: relative;
-    height: 25rem;
+    height: 16rem;
   }
 `;

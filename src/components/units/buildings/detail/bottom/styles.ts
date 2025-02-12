@@ -20,8 +20,10 @@ export const InfoList = styled.ul`
   > li {
     display: flex;
     h3 {
-      width: 9.375rem;
-      font-size: 1rem;
+      width: 8rem;
+    }
+    span {
+      flex: 1;
     }
   }
   > li + li {
