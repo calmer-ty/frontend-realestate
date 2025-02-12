@@ -22,9 +22,6 @@ export const Form = styled.form`
       `)}
     }
   }
-  > section.buttonWrap {
-    padding-bottom: 1.25rem;
-  }
 
   ${mediaQueries.tablet(css`
     min-width: initial;

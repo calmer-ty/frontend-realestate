@@ -17,7 +17,7 @@ export const Header = styled.header`
 `;
 
 export const FakeHeader = styled.div`
-  height: 3.75rem;
+  min-height: 3.75rem;
 `;
 
 // Nav

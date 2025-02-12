@@ -12,7 +12,8 @@
 }
 html {
   width: 100vw;
-  height: calc(100vh - 3.75rem);
+  height: 100vh;
+  /* height: calc(100vh - 3.75rem); */
   font-size: calc((40 / 9) * 1vw);
   overflow-x: hidden; /* 가로 스크롤 숨기기 */
 }
@@ -32,8 +33,9 @@ html {
   }
 }
 body {
-  width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   font-family: "NotoSansKR-Regular", sans-serif;
 }
 main {
@@ -41,8 +43,7 @@ main {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  width: 100%;
-  height: 100%;
+  flex: 1;
 }
 main > section,
 main > article {

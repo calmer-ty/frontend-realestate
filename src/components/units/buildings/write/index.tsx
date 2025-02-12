@@ -195,7 +195,7 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           <UnderlineTitle label="사진 등록" desc="5MB 이하, jpeg/png/webp" />
           <BasicUpload imageUrls={docData?.imageUrls} setSelectedFiles={setSelectedFiles} setUploadedImageUrls={setUploadedImageUrls} />
         </section>
-        <section className="buttonWrap">
+        <section>
           <Button role="submit-button" type="submit" variant="contained">
             {isEdit ? "수정" : "등록"}하기
           </Button>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import Nav from "./nav";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 
 import * as S from "./styles";
 
@@ -13,7 +13,7 @@ export default function Header(): JSX.Element {
       <S.Header>
         <h1 id="logo">
           <Link href="/">
-            <HomeWorkIcon color="primary" />
+            <LocationCityIcon color="primary" fontSize="large" />
           </Link>
         </h1>
         <Nav />
