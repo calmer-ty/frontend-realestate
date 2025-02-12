@@ -5,6 +5,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 0.625rem;
+  padding: 3.75rem 2.5rem;
 
   > p {
     width: 13.75rem;
