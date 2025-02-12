@@ -4,7 +4,7 @@ import { colors } from "@/src/commons/styles";
 // Header
 export const Header = styled.header`
   position: fixed;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,5 +24,5 @@ export const FakeHeader = styled.div`
 export const Nav = styled.nav`
   display: flex;
   align-items: center;
-  column-gap: 20px;
+  column-gap: 1rem;
 `;

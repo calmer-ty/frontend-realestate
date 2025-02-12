@@ -5,7 +5,7 @@ export const List = styled.ul`
   width: 100%;
   height: 100%;
   li {
-    border-bottom: 0.063rem solid ${colors.outline};
+    border-bottom: 0.0625rem solid ${colors.outline};
     > a {
       display: flex;
       column-gap: 1.25rem;

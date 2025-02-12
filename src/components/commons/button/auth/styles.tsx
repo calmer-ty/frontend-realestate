@@ -7,14 +7,14 @@ import { Button } from "@mui/material";
 export const UserMenu = styled.div`
   display: flex;
   align-items: center;
-
-  > p {
+  position: relative;
+  .infoText {
     ${mediaQueries.mobile(css`
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 40px;
-      height: 40px;
+      width: 2.25rem;
+      height: 2.25rem;
       background-color: ${colors.normal};
       border-radius: 50%;
     `)}
@@ -29,6 +29,8 @@ export const ArrowButton = styled(Button)`
   padding: 0;
 
   ${mediaQueries.mobile(css`
-    display: none;
+    position: absolute;
+    width: 2.25rem;
+    height: 2.25rem;
   `)}
 `;

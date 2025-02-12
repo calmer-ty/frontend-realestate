@@ -33,9 +33,9 @@ export default function UserMenu({ user, onLogout }: IUserMenuProps): JSX.Elemen
 
   return (
     <S.UserMenu>
-      <p>
+      <div className="infoText">
         <em>Welcome,</em> <strong>{isSmallScreen ? user?.displayName?.[0] : user?.displayName}</strong>
-      </p>
+      </div>
       {/* 화살표 */}
       <S.ArrowButton onClick={handleOpen} sx={{ minWidth: "36px" }}>
         {isSmallScreen ? <></> : <KeyboardArrowDownIcon />}

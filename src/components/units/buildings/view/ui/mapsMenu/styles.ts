@@ -8,7 +8,7 @@ export const MapsMenu = styled.article`
   gap: 0.625rem;
   height: 100%;
   padding: 0.375rem;
-  border-right: 0.063rem solid ${colors.outline};
+  border-right: 0.0625rem solid ${colors.outline};
   > a {
     display: flex;
     flex-direction: column;
@@ -24,7 +24,7 @@ export const MapsMenu = styled.article`
     &.active,
     &:hover {
       background-color: ${colors.activeHover};
-      outline: 0.063rem solid ${colors.active};
+      outline: 0.0625rem solid ${colors.active};
       font-weight: bold;
     }
     &.active {
@@ -38,7 +38,7 @@ export const MapsMenu = styled.article`
 
     > a {
       height: 2rem;
-      border: 0.063rem solid #c5c9cc;
+      border: 0.0625rem solid #c5c9cc;
       border-radius: 1.25rem;
       svg {
         display: none;

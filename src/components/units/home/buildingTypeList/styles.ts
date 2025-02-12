@@ -78,6 +78,6 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   }
 
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
   }
 `;

@@ -4,7 +4,7 @@ import { colors } from "@/src/commons/styles";
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  border-top: 0.063rem solid ${colors.outline};
+  border-top: 0.0625rem solid ${colors.outline};
   flex: 1;
   .topMenu {
     display: flex;
@@ -12,7 +12,6 @@ export const Container = styled.section`
     row-gap: 0.625rem;
     padding: 0.875rem 0.875rem 0;
     h3 {
-      font-size: 16px;
       > strong {
         color: #1976d2;
       }

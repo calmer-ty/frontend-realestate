@@ -10,17 +10,18 @@ interface IFilePreviewProps {
   onRemoveFile: (index: number, type: "url" | "file") => void;
 }
 
-export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
+export default function FilePreviewList({ imageUrls, onRemoveFile, pendingFiles }: IFilePreviewProps): JSX.Element {
   return (
     <S.FilePreview>
       {/* 기존의 등록된 이미지 Url */}
-      {props.imageUrls.map((el, index) => (
+      {imageUrls.map((el, index) => (
         <S.PrevWrap key={`${el}-${index}`}>
-          <Image src={el} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} unoptimized />
+          <Image src={el} alt={`Preview ${index}`} fill objectFit="cover" unoptimized />
+
           <S.PrevCloseBtn
             type="button"
             onClick={() => {
-              props.onRemoveFile(index, "url");
+              onRemoveFile(index, "url");
             }}
           >
             <CloseIcon />
@@ -28,13 +29,13 @@ export default function FilePreviewList(props: IFilePreviewProps): JSX.Element {
         </S.PrevWrap>
       ))}
       {/* 새로 추가되는 이미지 파일 */}
-      {props.pendingFiles.map((el, index) => (
+      {pendingFiles.map((el, index) => (
         <S.PrevWrap key={`${el.fileUrl}-${index}`}>
-          <Image src={el.fileUrl} width={200} height={150} alt={`Preview ${index}`} style={{ objectFit: "cover" }} unoptimized />
+          <Image src={el.fileUrl} alt={`Preview ${index}`} fill objectFit="cover" unoptimized />
           <S.PrevCloseBtn
             type="button"
             onClick={() => {
-              props.onRemoveFile(index, "file");
+              onRemoveFile(index, "file");
             }}
           >
             <CloseIcon />

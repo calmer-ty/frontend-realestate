@@ -1,26 +1,32 @@
 import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 
 export const FilePreview = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  min-height: 150px;
+  gap: 1.25rem;
+  min-height: 9.375rem;
 `;
 export const PrevWrap = styled.div`
   position: relative;
-  width: 200px;
-  height: 150px;
+  width: 12.5rem;
+  height: 9.375rem;
 `;
 
-export const PrevCloseBtn = styled.button`
+export const PrevCloseBtn = styled(Button)`
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0.5rem;
+  right: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
+  min-width: initial;
   background-color: #363636;
   color: #fff;
+
+  &:hover {
+    background-color: #a1a1a1;
+  }
 `;

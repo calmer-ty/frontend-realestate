@@ -12,7 +12,7 @@ export const Container = styled.aside<IScroll>`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  border-right: 0.063rem solid ${colors.outline};
+  border-right: 0.0625rem solid ${colors.outline};
   background-color: #fff;
   flex: 1;
   transition: flex 300ms ease-in-out;
@@ -30,6 +30,7 @@ export const TabButton = styled(Button)`
   display: none;
   position: relative;
   color: #000;
+
   .stroke {
     width: 3.125rem;
     height: 0.125rem;
@@ -53,7 +54,7 @@ export const TabButton = styled(Button)`
     background-color: #999;
 
     position: absolute;
-    bottom: 0px;
-    left: 15px;
+    bottom: 0;
+    left: 0.875rem;
   }
 `;
