@@ -21,7 +21,7 @@ export const Container = styled.aside<IScroll>`
   z-index: 1;
 
   ${(props) =>
-    mediaQueries.tablet(css`
+    mediaQueries.mobile(css`
       flex: ${props.scroll ? "3" : "0"};
     `)}
 `;

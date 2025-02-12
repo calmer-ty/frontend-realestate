@@ -21,7 +21,11 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
 
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
-    setScroll(true);
+    if (selectedMarkerData === undefined) {
+      setScroll(false);
+    } else {
+      setScroll(true);
+    }
   }, [selectedMarkerData]);
 
   // 지도 이동시 탭 스크롤 다운
@@ -34,6 +38,8 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     setScroll((prev) => !prev);
   };
 
+  console.log("selectedData: ", selectedData);
+  console.log("scroll: ", scroll);
   return (
     <>
       <S.Container scroll={scroll}>
