@@ -8,6 +8,7 @@ import * as S from "./styles";
 
 export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps): JSX.Element {
   const settings = {
+    arrows: false,
     dots: true,
     infinite: false,
     speed: 500,
@@ -23,12 +24,12 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
           {buildingData.imageUrls !== undefined && buildingData.imageUrls.length > 0 ? (
             buildingData.imageUrls.map((el) => (
               <figure key={el}>
-                <Image src={el} alt="buildImg" fill unoptimized />
+                <Image src={el} alt="buildImg" fill objectFit="cover" unoptimized />
               </figure>
             ))
           ) : (
             <figure>
-              <BasicUnImage width="100%" height="100%" fontSize="36px" />
+              <BasicUnImage width="100%" height="100%" fontSize="2.25rem" />
             </figure>
           )}
         </S.MobileView>

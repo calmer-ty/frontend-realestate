@@ -6,12 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 export const PCView = styled.section`
   /* 공통 */
   display: flex;
-  column-gap: 10px;
-  width: 100%;
+  column-gap: 0.625rem;
 
   figure {
     position: relative;
-    height: 440px;
+    height: 27.5rem;
     > img {
       object-fit: cover;
     }
@@ -26,26 +25,19 @@ export const PCView = styled.section`
     flex-wrap: wrap;
     justify-content: space-between;
     width: 50%;
-    margin: -4px;
+    margin: -0.25rem;
     > figure {
-      margin: 4px;
-      width: calc(50% - 8px);
-      height: calc(50% - 8px);
+      margin: 0.25rem;
+      width: calc(50% - 0.5rem);
+      height: calc(50% - 0.5rem);
     }
   }
 `;
 
 // 모바일용 슬랙
 export const MobileView = styled(Slider)`
-  &.slick-slider {
-    figure {
-      position: relative;
-      height: 400px;
-      > img,
-      div {
-        height: 100% !important;
-        object-fit: cover;
-      }
-    }
+  figure {
+    position: relative;
+    height: 25rem;
   }
 `;
