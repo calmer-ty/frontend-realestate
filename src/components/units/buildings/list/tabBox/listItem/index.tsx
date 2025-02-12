@@ -14,15 +14,14 @@ interface IBuildingListItemProps {
   onDeleteModalOpen?: (building: IFirestore) => void;
 }
 
-export default function ListItem(props: IBuildingListItemProps): JSX.Element {
-  const { el, index, isDeleted, onDeleteModalOpen } = props;
+export default function ListItem({ el, index, isDeleted, onDeleteModalOpen }: IBuildingListItemProps): JSX.Element {
   return (
     <S.ListItem>
       <ItemActions el={el} index={index} isDeleted={isDeleted} onDeleteModalOpen={onDeleteModalOpen} />
       {isDeleted ? (
         <ItemContents el={el} isDeleted={isDeleted} />
       ) : (
-        <Link href={`/${korToEng(props.el.buildingType)}/${props.el._id}`}>
+        <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
           <ItemContents el={el} isDeleted={isDeleted} />
         </Link>
       )}

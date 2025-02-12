@@ -13,8 +13,7 @@ interface IItemActionsProps {
   onDeleteModalOpen?: (building: IFirestore) => void;
 }
 
-export default function ItemActions(props: IItemActionsProps): JSX.Element {
-  const { el, index, isDeleted, onDeleteModalOpen } = props;
+export default function ItemActions({ el, index, isDeleted, onDeleteModalOpen }: IItemActionsProps): JSX.Element {
   return (
     <S.Container>
       {!isDeleted && (

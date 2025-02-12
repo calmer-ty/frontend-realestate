@@ -5,11 +5,11 @@ export interface IUnderlineTitleProps {
   desc?: string;
 }
 
-export default function UnderlineTitle(props: IUnderlineTitleProps): JSX.Element {
+export default function UnderlineTitle({ label, desc }: IUnderlineTitleProps): JSX.Element {
   return (
     <S.TitleWrap>
-      <h2>{props.label}</h2>
-      <p>{props.desc}</p>
+      <h2>{label}</h2>
+      <p>{desc}</p>
     </S.TitleWrap>
   );
 }

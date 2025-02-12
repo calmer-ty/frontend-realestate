@@ -21,11 +21,6 @@ export default function BasicUpload({ imageUrls, setSelectedFiles, setUploadedIm
   const [, setClickedIndexes] = useState<number[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // 알림창 스테이트
-  // const [alertOpen, setAlertOpen] = useState(false);
-  // const alertClose = (): void => {
-  //   setAlertOpen(false);
-  // };
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
 
   // 이미지 데이터 값을 리딩
@@ -58,8 +53,6 @@ export default function BasicUpload({ imageUrls, setSelectedFiles, setUploadedIm
       reader.readAsDataURL(file);
     });
   };
-
-  console.log("alertOpen: ", alertOpen);
 
   // 이미지 파일을 업데이트하는 기능
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {

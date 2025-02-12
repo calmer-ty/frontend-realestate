@@ -11,9 +11,7 @@ interface INaverMapsProps {
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
 }
 
-export default function NaverMaps(props: INaverMapsProps): JSX.Element {
-  const { mapLoading, setRegionCode, setRegionName, dataLoading } = props;
-
+export default function NaverMaps({ mapLoading, setRegionCode, setRegionName, dataLoading }: INaverMapsProps): JSX.Element {
   return (
     <S.Container>
       {mapLoading ? (

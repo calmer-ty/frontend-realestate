@@ -11,17 +11,17 @@ interface IControlTextField {
   register?: UseFormRegisterReturn;
 }
 
-export default function ControlTextField(props: IControlTextField): JSX.Element {
+export default function ControlTextField({ label, step, type, value, required, readOnly, register }: IControlTextField): JSX.Element {
   return (
     <TextField
       id="outlined-basic"
-      type={props.type}
-      required={props.required}
-      label={props.label}
-      {...props.register}
-      value={props.value}
+      type={type}
+      required={required}
+      label={label}
+      {...register}
+      value={value}
       fullWidth
-      InputProps={{ inputProps: { step: props.step }, readOnly: props.readOnly }}
+      InputProps={{ inputProps: { step }, readOnly }}
       InputLabelProps={{
         shrink: true, // label이 항상 위에 위치하도록 설정
       }}

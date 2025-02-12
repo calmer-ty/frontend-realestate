@@ -9,8 +9,6 @@ interface ISelectedAreaProps {
   buildingType: string;
 }
 
-export default function SelectedArea(props: ISelectedAreaProps): JSX.Element {
-  const { selectedMarkerData, setSelectedMarkerData, matchingDatas, buildingType } = props;
-
+export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, matchingDatas, buildingType }: ISelectedAreaProps): JSX.Element {
   return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />;
 }

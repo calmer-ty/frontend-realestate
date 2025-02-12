@@ -10,9 +10,7 @@ interface IBuildingInfoProps {
   buildingType: string;
 }
 
-export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { selectedData, setSelectedData, matchingDatas, buildingType } = props;
-
+export default function BuildingInfo({ selectedData, setSelectedData, matchingDatas, buildingType }: IBuildingInfoProps): JSX.Element {
   return (
     <>
       {selectedData != null && (

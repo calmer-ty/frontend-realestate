@@ -15,13 +15,9 @@ interface IMapsInfoProps {
   buildingType: string;
 }
 
-export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
-  const { selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, matchingDatas, buildingType } = props;
-
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, ...restProps }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
-  console.log("scroll: ", scroll);
-  console.log("selectedMarkerData: ", selectedMarkerData);
 
   // 마커 선택시 탭 스크롤 업
   useEffect(() => {
@@ -42,9 +38,9 @@ export default function MapsInfo(props: IMapsInfoProps): JSX.Element {
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== undefined ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} {...restProps} />
         ) : (
-          <VisibleArea visibleMarkerDatas={visibleMarkerDatas} matchingDatas={matchingDatas} selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
+          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerDatas={visibleMarkerDatas} {...restProps} />
         )}
       </S.Container>
 

@@ -8,11 +8,11 @@ interface IBasicAlert {
   severity: AlertColor;
 }
 
-export default function BasicAlert(props: IBasicAlert): JSX.Element {
+export default function BasicAlert({ open, close, text, severity }: IBasicAlert): JSX.Element {
   return (
-    <Snackbar open={props.open} onClose={props.close} autoHideDuration={6000} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-      <Alert onClose={props.close} severity={props.severity}>
-        {props.text}
+    <Snackbar open={open} onClose={close} autoHideDuration={6000} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+      <Alert onClose={close} severity={severity}>
+        {text}
       </Alert>
     </Snackbar>
   );

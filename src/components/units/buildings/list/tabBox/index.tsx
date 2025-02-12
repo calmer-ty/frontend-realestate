@@ -44,9 +44,7 @@ const sortByCreatedAt = (items: IFirestore[], key: "createdAt" | "deletedAt"): I
 //   return aDeletedAt - bDeletedAt;
 // });
 
-export default function TabBox(props: ITabBoxProps): JSX.Element {
-  const { myBuildings, myDeletedBuildings, onDeleteModalOpen, loading } = props;
-
+export default function TabBox({ myBuildings, myDeletedBuildings, onDeleteModalOpen, loading }: ITabBoxProps): JSX.Element {
   const sortedMyBuildings = sortByCreatedAt(myBuildings, "createdAt");
   const sortedMyDeletedBuildings = sortByCreatedAt(myDeletedBuildings, "deletedAt");
 

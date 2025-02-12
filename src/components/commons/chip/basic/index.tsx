@@ -6,6 +6,6 @@ interface IBasicChip {
   size: ChipProps["size"];
 }
 
-export default function BasicChip(props: IBasicChip): JSX.Element {
-  return <Chip label={props.label} size={props.size} variant="outlined" />;
+export default function BasicChip({ label, size }: IBasicChip): JSX.Element {
+  return <Chip label={label} size={size} variant="outlined" />;
 }

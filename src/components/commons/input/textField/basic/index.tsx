@@ -4,15 +4,15 @@ import type { UseFormRegisterReturn } from "react-hook-form";
 interface IBasicTextField {
   label: string;
   type?: string;
-  isEdit?: boolean;
   step?: string;
-  defaultValue?: string;
   required?: boolean;
-  readOnly?: boolean;
   register?: UseFormRegisterReturn;
+  // isEdit?: boolean;
+  // defaultValue?: string;
+  // readOnly?: boolean;
 }
 
-export default function BasicTextField(props: IBasicTextField): JSX.Element {
+export default function BasicTextField({ label, type, step, required, register }: IBasicTextField): JSX.Element {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     // 값이 0으로 시작하는 경우 제거
@@ -24,15 +24,15 @@ export default function BasicTextField(props: IBasicTextField): JSX.Element {
   return (
     <TextField
       id="outlined-basic"
-      type={props.type}
-      required={props.required}
-      label={props.label}
+      type={type}
+      required={required}
+      label={label}
       fullWidth
       onInput={handleInput} // onInput 이벤트로 처리
-      {...props.register}
+      {...register}
       InputProps={{
         inputProps: {
-          step: props.step,
+          step,
           min: 1,
         },
       }}

@@ -6,11 +6,11 @@ interface INoDataMessageProps {
   text: string;
 }
 
-export default function NoDataMessage(props: INoDataMessageProps): JSX.Element {
+export default function NoDataMessage({ text }: INoDataMessageProps): JSX.Element {
   return (
     <S.Container>
       <ErrorOutlineIcon fontSize="large" />
-      <p>{props.text}</p>
+      <p>{text}</p>
     </S.Container>
   );
 }

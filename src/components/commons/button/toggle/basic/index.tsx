@@ -8,8 +8,7 @@ interface IBasicToggleButtonProps {
   onChange: (event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => void;
 }
 
-export default function BasicToggleButton(props: IBasicToggleButtonProps): JSX.Element {
-  const { options, value, onChange } = props;
+export default function BasicToggleButton({ options, value, onChange }: IBasicToggleButtonProps): JSX.Element {
   //   const [alignment, setAlignment] = useState<string | null>(options[0]);
 
   //   const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null): void => {

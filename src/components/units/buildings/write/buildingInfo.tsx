@@ -22,8 +22,7 @@ interface IBuildingInfoProps {
   control: Control<IWriteForm, any>;
 }
 
-export default function BuildingInfo(props: IBuildingInfoProps): JSX.Element {
-  const { setValue, getValues, register, control } = props;
+export default function BuildingInfo({ setValue, getValues, register, control }: IBuildingInfoProps): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const onModalToggle = (): void => {
     setModalOpen((prev) => !prev);
