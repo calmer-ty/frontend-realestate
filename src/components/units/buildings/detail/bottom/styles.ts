@@ -5,26 +5,26 @@ import { css } from "@emotion/react";
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  row-gap: 40px;
+  row-gap: 2.5rem;
 
   ${mediaQueries.tablet(css`
-    padding: 20px;
+    padding: 1.25rem;
   `)}
 `;
 export const InfoItem = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 1.25rem;
 `;
 export const InfoList = styled.ul`
   > li {
     display: flex;
     h3 {
-      width: 150px;
-      font-size: 16px;
+      width: 9.375rem;
+      font-size: 1rem;
     }
   }
   > li + li {
-    margin-top: 10px;
+    margin-top: 0.625rem;
   }
 `;

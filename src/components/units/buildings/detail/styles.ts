@@ -4,13 +4,12 @@ import { css } from "@emotion/react";
 
 export const Container = styled.article`
   overflow-y: auto; /* Y축 스크롤 활성화 */
-  overflow-x: hidden; /* X축 스크롤 제거 */
   display: flex;
   flex-direction: column;
-  row-gap: 40px;
-  width: 1024px;
-  height: calc(100% - 60px);
-  padding: 0px 20px 20px;
+  row-gap: 2.5rem;
+  /* width: 64rem; */
+  height: 100%;
+  padding: 1.25rem;
 
   ${mediaQueries.tablet(css`
     width: 100%;
