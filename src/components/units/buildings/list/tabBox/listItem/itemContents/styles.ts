@@ -27,7 +27,8 @@ export const Container = styled.div`
     flex-direction: column;
     row-gap: 0.25rem;
     width: 16rem;
-    p {
+
+    span {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

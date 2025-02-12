@@ -17,7 +17,9 @@ export default function BuildingList(): JSX.Element {
 
   const { user } = useAuth();
   const userId = user?.uid;
+
   const [loading, setLoading] = useState(true);
+
   const fetchBuildings = useCallback(async (): Promise<void> => {
     try {
       setLoading(true);
@@ -38,6 +40,7 @@ export default function BuildingList(): JSX.Element {
       setLoading(false); // 데이터 로딩 완료
     }
   }, [userId, setBuildings, setDeletedBuildings, readFirestores]);
+
   useEffect(() => {
     if (userId !== undefined) {
       // 컴포넌트가 마운트될 때 데이터 한 번만 불러옴
@@ -56,7 +59,7 @@ export default function BuildingList(): JSX.Element {
   return (
     <>
       <S.Container>
-        <TabBox myBuildings={buildings} myDeletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} loading={loading} />
+        <TabBox buildings={buildings} deletedBuildings={deletedBuildings} onDeleteModalOpen={onDeleteModalOpen} loading={loading} />
       </S.Container>
 
       {/* 매물 삭제 모달 */}

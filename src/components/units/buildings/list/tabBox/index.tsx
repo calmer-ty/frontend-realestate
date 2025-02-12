@@ -18,8 +18,8 @@ import * as S from "./styles";
 import type { SyntheticEvent } from "react";
 import type { IFirestore } from "@/src/commons/types";
 interface ITabBoxProps {
-  myBuildings: IFirestore[];
-  myDeletedBuildings: IFirestore[];
+  buildings: IFirestore[];
+  deletedBuildings: IFirestore[];
   onDeleteModalOpen: (building: IFirestore) => void;
   loading: boolean;
 }
@@ -31,22 +31,22 @@ const sortByCreatedAt = (items: IFirestore[], key: "createdAt" | "deletedAt"): I
     return aTime - bTime;
   });
 };
-// const sortedMyBuildings = myBuildings.sort((a, b) => {
+// const sortedbuildings = buildings.sort((a, b) => {
 //   const aCreatedAt = a.createdAt?.seconds; // createdAt이 없으면 0으로 처리
 //   const bCreatedAt = b.createdAt?.seconds;
 
 //   return aCreatedAt - bCreatedAt;
 // });
-// const sortedMyDeleteBuildings = myDeletedBuildings.sort((a, b) => {
+// const sortedMyDeleteBuildings = deletedBuildings.sort((a, b) => {
 //   const aDeletedAt = a.deletedAt?.seconds; // DeletedAt이 없으면 0으로 처리
 //   const bDeletedAt = b.deletedAt?.seconds;
 
 //   return aDeletedAt - bDeletedAt;
 // });
 
-export default function TabBox({ myBuildings, myDeletedBuildings, onDeleteModalOpen, loading }: ITabBoxProps): JSX.Element {
-  const sortedMyBuildings = sortByCreatedAt(myBuildings, "createdAt");
-  const sortedMyDeletedBuildings = sortByCreatedAt(myDeletedBuildings, "deletedAt");
+export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen, loading }: ITabBoxProps): JSX.Element {
+  const sortedBuildings = sortByCreatedAt(buildings, "createdAt");
+  const sortedDeletedBuildings = sortByCreatedAt(deletedBuildings, "deletedAt");
 
   // 탭 로직
   const [tabValue, setTabValue] = useState("1");
@@ -66,9 +66,9 @@ export default function TabBox({ myBuildings, myDeletedBuildings, onDeleteModalO
           <TabPanel value="1">
             {loading ? (
               <LoadingSpinner size={100} />
-            ) : sortedMyBuildings.length !== 0 ? (
+            ) : sortedBuildings.length !== 0 ? (
               <ul>
-                {sortedMyBuildings.map((el, index) => (
+                {sortedBuildings.map((el, index) => (
                   <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={false} />
                 ))}
               </ul>
@@ -83,9 +83,9 @@ export default function TabBox({ myBuildings, myDeletedBuildings, onDeleteModalO
           <TabPanel value="2">
             {loading ? (
               <LoadingSpinner size={100} />
-            ) : sortedMyDeletedBuildings.length !== 0 ? (
+            ) : sortedDeletedBuildings.length !== 0 ? (
               <ul>
-                {sortedMyDeletedBuildings.map((el, index) => (
+                {sortedDeletedBuildings.map((el, index) => (
                   <ListItem key={`${el._id}_${index}`} el={el} index={index} onDeleteModalOpen={onDeleteModalOpen} isDeleted={true} />
                 ))}
               </ul>

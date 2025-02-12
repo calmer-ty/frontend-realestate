@@ -27,24 +27,24 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
       <div className="imgWrap">
         {el.imageUrls?.[0] !== undefined 
         ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill unoptimized objectFit="cover"/>) 
-        : (<BasicUnImage width="12.5rem" height="7.5rem" fontSize="1.75rem" />)}
+        : (<BasicUnImage width="11.5rem" height="7.5rem" fontSize="1.75rem" />)}
       </div>
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>
-          <p>{el.buildingType} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개</p>
-          <p className="price">{getTransactionText(el.transactionType, el.price, el.rent)}</p>
+          {el.buildingType} - 방 {el.roomCount}개, 욕실 {el.bathroomCount}개
         </h3>
-        <p className="address">{`${el.address} ${el.addressDetail}`}</p>
-        <p className="desc">{el.desc}</p>
+          <strong className="price">{getTransactionText(el.transactionType, el.price, el.rent)}</strong>
+        <span className="address">{`${el.address} ${el.addressDetail}`}</span>
+        <span className="desc">{el.desc}</span>
       </div>
       <div className="itemAd">
         <h3>광고 정보</h3>
         {isDeleted && (
-          <p className="adEnd">
+          <div className="adEnd">
             <span>광고 종료: </span>
             {formatDate(el.deletedAt?.seconds)}
-          </p>
+          </div>
         )}
         {/* <p>
                 <span>광고 기한: </span>
