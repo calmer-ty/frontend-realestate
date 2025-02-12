@@ -32,7 +32,7 @@ export const MapsMenu = styled.article`
     }
   }
 
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     flex-direction: row;
     height: initial;
 

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import SelectedArea from "./selectedArea";
+import VisibleArea from "./visibleArea";
 
 import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-import VisibleArea from "./visibleArea";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerDatas: IGeocodeData[];

@@ -4,14 +4,14 @@ import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     flex-direction: column;
   `)}
 `;
 export const MapsWrap = styled.div`
   display: flex;
   flex: 1;
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     flex-direction: column-reverse;
   `)}
 `;
