@@ -13,8 +13,7 @@ interface IInputUnitProps {
   step?: string;
 }
 
-export default function InputUnit(props: IInputUnitProps): JSX.Element {
-  const { label, type, register, unitLabel, step } = props;
+export default function InputUnit({ label, type, register, unitLabel, step }: IInputUnitProps): JSX.Element {
   return (
     <S.Container>
       <BasicTextField required type={type} label={label} register={register} step={step} />

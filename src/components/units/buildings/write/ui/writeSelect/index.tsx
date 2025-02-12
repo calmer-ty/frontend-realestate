@@ -15,19 +15,19 @@ interface IControlSelect {
   control: Control<IWriteForm>;
 }
 
-export default function WriteSelect(props: IControlSelect): JSX.Element {
+export default function WriteSelect({ label, notice, selecteItems, required, name, control }: IControlSelect): JSX.Element {
   return (
-    <FormControl fullWidth required={props.required}>
-      <InputLabel id="write-select-label">{props.label}</InputLabel>
+    <FormControl fullWidth required={required}>
+      <InputLabel id="write-select-label">{label}</InputLabel>
       <Controller
-        name={props.name}
-        control={props.control}
+        name={name}
+        control={control}
         render={({ field }) => (
-          <Select labelId="write-select-label" id="write-select" label={props.label} {...field} value={field.value ?? ""}>
+          <Select labelId="write-select-label" id="write-select" label={label} {...field} value={field.value ?? ""}>
             <MenuItem value="">
-              <em>{props.notice}</em>
+              <em>{notice}</em>
             </MenuItem>
-            {props.selecteItems.map((el, index) => (
+            {selecteItems.map((el, index) => (
               <MenuItem key={`${el}_${index}`} value={el}>
                 {el}
               </MenuItem>

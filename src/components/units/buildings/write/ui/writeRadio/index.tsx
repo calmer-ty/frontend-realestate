@@ -14,9 +14,7 @@ interface IControlRadioProps {
   control?: Control<IWriteForm>;
 }
 
-export default function WriteRadio(props: IControlRadioProps): JSX.Element {
-  const { label, name, selectLabels, control } = props;
-
+export default function WriteRadio({ label, name, selectLabels, control }: IControlRadioProps): JSX.Element {
   return (
     <FormControl>
       <FormLabel id="write-radio-label">{label}</FormLabel>

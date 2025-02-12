@@ -8,9 +8,8 @@ import UnderlineTitle from "@/src/components/commons/title/underline";
 import BasicTextField from "@/src/components/commons/input/textField/basic";
 import ControlTextField from "@/src/components/commons/input/textField/control";
 import BasicModal from "@/src/components/commons/modal/basic";
-import InputUnit from "../ui/inputUnit";
-import WriteRadio from "../ui/writeRadio";
-// import WriteSelect from "../ui/writeSelect";
+import InputUnit from "./ui/inputUnit";
+import WriteRadio from "./ui/writeRadio";
 
 import * as S from "./styles";
 
