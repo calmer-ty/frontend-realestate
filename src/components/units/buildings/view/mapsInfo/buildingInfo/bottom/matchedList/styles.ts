@@ -10,11 +10,14 @@ export const List = styled.ul`
       display: flex;
       column-gap: 1.25rem;
       padding: 1.25rem;
-      > img {
-        object-fit: cover;
+
+      figure {
+        position: relative;
+        width: 8.75rem;
+        height: 8.75rem;
       }
 
-      > p {
+      .buildingInfo {
         display: flex;
         flex-direction: column;
       }

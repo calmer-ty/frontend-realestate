@@ -25,8 +25,10 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
           {filteredDatas.map((el, index) => (
             <li key={`${el.buildingType}_${el.address}_${index}`}>
               <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
-                {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} width={140} height={140} alt={el._id} unoptimized /> : <BasicUnImage width="140px" height="140px" fontSize="24px" />}
-                <p>
+                <figure>
+                  {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el._id} fill objectFit="cover" unoptimized /> : <BasicUnImage width="100%" height="100%" fontSize="2rem" />}
+                </figure>
+                <div className="buildingInfo">
                   <strong>{getTransactionText(el.transactionType, el.price, el.rent)}</strong>
                   <span>
                     {el.buildingType}・{el.addressDetail}
@@ -34,7 +36,7 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
                   <span>
                     {el.floor}층, {el.area}m², 관리비 {formatPrice(el.manageCost)}
                   </span>
-                </p>
+                </div>
               </Link>
             </li>
           ))}

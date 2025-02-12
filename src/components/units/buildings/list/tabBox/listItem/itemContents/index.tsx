@@ -24,11 +24,11 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
   return (
     <S.Container>
       {/* prettier-ignore */}
-      <div className="imgWrap">
+      <figure>
         {el.imageUrls?.[0] !== undefined 
-        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill unoptimized objectFit="cover"/>) 
-        : (<BasicUnImage width="11.5rem" height="7.5rem" fontSize="1.75rem" />)}
-      </div>
+        ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill  objectFit="cover" unoptimized/>) 
+        : (<BasicUnImage width="100%" height="100%" fontSize="1.75rem" />)}
+      </figure>
       {/* prettier-ignore */}
       <div className="itemInfo">
         <h3>

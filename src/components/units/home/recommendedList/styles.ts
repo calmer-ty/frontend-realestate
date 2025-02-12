@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
-import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
@@ -11,11 +9,9 @@ export const Container = styled.section`
     display: flex;
     flex-direction: column;
     min-width: 22.5rem;
-    > h3 {
-      margin-bottom: 0.625rem;
-      ${mediaQueries.mobile(css`
-        text-align: center;
-      `)}
+    h3 {
+      margin-bottom: 1rem;
+      text-align: center;
     }
     .slick-dots {
       bottom: -1.875rem;
@@ -33,16 +29,12 @@ export const ListItem = styled.div`
     row-gap: 0.5rem;
     position: relative;
 
-    .imgWrap {
+    figure {
       position: relative;
       width: 16rem;
       height: 10rem;
 
       /* 이미지 랩 */
-      > img,
-      div {
-        object-fit: cover;
-      }
       ::before {
         content: "";
         display: none;

@@ -11,9 +11,6 @@ export const PCView = styled.section`
   figure {
     position: relative;
     height: 28rem;
-    > img {
-      object-fit: cover;
-    }
   }
 
   /* 메인 서브 이미지 */

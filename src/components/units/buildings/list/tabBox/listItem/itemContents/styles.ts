@@ -13,11 +13,9 @@ export const Container = styled.div`
   ${mediaQueries.tablet(css`
     flex-direction: column;
   `)}
-  .imgWrap {
+
+  figure {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.25rem;
     width: 11.5rem;
     height: 7.5rem;
   }

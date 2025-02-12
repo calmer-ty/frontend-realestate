@@ -36,14 +36,18 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
       ) : (
         <S.PCView>
           <figure className="mainImg">
-            {buildingData.imageUrls?.[0] !== undefined ? <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill unoptimized /> : <BasicUnImage width="100%" height="100%" fontSize="36px" />}
+            {buildingData.imageUrls?.[0] !== undefined ? (
+              <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill objectFit="cover" unoptimized />
+            ) : (
+              <BasicUnImage width="100%" height="100%" fontSize="2rem" />
+            )}
           </figure>
           <div className="subImgWrap">
             {[1, 2, 3, 4].map((index) => {
               const el = buildingData.imageUrls?.[index];
               return (
                 <figure key={`${el}_${index}`}>
-                  {el !== undefined ? <Image src={el} alt={"buildImg"} fill unoptimized /> : <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="36px" />}
+                  {el !== undefined ? <Image src={el} alt="buildImg" fill objectFit="cover" unoptimized /> : <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="2rem" />}
                 </figure>
               );
             })}
