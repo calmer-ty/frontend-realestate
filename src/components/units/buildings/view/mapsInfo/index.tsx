@@ -38,8 +38,6 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     setScroll((prev) => !prev);
   };
 
-  console.log("selectedData: ", selectedData);
-  console.log("scroll: ", scroll);
   return (
     <>
       <S.Container scroll={scroll}>

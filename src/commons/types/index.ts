@@ -191,12 +191,9 @@ export interface IMapMarkerParams {
   geocode?: IGeocode;
   geocodeDatas: IGeocodeData[];
   matchingDatas: IFirestore[];
-  // registeredGeocodeDatas: {
-  //   matchingDatas: IUserInputGeocodeData[];
-  //   newDatas: IUserInputGeocodeData[];
-  // };
+  // unMatchedDatas: IFirestore[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
-  setvisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
+  setVisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 
 // Write Form

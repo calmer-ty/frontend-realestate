@@ -9,8 +9,8 @@ interface IUseAllMarkerReturn {
   error: boolean;
 }
 
-export const useAllMarker = ({ geocode, geocodeDatas, matchingDatas, setSelectedMarkerData, setvisibleMarkerDatass }: IMapMarkerParams): IUseAllMarkerReturn => {
-  const { updateMarkers } = useMarkers({ geocodeDatas, matchingDatas, setvisibleMarkerDatass, setSelectedMarkerData });
+export const useAllMarker = ({ geocode, ...restParams }: IMapMarkerParams): IUseAllMarkerReturn => {
+  const { updateMarkers } = useMarkers({ ...restParams });
   const { loadClusterScript } = useClusterScriptLoader(updateMarkers);
 
   const onMapLoaded = useCallback(

@@ -14,7 +14,8 @@ import MapsMenu from "./ui/mapsMenu";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IBuildingParamsPromiseProps, IGeocodeData } from "@/src/commons/types";
+import type { IBuildingParamsPromiseProps, IFirestore, IGeocodeData } from "@/src/commons/types";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -29,7 +30,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }, [params]);
 
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | undefined>(undefined);
-  const [visibleMarkerDatas, setvisibleMarkerDatass] = useState<IGeocodeData[]>([]);
+  const [visibleMarkerDatas, setVisibleMarkerDatass] = useState<IGeocodeData[]>([]);
   // 구 선택 hook
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
@@ -48,18 +49,30 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     error,
   } = useFetchAllGeocodeData({ regionCode: regionCode ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
 
-  // geocodeDatas와 firestoreDatas를 비교하여 매칭되는 데이터만 필터링
-  const matchingDatas = useMemo(() => {
-    return firestoreDatas.filter((firestoreData) => {
-      // firestoreData와 geocodeDatas의 주소가 일치하는지 확인
-      return geocodeDatas.some((geocodeData) => {
-        // jibunAddress 또는 rodeAddress가 firestoreData의 address에 포함되는지 확인
-        return geocodeData.geocode.jibunAddress.includes(firestoreData.address) || geocodeData.geocode.roadAddress.includes(firestoreData.address);
-      });
-    });
-  }, [geocodeDatas, firestoreDatas]);
+  // 매칭/비매칭 데이터 판별
+  const { matchingDatas, unMatchedDatas } = useMemo(() => {
+    const matched: IFirestore[] = [];
+    const notMatched: IFirestore[] = [];
 
-  console.log("firestoreDatas: ", firestoreDatas);
+    firestoreDatas
+      .filter((firestoreData) => firestoreData.buildingType === engToKor(buildingType ?? DEFAULT_STRING_VALUE))
+      .forEach((firestoreData) => {
+        // firestoreData와 geocodeDatas의 주소가 일치하는지 확인
+        const isMatching = geocodeDatas.some((geocodeData) => {
+          // jibunAddress 또는 rodeAddress가 firestoreData의 address에 포함되는지 확인
+          return geocodeData.geocode.jibunAddress.includes(firestoreData.address) || geocodeData.geocode.roadAddress.includes(firestoreData.address);
+        });
+
+        if (isMatching) {
+          matched.push(firestoreData);
+        } else {
+          notMatched.push(firestoreData);
+        }
+      });
+    return { matchingDatas: matched, unMatchedDatas: notMatched };
+  }, [geocodeDatas, firestoreDatas, buildingType]);
+
+  console.log("noMatchingDatas: ", unMatchedDatas);
 
   // 스테이트 값 바뀔 때마다 api 재요청 - 구 선택시 리렌더링
   useEffect(() => {
@@ -83,7 +96,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     geocodeDatas,
     matchingDatas,
     setSelectedMarkerData,
-    setvisibleMarkerDatass,
+    setVisibleMarkerDatass,
   });
 
   // buildingType이 null일 때 로딩 상태 표시
