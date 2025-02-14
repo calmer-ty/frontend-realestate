@@ -27,7 +27,7 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
               <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
                 <figure>
                   {el.imageUrls?.[0] !== undefined ? (
-                    <Image src={el.imageUrls?.[0]} alt={el._id} fill style={{ objectFit: "cover" }} unoptimized />
+                    <Image src={el.imageUrls?.[0]} alt={el._id} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
                   ) : (
                     <BasicUnImage width="100%" height="100%" fontSize="2rem" />
                   )}

@@ -18,7 +18,7 @@ export default function ListItem({ el }: IRecommendedListItemProps): JSX.Element
       <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
         <figure>
           {el.imageUrls?.[0] !== undefined ? (
-            <Image src={el.imageUrls?.[0]} alt={el.buildingType} fill style={{ objectFit: "cover" }} unoptimized />
+            <Image src={el.imageUrls?.[0]} alt={el.buildingType} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
           ) : (
             <BasicUnImage width="100%" height="100%" fontSize="2.25rem" />
           )}
