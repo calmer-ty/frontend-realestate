@@ -34,9 +34,7 @@ const markerIconContent = ({ geocodeData, matchingDatas }: IMarkerIconContentPar
     </div>`;
 };
 
-export const createMarker = (params: ICreateMarkerParams): any => {
-  const { geocodeData, matchingDatas, setSelectedMarkerData } = params;
-
+export const createMarker = ({ geocodeData, matchingDatas, setSelectedMarkerData }: ICreateMarkerParams): any => {
   if (geocodeData === null) return;
   const markerOptions = {
     position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),

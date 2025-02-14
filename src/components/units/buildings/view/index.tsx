@@ -59,6 +59,8 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     });
   }, [geocodeDatas, firestoreDatas]);
 
+  console.log("firestoreDatas: ", firestoreDatas);
+
   // 스테이트 값 바뀔 때마다 api 재요청 - 구 선택시 리렌더링
   useEffect(() => {
     if (regionName === undefined) return;
