@@ -38,8 +38,8 @@ export const ListItem = styled.div<IBuildingTypeProps>`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 16rem;
-  height: 10rem;
+  width: 15rem;
+  height: 9rem;
   margin: 0 auto;
   border-radius: 0.625rem;
   background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};
@@ -73,8 +73,8 @@ export const ListItem = styled.div<IBuildingTypeProps>`
 
   .iconWrap {
     position: absolute;
-    right: 1.25rem;
-    bottom: 1.25rem;
+    right: 0.75rem;
+    bottom: 0.5rem;
   }
 
   &:hover {

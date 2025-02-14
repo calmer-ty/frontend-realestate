@@ -6,6 +6,7 @@ export const List = styled.ul`
   > li {
     padding: 0.625rem 1rem;
     border-bottom: 1px solid ${colors.outline};
+    transition: background-color 200ms ease-in-out;
     cursor: pointer;
 
     &:hover {

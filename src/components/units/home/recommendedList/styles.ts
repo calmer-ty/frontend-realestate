@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { colors } from "@/src/commons/styles";
 
 export const Container = styled.section`
   display: flex;
@@ -10,17 +11,17 @@ export const Container = styled.section`
     flex-direction: column;
     min-width: 22.5rem;
     h3 {
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       text-align: center;
     }
     .slick-dots {
-      bottom: -1.875rem;
+      bottom: -1.25rem;
     }
   }
 `;
 
 export const ListItem = styled.div`
-  width: 16rem;
+  width: max-content;
   margin: 0 auto;
 
   a {
@@ -28,22 +29,23 @@ export const ListItem = styled.div`
     flex-direction: column;
     row-gap: 0.5rem;
     position: relative;
+    transition: background-color 100ms ease-in-out;
+    padding: 0.5rem;
 
     figure {
       position: relative;
-      width: 16rem;
-      height: 10rem;
+      width: 15rem;
+      height: 9rem;
 
       /* 이미지 랩 */
-      ::before {
+      &::after {
         content: "";
-        display: none;
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        background-color: #000;
-        opacity: 0.3;
-        z-index: 1;
+        transition: background-color 100ms ease-in-out;
       }
     }
 
@@ -55,9 +57,12 @@ export const ListItem = styled.div`
         margin-bottom: 0.25rem;
       }
     }
-    :hover {
-      ::before {
-        display: block;
+
+    &:hover {
+      background-color: ${colors.hover};
+
+      figure::after {
+        background-color: ${colors.cover};
       }
     }
   }
