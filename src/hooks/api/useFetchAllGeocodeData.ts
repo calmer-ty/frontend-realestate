@@ -35,7 +35,7 @@ export const useFetchAllGeocodeData = ({ regionCode, buildingType }: IGeocodeDat
         setLoading(false); // 데이터 요청이 끝났으므로 로딩 상태 false로 설정
       }
     },
-    [buildingType, regionCode] // buildingType이 변경될 때만 함수가 재정의됨
+    [regionCode, buildingType] // buildingType이 변경될 때만 함수가 재정의됨
   );
   return { geocodeDatas, fetchGeocodeDatas, loading, error };
 };

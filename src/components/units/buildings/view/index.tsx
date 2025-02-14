@@ -50,7 +50,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   } = useFetchAllGeocodeData({ regionCode: regionCode ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
 
   // 매칭/비매칭 데이터 판별
-  const { matchingDatas, unMatchedDatas } = useMemo(() => {
+  const { matchingDatas } = useMemo(() => {
     const matched: IFirestore[] = [];
     const notMatched: IFirestore[] = [];
 
@@ -71,8 +71,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       });
     return { matchingDatas: matched, unMatchedDatas: notMatched };
   }, [geocodeDatas, firestoreDatas, buildingType]);
-
-  console.log("noMatchingDatas: ", unMatchedDatas);
 
   // 스테이트 값 바뀔 때마다 api 재요청 - 구 선택시 리렌더링
   useEffect(() => {
