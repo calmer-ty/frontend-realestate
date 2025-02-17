@@ -5,6 +5,7 @@
 
 - **목적:** 거래된 부동산 시세를 파악하고 직접 매물을 올려볼 수 있도록 한다.
 - **주요 기능:**
+  
   - 로그인 & 회원가입: Firebase Authentication을 이용한 OAuth 로그인 (Google, Email)
   - 매물 등록: 사용자가 직접 부동산 정보를 입력하고 이미지를 업로드 가능
   - 거래 유형 필터링: 월세, 전세, 매매 선택하여 원하는 매물만 검색 가능
@@ -17,8 +18,21 @@
   - 매물 리스트 기능: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/Jwc6LpftWF0)
 
 ## 기술 스택
-- **Frontend:** React, Next.js
-- **Backend:** Firebase (Authentication, Firestore, Hosting)
+- **Frontend:**
+  -  React
+  -  Next.js
+  -  Emotion - (CSS-in-JS 라이브러리)
+  -  Axios - (API 호출 라이브러리)
+
+- **Backend:**
+    - Firebase
+    - Firestore (NoSQL Database)
+    - Firebase Authentication (OAuth 로그인)
+    - Firebase Hosting, Firebase Functions (배포)
+
+- **기타 라이브러리:**
+  - React-slick (슬라이드 라이브러리)
+  - p-limit (비동기 API 호출 제한 라이브러리)
 
 ## 기술적 어려움
 
@@ -38,6 +52,12 @@
 2.  **rem 단위 사용**:
     - 기존에는 px 단위를 사용하여 스타일을 지정했으나, 다양한 모바일 기기에서 일관된 사용자 경험을 제공하기 위해, rem 단위를 사용하여 스타일을 작성했습니다. 
 
+## 프로젝트 폴더 구조
+/src
+  /commons         # API 호출 함수, 공통 스타일, 타입 정의, 유틸리티 함수
+  /components      # 재사용 가능한 UI 컴포넌트, 페이지 컴포넌트, layout 컴포넌트
+  /pages           # API 호출 함수
+  
 ## 블로그 기록
 https://velog.io/@ty_calmer96/posts
 
