@@ -44,6 +44,7 @@ export const colors = {
   activeHover: "#f6fafd",
 
   hover: "#efefef",
+  cover: "rgba(0, 0, 0, 0.2)",
   normal: "#e0e0e0",
   blur: "#656565",
   outline: "#dedede",

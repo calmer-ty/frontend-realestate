@@ -24,7 +24,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
           {buildingData.imageUrls !== undefined && buildingData.imageUrls.length > 0 ? (
             buildingData.imageUrls.map((el) => (
               <figure key={el}>
-                <Image src={el} alt="buildImg" fill objectFit="cover" unoptimized />
+                <Image src={el} alt="buildImg" fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
               </figure>
             ))
           ) : (
@@ -37,7 +37,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
         <S.PCView>
           <figure className="mainImg">
             {buildingData.imageUrls?.[0] !== undefined ? (
-              <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill objectFit="cover" unoptimized />
+              <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
             ) : (
               <BasicUnImage width="100%" height="100%" fontSize="2rem" />
             )}
@@ -47,7 +47,11 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
               const el = buildingData.imageUrls?.[index];
               return (
                 <figure key={`${el}_${index}`}>
-                  {el !== undefined ? <Image src={el} alt="buildImg" fill objectFit="cover" unoptimized /> : <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="2rem" />}
+                  {el !== undefined ? (
+                    <Image src={el} alt="buildImg" fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
+                  ) : (
+                    <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="2rem" />
+                  )}
                 </figure>
               );
             })}

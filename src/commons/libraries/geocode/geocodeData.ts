@@ -15,14 +15,11 @@ interface IGetAllGeocodeDataReturn {
   data: IBuildingItem;
   geocode: IGeocode | undefined;
 }
-// interface IGetUserInputGeocodeDataParams {
-//   firestoreDatas: IFirestore[];
-// }
 
 // 제외 필드 상수
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
-// - 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
+// 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
 const fetchGeocodeData = async (address: string): Promise<IGeocode | undefined> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);

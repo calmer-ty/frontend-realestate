@@ -16,7 +16,7 @@ export default function FilePreviewList({ imageUrls, onRemoveFile, pendingFiles 
       {/* 기존의 등록된 이미지 Url */}
       {imageUrls.map((el, index) => (
         <S.PrevWrap key={`${el}-${index}`}>
-          <Image src={el} alt={`Preview ${index}`} fill objectFit="cover" unoptimized />
+          <Image src={el} alt={`Preview ${index}`} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
 
           <S.PrevCloseBtn
             type="button"
@@ -31,7 +31,7 @@ export default function FilePreviewList({ imageUrls, onRemoveFile, pendingFiles 
       {/* 새로 추가되는 이미지 파일 */}
       {pendingFiles.map((el, index) => (
         <S.PrevWrap key={`${el.fileUrl}-${index}`}>
-          <Image src={el.fileUrl} alt={`Preview ${index}`} fill objectFit="cover" unoptimized />
+          <Image src={el.fileUrl} alt={`Preview ${index}`} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
           <S.PrevCloseBtn
             type="button"
             onClick={() => {

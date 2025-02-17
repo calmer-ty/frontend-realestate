@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import SelectedArea from "./selectedArea";
+import VisibleArea from "./visibleArea";
 
 import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-import VisibleArea from "./visibleArea";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerDatas: IGeocodeData[];
@@ -38,8 +38,6 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     setScroll((prev) => !prev);
   };
 
-  console.log("selectedData: ", selectedData);
-  console.log("scroll: ", scroll);
   return (
     <>
       <S.Container scroll={scroll}>

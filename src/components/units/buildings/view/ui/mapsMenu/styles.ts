@@ -17,6 +17,8 @@ export const MapsMenu = styled.article`
     width: 4rem;
     height: 4rem;
     border-radius: 0.375rem;
+    transition: all 100ms ease-in-out;
+
     span {
       font-size: 0.75rem;
     }
@@ -32,7 +34,7 @@ export const MapsMenu = styled.article`
     }
   }
 
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     flex-direction: row;
     height: initial;
 

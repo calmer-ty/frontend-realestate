@@ -10,6 +10,7 @@ const nextConfig = {
         pathname: "/v0/b/frontend-realestate.appspot.com/o/**",
       },
     ],
+    domains: ["www.calmer96.store"], // 외부 도메인 추가
   },
   env: {
     NEXT_PUBLIC_NCP_CLIENT_ID: process.env.NEXT_PUBLIC_NCP_CLIENT_ID,

@@ -26,7 +26,11 @@ export default function MatchedList({ matchedDatas, alignment }: IMatchedListPro
             <li key={`${el.buildingType}_${el.address}_${index}`}>
               <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
                 <figure>
-                  {el.imageUrls?.[0] !== undefined ? <Image src={el.imageUrls?.[0]} alt={el._id} fill objectFit="cover" unoptimized /> : <BasicUnImage width="100%" height="100%" fontSize="2rem" />}
+                  {el.imageUrls?.[0] !== undefined ? (
+                    <Image src={el.imageUrls?.[0]} alt={el._id} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
+                  ) : (
+                    <BasicUnImage width="100%" height="100%" fontSize="2rem" />
+                  )}
                 </figure>
                 <div className="buildingInfo">
                   <strong>{getTransactionText(el.transactionType, el.price, el.rent)}</strong>

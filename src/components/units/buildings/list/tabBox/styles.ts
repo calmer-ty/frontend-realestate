@@ -10,7 +10,7 @@ export const Container = styled.div`
   height: 100%;
   padding: 1.25rem 0;
 
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     min-width: initial;
   `)}
 
@@ -28,7 +28,7 @@ export const Container = styled.div`
       height: 100%;
     }
 
-    ${mediaQueries.tablet(css`
+    ${mediaQueries.mobile(css`
       width: 100%;
     `)}
   }

@@ -37,7 +37,7 @@ export const TabButton = styled(Button)`
     margin: 0.375rem 0;
     background-color: #dedede;
   }
-  ${mediaQueries.tablet(css`
+  ${mediaQueries.mobile(css`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,15 +46,4 @@ export const TabButton = styled(Button)`
     border-top: 1px solid ${colors.outline};
     background-color: #fff;
   `)}
-
-  &::after {
-    content: "";
-    width: calc(100% - 1.875rem);
-    height: 0.125rem;
-    background-color: #999;
-
-    position: absolute;
-    bottom: 0;
-    left: 0.875rem;
-  }
 `;
