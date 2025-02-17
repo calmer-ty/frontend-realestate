@@ -21,6 +21,9 @@
 - **Frontend:** React, Next.js
 - **Backend:** Firebase (Authentication, Firestore, Hosting)
 
+## 블로그 기록
+https://velog.io/@ty_calmer96/posts
+
 ## 설치 및 실행 방법
 
 ```bash
