@@ -6,6 +6,7 @@ import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
 import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
 import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
+import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
@@ -15,7 +16,6 @@ import MapsMenu from "./ui/mapsMenu";
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingParamsPromiseProps, IFirestore, IGeocodeData } from "@/src/commons/types";
-import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -79,7 +79,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }, [regionName, fetchGeocodeData]);
 
   useEffect(() => {
-    if (regionCode === undefined || buildingType === null) return;
+    if (regionCode === undefined || buildingType === undefined) return;
     void fetchBuildingDatas();
   }, [regionCode, buildingType, fetchBuildingDatas]);
 
