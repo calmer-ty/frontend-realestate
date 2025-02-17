@@ -1,16 +1,15 @@
-# Frontend-realestate
-
+# 사이트 도메인
 ### www.calmer96.store
 
 ## 프로젝트 개요
 
 - **목적:** 거래된 부동산 시세를 파악하고 직접 매물을 올려볼 수 있도록 한다.
 - **주요 기능:**
-  - 반응형 디자인 구현
-  - 로그인 및 인증
-  - CRUD 기능
-  - 이미지 업로드
-  - 데이터 시각화(맵)
+  - **로그인 & 회원가입**: Firebase Authentication을 이용한 OAuth 로그인 (Google, Email)
+  - **매물 등록**: 사용자가 직접 부동산 정보를 입력하고 이미지를 업로드 가능
+  - **거래 유형 필터링**: 월세, 전세, 매매 선택하여 원하는 매물만 검색 가능
+  - **지도 기능**: 사용자가 보고 있는 지도 영역에 따라 해당 매물 정보 표시
+  - **반응형 UI**: 모바일에서도 최적화된 UI 제공
 
 ## 시연 영상
   - 등록 기능 및 로그인: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/Eic1vmnDDPs)
@@ -45,32 +44,18 @@ yarn dev
 ## 업데이트 내용
 
 **2025.02.04**
-
-- 월세/전세 등록이 추가됐습니다.
-
-![매물유형 추가](https://github.com/user-attachments/assets/2bbbf10d-dcfd-42fb-b7cb-9d5427033574)
-
+- 월세/전세 등록이 추가됐습니다
 - 월세/전세/매매 필터링이 추가됐습니다.
-  
-![맵 건물필터](https://github.com/user-attachments/assets/fe6ad3fc-1412-45c7-b1f4-5449d58a2c8d)
-
 - 사용자가 보는 지도 영역에 등록된 매물이 있을 때 정보창이 추가됐습니다.
-
-![맵 영역의 정보](https://github.com/user-attachments/assets/439a40bb-206a-4d4b-ae29-14d769593d82)
-
 
 
 **2025.02.06**
-
 - 오피스텔 항목이 추가됐습니다.
 
 
 **2025.02.07**
-
 - 빌라 항목이 추가됐습니다.
 - 건물 유형 선택 버튼이 추가됐습니다.
-
-![건물유형 선택](https://github.com/user-attachments/assets/53a968c1-2dc7-4681-8821-1228a339f697)
 
 
 **2025.02.12**
