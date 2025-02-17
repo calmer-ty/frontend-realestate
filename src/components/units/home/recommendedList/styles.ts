@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { colors } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
@@ -11,8 +12,14 @@ export const Container = styled.section`
     flex-direction: column;
     min-width: 22.5rem;
     h3 {
+      margin-left: 4.75rem;
       margin-bottom: 0.75rem;
-      text-align: center;
+      text-align: left;
+
+      ${mediaQueries.mobile(css`
+        margin-left: 0;
+        text-align: center;
+      `)}
     }
     .slick-dots {
       bottom: -1.25rem;
