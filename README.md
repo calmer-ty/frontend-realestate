@@ -21,14 +21,10 @@
 - **Frontend:**
   -  React
   -  Next.js
-  -  Emotion - (CSS-in-JS 라이브러리)
-  -  Axios - (API 호출 라이브러리)
 
 - **Backend:**
-    - Firebase
-    - Firestore (NoSQL Database)
-    - Firebase Authentication (OAuth 로그인)
-    - Firebase Hosting, Firebase Functions (배포)
+    - Firebase(Firestore, Authentication, Hosting, Functions)
+    - Node.js
 
 - **기타 라이브러리:**
   - React-slick (슬라이드 라이브러리)
