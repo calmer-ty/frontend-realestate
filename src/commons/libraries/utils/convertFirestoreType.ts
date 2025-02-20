@@ -1,5 +1,5 @@
 import type { DocumentData } from "firebase/firestore";
-import type { IFirestore } from "@/src/commons/types";
+import type { IFirestore, IFirestore2 } from "@/src/commons/types";
 
 export const convertFirestoreData = (data: DocumentData): IFirestore => {
   return {
@@ -18,6 +18,19 @@ export const convertFirestoreData = (data: DocumentData): IFirestore => {
     elevator: data.elevator as string,
     desc: data.desc as string,
     imageUrls: data.imageUrls as string[],
+    user: data.user as { _id: string; name: string; email: string },
+    createdAt: data.createdAt as { seconds: number; nanoseconds: number },
+    deletedAt: data.deletedAt as { seconds: number; nanoseconds: number },
+  };
+};
+export const convertFirestoreData2 = (data: DocumentData): IFirestore2 => {
+  return {
+    _id: data._id as string,
+    won: data.won as number,
+    AS: data.AS as number,
+    ASGrowth: data.ASGrowth as number,
+    FA: data.FA as number,
+    FAGrowth: data.FAGrowth as number,
     user: data.user as { _id: string; name: string; email: string },
     createdAt: data.createdAt as { seconds: number; nanoseconds: number },
     deletedAt: data.deletedAt as { seconds: number; nanoseconds: number },

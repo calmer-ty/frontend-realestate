@@ -23,8 +23,9 @@ export default function Nav(): JSX.Element {
   return (
     <>
       <S.Nav>
-        <Link href={user !== null ? "/new" : "/"} onClick={moveToBuildingNew}>
-          <Button variant="contained">방 내놓기</Button>
+        <Link href={user !== null ? "/user/new" : "/"} onClick={moveToBuildingNew}>
+          {/* <Button variant="contained">방 내놓기</Button> */}
+          <Button variant="contained">금융 스텟 등록</Button>
         </Link>
         <AuthButton />
       </S.Nav>

@@ -177,6 +177,23 @@ export interface IFirestore {
     nanoseconds: number;
   };
 }
+export interface IFirestore2 {
+  _id: string;
+  won: number;
+  AS: number;
+  ASGrowth: number;
+  FA: number;
+  FAGrowth: number;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
 
 // maps
 declare global {
@@ -197,6 +214,13 @@ export interface IMapMarkerParams {
 }
 
 // Write Form
+export interface IUserStatusForm {
+  won: number;
+  FA: number;
+  FAGrowth: number;
+  AS: number;
+  ASGrowth: number;
+}
 export interface IWriteForm {
   buildingType: string;
   transactionType: string;
