@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "./header";
 interface ILayoutProps {
   children: React.ReactNode;
