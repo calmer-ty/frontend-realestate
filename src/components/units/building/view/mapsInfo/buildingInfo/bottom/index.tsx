@@ -10,10 +10,10 @@ import { BUILDING_TYPE } from "@/src/commons/constants";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IBuildingInfoBottomProps {
   selectedData: IGeocodeData;
-  matchingDatas: IFirestore[];
+  matchingData: IFirestore[];
 }
 
-export default function BuildingInfoBottom({ selectedData, matchingDatas }: IBuildingInfoBottomProps): JSX.Element {
+export default function BuildingInfoBottom({ selectedData, matchingData }: IBuildingInfoBottomProps): JSX.Element {
   // 토글 로직 빼옴
   const [alignment, setAlignment] = useState<string | null>("월세");
   const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null): void => {
@@ -21,7 +21,7 @@ export default function BuildingInfoBottom({ selectedData, matchingDatas }: IBui
   };
 
   // 매칭된 데이터와 파이어베이스에서 값을 대조하여 해당 조건에 맞는 것만 필터링합니다.
-  const matchedDatas = matchingDatas.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
+  const matchedDatas = matchingData.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
 
   return (
     <S.Container>

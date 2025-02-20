@@ -11,7 +11,7 @@ interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerData: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
-  matchingDatas: IFirestore[];
+  matchingData: IFirestore[];
   buildingType: string;
 }
 

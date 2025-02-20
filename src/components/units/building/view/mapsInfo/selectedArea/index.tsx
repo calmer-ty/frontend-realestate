@@ -5,10 +5,10 @@ import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface ISelectedAreaProps {
   selectedMarkerData: IGeocodeData;
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
-  matchingDatas: IFirestore[];
+  matchingData: IFirestore[];
   buildingType: string;
 }
 
-export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, matchingDatas, buildingType }: ISelectedAreaProps): JSX.Element {
-  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingDatas={matchingDatas} buildingType={buildingType} />;
+export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, matchingData, buildingType }: ISelectedAreaProps): JSX.Element {
+  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />;
 }

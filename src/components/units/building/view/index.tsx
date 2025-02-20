@@ -225,7 +225,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
         notMatched.push(data);
       }
     });
-    return { matchingData: matched, unMatchedDatas: notMatched };
+    return { matchingData: matched, unMatchedData: notMatched };
   }, [allGeocodeData, firestoreData, buildingType]);
 
   // 맵 마커 로직
@@ -312,7 +312,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   const onMapLoaded = useCallback(
     (map: any) => {
-      // 첫 번째 geocodeDatas를 중심 좌표로 설정
+      // 첫 번째 geocode를 중심 좌표로 설정
       if (geocode !== undefined) {
         const firstPosition = new window.naver.maps.LatLng(geocode.latitude, geocode.longitude);
         map.setCenter(firstPosition); // 지도 중심 설정
@@ -352,13 +352,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       <MapsMenu buildingType={buildingType} />
 
       <S.MapsWrap>
-        <MapsInfo
-          selectedMarkerData={selectedMarkerData}
-          visibleMarkerData={visibleMarkerData}
-          setSelectedMarkerData={setSelectedMarkerData}
-          matchingDatas={matchingData}
-          buildingType={buildingType}
-        />
+        <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />
         <NaverMaps mapLoading={mapLoading} allGeocodeDataLoading={allGeocodeDataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
       </S.MapsWrap>
     </S.Container>
