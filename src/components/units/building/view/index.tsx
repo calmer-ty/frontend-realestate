@@ -16,6 +16,7 @@ import * as S from "./styles";
 import "./marker.css";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import type { IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
+
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
   matchingData: IFirestore[];
@@ -97,15 +98,6 @@ const clusteringOptions = (map: any, markers: any[]): any => {
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
-  // params를 비동기적으로 처리하려면 await로 기다려야 함
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const resolvedParams = await params;
-      setBuildingType(resolvedParams.buildingType);
-    };
-
-    void fetchData();
-  }, [params]);
 
   const [selectedMarkerData, setSelectedMarkerData] = useState<IGeocodeData | undefined>(undefined);
   const [visibleMarkerData, setVisibleMarkerData] = useState<IGeocodeData[]>([]);
@@ -324,6 +316,14 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   );
   const { mapLoading } = useMapsLoader({ onMapLoaded });
 
+  // params를 비동기적으로 처리하려면 await로 기다려야 함
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      const resolvedParams = await params;
+      setBuildingType(resolvedParams.buildingType);
+    };
+    void fetchData();
+  }, [params]);
   // 스테이트 값 바뀔 때마다 api 재요청 - 구 선택시 리렌더링
   useEffect(() => {
     if (regionName === undefined) return;
