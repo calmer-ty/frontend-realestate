@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
-import { useAddressSearch } from "@/src/hooks/api/useAddressSearch";
+import { DaumPostcodeEmbed } from "react-daum-postcode";
 
 import { Button } from "@mui/material";
-import DaumPostcodeEmbed from "react-daum-postcode";
 import UnderlineTitle from "@/src/components/commons/title/underline";
 import BasicTextField from "@/src/components/commons/input/textField/basic";
 import ControlTextField from "@/src/components/commons/input/textField/control";
@@ -13,8 +12,11 @@ import WriteRadio from "./ui/writeRadio";
 
 import * as S from "./styles";
 
+import type { Address } from "react-daum-postcode";
 import type { Control, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import type { IWriteForm } from "@/src/commons/types";
+import type { IGeocode, IWriteForm } from "@/src/commons/types";
+import axios from "axios";
+import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
 interface IBuildingInfoProps {
   register: UseFormRegister<IWriteForm>;
   setValue: UseFormSetValue<IWriteForm>;
@@ -28,7 +30,35 @@ export default function BuildingInfo({ setValue, getValues, register, control }:
     setModalOpen((prev) => !prev);
   };
 
-  const { selectedAddress, onCompleteAddressSearch, geocodeData } = useAddressSearch({ setValue, getValues, onModalToggle });
+  // 지도 검색 로직
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [geocodeData, setGeocodeData] = useState<IGeocode | undefined>(undefined);
+  const currentAddress = getValues("address");
+
+  const fetchGeocode = async (address: string): Promise<void> => {
+    try {
+      const response = await axios.get<IGeocode>("/api/fetchAddressSearch", {
+        params: { address },
+      });
+      setGeocodeData(response.data);
+    } catch (error) {
+      console.error("Error fetching geocode data:", error);
+    }
+  };
+
+  if (typeof currentAddress === "string" && currentAddress !== selectedAddress) {
+    setSelectedAddress(currentAddress); // 기존 주소를 selectedAddress에 설정
+    void fetchGeocode(currentAddress); // 기존 주소에 대한 지오코드 데이터 가져오기
+  }
+
+  const onCompleteAddressSearch = async (data: Address): Promise<void> => {
+    const selectedAddress = getFullCityName(data.address); // 검색된 주소를 선택하고 시/도명을 바꿈
+
+    setSelectedAddress(selectedAddress); // 상태 변수에 설정합니다
+    setValue("address", selectedAddress); // 폼의 'address' 필드에 선택된 주소를 설정합니다
+    onModalToggle(); // 주소 검색 완료 후 모달 닫기
+    void fetchGeocode(selectedAddress);
+  };
 
   const onMapLoaded = (map: any): void => {
     if (geocodeData !== undefined) {

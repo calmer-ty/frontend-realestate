@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useFetchBuildingData } from "@/src/hooks/api/useFetchBuildingData";
-import { useFetchAllGeocodeData } from "@/src/hooks/api/useFetchAllGeocodeData";
-import { useFetchFirestoreData } from "@/src/hooks/firebase/useFetchFirestoreData";
-import { useFetchSelectGeocodeData } from "@/src/hooks/api/useFetchSelectGeocodeData";
+import axios from "axios";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAllMarker } from "@/src/hooks/maps/useAllMarker";
+import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
@@ -15,7 +13,7 @@ import MapsMenu from "./ui/mapsMenu";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IBuildingParamsPromiseProps, IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -35,19 +33,88 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   const [regionName, setRegionName] = useState<string | undefined>(undefined);
   const [regionCode, setRegionCode] = useState<string | undefined>(undefined);
 
-  // 파이어스토어 데이터패치  훅
-  const { firestoreDatas } = useFetchFirestoreData("buildings");
+  // 파이어스토어 데이터패치
+  const [firestoreDatas, setFirestoreDatas] = useState<IFirestore[]>([]);
+  const { readFirestores } = useFirestore();
+
+  useEffect(() => {
+    const readBuilding = async (): Promise<void> => {
+      const data = await readFirestores("buildings");
+      setFirestoreDatas(data);
+    };
+    void readBuilding();
+  }, [readFirestores]);
 
   // API 패치 훅
   // const { fetchRegionData } = useFetchRegionData();
-  const { buildingDatas, fetchBuildingDatas } = useFetchBuildingData({ regionCode, regionName, buildingType });
-  const { geocode, fetchGeocodeData } = useFetchSelectGeocodeData({ regionName: regionName ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
-  const {
-    geocodeDatas,
-    fetchGeocodeDatas,
-    loading: dataLoading,
-    error,
-  } = useFetchAllGeocodeData({ regionCode: regionCode ?? DEFAULT_STRING_VALUE, buildingType: buildingType ?? DEFAULT_STRING_VALUE });
+  const [buildingDatas, setBuildingDatas] = useState<IBuildingItem[]>([]);
+  const fetchBuildingDatas = useCallback(async (): Promise<void> => {
+    if (regionCode === undefined || regionName === undefined || buildingType === undefined) {
+      console.error("존재하지 않는 지역입니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.get<IBuildingItem[]>("/api/fetchBuilding", {
+        params: { regionCode, regionName, buildingType },
+      });
+
+      if (response.status === 200) {
+        setBuildingDatas(response.data);
+      } else {
+        throw new Error("Failed to fetch data");
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  }, [regionCode, regionName, buildingType]);
+
+  const [geocode, setGeocodeData] = useState<IGeocode | undefined>(undefined);
+  const fetchGeocodeData = useCallback(
+    async (): Promise<void> => {
+      try {
+        const response = await axios.get<IGeocode>("/api/fetchSelectGeocode", {
+          params: { buildingType, regionName },
+        });
+        if (response.status === 200) {
+          setGeocodeData(response.data);
+          // console.log("Fetched geocode data:", response.data);
+        } else {
+          throw new Error("Failed to fetch geocode data");
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    },
+    [buildingType, regionName] // buildingType이 변경될 때만 함수가 재정의됨
+  );
+
+  // 지오코드 패치 로직
+  const [geocodeDatas, setGeocodeDatas] = useState<IGeocodeData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const fetchGeocodeDatas = useCallback(
+    async (): Promise<void> => {
+      setLoading(true); // 데이터 요청 시작 시 로딩 상태 true로 설정
+      setError(null); // 이전 에러 상태 초기화
+      try {
+        const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
+          params: { regionCode, buildingType },
+        });
+        if (response.status === 200) {
+          setGeocodeDatas(response.data);
+          // console.log("Fetched geocode data:", response.data);
+        } else {
+          throw new Error("Failed to fetch geocode data");
+        }
+      } catch (err) {
+        setError("Error fetching geocode data"); // 에러 발생 시 에러 메시지 설정
+      } finally {
+        setLoading(false); // 데이터 요청이 끝났으므로 로딩 상태 false로 설정
+      }
+    },
+    [regionCode, buildingType] // buildingType이 변경될 때만 함수가 재정의됨
+  );
 
   // 매칭/비매칭 데이터 판별
   const { matchingDatas } = useMemo(() => {
@@ -115,7 +182,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
           matchingDatas={matchingDatas}
           buildingType={buildingType}
         />
-        <NaverMaps mapLoading={mapLoading} dataLoading={dataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
+        <NaverMaps mapLoading={mapLoading} dataLoading={loading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
       </S.MapsWrap>
     </S.Container>
   );
