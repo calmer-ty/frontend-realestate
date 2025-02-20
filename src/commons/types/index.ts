@@ -210,7 +210,7 @@ export interface IMapMarkerParams {
   matchingDatas: IFirestore[];
   // unMatchedDatas: IFirestore[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
-  setVisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
+  setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 
 // Asset Form
