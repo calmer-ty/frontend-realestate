@@ -33,6 +33,5 @@ export const convertFirestoreData2 = (data: DocumentData): IFirestore2 => {
     FAGrowth: data.FAGrowth as number,
     user: data.user as { _id: string; name: string; email: string },
     createdAt: data.createdAt as { seconds: number; nanoseconds: number },
-    deletedAt: data.deletedAt as { seconds: number; nanoseconds: number },
   };
 };

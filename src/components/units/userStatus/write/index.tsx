@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore2";
@@ -17,16 +15,16 @@ import * as S from "./styles";
 import type { IFirestore2, IUserStatusForm } from "@/src/commons/types";
 interface IEditFormData {
   isEdit: boolean;
-  firestoreData?: IFirestore2 | undefined;
+  userStatus?: IFirestore2 | undefined;
 }
 
-export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData): JSX.Element {
+export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): JSX.Element {
   const initialValues: IUserStatusForm = {
-    won: firestoreData?.won ?? 0,
-    FA: firestoreData?.FA ?? 0,
-    FAGrowth: firestoreData?.FAGrowth ?? 0,
-    AS: firestoreData?.AS ?? 0,
-    ASGrowth: firestoreData?.ASGrowth ?? 0,
+    won: userStatus?.won ?? 0,
+    FA: userStatus?.FA ?? 0,
+    FAGrowth: userStatus?.FAGrowth ?? 0,
+    AS: userStatus?.AS ?? 0,
+    ASGrowth: userStatus?.ASGrowth ?? 0,
   };
 
   const { user } = useAuth();
@@ -52,7 +50,7 @@ export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData
 
       await createFirestore(formData, "userStatus");
       setAlertOpen(true);
-      setAlertText("당신의 금융 스텟 등록이 완료되었습니다.");
+      setAlertText("당신의 금융 상태 등록이 완료되었습니다.");
       setAlertSeverity("success");
 
       setRouting("/");
@@ -82,9 +80,9 @@ export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData
         return;
       }
 
-      await updateFirestore(updatedValues, "userStatus", firestoreData?._id ?? DEFAULT_STRING_VALUE);
+      await updateFirestore(updatedValues, "userStatus", userStatus?._id ?? DEFAULT_STRING_VALUE);
       setAlertOpen(true);
-      setAlertText("당신의 금융 스텟이 수정 되었습니다.");
+      setAlertText("당신의 금융 상태이 수정 되었습니다.");
       setAlertSeverity("success");
 
       // 알람 후 페이지 이동
@@ -96,8 +94,8 @@ export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData
 
   // 수정시 파이어베이스 데이터 불러옴
   useEffect(() => {
-    if (firestoreData !== undefined) {
-      const { _id, user, createdAt, ...rest } = firestoreData;
+    if (userStatus !== undefined) {
+      const { _id, user, createdAt, ...rest } = userStatus;
       // 각 필드에 값 설정
       if (rest.won != null) setValue("won", rest.won);
       if (rest.FA != null) setValue("FA", rest.FA);
@@ -105,7 +103,7 @@ export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData
       if (rest.AS != null) setValue("AS", rest.AS);
       if (rest.ASGrowth != null) setValue("ASGrowth", rest.ASGrowth);
     }
-  }, [firestoreData, setValue]);
+  }, [userStatus, setValue]);
 
   return (
     <>
@@ -113,11 +111,11 @@ export default function UserStatusWrite({ isEdit, firestoreData }: IEditFormData
       <S.Form onSubmit={handleSubmit(isEdit ? handleFormUpdate : handleFormSubmit)}>
         <section>
           <UnderlineTitle label="현금 자산" />
-          <InputUnit label="원화" type="number" register={register("won", { valueAsNumber: true })} unitLabel="만원" />
+          <InputUnit label="원화 / 달러 / 금" type="number" register={register("won", { valueAsNumber: true })} unitLabel="만원" />
         </section>
         <section>
           <UnderlineTitle label="금융 자산" />
-          <InputUnit label="주식 / ETF / 금" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
+          <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
           <InputUnit label="연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
         </section>
         <section>
