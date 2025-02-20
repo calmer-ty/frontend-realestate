@@ -177,7 +177,7 @@ export interface IFirestore {
     nanoseconds: number;
   };
 }
-export interface IFirestore2 {
+export interface IFirestoreAsset {
   _id: string;
   won: number;
   AS: number;

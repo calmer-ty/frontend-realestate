@@ -1,20 +1,20 @@
 import { useCallback } from "react";
 import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
-import { convertFirestoreData2 } from "@/src/commons/libraries/utils/convertFirestoreType";
+import { convertFirestoreAssetData } from "@/src/commons/libraries/utils/convertFirestoreType";
 
-import type { IAssetForm, IFirestore2 } from "@/src/commons/types";
+import type { IAssetForm, IFirestoreAsset } from "@/src/commons/types";
 
-interface IUseFirestoreReturn {
+interface IUseFirestoreAssetReturn {
   createFirestore: (data: IAssetForm, colName: string) => Promise<void>;
   updateFirestore: (data: Partial<IAssetForm>, colName: string, docId: string) => Promise<void>;
-  archiveFirestore: (data: IFirestore2, colName: string) => Promise<void>;
+  archiveFirestore: (data: IFirestoreAsset, colName: string) => Promise<void>;
   deleteFirestore: (colName: string, docId: string) => Promise<void>;
-  readFirestore: (colName: string, docId: string) => Promise<IFirestore2 | undefined>;
-  readFirestores: (colName: string) => Promise<IFirestore2[]>;
+  readFirestore: (colName: string, docId: string) => Promise<IFirestoreAsset | undefined>;
+  readFirestores: (colName: string) => Promise<IFirestoreAsset[]>;
 }
 
-export const useFirestore = (): IUseFirestoreReturn => {
+export const useFirestoreAsset = (): IUseFirestoreAssetReturn => {
   const createFirestore = useCallback(async (data: IAssetForm, colName: string) => {
     try {
       const docRef = await addDoc(collection(db, colName), {
@@ -48,7 +48,7 @@ export const useFirestore = (): IUseFirestoreReturn => {
     }
   }, []);
 
-  const archiveFirestore = useCallback(async (data: IFirestore2, colName: string) => {
+  const archiveFirestore = useCallback(async (data: IFirestoreAsset, colName: string) => {
     try {
       const docRef = await addDoc(collection(db, colName), {
         ...data,
@@ -71,7 +71,7 @@ export const useFirestore = (): IUseFirestoreReturn => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         if (data != null) {
-          return convertFirestoreData2(data);
+          return convertFirestoreAssetData(data);
         }
       }
     } catch (error) {
@@ -82,13 +82,38 @@ export const useFirestore = (): IUseFirestoreReturn => {
   const readFirestores = useCallback(async (colName: string) => {
     try {
       const querySnapshot = await getDocs(collection(db, colName));
-      const datas = querySnapshot.docs.map((el) => el.data() as IFirestore2);
+      const datas = querySnapshot.docs.map((el) => el.data() as IFirestoreAsset);
       return datas;
     } catch (error) {
       console.error("Error fetching buildings:", error);
       return [];
     }
   }, []);
+
+  // 추가된 실시간 데이터 구독 함수
+
+  // const readFirestoresRealTime = useCallback((buildingType: string, setBuildings: Dispatch<SetStateAction<IFirestoreAsset[]>>, setDeletedBuildings: Dispatch<SetStateAction<IFirestoreAsset[]>>): Unsubscribe => {
+  //   const buildingsCollection = collection(db, buildingType);
+  //   const deletedBuildingsCollection = collection(db, `deleted_${buildingType}`);
+
+  //   // 등록된 데이터 구독
+  //   const unsubscribeBuildings = onSnapshot(buildingsCollection, (snapshot) => {
+  //     const updatedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestoreAsset);
+  //     setBuildings(updatedBuildings);
+  //   });
+
+  //   // 삭제된 데이터 구독
+  //   const unsubscribeDeletedBuildings = onSnapshot(deletedBuildingsCollection, (snapshot) => {
+  //     const updatedDeletedBuildings = snapshot.docs.map((doc) => doc.data() as IFirestoreAsset);
+  //     setDeletedBuildings(updatedDeletedBuildings);
+  //   });
+
+  //   // 구독 해제 함수 반환
+  //   return () => {
+  //     unsubscribeBuildings();
+  //     unsubscribeDeletedBuildings();
+  //   };
+  // }, []);
 
   return { createFirestore, updateFirestore, archiveFirestore, deleteFirestore, readFirestore, readFirestores };
 };

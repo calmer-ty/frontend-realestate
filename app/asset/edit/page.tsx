@@ -1,11 +1,11 @@
 "use client";
 
-import UserStatusWrite from "@/src/components/units/userStatus/write";
+import AssetWrite from "@/src/components/units/asset/write";
 
-import { useUserStatus } from "@/src/hooks/useUserStatus";
+import { useFetchAsset } from "@/src/hooks/useFetchAsset";
 
-export default function UserStatusEditPage(): JSX.Element {
-  const { userStatus } = useUserStatus();
+export default function AssetEditPage(): JSX.Element {
+  const { asset } = useFetchAsset();
 
-  return <UserStatusWrite isEdit={true} userStatus={userStatus} />;
+  return <AssetWrite isEdit={true} asset={asset} />;
 }

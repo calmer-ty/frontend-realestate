@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore2";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useAlert } from "@/src/hooks/useAlert";
+import { useFirestoreAsset } from "@/src/hooks/firebase/useFirestoreAsset";
 
 import { Button } from "@mui/material";
 import BasicAlert from "@/src/components/commons/alert/basic";
@@ -12,19 +12,19 @@ import InputUnit from "./ui/inputUnit";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
-import type { IFirestore2, IAssetForm } from "@/src/commons/types";
+import type { IFirestoreAsset, IAssetForm } from "@/src/commons/types";
 interface IEditFormData {
   isEdit: boolean;
-  userStatus?: IFirestore2 | undefined;
+  asset?: IFirestoreAsset | undefined;
 }
 
-export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): JSX.Element {
+export default function AssetWrite({ isEdit, asset }: IEditFormData): JSX.Element {
   const initialValues: IAssetForm = {
-    won: userStatus?.won ?? 0,
-    FA: userStatus?.FA ?? 0,
-    FAGrowth: userStatus?.FAGrowth ?? 0,
-    AS: userStatus?.AS ?? 0,
-    ASGrowth: userStatus?.ASGrowth ?? 0,
+    won: asset?.won ?? 0,
+    FA: asset?.FA ?? 0,
+    FAGrowth: asset?.FAGrowth ?? 0,
+    AS: asset?.AS ?? 0,
+    ASGrowth: asset?.ASGrowth ?? 0,
   };
 
   const { user } = useAuth();
@@ -33,7 +33,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
   });
 
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText, setRouting } = useAlert();
-  const { createFirestore, updateFirestore } = useFirestore();
+  const { createFirestore, updateFirestore } = useFirestoreAsset();
 
   // 등록 수정
   const handleFormSubmit = async (data: IAssetForm): Promise<void> => {
@@ -48,7 +48,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
         },
       };
 
-      await createFirestore(formData, "userStatus");
+      await createFirestore(formData, "asset");
       setAlertOpen(true);
       setAlertText("당신의 금융 상태 등록이 완료되었습니다.");
       setAlertSeverity("success");
@@ -80,7 +80,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
         return;
       }
 
-      await updateFirestore(updatedValues, "userStatus", userStatus?._id ?? DEFAULT_STRING_VALUE);
+      await updateFirestore(updatedValues, "asset", asset?._id ?? DEFAULT_STRING_VALUE);
       setAlertOpen(true);
       setAlertText("당신의 금융 상태이 수정 되었습니다.");
       setAlertSeverity("success");
@@ -94,8 +94,8 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
 
   // 수정시 파이어베이스 데이터 불러옴
   useEffect(() => {
-    if (userStatus !== undefined) {
-      const { _id, user, createdAt, ...rest } = userStatus;
+    if (asset !== undefined) {
+      const { _id, user, createdAt, ...rest } = asset;
       // 각 필드에 값 설정
       if (rest.won != null) setValue("won", rest.won);
       if (rest.FA != null) setValue("FA", rest.FA);
@@ -103,7 +103,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
       if (rest.AS != null) setValue("AS", rest.AS);
       if (rest.ASGrowth != null) setValue("ASGrowth", rest.ASGrowth);
     }
-  }, [userStatus, setValue]);
+  }, [asset, setValue]);
 
   return (
     <>

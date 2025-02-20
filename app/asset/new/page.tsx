@@ -1,7 +1,7 @@
 "use client";
 
-import UserStatusWrite from "@/src/components/units/userStatus/write";
+import AssetWrite from "@/src/components/units/asset/write";
 
-export default function UserStatusNewPage(): JSX.Element {
-  return <UserStatusWrite isEdit={false} />;
+export default function AssetNewPage(): JSX.Element {
+  return <AssetWrite isEdit={false} />;
 }
