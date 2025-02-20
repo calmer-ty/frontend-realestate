@@ -9,13 +9,13 @@ import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
-  visibleMarkerDatas: IGeocodeData[];
+  visibleMarkerData: IGeocodeData[];
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingDatas: IFirestore[];
   buildingType: string;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerDatas, ...restProps }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, ...restProps }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
 
@@ -44,7 +44,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
         {selectedMarkerData !== undefined ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} {...restProps} />
         ) : (
-          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerDatas={visibleMarkerDatas} {...restProps} />
+          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerDatas={visibleMarkerData} {...restProps} />
         )}
       </S.Container>
 
