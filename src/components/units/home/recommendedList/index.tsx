@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
 interface IRecommendedListProps {
-  firestoreDatas: IFirestore[];
+  firestoreData: IFirestore[];
 }
 
 const settings = {
@@ -51,15 +51,15 @@ const settings = {
   ],
 };
 
-export default function RecommendedList({ firestoreDatas }: IRecommendedListProps): JSX.Element {
+export default function RecommendedList({ firestoreData }: IRecommendedListProps): JSX.Element {
   const randomFirestores = useMemo(() => {
-    return firestoreDatas.sort(() => 0.5 - Math.random()).slice(0, 5);
-  }, [firestoreDatas]);
+    return firestoreData.sort(() => 0.5 - Math.random()).slice(0, 5);
+  }, [firestoreData]);
 
   return (
     <>
       <S.Container>
-        {firestoreDatas.length === 0 ? (
+        {firestoreData.length === 0 ? (
           <LoadingSpinner size={100} />
         ) : (
           <div className="inner">

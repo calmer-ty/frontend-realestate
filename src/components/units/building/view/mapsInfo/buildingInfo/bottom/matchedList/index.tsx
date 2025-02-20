@@ -10,19 +10,19 @@ import * as S from "./styles";
 
 import type { IFirestore } from "@/src/commons/types";
 interface IMatchedListProps {
-  matchedDatas: IFirestore[];
+  matchingData: IFirestore[];
   alignment: string | null;
 }
 
-export default function MatchedList({ matchedDatas, alignment }: IMatchedListProps): JSX.Element {
+export default function MatchedList({ matchingData, alignment }: IMatchedListProps): JSX.Element {
   // alignment 값이 있을 경우 transactionType이 alignment와 일치하는 항목만 필터링
-  const filteredDatas = alignment !== null ? matchedDatas.filter((el) => el.transactionType === alignment) : matchedDatas;
+  const filteredMatchingData = alignment !== null ? matchingData.filter((el) => el.transactionType === alignment) : matchingData;
 
   return (
     <>
-      {filteredDatas.length !== 0 ? (
+      {filteredMatchingData.length !== 0 ? (
         <S.List>
-          {filteredDatas.map((el, index) => (
+          {filteredMatchingData.map((el, index) => (
             <li key={`${el.buildingType}_${el.address}_${index}`}>
               <Link href={`/${korToEng(el.buildingType)}/${el._id}`}>
                 <figure>

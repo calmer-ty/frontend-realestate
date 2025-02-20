@@ -32,7 +32,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
   // useEffect(() => {
   //   setScroll(false);
   //   setSelectedData(null);
-  // }, [visibleMarkerDatas]);
+  // }, [visibleMarkerData]);
 
   const onClickScroll = (): void => {
     setScroll((prev) => !prev);
@@ -44,7 +44,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
         {selectedMarkerData !== undefined ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} {...restProps} />
         ) : (
-          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerDatas={visibleMarkerData} {...restProps} />
+          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />
         )}
       </S.Container>
 

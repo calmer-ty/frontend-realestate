@@ -1,5 +1,3 @@
-import type { Dispatch, SetStateAction } from "react";
-
 // 지역코드 API
 export interface IRegion {
   StanReginCd: [
@@ -203,14 +201,6 @@ declare global {
     maps: any;
     HOME_PATH: any;
   }
-}
-export interface IMapMarkerParams {
-  geocode?: IGeocode;
-  geocodeDatas: IGeocodeData[];
-  matchingDatas: IFirestore[];
-  // unMatchedDatas: IFirestore[];
-  setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
-  setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 
 // Asset Form

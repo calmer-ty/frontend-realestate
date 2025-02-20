@@ -52,19 +52,19 @@ export const getAllGeocodeData = async ({ regionCode, buildingType }: IGeocodeDa
   const buildingData = await getBuildingData({ regionCode, regionName: "경기도 성남시 분당구", buildingType });
   const buildingCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
 
-  let selectedDatas: IBuildingItem[] = [];
+  let selectedData: IBuildingItem[] = [];
 
   if (buildingCache !== undefined) {
-    selectedDatas = buildingCache; // 데이터가 있으면 그대로 사용
+    selectedData = buildingCache; // 데이터가 있으면 그대로 사용
   } else if (buildingData.length > 0) {
-    selectedDatas = buildingData; // 캐시가 있으면 캐시 데이터 사용
+    selectedData = buildingData; // 캐시가 있으면 캐시 데이터 사용
   } else {
-    selectedDatas = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
+    selectedData = []; // 데이터도 없고 캐시도 없으면 빈 배열 반환
     console.log("getAllGeocodeData / buildingData가 없습니다. ");
   }
 
   const geocodeData = await Promise.all(
-    selectedDatas.map((data) =>
+    selectedData.map((data) =>
       limit(async () => {
         try {
           const address = `${data.regionName} ${data.umdNm} ${data.jibun}`;

@@ -33,10 +33,10 @@ const fetchRegionData = async (city: string): Promise<IRegionItemFiltered[]> => 
 export const getRegionData = async (): Promise<IRegionItemFiltered[]> => {
   try {
     const promise = CITIES.map((city) => limit(() => fetchRegionData(city))); // 각 도시에 대해 데이터를 가져오는 Promise 배열을 생성합니다
-    const regionDatas = await Promise.all(promise); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
+    const regionData = await Promise.all(promise); // Promise.all을 사용해 모든 데이터를 병렬로 가져옵니다
 
     // 지역 코드와 위치 이름을 그룹화하여 배열로 반환
-    const regionDataList = regionDatas.flat().map((item) => ({
+    const regionDataList = regionData.flat().map((item) => ({
       city: item.city,
       district: item.district,
       regionCode: item.regionCode,

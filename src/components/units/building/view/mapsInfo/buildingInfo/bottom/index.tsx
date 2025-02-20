@@ -21,18 +21,22 @@ export default function BuildingInfoBottom({ selectedData, matchingData }: IBuil
   };
 
   // 매칭된 데이터와 파이어베이스에서 값을 대조하여 해당 조건에 맞는 것만 필터링합니다.
-  const matchedDatas = matchingData.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
+  const filteredMatchingData = matchingData.filter((matchingData) => selectedData.geocode?.jibunAddress === matchingData.address || selectedData.geocode?.roadAddress === matchingData.address);
 
   return (
     <S.Container>
       <div className="topMenu">
         <h3>
-          총 <strong>{matchedDatas.length}</strong>개의 매물이 있습니다
+          총 <strong>{filteredMatchingData.length}</strong>개의 매물이 있습니다
         </h3>
         <BasicToggleButton options={BUILDING_TYPE} value={alignment} onChange={handleAlignment} />
       </div>
       <div className="bottomContents">
-        {matchedDatas.length !== 0 ? <MatchedList matchedDatas={matchedDatas} alignment={alignment} /> : <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />}
+        {filteredMatchingData.length !== 0 ? (
+          <MatchedList matchingData={filteredMatchingData} alignment={alignment} />
+        ) : (
+          <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />
+        )}
       </div>
     </S.Container>
   );

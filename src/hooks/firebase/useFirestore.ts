@@ -82,8 +82,8 @@ export const useFirestore = (): IUseFirestoreReturn => {
   const readFirestores = useCallback(async (colName: string) => {
     try {
       const querySnapshot = await getDocs(collection(db, colName));
-      const datas = querySnapshot.docs.map((el) => el.data() as IFirestore);
-      return datas;
+      const data = querySnapshot.docs.map((el) => el.data() as IFirestore);
+      return data;
     } catch (error) {
       console.error("Error fetching buildings:", error);
       return [];

@@ -13,13 +13,13 @@ export const useFetchAsset = (): {
   const [asset, setAsset] = useState<IFirestoreAsset | undefined>(undefined);
   const { readFirestores } = useFirestoreAsset();
 
-  // firestoreDatas
+  // firestoreData
   useEffect(() => {
     const readBuildings = async (): Promise<void> => {
       // 임시로 아파트만 랜덤 렌더링
-      const datas = await readFirestores("asset");
+      const data = await readFirestores("asset");
       if (userId !== undefined) {
-        const findData = datas.find((data) => data.user._id === userId);
+        const findData = data.find((data) => data.user._id === userId);
         setAsset(findData);
       }
     };

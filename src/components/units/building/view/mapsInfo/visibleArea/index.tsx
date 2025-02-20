@@ -8,15 +8,15 @@ import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 interface IVisibleAreaProps {
   matchingData: IFirestore[];
-  visibleMarkerDatas: IGeocodeData[];
+  visibleMarkerData: IGeocodeData[];
   selectedData: IGeocodeData | undefined;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   buildingType: string;
 }
 
-export default function VisibleArea({ visibleMarkerDatas, matchingData, selectedData, setSelectedData, buildingType }: IVisibleAreaProps): JSX.Element {
+export default function VisibleArea({ visibleMarkerData, matchingData, selectedData, setSelectedData, buildingType }: IVisibleAreaProps): JSX.Element {
   // visibleData를 순회하면서 matchingData와 대조하여 동일한 데이터만 걸러냅니다.
-  const matchingMarkerData = visibleMarkerDatas.filter((visibleData) => {
+  const matchingMarkerData = visibleMarkerData.filter((visibleData) => {
     return matchingData.some((matchingData) => visibleData.geocode?.jibunAddress === matchingData.address || visibleData.geocode?.roadAddress === matchingData.address);
   });
 
