@@ -46,7 +46,15 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   }, [readFirestores]);
 
   // API 패치 훅
-  // const { fetchRegionData } = useFetchRegionData();
+  // const fetchRegionData = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const response = await axios.get("/api/fetchRegion");
+  //     const data = response.data;
+  //     return data;
+  //   } catch (err) {
+  //     console.error("Error fetching data:", err);
+  //   }
+  // }, []);
   const [buildingDatas, setBuildingDatas] = useState<IBuildingItem[]>([]);
   const fetchBuildingDatas = useCallback(async (): Promise<void> => {
     if (regionCode === undefined || regionName === undefined || buildingType === undefined) {

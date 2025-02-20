@@ -213,14 +213,15 @@ export interface IMapMarkerParams {
   setVisibleMarkerDatass: Dispatch<SetStateAction<IGeocodeData[]>>;
 }
 
-// Write Form
-export interface IUserStatusForm {
+// Asset Form
+export interface IAssetForm {
   won: number;
   FA: number;
   FAGrowth: number;
   AS: number;
   ASGrowth: number;
 }
+// Write Form
 export interface IWriteForm {
   buildingType: string;
   transactionType: string;

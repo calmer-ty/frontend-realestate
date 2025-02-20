@@ -3,11 +3,11 @@ import { db } from "@/src/commons/libraries/firebase/firebaseApp";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, updateDoc } from "firebase/firestore";
 import { convertFirestoreData2 } from "@/src/commons/libraries/utils/convertFirestoreType";
 
-import type { IUserStatusForm, IFirestore2 } from "@/src/commons/types";
+import type { IAssetForm, IFirestore2 } from "@/src/commons/types";
 
 interface IUseFirestoreReturn {
-  createFirestore: (data: IUserStatusForm, colName: string) => Promise<void>;
-  updateFirestore: (data: Partial<IUserStatusForm>, colName: string, docId: string) => Promise<void>;
+  createFirestore: (data: IAssetForm, colName: string) => Promise<void>;
+  updateFirestore: (data: Partial<IAssetForm>, colName: string, docId: string) => Promise<void>;
   archiveFirestore: (data: IFirestore2, colName: string) => Promise<void>;
   deleteFirestore: (colName: string, docId: string) => Promise<void>;
   readFirestore: (colName: string, docId: string) => Promise<IFirestore2 | undefined>;
@@ -15,7 +15,7 @@ interface IUseFirestoreReturn {
 }
 
 export const useFirestore = (): IUseFirestoreReturn => {
-  const createFirestore = useCallback(async (data: IUserStatusForm, colName: string) => {
+  const createFirestore = useCallback(async (data: IAssetForm, colName: string) => {
     try {
       const docRef = await addDoc(collection(db, colName), {
         ...data,
@@ -31,7 +31,7 @@ export const useFirestore = (): IUseFirestoreReturn => {
     }
   }, []);
 
-  const updateFirestore = useCallback(async (data: Partial<IUserStatusForm>, colName: string, docId: string) => {
+  const updateFirestore = useCallback(async (data: Partial<IAssetForm>, colName: string, docId: string) => {
     const docRef = doc(db, colName, docId);
     try {
       await updateDoc(docRef, data);

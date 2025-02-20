@@ -12,14 +12,14 @@ import InputUnit from "./ui/inputUnit";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import * as S from "./styles";
 
-import type { IFirestore2, IUserStatusForm } from "@/src/commons/types";
+import type { IFirestore2, IAssetForm } from "@/src/commons/types";
 interface IEditFormData {
   isEdit: boolean;
   userStatus?: IFirestore2 | undefined;
 }
 
 export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): JSX.Element {
-  const initialValues: IUserStatusForm = {
+  const initialValues: IAssetForm = {
     won: userStatus?.won ?? 0,
     FA: userStatus?.FA ?? 0,
     FAGrowth: userStatus?.FAGrowth ?? 0,
@@ -28,7 +28,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
   };
 
   const { user } = useAuth();
-  const { register, handleSubmit, setValue, getValues } = useForm<IUserStatusForm>({
+  const { register, handleSubmit, setValue, getValues } = useForm<IAssetForm>({
     defaultValues: initialValues,
   });
 
@@ -36,7 +36,7 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
   const { createFirestore, updateFirestore } = useFirestore();
 
   // 등록 수정
-  const handleFormSubmit = async (data: IUserStatusForm): Promise<void> => {
+  const handleFormSubmit = async (data: IAssetForm): Promise<void> => {
     try {
       const formData = {
         ...data,
@@ -62,10 +62,10 @@ export default function UserStatusWrite({ isEdit, userStatus }: IEditFormData): 
   const handleFormUpdate = async (): Promise<void> => {
     try {
       const currentValues = getValues(); // 현재 폼의 값을 가져옵니다
-      const updatedValues: Partial<IUserStatusForm> = {};
+      const updatedValues: Partial<IAssetForm> = {};
 
       Object.entries(currentValues).forEach(([key, currentValue]) => {
-        const fieldKey = key as keyof IUserStatusForm;
+        const fieldKey = key as keyof IAssetForm;
         const initialValue = initialValues[fieldKey];
 
         if (currentValue != null && currentValue !== initialValue) {

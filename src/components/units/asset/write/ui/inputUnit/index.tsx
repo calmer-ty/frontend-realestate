@@ -3,12 +3,12 @@ import BasicUnit from "@/src/components/commons/unit/basic";
 
 import * as S from "./styles";
 
-import type { IUserStatusForm } from "@/src/commons/types";
+import type { IAssetForm } from "@/src/commons/types";
 import type { UseFormRegister } from "react-hook-form";
 interface IInputUnitProps {
   label: string;
   type: string;
-  register: ReturnType<UseFormRegister<IUserStatusForm>>;
+  register: ReturnType<UseFormRegister<IAssetForm>>;
   unitLabel: string;
   step?: string;
 }
