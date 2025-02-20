@@ -1,6 +1,6 @@
 // import { fetchBuildingData } from "@/src/commons/libraries/firebase/fetchBuildingData";
 
-import BuildingDetail from "@/src/components/units/buildings/detail";
+import BuildingDetail from "@/src/components/units/building/detail";
 
 import type { IBuildingListParamsProps } from "@/src/commons/types";
 

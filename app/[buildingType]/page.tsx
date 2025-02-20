@@ -1,4 +1,4 @@
-import BuildingView from "@/src/components/units/buildings/view";
+import BuildingView from "@/src/components/units/building/view";
 
 import type { IBuildingParamsPromiseProps } from "@/src/commons/types";
 

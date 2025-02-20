@@ -1,6 +1,6 @@
 "use client";
 
-import BuildingWrite from "@/src/components/units/buildings/write";
+import BuildingWrite from "@/src/components/units/building/write";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
