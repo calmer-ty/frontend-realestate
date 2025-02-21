@@ -25,7 +25,7 @@ export default function MarkerList({ matchingMarkerData, setSelectedData }: IMar
                 onClickInfo(visData);
               }}
             >
-              <h3>매매 {formatPrice(Number(visData.data?.dealAmount?.replace(/,/g, "")))}</h3>
+              <h3>매매 {formatPrice(Number(visData.data?.dealAmount))}</h3>
               <p>
                 아파트・{visData.data?.aptNm}
                 <br />

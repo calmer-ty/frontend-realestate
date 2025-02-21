@@ -46,6 +46,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   //   }
   // }, []);
   const [buildingData, setBuildingData] = useState<IBuildingItem[]>([]);
+  console.log("buildingData: ", buildingData);
   const fetchBuildingData = useCallback(async (): Promise<void> => {
     if (regionCode === undefined || regionName === undefined || buildingType === undefined) {
       console.error("존재하지 않는 지역입니다.");

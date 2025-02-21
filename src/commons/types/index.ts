@@ -83,7 +83,7 @@ export interface IBuildingItem {
   umdNm: string;
   jibun: string;
   floor: number;
-  dealAmount: string;
+  dealAmount: string | number; // 초기엔 string, 변환 후 number
   excluUseAr: number;
   dealDay: number;
   dealMonth: number;

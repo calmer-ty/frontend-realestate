@@ -49,7 +49,7 @@ const processResponseData = (data: IBuilding | undefined, regionName: string): I
   const items = Array.isArray(itemsRaw) ? itemsRaw : [itemsRaw];
 
   // 유효한 데이터 필터링
-  const isValidData = (el: IBuildingItem): boolean => el.umdNm?.trim() !== "" && el.dealAmount?.trim() !== "";
+  const isValidData = (el: IBuildingItem): boolean => el.umdNm?.trim() !== "" && typeof el.dealAmount === "string" && el.dealAmount?.trim() !== "";
   // && !el.estateAgentSggNm?.includes(",")
 
   // 필드 필터링 함수
@@ -78,6 +78,12 @@ const processResponseData = (data: IBuilding | undefined, regionName: string): I
         filteredItem[key] = item[key];
       }
     }
+
+    // dealAmount 값을 점을 빼고 숫자로 변환
+    if (typeof filteredItem.dealAmount === "string") {
+      filteredItem.dealAmount = Number(filteredItem.dealAmount.replace(/,/g, ""));
+    }
+
     return filteredItem;
   };
 

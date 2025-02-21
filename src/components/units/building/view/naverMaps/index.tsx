@@ -44,10 +44,9 @@ interface IClusterIcon {
 const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: IMarkerIconContentParams): string => {
   const isMatched = matchingData.some((matchingData) => matchingData.address === geocodeData.geocode.jibunAddress || matchingData.address === geocodeData.geocode.roadAddress);
 
-  const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
+  const amount = Number(geocodeData.data?.dealAmount) / 10000;
   const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
   console.log("totalAsset: ", totalAsset);
-  console.log("geocodeData.data?.dealAmount: ", Number(geocodeData.data?.dealAmount.replace(/,/g, "")));
 
   return `
     <div class="markerBox ${mapMode ? "asset" : ""} ${isMatched ? "hasData" : ""}">

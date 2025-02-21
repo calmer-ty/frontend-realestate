@@ -47,7 +47,7 @@ export default function BuildingInfoTop({ selectedData, setSelectedData, buildin
       <S.InfoWrap>
         <h3>최근 실거래가</h3>
         <S.SelectedContent>
-          <strong>매매 {formatPrice(Number(selectedData.data?.dealAmount?.replace(/,/g, "")))}</strong>
+          <strong>매매 {formatPrice(Number(selectedData.data?.dealAmount))}</strong>
           <p>
             {selectedData.data?.dealYear}.{selectedData.data?.dealMonth}.{selectedData.data?.dealDay}・{selectedData.data?.floor}층・{selectedData.data?.excluUseAr}m²
           </p>
