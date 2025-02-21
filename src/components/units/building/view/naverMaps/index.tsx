@@ -48,14 +48,12 @@ const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: I
   const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
   const affordRate = Math.min(100, Math.round((totalAsset / Number(geocodeData.data?.dealAmount)) * 100));
 
-  console.log("affordRate: ", affordRate);
-
   return `
     <div class="markerBox ${mapMode ? "asset" : ""} ${isMatched ? "hasData" : ""}">
-    <div class="top">${peng}평</div>
-    <div class="bottom"> 
-    <span>매</span> <strong>${amount}억</strong></div>
-    <div class="progress" style="width: ${affordRate}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
+      <div class="top">${peng}평</div>
+      <div class="bottom"> 
+      <span>매</span> <strong>${amount}억</strong></div>
+      <div class="progress" style="width: ${affordRate}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
     </div>`;
 };
 const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICreateMarkerParams): any => {
@@ -218,14 +216,16 @@ export default function NaverMaps({
 
   return (
     <S.Container>
-      {mapLoading === true ? (
+      {mapLoading ? (
         <LoadingSpinner size={100} />
       ) : (
         <>
+          <div className="menuContainer">
+            {!mapLoading && <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />}
+            <MapMode mapMode={mapMode} setMapMode={setMapMode} asset={asset} setAsset={setAsset} />
+          </div>
           <div id="map"></div>
-          <MapMode mapMode={mapMode} setMapMode={setMapMode} asset={asset} setAsset={setAsset} />
           {allGeocodeDataLoading && <LoadingSpinner size={100} />}
-          {mapLoading === false && <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />}
         </>
       )}
     </S.Container>

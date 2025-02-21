@@ -10,7 +10,6 @@ import * as S from "./styles";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { SelectChangeEvent } from "@mui/material/Select";
-
 interface IFindRegionParams {
   city: string;
   district: string;

@@ -1,15 +1,13 @@
 import styled from "@emotion/styled";
+import { colors } from "@/src/commons/styles";
 
 export const Container = styled.div`
   display: flex;
-  position: absolute;
-  top: 0.875rem;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 0.125rem solid #1976d2;
+  outline: 0.125rem solid #1976d2;
   border-radius: 1.875rem;
-  background-color: #fff;
+  background-color: ${colors.background};
   .MuiFormControl-root {
+    justify-content: center;
     .MuiInputBase-root {
       .MuiSelect-select {
         font-weight: bold;

@@ -2,11 +2,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAlert } from "@/src/hooks/useAlert";
 
+import { Button } from "@mui/material";
+import PaidIcon from "@mui/icons-material/Paid";
+import SearchIcon from "@mui/icons-material/Search";
+
 import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "./inputUnit";
 import UnderlineTitle from "@/src/components/commons/title/underline";
 import BasicAlert from "@/src/components/commons/alert/basic";
-import { Button } from "@mui/material";
 
 import * as S from "./styles";
 import type { IAssetForm } from "@/src/commons/types";
@@ -52,12 +55,17 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
   };
   return (
     <S.MapMode>
-      <S.CheckBudgetButton variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
-        {asset !== undefined ? "자산 등록완료" : " 자산 등록하기"}
-      </S.CheckBudgetButton>
-      <S.MapModeToggleButton variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
-        {mapMode ? "자산" : "기본"} 모드
-      </S.MapModeToggleButton>
+      <div className="buttonWrap">
+        <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+          {asset !== undefined ? "자산 등록완료" : " 자산 등록하기"}
+        </Button>
+        {asset !== undefined && (
+          <S.MapModeToggleButton variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
+            {mapMode ? <PaidIcon /> : <SearchIcon />}
+            <span>테마</span>
+          </S.MapModeToggleButton>
+        )}
+      </div>
 
       <BasicModal open={modalOpen} onClose={onModalToggle}>
         {/* 폼 */}
