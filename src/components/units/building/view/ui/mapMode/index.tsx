@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAlert } from "@/src/hooks/useAlert";
 
-import { Button } from "@mui/material";
+import { Button, Tooltip, useMediaQuery } from "@mui/material";
+import CreateIcon from "@mui/icons-material/Create";
 import PaidIcon from "@mui/icons-material/Paid";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -24,6 +25,7 @@ interface IMapMode {
 export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMode): JSX.Element {
   const { register, handleSubmit } = useForm<IAssetForm>();
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
+  const isSmallScreen = useMediaQuery("(max-width: 1024px)");
 
   const handleFormSubmit = async (data: IAssetForm): Promise<void> => {
     try {
@@ -53,17 +55,23 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
   const onClickMapModeToggle = (): void => {
     setMapMode((prev) => !prev);
   };
+
   return (
     <S.MapMode>
       <div className="buttonWrap">
-        <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
-          {asset !== undefined ? "자산 등록완료" : " 자산 등록하기"}
-        </Button>
+        <Tooltip title={isSmallScreen && (asset !== undefined ? "자산 등록완료" : " 자산 등록하기")}>
+          <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+            {!isSmallScreen && (asset !== undefined ? "자산 등록완료" : " 자산 등록하기")}
+            {isSmallScreen && <CreateIcon />}
+          </Button>
+        </Tooltip>
         {asset !== undefined && (
-          <S.MapModeToggleButton variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
-            {mapMode ? <PaidIcon /> : <SearchIcon />}
-            <span>테마</span>
-          </S.MapModeToggleButton>
+          <Tooltip title={isSmallScreen && (mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기")}>
+            <Button variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
+              {!isSmallScreen && (mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기")}
+              {isSmallScreen && (mapMode ? <PaidIcon /> : <SearchIcon />)}
+            </Button>
+          </Tooltip>
         )}
       </div>
 

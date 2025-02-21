@@ -15,13 +15,13 @@ export const Container = styled.aside<IScroll>`
   border-right: 0.0625rem solid ${colors.outline};
   background-color: #fff;
   flex: 1;
-  transition: flex 300ms ease-in-out;
 
   position: relative;
   z-index: 1;
+  transition: flex 0.3s ease-in-out;
 
   ${(props) =>
-    mediaQueries.mobile(css`
+    mediaQueries.tablet(css`
       flex: ${props.scroll ? "3" : "0"};
     `)}
 `;
@@ -37,7 +37,7 @@ export const TabButton = styled(Button)`
     margin: 0.375rem 0;
     background-color: #dedede;
   }
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     display: flex;
     flex-direction: column;
     align-items: center;

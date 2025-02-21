@@ -12,9 +12,6 @@ export const Container = styled.div`
   ${mediaQueries.extraLargeDesktop(css`
     flex: 2;
   `)}
-  ${mediaQueries.largeDesktop(css`
-    flex: 1;
-  `)}
 
   #map {
     width: 100%;

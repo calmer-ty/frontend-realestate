@@ -8,7 +8,7 @@ export const Container = styled.div`
   padding: 3.75rem 2.5rem;
 
   > p {
-    width: 13.75rem;
+    max-width: 13.75rem;
     text-align: center;
     word-break: keep-all;
   }

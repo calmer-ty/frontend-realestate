@@ -31,17 +31,7 @@ export const Form = styled.form`
   }
 `;
 
-export const MapModeToggleButton = styled(Button)`
-  position: relative;
-  padding-bottom: 0.75rem;
-  > span {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-    font-size: 0.5rem;
-  }
-`;
+// export const MapModeToggleButton = styled(Button)``;
 
 export const InputUnit = styled.div`
   display: flex;

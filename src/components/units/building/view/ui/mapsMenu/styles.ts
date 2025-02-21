@@ -34,7 +34,7 @@ export const MapsMenu = styled.article`
     }
   }
 
-  ${mediaQueries.mobile(css`
+  ${mediaQueries.tablet(css`
     flex-direction: row;
     height: initial;
 
