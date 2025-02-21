@@ -12,7 +12,7 @@ import MapsMenu from "./ui/mapsMenu";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
+import type { IAssetForm, IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -26,6 +26,10 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // 파이어스토어 데이터패치
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
   const { readFirestores } = useFirestore();
+
+  // 맵 모드
+  const [mapMode, setMapMode] = useState(false);
+  const [asset, setAsset] = useState<IAssetForm>();
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {
@@ -177,7 +181,14 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       <MapsMenu buildingType={buildingType} />
 
       <S.MapsWrap>
-        <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />
+        <MapsInfo
+          mapMode={mapMode}
+          selectedMarkerData={selectedMarkerData}
+          visibleMarkerData={visibleMarkerData}
+          setSelectedMarkerData={setSelectedMarkerData}
+          matchingData={matchingData}
+          buildingType={buildingType}
+        />
         <NaverMaps
           geocode={geocode}
           allGeocodeData={allGeocodeData}
@@ -187,6 +198,10 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
           setVisibleMarkerData={setVisibleMarkerData}
           setRegionName={setRegionName}
           setRegionCode={setRegionCode}
+          mapMode={mapMode}
+          setMapMode={setMapMode}
+          asset={asset}
+          setAsset={setAsset}
         />
       </S.MapsWrap>
     </S.Container>

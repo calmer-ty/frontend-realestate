@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
@@ -19,6 +19,10 @@ interface INaverMapsProps {
   setVisibleMarkerData: Dispatch<SetStateAction<IGeocodeData[]>>;
   setRegionName: Dispatch<SetStateAction<string | undefined>>;
   setRegionCode: Dispatch<SetStateAction<string | undefined>>;
+  mapMode: boolean;
+  setMapMode: Dispatch<SetStateAction<boolean>>;
+  asset: IAssetForm | undefined;
+  setAsset: Dispatch<SetStateAction<IAssetForm | undefined>>;
 }
 
 interface IMarkerIconContentParams {
@@ -106,6 +110,10 @@ const clusteringOptions = (map: any, markers: any[]): any => {
 };
 
 export default function NaverMaps({
+  mapMode,
+  setMapMode,
+  asset,
+  setAsset,
   geocode,
   allGeocodeData,
   matchingData,
@@ -116,8 +124,6 @@ export default function NaverMaps({
   allGeocodeDataLoading,
 }: INaverMapsProps): JSX.Element {
   // 맵 모드
-  const [mapMode, setMapMode] = useState(false);
-  const [asset, setAsset] = useState<IAssetForm>();
 
   const totalAsset = asset !== undefined ? asset.cash + asset.FA : 0;
 

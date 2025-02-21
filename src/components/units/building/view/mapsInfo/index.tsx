@@ -12,9 +12,10 @@ interface IMapsInfoProps {
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingData: IFirestore[];
   buildingType: string;
+  mapMode: boolean;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, ...restProps }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, mapMode, ...restProps }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
 
@@ -41,7 +42,9 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== undefined ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} {...restProps} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} mapMode={mapMode} {...restProps} />
+        ) : mapMode ? (
+          <div>원하는 건물 선택하세요</div>
         ) : (
           <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />
         )}

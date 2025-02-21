@@ -7,8 +7,9 @@ interface ISelectedAreaProps {
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingData: IFirestore[];
   buildingType: string;
+  mapMode: boolean;
 }
 
-export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, matchingData, buildingType }: ISelectedAreaProps): JSX.Element {
-  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />;
+export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, ...restProps }: ISelectedAreaProps): JSX.Element {
+  return <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} {...restProps} />;
 }
