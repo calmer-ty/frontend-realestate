@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
-import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
+// import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
@@ -15,7 +15,7 @@ import MapsMenu from "./ui/mapsMenu";
 import * as S from "./styles";
 import "./marker.css";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
+import type { IAssetForm, IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
 
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
@@ -108,6 +108,11 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // 파이어스토어 데이터패치
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
   const { readFirestores } = useFirestore();
+
+  // 맵 모드
+  const [mapMode, setMapMode] = useState(false);
+  const [asset, setAsset] = useState<IAssetForm>();
+  console.log("asset: ", asset);
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {
@@ -269,7 +274,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   );
 
   const isClusterScriptLoadedRef = useRef(false);
-
   const loadClusterScript = useCallback(
     (map: any) => {
       if (isClusterScriptLoadedRef.current) {
@@ -314,7 +318,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     },
     [geocode, loadClusterScript]
   );
-  const { mapLoading } = useMapsLoader({ onMapLoaded });
+  // const { mapLoading } = useMapsLoader({ onMapLoaded });
 
   // params를 비동기적으로 처리하려면 await로 기다려야 함
   useEffect(() => {
@@ -344,8 +348,9 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // buildingType이 null일 때 로딩 상태 표시
   if (buildingType === undefined) {
     return <LoadingSpinner size={100} />;
+  } else if (allGeocodeDataError !== null) {
+    return <div>{allGeocodeDataError}</div>;
   }
-  if (allGeocodeDataError !== null) return <div>{allGeocodeDataError}</div>;
 
   return (
     <S.Container>
@@ -353,7 +358,16 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
       <S.MapsWrap>
         <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />
-        <NaverMaps mapLoading={mapLoading} allGeocodeDataLoading={allGeocodeDataLoading} setRegionName={setRegionName} setRegionCode={setRegionCode} />
+        <NaverMaps
+          mapMode={mapMode}
+          setMapMode={setMapMode}
+          setAsset={setAsset}
+          // mapLoading={mapLoading}
+          onMapLoaded={onMapLoaded}
+          allGeocodeDataLoading={allGeocodeDataLoading}
+          setRegionName={setRegionName}
+          setRegionCode={setRegionCode}
+        />
       </S.MapsWrap>
     </S.Container>
   );
