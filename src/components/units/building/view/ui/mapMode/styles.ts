@@ -2,8 +2,6 @@ import styled from "@emotion/styled";
 import { mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
-import { Button } from "@mui/material";
-
 export const MapMode = styled.div`
   display: flex;
 

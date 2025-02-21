@@ -33,7 +33,6 @@ export default function BasicTextField({ label, type, step, required, register }
       InputProps={{
         inputProps: {
           step,
-          min: 1,
         },
       }}
       InputLabelProps={{

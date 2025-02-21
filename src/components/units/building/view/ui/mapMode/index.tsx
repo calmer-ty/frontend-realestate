@@ -34,7 +34,7 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
       };
 
       setAlertOpen(true);
-      setAlertText("당신의 금융 상태 등록이 완료되었습니다.");
+      setAlertText("당신의 자산 상태가 등록 되었습니다.");
       setAlertSeverity("success");
 
       // setRouting("/");
@@ -80,11 +80,11 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
         <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
           <section>
             <UnderlineTitle label="현금 자산" />
-            <InputUnit label="원화 / 달러 / 금" type="cash" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
+            <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash")} unitLabel="만원" />
           </section>
           <section>
             <UnderlineTitle label="금융 자산" />
-            <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
+            <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA")} unitLabel="만원" />
             {/* <InputUnit label="연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" /> */}
           </section>
           {/* <section>

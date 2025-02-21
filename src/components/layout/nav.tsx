@@ -17,11 +17,7 @@ export default function Nav(): JSX.Element {
             <Button variant="contained">방 내놓기</Button>
           </Link>
         )}
-        {user !== null && (
-          <Link href={user !== null ? "/asset/new" : "/"}>
-            <Button variant="contained">금융 상태 등록</Button>
-          </Link>
-        )}
+
         <AuthButton />
       </S.Nav>
     </>

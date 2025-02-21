@@ -45,9 +45,6 @@ export default function UserMenu({ user, onLogout }: IUserMenuProps): JSX.Elemen
         <MenuItem onClick={handleClose}>
           <Link href={"/list"}>내 매물 보기</Link>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link href={"/asset/detail"}>내 금융 상태 보기</Link>
-        </MenuItem>
         <MenuItem onClick={onLogout}>로그아웃</MenuItem>
       </Menu>
     </S.UserMenu>
