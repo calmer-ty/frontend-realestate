@@ -49,7 +49,7 @@ export default function DeleteModal({
   };
 
   return (
-    <BasicModal open={modalOpen} onToggle={onModalToggle}>
+    <BasicModal open={modalOpen} onClose={onModalToggle}>
       {selectedBuilding !== null ? (
         <S.ModalInner>
           <div className="top">

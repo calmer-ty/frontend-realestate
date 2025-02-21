@@ -114,7 +114,7 @@ export default function BuildingInfo({ setValue, getValues, register, control }:
       </section>
 
       {/* 주소찾기 모달 */}
-      <BasicModal open={modalOpen} onToggle={onModalToggle}>
+      <BasicModal open={modalOpen} onClose={onModalToggle}>
         <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} style={{ height: "466px" }} />
       </BasicModal>
     </>

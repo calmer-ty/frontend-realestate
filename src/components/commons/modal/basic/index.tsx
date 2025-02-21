@@ -6,14 +6,14 @@ import type { ReactNode } from "react";
 interface IBasicModalProps {
   children: ReactNode;
   open: boolean;
-  onToggle: () => void;
+  onClose: () => void;
 }
 
-export default function BasicModal({ children, open, onToggle }: IBasicModalProps): JSX.Element {
+export default function BasicModal({ children, open, onClose }: IBasicModalProps): JSX.Element {
   return (
-    <S.StyleModal open={open} onClose={onToggle}>
+    <S.StyleModal open={open} onClose={onClose}>
       <div className="inner">
-        <CloseButton onClickClose={onToggle} />
+        <CloseButton onClickClose={onClose} />
         {children}
       </div>
     </S.StyleModal>
