@@ -44,15 +44,15 @@ interface IClusterIcon {
 const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: IMarkerIconContentParams): string => {
   const isMatched = matchingData.some((matchingData) => matchingData.address === geocodeData.geocode.jibunAddress || matchingData.address === geocodeData.geocode.roadAddress);
 
-  const amount = Number(geocodeData.data?.dealAmount) / 10000;
+  const amount = Number(geocodeData.data?.dealAmount);
   const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
-  const affordRate = Math.min(100, Math.round((totalAsset / Number(geocodeData.data?.dealAmount)) * 100));
+  const affordRate = Math.min(100, Math.round((totalAsset / amount) * 100));
 
   return `
     <div class="markerBox ${mapMode ? "asset" : ""} ${isMatched ? "hasData" : ""}">
       <div class="top">${peng}평</div>
       <div class="bottom"> 
-      <span>매</span> <strong>${amount}억</strong></div>
+      <span>매</span> <strong>${amount / 10000}억</strong></div>
       <div class="progress" style="width: ${affordRate}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
     </div>`;
 };
