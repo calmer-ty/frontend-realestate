@@ -53,7 +53,7 @@ const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: I
       <div class="top">${peng}평</div>
       <div class="bottom"> 
       <span>매</span> <strong>${amount / 10000}억</strong></div>
-      <div class="progress" style="width: ${affordRate}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
+      <div class="progress" style="width: ${mapMode ? affordRate : "0"}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
     </div>`;
 };
 const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICreateMarkerParams): any => {
