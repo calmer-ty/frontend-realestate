@@ -11,9 +11,8 @@ import MapsInfo from "./mapsInfo";
 import MapsMenu from "./ui/mapsMenu";
 
 import * as S from "./styles";
-import "./marker.css";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
-import type { IAssetForm, IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
+import type { IBuildingItem, IBuildingParamsPromiseProps, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
 
 export default function BuildingView({ params }: IBuildingParamsPromiseProps): JSX.Element {
   const [buildingType, setBuildingType] = useState<string | undefined>(undefined);
@@ -27,11 +26,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // 파이어스토어 데이터패치
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
   const { readFirestores } = useFirestore();
-
-  // 맵 모드
-  const [mapMode, setMapMode] = useState(false);
-  const [asset, setAsset] = useState<IAssetForm>();
-  console.log("asset: ", asset);
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {
@@ -185,9 +179,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       <S.MapsWrap>
         <MapsInfo selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} setSelectedMarkerData={setSelectedMarkerData} matchingData={matchingData} buildingType={buildingType} />
         <NaverMaps
-          mapMode={mapMode}
-          setMapMode={setMapMode}
-          setAsset={setAsset}
           geocode={geocode}
           allGeocodeData={allGeocodeData}
           allGeocodeDataLoading={allGeocodeDataLoading}

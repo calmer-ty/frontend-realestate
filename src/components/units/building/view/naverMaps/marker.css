@@ -1,28 +1,42 @@
 .markerBox {
-  min-width: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 68px;
   border-radius: 6px;
+  background-color: #fff;
   color: #fff;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
 }
+.markerBox.asset {
+  /* flex-direction: row; */
+}
+.markerBox.asset .top {
+  font-size: 0.75rem;
+  background-color: initial !important;
+  border: none !important;
+  color: #979797;
+}
 
+/* top */
 .markerBox .top {
   position: relative;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   border: 1px solid #979797;
   background-color: #979797;
   border-radius: 6px 6px 0 0;
   color: #fff;
 }
+
 .markerBox.hasData .top {
   border: 1px solid #1976d2;
   background-color: #1976d2;
 }
+
+/* bottom */
 .markerBox .bottom {
   display: flex;
   justify-content: center;
@@ -30,7 +44,6 @@
   width: 100%;
   column-gap: 4px;
   padding: 2px;
-  background-color: #fff;
   color: #000;
   text-align: center;
   border-radius: 0 0 6px 6px; /* 하단 좌우 모서리 반경 지정 */

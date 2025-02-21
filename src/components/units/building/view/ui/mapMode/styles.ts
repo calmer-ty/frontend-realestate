@@ -1,9 +1,19 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
+import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 import { Button } from "@mui/material";
 
+export const MapMode = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 0.5rem;
+  row-gap: 0.5rem;
+  top: 0;
+  right: 0;
+  background-color: ${colors.background};
+`;
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -21,25 +31,10 @@ export const Form = styled.form`
       `)}
     }
   }
-
-  ${mediaQueries.tablet(css`
-    min-width: initial;
-  `)}
-  ${mediaQueries.mobile(css`
-    padding: 1.25rem;
-  `)}
 `;
 
-export const CheckBudgetButton = styled(Button)`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-`;
-export const MapModeToggleButton = styled(Button)`
-  position: absolute;
-  top: 50px;
-  right: 10px;
-`;
+export const CheckBudgetButton = styled(Button)``;
+export const MapModeToggleButton = styled(Button)``;
 
 export const InputUnit = styled.div`
   display: flex;

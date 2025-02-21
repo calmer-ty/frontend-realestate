@@ -205,7 +205,7 @@ declare global {
 
 // Asset Form
 export interface IAssetForm {
-  won: number; // 원화
+  cash: number; // 원화
   FA: number; // 금융 자산
   FAGrowth: number; // 금융 자산 연 상승률
   AS: number; // 연봉

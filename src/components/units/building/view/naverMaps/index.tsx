@@ -1,18 +1,16 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import RegionSelect from "../ui/regionSelect";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import MapMode from "../ui/mapMode";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import * as S from "./styles";
+import "./marker.css";
 import type { Dispatch, SetStateAction } from "react";
 import type { IAssetForm, IFirestore, IGeocode, IGeocodeData } from "@/src/commons/types";
 interface INaverMapsProps {
-  mapMode: boolean;
-  setMapMode: Dispatch<SetStateAction<boolean>>;
-  setAsset: Dispatch<SetStateAction<IAssetForm | undefined>>;
   geocode: IGeocode | undefined;
   allGeocodeData: IGeocodeData[];
   allGeocodeDataLoading: boolean;
@@ -26,12 +24,16 @@ interface INaverMapsProps {
 interface IMarkerIconContentParams {
   geocodeData: IGeocodeData;
   matchingData: IFirestore[];
+  mapMode: boolean;
+  totalAsset: number;
 }
 
 interface ICreateMarkerParams {
   geocodeData: IGeocodeData;
   matchingData: IFirestore[];
   setSelectedMarkerData: (data: IGeocodeData) => void;
+  mapMode: boolean;
+  totalAsset: number;
 }
 interface IClusterIcon {
   content: string;
@@ -39,26 +41,28 @@ interface IClusterIcon {
   anchor: any;
 }
 
-const markerIconContent = ({ geocodeData, matchingData }: IMarkerIconContentParams): string => {
+const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: IMarkerIconContentParams): string => {
   const isMatched = matchingData.some((matchingData) => matchingData.address === geocodeData.geocode.jibunAddress || matchingData.address === geocodeData.geocode.roadAddress);
 
   const amount = (Number(geocodeData.data?.dealAmount?.replace(/,/g, "") ?? "0") / 10000).toFixed(2);
   const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
+  console.log("totalAsset: ", totalAsset);
+  console.log("geocodeData.data?.dealAmount: ", Number(geocodeData.data?.dealAmount.replace(/,/g, "")));
 
   return `
-    <div class="markerBox ${isMatched ? "hasData" : ""}">
+    <div class="markerBox ${mapMode ? "asset" : ""} ${isMatched ? "hasData" : ""}">
       <div class="top">${peng}평</div>
       <div class="bottom"> 
       <span>매</span> <strong>${amount}억</strong></div>
     </div>`;
 };
-const createMarker = ({ geocodeData, matchingData, setSelectedMarkerData }: ICreateMarkerParams): any => {
+const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICreateMarkerParams): any => {
   if (geocodeData === null) return;
   const markerOptions = {
     position: new window.naver.maps.LatLng(geocodeData.geocode?.latitude, geocodeData.geocode?.longitude),
     map: null, // Set map to null initially
     icon: {
-      content: markerIconContent({ geocodeData, matchingData }),
+      content: markerIconContent({ geocodeData, ...restParams }),
     },
   };
 
@@ -102,9 +106,6 @@ const clusteringOptions = (map: any, markers: any[]): any => {
 };
 
 export default function NaverMaps({
-  mapMode,
-  setMapMode,
-  setAsset,
   geocode,
   allGeocodeData,
   matchingData,
@@ -114,6 +115,12 @@ export default function NaverMaps({
   setRegionName,
   allGeocodeDataLoading,
 }: INaverMapsProps): JSX.Element {
+  // 맵 모드
+  const [mapMode, setMapMode] = useState(false);
+  const [asset, setAsset] = useState<IAssetForm>();
+
+  const totalAsset = asset !== undefined ? asset.cash + asset.FA : 0;
+
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();
   const updateMarkers = useCallback(
@@ -131,7 +138,7 @@ export default function NaverMaps({
         const positionKey = `${geocodeData.geocode?.latitude},${geocodeData.geocode?.longitude}`;
 
         if (mapBounds.hasLatLng(position) === true && !processedPositions.has(positionKey)) {
-          const marker = createMarker({ geocodeData, matchingData, setSelectedMarkerData });
+          const marker = createMarker({ geocodeData, matchingData, setSelectedMarkerData, mapMode, totalAsset });
           markersRef.current.push(marker);
           processedPositions.add(positionKey); // 이미 처리한 위치는 Set에 추가
         }
@@ -158,7 +165,7 @@ export default function NaverMaps({
       setVisibleMarkerData(markerDataArray);
       setSelectedMarkerData(undefined);
     },
-    [allGeocodeData, matchingData, setVisibleMarkerData, setSelectedMarkerData]
+    [allGeocodeData, matchingData, setVisibleMarkerData, setSelectedMarkerData, mapMode, totalAsset]
   );
 
   const isClusterScriptLoadedRef = useRef(false);
@@ -206,7 +213,7 @@ export default function NaverMaps({
     [geocode, loadClusterScript]
   );
   const { mapLoading } = useMapsLoader({ onMapLoaded });
-  console.log("mapLoading: ", mapLoading);
+
   return (
     <S.Container>
       {mapLoading === true ? (
@@ -214,7 +221,7 @@ export default function NaverMaps({
       ) : (
         <>
           <div id="map"></div>
-          <MapMode mapMode={mapMode} setMapMode={setMapMode} setAsset={setAsset} />
+          <MapMode mapMode={mapMode} setMapMode={setMapMode} asset={asset} setAsset={setAsset} />
           {allGeocodeDataLoading && <LoadingSpinner size={100} />}
           {mapLoading === false && <RegionSelect setRegionName={setRegionName} setRegionCode={setRegionCode} />}
         </>

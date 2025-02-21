@@ -5,19 +5,20 @@ import { useAlert } from "@/src/hooks/useAlert";
 import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "./inputUnit";
 import UnderlineTitle from "@/src/components/commons/title/underline";
+import BasicAlert from "@/src/components/commons/alert/basic";
 import { Button } from "@mui/material";
 
 import * as S from "./styles";
 import type { IAssetForm } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
-import BasicAlert from "@/src/components/commons/alert/basic";
 interface IMapMode {
   mapMode: boolean;
   setMapMode: Dispatch<SetStateAction<boolean>>;
+  asset: IAssetForm | undefined;
   setAsset: Dispatch<SetStateAction<IAssetForm | undefined>>;
 }
 
-export default function MapMode({ mapMode, setMapMode, setAsset }: IMapMode): JSX.Element {
+export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMode): JSX.Element {
   const { register, handleSubmit } = useForm<IAssetForm>();
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
 
@@ -50,12 +51,12 @@ export default function MapMode({ mapMode, setMapMode, setAsset }: IMapMode): JS
     setMapMode((prev) => !prev);
   };
   return (
-    <>
-      <S.CheckBudgetButton variant="contained" onClick={onClickModalOpen}>
-        살수있음?
+    <S.MapMode>
+      <S.CheckBudgetButton variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+        {asset !== undefined ? "자산 등록완료" : " 자산 등록하기"}
       </S.CheckBudgetButton>
-      <S.MapModeToggleButton variant="contained" onClick={onClickMapModeToggle}>
-        {mapMode ? "자산" : " 기본"}모드
+      <S.MapModeToggleButton variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
+        {mapMode ? "자산" : "기본"} 모드
       </S.MapModeToggleButton>
 
       <BasicModal open={modalOpen} onClose={onModalToggle}>
@@ -63,23 +64,19 @@ export default function MapMode({ mapMode, setMapMode, setAsset }: IMapMode): JS
         <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
           <section>
             <UnderlineTitle label="현금 자산" />
-            <InputUnit label="원화 / 달러 / 금" type="number" register={register("won", { valueAsNumber: true })} unitLabel="만원" />
+            <InputUnit label="원화 / 달러 / 금" type="cash" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
           </section>
           <section>
             <UnderlineTitle label="금융 자산" />
             <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
-            <InputUnit label="연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
+            {/* <InputUnit label="연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" /> */}
           </section>
-          <section>
+          {/* <section>
             <UnderlineTitle label="연봉" />
             <InputUnit label="연봉" type="number" register={register("AS", { valueAsNumber: true })} unitLabel="만원" />
             <InputUnit label="연봉 상승률" type="number" register={register("ASGrowth", { valueAsNumber: true })} unitLabel="%" />
-          </section>
-          <section>
-            <UnderlineTitle label="연봉" />
-            <InputUnit label="연봉" type="number" register={register("AS", { valueAsNumber: true })} unitLabel="만원" />
-            <InputUnit label="연봉 상승률" type="number" register={register("ASGrowth", { valueAsNumber: true })} unitLabel="%" />
-          </section>
+          </section> */}
+
           <section>
             <Button role="submit-button" type="submit" variant="contained">
               적용하기
@@ -90,6 +87,6 @@ export default function MapMode({ mapMode, setMapMode, setAsset }: IMapMode): JS
 
       {/* 알림창 */}
       <BasicAlert open={alertOpen} close={alertClose} severity={alertSeverity} text={alertText} />
-    </>
+    </S.MapMode>
   );
 }
