@@ -46,13 +46,16 @@ const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: I
 
   const amount = Number(geocodeData.data?.dealAmount) / 10000;
   const peng = Math.round(geocodeData.data?.excluUseAr * 0.3025);
-  console.log("totalAsset: ", totalAsset);
+  const affordRate = Math.min(100, Math.round((totalAsset / Number(geocodeData.data?.dealAmount)) * 100));
+
+  console.log("affordRate: ", affordRate);
 
   return `
     <div class="markerBox ${mapMode ? "asset" : ""} ${isMatched ? "hasData" : ""}">
-      <div class="top">${peng}평</div>
-      <div class="bottom"> 
-      <span>매</span> <strong>${amount}억</strong></div>
+    <div class="top">${peng}평</div>
+    <div class="bottom"> 
+    <span>매</span> <strong>${amount}억</strong></div>
+    <div class="progress" style="width: ${affordRate}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
     </div>`;
 };
 const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICreateMarkerParams): any => {
