@@ -1,5 +1,5 @@
-import BuildingInfoTop from "./top";
-import BuildingInfoBottom from "./bottom";
+import BuildingInfoBasic from "./basic";
+import BuildingInfoListing from "./listing";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
@@ -16,10 +16,10 @@ export default function BuildingInfo({ selectedData, setSelectedData, matchingDa
     <>
       {selectedData != null && (
         <>
-          <BuildingInfoTop selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
+          <BuildingInfoBasic selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
           {/* 등록된 건물 정보 */}
-          {mapMode === false && <BuildingInfoBottom selectedData={selectedData} matchingData={matchingData} />}
-          {mapMode === true && <BuildingInfoBottom selectedData={selectedData} matchingData={matchingData} />}
+          {mapMode === false && <BuildingInfoListing selectedData={selectedData} matchingData={matchingData} />}
+          {mapMode === true && <BuildingInfoListing selectedData={selectedData} matchingData={matchingData} />}
         </>
       )}
     </>

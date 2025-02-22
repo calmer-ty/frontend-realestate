@@ -14,7 +14,7 @@ interface IBuildingInfoTopProps {
   buildingType: string;
 }
 
-export default function BuildingInfoTop({ selectedData, setSelectedData, buildingType }: IBuildingInfoTopProps): JSX.Element {
+export default function BuildingInfoBasic({ selectedData, setSelectedData, buildingType }: IBuildingInfoTopProps): JSX.Element {
   const onClickClose = (): void => {
     setSelectedData(undefined);
   };

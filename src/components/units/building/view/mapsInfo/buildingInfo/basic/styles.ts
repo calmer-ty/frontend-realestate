@@ -11,6 +11,7 @@ export const Container = styled.section`
   flex-direction: column;
   row-gap: 1.25rem;
   padding: 0.875rem;
+  flex: 1;
 
   h2 {
     margin-right: 1.25rem;
@@ -28,7 +29,7 @@ export const TextWrap = styled.div`
 `;
 
 export const SelectedContent = styled.div`
-  padding: 1.25rem;
+  padding: 1rem;
   border: 0.0625rem solid ${colors.outline};
   border-radius: 0.625rem;
   background-color: #fafafa;
