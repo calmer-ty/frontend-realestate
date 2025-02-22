@@ -182,12 +182,13 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
       <S.MapsWrap>
         <MapsInfo
-          mapMode={mapMode}
           selectedMarkerData={selectedMarkerData}
           visibleMarkerData={visibleMarkerData}
           setSelectedMarkerData={setSelectedMarkerData}
           matchingData={matchingData}
           buildingType={buildingType}
+          mapMode={mapMode}
+          asset={asset}
         />
         <NaverMaps
           geocode={geocode}

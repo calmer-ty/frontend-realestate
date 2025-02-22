@@ -6,7 +6,7 @@ import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 import type { Dispatch, SetStateAction } from "react";
-import type { IFirestore, IGeocodeData } from "@/src/commons/types";
+import type { IAssetForm, IFirestore, IGeocodeData } from "@/src/commons/types";
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerData: IGeocodeData[];
@@ -14,9 +14,10 @@ interface IMapsInfoProps {
   matchingData: IFirestore[];
   buildingType: string;
   mapMode: boolean;
+  asset: IAssetForm | undefined;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, mapMode, ...restProps }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, mapMode, asset, ...restProps }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
 
@@ -43,7 +44,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== undefined ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} mapMode={mapMode} {...restProps} />
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} mapMode={mapMode} asset={asset} {...restProps} />
         ) : mapMode ? (
           <NoDataMessage text="원하는 건물 선택하세요." />
         ) : (
