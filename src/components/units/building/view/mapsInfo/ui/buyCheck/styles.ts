@@ -12,7 +12,6 @@ export const Container = styled.section`
   ul {
     padding: 1rem;
     border-radius: 1rem;
-    /* background-color: ${colors.normal}; */
     li {
       padding: 0.75rem 0;
       border-top: 0.0625rem solid ${colors.normal};
