@@ -16,7 +16,7 @@ export default function MarkerList({ matchingMarkerData, setSelectedData }: IMar
 
   return (
     <>
-      <S.List>
+      <S.MarkerList>
         {matchingMarkerData.map((visData, index) => {
           return (
             <li
@@ -34,7 +34,7 @@ export default function MarkerList({ matchingMarkerData, setSelectedData }: IMar
             </li>
           );
         })}
-      </S.List>
+      </S.MarkerList>
     </>
   );
 }
