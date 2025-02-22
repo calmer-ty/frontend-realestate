@@ -1,4 +1,4 @@
-import BuildingInfo from "../buildingInfo";
+import BuildingInfo from "../ui/buildingInfo";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";

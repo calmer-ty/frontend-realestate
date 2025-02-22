@@ -1,5 +1,5 @@
 import NoDataMessage from "@/src/components/commons/noDataMessage";
-import BuildingInfo from "../buildingInfo";
+import BuildingInfo from "../ui/buildingInfo";
 import MarkerList from "./markerList";
 
 import * as S from "./styles";
