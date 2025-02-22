@@ -6,6 +6,7 @@ export const Container = styled.section`
   flex-direction: column;
   border-top: 0.0625rem solid ${colors.outline};
   flex: 1;
+
   .topMenu {
     display: flex;
     flex-direction: column;

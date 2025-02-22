@@ -11,6 +11,7 @@ interface IScroll {
 export const Container = styled.aside<IScroll>`
   overflow-y: auto;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   border-right: 0.0625rem solid ${colors.outline};
   background-color: #fff;

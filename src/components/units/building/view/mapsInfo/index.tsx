@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import SelectedArea from "./selectedArea";
 import VisibleArea from "./visibleArea";
+import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 import type { Dispatch, SetStateAction } from "react";
@@ -44,7 +45,7 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
         {selectedMarkerData !== undefined ? (
           <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} mapMode={mapMode} {...restProps} />
         ) : mapMode ? (
-          <div>원하는 건물 선택하세요</div>
+          <NoDataMessage text="원하는 건물 선택하세요." />
         ) : (
           <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />
         )}

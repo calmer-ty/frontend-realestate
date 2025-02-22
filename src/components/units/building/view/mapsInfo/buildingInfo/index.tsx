@@ -8,7 +8,7 @@ interface IBuildingInfoProps {
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingData: IFirestore[];
   buildingType: string;
-  mapMode: boolean;
+  mapMode?: boolean;
 }
 
 export default function BuildingInfo({ selectedData, setSelectedData, matchingData, buildingType, mapMode }: IBuildingInfoProps): JSX.Element {
@@ -18,7 +18,8 @@ export default function BuildingInfo({ selectedData, setSelectedData, matchingDa
         <>
           <BuildingInfoTop selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
           {/* 등록된 건물 정보 */}
-          {!mapMode && <BuildingInfoBottom selectedData={selectedData} matchingData={matchingData} />}
+          {mapMode === false && <BuildingInfoBottom selectedData={selectedData} matchingData={matchingData} />}
+          {mapMode === true && <BuildingInfoBottom selectedData={selectedData} matchingData={matchingData} />}
         </>
       )}
     </>
