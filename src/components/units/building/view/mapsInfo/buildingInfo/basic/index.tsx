@@ -8,13 +8,13 @@ import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import CloseButton from "@/src/components/commons/button/close";
-interface IBuildingInfoTopProps {
+interface IBuildingInfoBasicProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   buildingType: string;
 }
 
-export default function BuildingInfoBasic({ selectedData, setSelectedData, buildingType }: IBuildingInfoTopProps): JSX.Element {
+export default function BuildingInfoBasic({ selectedData, setSelectedData, buildingType }: IBuildingInfoBasicProps): JSX.Element {
   const onClickClose = (): void => {
     setSelectedData(undefined);
   };

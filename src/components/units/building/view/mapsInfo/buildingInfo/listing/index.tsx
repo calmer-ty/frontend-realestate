@@ -8,12 +8,12 @@ import * as S from "./styles";
 
 import { BUILDING_TYPE } from "@/src/commons/constants";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
-interface IBuildingInfoBottomProps {
+interface IBuildingInfoListingProps {
   selectedData: IGeocodeData;
   matchingData: IFirestore[];
 }
 
-export default function BuildingInfoBottom({ selectedData, matchingData }: IBuildingInfoBottomProps): JSX.Element {
+export default function BuildingInfoListing({ selectedData, matchingData }: IBuildingInfoListingProps): JSX.Element {
   // 토글 로직 빼옴
   const [alignment, setAlignment] = useState<string | null>("월세");
   const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null): void => {
