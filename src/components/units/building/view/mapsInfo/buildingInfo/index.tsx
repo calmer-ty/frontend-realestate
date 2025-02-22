@@ -19,7 +19,6 @@ export default function BuildingInfo({ selectedData, setSelectedData, matchingDa
           <BuildingInfoBasic selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
           {/* 등록된 건물 정보 */}
           {mapMode === false && <BuildingInfoListing selectedData={selectedData} matchingData={matchingData} />}
-          {mapMode === true && <BuildingInfoListing selectedData={selectedData} matchingData={matchingData} />}
         </>
       )}
     </>
