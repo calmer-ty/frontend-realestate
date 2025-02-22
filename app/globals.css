@@ -15,7 +15,7 @@ html {
   height: 100vh;
   /* height: calc(100vh - 3.75rem); */
   font-size: calc((40 / 9) * 1vw);
-  overflow-x: hidden; /* 가로 스크롤 숨기기 */
+  /* overflow-x: hidden; */
 }
 @media (min-width: 480px) {
   html {

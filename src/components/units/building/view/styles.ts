@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
+  height: calc(100vh - 3.75rem);
   ${mediaQueries.tablet(css`
     flex-direction: column;
   `)}

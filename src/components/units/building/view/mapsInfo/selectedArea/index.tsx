@@ -15,7 +15,7 @@ interface ISelectedAreaProps {
 export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, mapMode, asset, ...restProps }: ISelectedAreaProps): JSX.Element {
   return (
     <>
-      <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} {...restProps} />
+      <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} mapMode={mapMode} {...restProps} />
       {mapMode && <BuyCheck selectedData={selectedMarkerData} asset={asset} />}
     </>
   );
