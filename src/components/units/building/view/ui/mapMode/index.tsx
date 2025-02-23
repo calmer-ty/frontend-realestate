@@ -57,54 +57,56 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
   };
 
   return (
-    <S.MapMode>
-      <div className="buttonWrap">
-        <Tooltip title={isSmallScreen && (asset !== undefined ? "자산 등록완료" : " 자산 등록하기")}>
-          <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
-            {!isSmallScreen && (asset !== undefined ? "자산 등록완료" : " 자산 등록하기")}
-            {isSmallScreen && <CreateIcon />}
-          </Button>
-        </Tooltip>
-        {asset !== undefined && (
-          <Tooltip title={isSmallScreen && (mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기")}>
-            <Button variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
-              {!isSmallScreen && (mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기")}
-              {isSmallScreen && (mapMode ? <PaidIcon /> : <SearchIcon />)}
+    <>
+      <S.MapMode>
+        <div className="buttonWrap">
+          <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
+            <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+              {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
+              {isSmallScreen && <CreateIcon />}
             </Button>
           </Tooltip>
-        )}
-      </div>
+          {asset !== undefined && (
+            <Tooltip title={mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기"}>
+              <Button variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
+                {!isSmallScreen && (mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기")}
+                {isSmallScreen && (mapMode ? <PaidIcon /> : <SearchIcon />)}
+              </Button>
+            </Tooltip>
+          )}
+        </div>
 
-      <BasicModal open={modalOpen} onClose={onModalToggle}>
-        {/* 폼 */}
-        <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
-          <section>
-            <UnderlineTitle label="현금 자산" />
-            <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
-            <InputUnit label="월 저축 금액" type="number" register={register("SA", { valueAsNumber: true })} unitLabel="만원" />
-          </section>
-          <section>
-            <UnderlineTitle label="금융 자산" />
-            <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
-            <InputUnit label="예상 연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
-            <InputUnit label="월 투자 금액" type="number" register={register("IA", { valueAsNumber: true })} unitLabel="만원" />
-          </section>
-          {/* <section>
+        <BasicModal open={modalOpen} onClose={onModalToggle}>
+          {/* 폼 */}
+          <S.Form onSubmit={handleSubmit(handleFormSubmit)}>
+            <section>
+              <UnderlineTitle label="현금 자산" />
+              <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
+              <InputUnit label="월 저축 금액" type="number" register={register("SA", { valueAsNumber: true })} unitLabel="만원" />
+            </section>
+            <section>
+              <UnderlineTitle label="금융 자산" />
+              <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
+              <InputUnit label="예상 연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
+              <InputUnit label="월 투자 금액" type="number" register={register("IA", { valueAsNumber: true })} unitLabel="만원" />
+            </section>
+            {/* <section>
             <UnderlineTitle label="연봉" />
             <InputUnit label="연봉" type="number" register={register("AS", { valueAsNumber: true })} unitLabel="만원" />
             <InputUnit label="연봉 상승률" type="number" register={register("ASGrowth", { valueAsNumber: true })} unitLabel="%" />
           </section> */}
 
-          <section>
-            <Button role="submit-button" type="submit" variant="contained">
-              적용하기
-            </Button>
-          </section>
-        </S.Form>
-      </BasicModal>
+            <section>
+              <Button role="submit-button" type="submit" variant="contained">
+                적용하기
+              </Button>
+            </section>
+          </S.Form>
+        </BasicModal>
 
-      {/* 알림창 */}
-      <BasicAlert open={alertOpen} close={alertClose} severity={alertSeverity} text={alertText} />
-    </S.MapMode>
+        {/* 알림창 */}
+        <BasicAlert open={alertOpen} close={alertClose} severity={alertSeverity} text={alertText} />
+      </S.MapMode>
+    </>
   );
 }
