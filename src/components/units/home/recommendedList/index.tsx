@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import ListItem from "./listItem";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import LoadingSpinner from "@/src/components/commons/LoadingSpinner";
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import Slider from "react-slick";

@@ -223,7 +223,7 @@ export default function NaverMaps({
   return (
     <S.Container>
       {mapLoading ? (
-        <LoadingSpinner size={100} />
+        <LoadingSpinner />
       ) : (
         <>
           <div className="menuContainer">
@@ -231,7 +231,7 @@ export default function NaverMaps({
             <MapMode mapMode={mapMode} setMapMode={setMapMode} asset={asset} setAsset={setAsset} />
           </div>
           <div id="map"></div>
-          {allGeocodeDataLoading && <LoadingSpinner size={100} />}
+          {allGeocodeDataLoading && <LoadingSpinner />}
         </>
       )}
     </S.Container>

@@ -11,7 +11,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import NoDataMessage from "@/src/components/commons/noDataMessage";
-import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+import LoadingSpinner from "@/src/components/commons/LoadingSpinner";
 
 import * as S from "./styles";
 
