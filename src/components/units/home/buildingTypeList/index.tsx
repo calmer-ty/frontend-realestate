@@ -29,7 +29,7 @@ const settings = {
       settings: {
         slidesToShow: 3,
         slidesToScroll: 3,
-        // autoplay: true,
+        autoplay: true,
         dots: true,
       },
     },
@@ -38,7 +38,7 @@ const settings = {
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
-        // autoplay: true,
+        autoplay: true,
         dots: true,
       },
     },
@@ -47,7 +47,7 @@ const settings = {
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        // autoplay: true,
+        autoplay: true,
         dots: true,
       },
     },

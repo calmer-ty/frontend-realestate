@@ -29,6 +29,7 @@ export const Container = styled.section`
   }
 `;
 
+// ListItem 컴포넌트
 interface IBuildingTypeProps {
   isDisabled: boolean;
 }
