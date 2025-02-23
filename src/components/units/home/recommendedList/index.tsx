@@ -60,7 +60,7 @@ export default function RecommendedList({ firestoreData }: IRecommendedListProps
     <>
       <S.Container>
         {firestoreData.length === 0 ? (
-          <LoadingSpinner size={100} />
+          <LoadingSpinner />
         ) : (
           <div className="inner">
             <h3>추천드리는 매물입니다.</h3>

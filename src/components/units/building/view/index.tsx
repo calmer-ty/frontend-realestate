@@ -171,7 +171,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   // buildingType이 null일 때 로딩 상태 표시
   if (buildingType === undefined) {
-    return <LoadingSpinner size={100} />;
+    return <LoadingSpinner />;
   } else if (allGeocodeDataError !== null) {
     return <div>{allGeocodeDataError}</div>;
   }

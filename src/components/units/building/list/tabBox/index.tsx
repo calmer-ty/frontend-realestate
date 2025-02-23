@@ -65,7 +65,7 @@ export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen,
         {tabValue === "1" && (
           <TabPanel value="1">
             {loading ? (
-              <LoadingSpinner size={100} />
+              <LoadingSpinner />
             ) : sortedBuildings.length !== 0 ? (
               <ul>
                 {sortedBuildings.map((el, index) => (
@@ -82,7 +82,7 @@ export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen,
         {tabValue === "2" && (
           <TabPanel value="2">
             {loading ? (
-              <LoadingSpinner size={100} />
+              <LoadingSpinner />
             ) : sortedDeletedBuildings.length !== 0 ? (
               <ul>
                 {sortedDeletedBuildings.map((el, index) => (

@@ -48,7 +48,7 @@ export default function BuildingDetail({ params }: IBuildingListParamsProps): JS
   }, [listId, readFirestore]);
 
   if (buildingData === undefined) {
-    return <LoadingSpinner size={100} />; // 로딩 상태 표시
+    return <LoadingSpinner />; // 로딩 상태 표시
   }
 
   return (
