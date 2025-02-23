@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 
-import LoadingSpinner from "@/src/components/commons/LoadingSpinner";
+import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import BuildingDetailTop from "./top";
 import BuildingDetailBottom from "./bottom";
 
