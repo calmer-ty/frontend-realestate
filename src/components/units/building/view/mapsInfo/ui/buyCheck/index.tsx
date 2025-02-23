@@ -15,42 +15,30 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
   const financialAssetsGrowth = asset?.FAGrowth ?? NaN;
 
   function timeToReachGoal(dealAmount: number, currentCash: number, monthlySavings: number, monthlyInvestment: number, financialAssets: number, financialAssetsGrowthRate: number): string {
-    let totalAmount = currentCash;
-    let months = 0;
     let years = 0;
 
-    // 연 성장률을 복리로 적용하는 계산 함수
-    const applyFinancialAssetsGrowth = (FA: number, FAGrowth: number, years: number): number => {
-      return FA * Math.pow(1 + FAGrowth / 100, years); // 복리 계산
-    };
+    // 연간 저축 & 투자
+    const annualSavings = monthlySavings * 12;
+    const annualInvestment = monthlyInvestment * 12;
 
-    while (totalAmount < dealAmount) {
-      years = Math.floor(months / 12); // 현재 몇 년이 지났는지
-      const updatedFinancialAssets = applyFinancialAssetsGrowth(financialAssets, financialAssetsGrowth, years);
-      // totalAmount += monthlySavings; // 매달 저축 금액을 더함
-      totalAmount = updatedFinancialAssets + currentCash + monthlySavings * months + monthlyInvestment * months;
+    let totalCash = currentCash; // 저축을 통해 증가하는 현금 자산
+    let totalFinancialAssets = financialAssets; // 복리 적용되는 금융 자산
 
-      // 매월 자산 변화 출력
-      console.log(`월 ${months + 1}:`);
-      console.log(`  현금 자산: ${currentCash}`);
-      console.log(`  금융 자산 (복리 적용 후): ${updatedFinancialAssets}`);
-      console.log(`  월 저축: ${monthlySavings * months}`);
-      console.log(`  월 투자 금액: ${monthlyInvestment * months}`);
-      console.log(`  총 자산: ${totalAmount}`);
-      console.log(`--------------------`);
+    while (totalCash + totalFinancialAssets < dealAmount) {
+      years++; // 1년 단위 증가
+      // 1년치 금융 자산 복리 계산 (연 단위)
+      totalFinancialAssets = (totalFinancialAssets + annualInvestment) * (1 + financialAssetsGrowthRate / 100);
 
-      months++; // 달 수를 하나씩 증가
+      // 현금 자산(저축)은 단순 합산
+      totalCash += annualSavings;
+      console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalFinancialAssets}, 총 자산: ${totalCash + totalFinancialAssets}`);
     }
-
-    // 월을 12로 나누어 년과 월로 변환
-    const finalYears = Math.floor(months / 12);
-    const remainingMonths = months % 12;
-    return `${finalYears}년 ${remainingMonths}개월`;
+    return `${years}년`;
   }
 
   return (
     <S.Container>
-      <h3>이 건물을 구매하는데 시간</h3>
+      <h3></h3>
       <ul>
         <li>
           <span className="title">건물 가격</span> <span>{formatPrice(Number(selectedData.data.dealAmount))}</span>
@@ -65,12 +53,14 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
           <span className="title">금융 자산</span> <span>{formatPrice(asset?.FA ?? NaN)}</span>
         </li>
         <li>
-          <span className="title">금융 상승률</span> <span>{formatPrice(asset?.FAGrowth ?? NaN)}</span>
+          <span className="title">금융 상승률</span> <span>{asset?.FAGrowth ?? NaN} %</span>
         </li>
         <li>
           <span className="title">월 투자 금액</span> <span>{formatPrice(asset?.IA ?? NaN)}</span>
         </li>
-        <li>얼마 걸리냐면 ... {timeToReachGoal(dealAmount, currentCash, monthlySavings, monthlyInvestment, financialAssets, financialAssetsGrowth)}</li>
+        <li>
+          <span className="title">구매 가능한 시기:</span> 약 {timeToReachGoal(dealAmount, currentCash, monthlySavings, monthlyInvestment, financialAssets, financialAssetsGrowth)}
+        </li>
       </ul>
     </S.Container>
   );

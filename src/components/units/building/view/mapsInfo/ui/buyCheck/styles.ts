@@ -17,7 +17,7 @@ export const Container = styled.section`
       border-top: 0.0625rem solid ${colors.normal};
       .title {
         display: inline-block;
-        width: 6.25rem;
+        width: 8rem;
         font-weight: bold;
       }
     }
