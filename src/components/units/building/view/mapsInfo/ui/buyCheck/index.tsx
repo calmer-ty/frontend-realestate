@@ -8,10 +8,10 @@ interface IBuyCheckProps {
 }
 export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.Element {
   const dealAmount = Number(selectedData.data.dealAmount);
-  const cash = Number(asset?.cash) ?? NaN;
-  const monthlySavings = Number(asset?.monthlySavings) ?? NaN;
-  const monthlyInvestment = Number(asset?.monthlyInvestment) ?? NaN;
-  const investmentAssets = Number(asset?.investmentAssets) ?? NaN;
+  const cash = asset?.cash ?? NaN;
+  const monthlySavings = asset?.monthlySavings ?? NaN;
+  const monthlyInvestment = asset?.monthlyInvestment ?? NaN;
+  const investmentAssets = asset?.investmentAssets ?? NaN;
   const investmentAssetsGrowthRate = asset?.investmentAssetsGrowthRate ?? NaN;
 
   function timeToReachGoal(dealAmount: number, cash: number, monthlySavings: number, monthlyInvestment: number, investmentAssets: number, investmentAssetsGrowthRate: number): string {
@@ -36,7 +36,7 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
 
       // 부동산 가치 복리 계산 (연 단위)
       goalAmount = goalAmount * (1 + realEstateGrowthRate / 100);
-      // console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalinvestmentAssets}, 총 자산: ${totalCash + totalinvestmentAssets} 목표 금액: ${goalAmount}`);
+      console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalinvestmentAssets}, 총 자산: ${totalCash + totalinvestmentAssets} 목표 금액: ${goalAmount}`);
     }
     return `${years}년`;
   }

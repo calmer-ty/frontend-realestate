@@ -205,10 +205,10 @@ declare global {
 
 // Asset Form
 export interface IAssetForm {
-  cash: string; // 원화
-  monthlySavings: string; // 월 저축 금액
-  monthlyInvestment: string; // 월 투자 금액
-  investmentAssets: string; // 투자 자산
+  cash: number; // 원화
+  monthlySavings: number; // 월 저축 금액
+  monthlyInvestment: number; // 월 투자 금액
+  investmentAssets: number; // 투자 자산
   investmentAssetsGrowthRate: number; // 투자 자산 연 상승률
 }
 // Write Form

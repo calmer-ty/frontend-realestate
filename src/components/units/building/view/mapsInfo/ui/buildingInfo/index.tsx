@@ -12,7 +12,6 @@ interface IBuildingInfoProps {
 }
 
 export default function BuildingInfo({ selectedData, setSelectedData, mapMode, matchingData, buildingType }: IBuildingInfoProps): JSX.Element {
-  console.log(mapMode);
   return (
     <>
       {selectedData != null && (
