@@ -31,7 +31,7 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
 
       // 현금 자산(저축)은 단순 합산
       totalCash += annualSavings;
-      console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalFinancialAssets}, 총 자산: ${totalCash + totalFinancialAssets}`);
+      // console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalFinancialAssets}, 총 자산: ${totalCash + totalFinancialAssets}`);
     }
     return `${years}년`;
   }

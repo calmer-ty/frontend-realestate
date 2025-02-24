@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAlert } from "@/src/hooks/useAlert";
 
@@ -54,9 +54,12 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
   };
 
   // 맵 모드 변경
-  const onClickMapModeFirst = (): void => {
-    setMapMode(true);
-  };
+  useEffect(() => {
+    if (asset !== undefined) {
+      setMapMode(true);
+    }
+  }, [asset, setMapMode]); // asset이 변할 때 실행됨
+
   const onClickMapModeToggle = (): void => {
     setMapMode((prev) => !prev);
   };
@@ -66,7 +69,6 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
       <S.MapMode>
         <div className="buttonWrap">
           {/* 자산정보 입력 */}
-
           <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
             <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
               {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
@@ -101,7 +103,7 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
             </section>
 
             <section>
-              <Button role="submit-button" type="submit" variant="contained" onClick={onClickMapModeFirst}>
+              <Button role="submit-button" type="submit" variant="contained">
                 적용하기
               </Button>
             </section>
