@@ -16,6 +16,7 @@ import BasicAlert from "@/src/components/commons/alert/basic";
 import * as S from "./styles";
 import type { IAssetForm } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
+import FormattedInputs from "@/src/components/commons/input/textField/fomatted";
 interface IMapMode {
   mapMode: boolean;
   setMapMode: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +25,7 @@ interface IMapMode {
 }
 
 export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMode): JSX.Element {
-  const { register, handleSubmit } = useForm<IAssetForm>({});
+  const { register, handleSubmit, control } = useForm<IAssetForm>();
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
   const isSmallScreen = useMediaQuery("(max-width: 1024px)");
 
@@ -95,8 +96,8 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
               <UnderlineTitle label="현금 자산" />
               <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
               <InputUnit label="월 저축 금액" type="number" register={register("monthlySavings", { valueAsNumber: true })} unitLabel="만원" />
-              {/* <FormattedInputs label="원화 / 달러 / 금" setValue={setValue} register={register("cash")} />
-              <FormattedInputs label="월 저축 금액" setValue={setValue} register={register("monthlySavings")} /> */}
+              <FormattedInputs label="원화 / 달러 / 금" register={register("cash")} control={control} />
+              <FormattedInputs label="월 저축 금액" register={register("monthlySavings")} control={control} />
             </section>
             <section>
               <UnderlineTitle label="투자 자산" />
