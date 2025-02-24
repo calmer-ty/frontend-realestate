@@ -125,7 +125,7 @@ export default function NaverMaps({
 }: INaverMapsProps): JSX.Element {
   // 맵 모드
 
-  const totalAsset = asset !== undefined ? asset.cash + asset.FA : 0;
+  const totalAsset = asset !== undefined ? asset.cash + asset.investmentAssets : 0;
 
   const markersRef = useRef<any[]>([]);
   const markerClusteringRef = useRef<any>();

@@ -9,12 +9,12 @@ interface IBuyCheckProps {
 export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.Element {
   const dealAmount = Number(selectedData.data.dealAmount);
   const currentCash = asset?.cash ?? NaN;
-  const monthlySavings = asset?.SA ?? NaN;
-  const monthlyInvestment = asset?.IA ?? NaN;
-  const financialAssets = asset?.FA ?? NaN;
-  const financialAssetsGrowthRate = asset?.FAGrowth ?? NaN;
+  const monthlySavings = asset?.monthlySavings ?? NaN;
+  const monthlyInvestment = asset?.monthlyInvestment ?? NaN;
+  const investmentAssets = asset?.investmentAssets ?? NaN;
+  const investmentAssetsGrowthRate = asset?.investmentAssetsGrowthRate ?? NaN;
 
-  function timeToReachGoal(dealAmount: number, currentCash: number, monthlySavings: number, monthlyInvestment: number, financialAssets: number, financialAssetsGrowthRate: number): string {
+  function timeToReachGoal(dealAmount: number, currentCash: number, monthlySavings: number, monthlyInvestment: number, investmentAssets: number, investmentAssetsGrowthRate: number): string {
     let years = 0;
 
     // 연간 저축 & 투자
@@ -23,20 +23,20 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
     const realEstateGrowthRate = 5; // 고정 5% 부동산 성장률
 
     let totalCash = currentCash; // 저축을 통해 증가하는 현금 자산
-    let totalFinancialAssets = financialAssets; // 복리 적용되는 금융 자산
+    let totalinvestmentAssets = investmentAssets; // 복리 적용되는 금융 자산
     let goalAmount = dealAmount; // 초기 부동산 가치, 목표 금액과 같다고 가정
 
-    while (totalCash + totalFinancialAssets < goalAmount) {
+    while (totalCash + totalinvestmentAssets < goalAmount) {
       years++; // 1년 단위 증가
       // 1년치 금융 자산 복리 계산 (연 단위)
-      totalFinancialAssets = (totalFinancialAssets + annualInvestment) * (1 + financialAssetsGrowthRate / 100);
+      totalinvestmentAssets = (totalinvestmentAssets + annualInvestment) * (1 + investmentAssetsGrowthRate / 100);
 
       // 현금 자산(저축)은 단순 합산
       totalCash += annualSavings;
 
       // 부동산 가치 복리 계산 (연 단위)
       goalAmount = goalAmount * (1 + realEstateGrowthRate / 100);
-      // console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalFinancialAssets}, 총 자산: ${totalCash + totalFinancialAssets} 목표 금액: ${goalAmount}`);
+      // console.log(`연도: ${years}, 현금: ${totalCash}, 금융 자산: ${totalinvestmentAssets}, 총 자산: ${totalCash + totalinvestmentAssets} 목표 금액: ${goalAmount}`);
     }
     return `${years}년`;
   }
@@ -52,22 +52,22 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
           <span className="title">현금 자산</span> <span>{formatPrice(asset?.cash ?? NaN)}</span>
         </li>
         <li>
-          <span className="title">월 저축 금액</span> <span>{formatPrice(asset?.SA ?? NaN)}</span>
+          <span className="title">월 저축 금액</span> <span>{formatPrice(asset?.monthlySavings ?? NaN)}</span>
         </li>
         <li>
-          <span className="title">금융 자산</span> <span>{formatPrice(asset?.FA ?? NaN)}</span>
+          <span className="title">투자 자산</span> <span>{formatPrice(asset?.investmentAssets ?? NaN)}</span>
         </li>
         <li>
-          <span className="title">금융 상승률</span> <span>{asset?.FAGrowth ?? NaN} %</span>
+          <span className="title">투자 자산 상승률 (연)</span> <span>{asset?.investmentAssetsGrowthRate ?? NaN} %</span>
         </li>
         <li>
-          <span className="title">월 투자 금액</span> <span>{formatPrice(asset?.IA ?? NaN)}</span>
+          <span className="title">월 투자 금액</span> <span>{formatPrice(asset?.monthlyInvestment ?? NaN)}</span>
         </li>
         <li>
           <span className="title">매물 가격 상승률 (연)</span> <span>5 %</span>
         </li>
         <li>
-          <span className="title">구매 가능한 시기:</span> 약 {timeToReachGoal(dealAmount, currentCash, monthlySavings, monthlyInvestment, financialAssets, financialAssetsGrowthRate)}
+          <span className="title">구매 가능한 시기:</span> 약 {timeToReachGoal(dealAmount, currentCash, monthlySavings, monthlyInvestment, investmentAssets, investmentAssetsGrowthRate)}
         </li>
       </ul>
     </S.Container>

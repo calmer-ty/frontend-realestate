@@ -206,12 +206,10 @@ declare global {
 // Asset Form
 export interface IAssetForm {
   cash: number; // 원화
-  FA: number; // 금융 자산
-  FAGrowth: number; // 금융 자산 연 상승률
-  // AS: number; // 연봉
-  // ASGrowth: number; // 연봉 연 상승률
-  SA: number; // 월 저축 금액
-  IA: number; // 월 투자 금액
+  investmentAssets: number; // 투자 자산
+  investmentAssetsGrowthRate: number; // 투자 자산 연 상승률
+  monthlySavings: number; // 월 저축 금액
+  monthlyInvestment: number; // 월 투자 금액
 }
 // Write Form
 export interface IWriteForm {

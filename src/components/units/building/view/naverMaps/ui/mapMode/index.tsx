@@ -93,13 +93,13 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
             <section>
               <UnderlineTitle label="현금 자산" />
               <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
-              <InputUnit label="월 저축 금액" type="number" register={register("SA", { valueAsNumber: true })} unitLabel="만원" />
+              <InputUnit label="월 저축 금액" type="number" register={register("monthlySavings", { valueAsNumber: true })} unitLabel="만원" />
             </section>
             <section>
-              <UnderlineTitle label="금융 자산" />
-              <InputUnit label="주식 / ETF / 채권" type="number" register={register("FA", { valueAsNumber: true })} unitLabel="만원" />
-              <InputUnit label="예상 연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
-              <InputUnit label="월 투자 금액" type="number" register={register("IA", { valueAsNumber: true })} unitLabel="만원" />
+              <UnderlineTitle label="투자 자산" />
+              <InputUnit label="주식 / ETF / 채권" type="number" register={register("investmentAssets", { valueAsNumber: true })} unitLabel="만원" />
+              <InputUnit label="예상 연간 상승률" type="number" register={register("investmentAssetsGrowthRate", { valueAsNumber: true })} unitLabel="%" />
+              <InputUnit label="월 투자 금액" type="number" register={register("monthlyInvestment", { valueAsNumber: true })} unitLabel="만원" />
             </section>
 
             <section>
