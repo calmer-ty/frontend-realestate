@@ -61,21 +61,19 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
     setMapMode((prev) => !prev);
   };
 
-  console.log("mapMode : ", mapMode);
-
   return (
     <>
       <S.MapMode>
         <div className="buttonWrap">
           {/* 자산정보 입력 */}
-          {mapMode && (
-            <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
-              <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
-                {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
-                {isSmallScreen && <CreateIcon />}
-              </Button>
-            </Tooltip>
-          )}
+
+          <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
+            <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+              {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
+              {isSmallScreen && <CreateIcon />}
+            </Button>
+          </Tooltip>
+
           {/* 자산정보 모드 & 일반 매물 모드 토글 */}
           {asset !== undefined && (
             <Tooltip title={mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기"}>
