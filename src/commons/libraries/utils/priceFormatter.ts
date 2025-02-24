@@ -6,7 +6,7 @@ const isBillion = (price: number): string => {
   }
   return `${eok}억`;
 };
-const isTenMillion = (price: number): string => {
+const isMillion = (price: number): string => {
   const man = price % 10000;
   if (man === 0) {
     return "";
@@ -15,7 +15,7 @@ const isTenMillion = (price: number): string => {
 };
 
 export const formatPrice = (price: number): string => {
-  return `${isBillion(price)} ${isTenMillion(price)} 원`;
+  return `${isBillion(price)} ${isMillion(price)} 원`;
 };
 export const formatRent = (price: number): string => {
   return `${isBillion(price)} ${price % 10000 === 0 ? "" : price % 10000}`;

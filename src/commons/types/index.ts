@@ -83,7 +83,7 @@ export interface IBuildingItem {
   umdNm: string;
   jibun: string;
   floor: number;
-  dealAmount: string | number; // 초기엔 string, 변환 후 number
+  dealAmount: string; // 초기엔 string, 변환 후 number
   excluUseAr: number;
   dealDay: number;
   dealMonth: number;
@@ -205,11 +205,11 @@ declare global {
 
 // Asset Form
 export interface IAssetForm {
-  cash: number; // 원화
-  investmentAssets: number; // 투자 자산
+  cash: string; // 원화
+  monthlySavings: string; // 월 저축 금액
+  monthlyInvestment: string; // 월 투자 금액
+  investmentAssets: string; // 투자 자산
   investmentAssetsGrowthRate: number; // 투자 자산 연 상승률
-  monthlySavings: number; // 월 저축 금액
-  monthlyInvestment: number; // 월 투자 금액
 }
 // Write Form
 export interface IWriteForm {

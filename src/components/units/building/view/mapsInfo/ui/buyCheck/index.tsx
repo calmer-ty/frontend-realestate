@@ -8,13 +8,13 @@ interface IBuyCheckProps {
 }
 export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.Element {
   const dealAmount = Number(selectedData.data.dealAmount);
-  const currentCash = asset?.cash ?? NaN;
-  const monthlySavings = asset?.monthlySavings ?? NaN;
-  const monthlyInvestment = asset?.monthlyInvestment ?? NaN;
-  const investmentAssets = asset?.investmentAssets ?? NaN;
+  const cash = Number(asset?.cash) ?? NaN;
+  const monthlySavings = Number(asset?.monthlySavings) ?? NaN;
+  const monthlyInvestment = Number(asset?.monthlyInvestment) ?? NaN;
+  const investmentAssets = Number(asset?.investmentAssets) ?? NaN;
   const investmentAssetsGrowthRate = asset?.investmentAssetsGrowthRate ?? NaN;
 
-  function timeToReachGoal(dealAmount: number, currentCash: number, monthlySavings: number, monthlyInvestment: number, investmentAssets: number, investmentAssetsGrowthRate: number): string {
+  function timeToReachGoal(dealAmount: number, cash: number, monthlySavings: number, monthlyInvestment: number, investmentAssets: number, investmentAssetsGrowthRate: number): string {
     let years = 0;
 
     // 연간 저축 & 투자
@@ -22,7 +22,7 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
     const annualInvestment = monthlyInvestment * 12;
     const realEstateGrowthRate = 5; // 고정 5% 부동산 성장률
 
-    let totalCash = currentCash; // 저축을 통해 증가하는 현금 자산
+    let totalCash = cash; // 저축을 통해 증가하는 현금 자산
     let totalinvestmentAssets = investmentAssets; // 복리 적용되는 금융 자산
     let goalAmount = dealAmount; // 초기 부동산 가치, 목표 금액과 같다고 가정
 
@@ -46,28 +46,28 @@ export default function BuyCheck({ selectedData, asset }: IBuyCheckProps): JSX.E
       <h3></h3>
       <ul>
         <li>
-          <span className="title">건물 가격</span> <span>{formatPrice(Number(selectedData.data.dealAmount))}</span>
+          <span className="title">건물 가격</span> <span>{formatPrice(dealAmount)}</span>
         </li>
         <li>
-          <span className="title">현금 자산</span> <span>{formatPrice(asset?.cash ?? NaN)}</span>
+          <span className="title">현금 자산</span> <span>{formatPrice(cash)}</span>
         </li>
         <li>
-          <span className="title">월 저축 금액</span> <span>{formatPrice(asset?.monthlySavings ?? NaN)}</span>
+          <span className="title">월 저축 금액</span> <span>{formatPrice(monthlySavings)}</span>
         </li>
         <li>
-          <span className="title">투자 자산</span> <span>{formatPrice(asset?.investmentAssets ?? NaN)}</span>
+          <span className="title">투자 자산</span> <span>{formatPrice(investmentAssets)}</span>
         </li>
         <li>
-          <span className="title">투자 자산 상승률 (연)</span> <span>{asset?.investmentAssetsGrowthRate ?? NaN} %</span>
+          <span className="title">투자 자산 상승률 (연)</span> <span>{investmentAssetsGrowthRate} %</span>
         </li>
         <li>
-          <span className="title">월 투자 금액</span> <span>{formatPrice(asset?.monthlyInvestment ?? NaN)}</span>
+          <span className="title">월 투자 금액</span> <span>{formatPrice(monthlyInvestment)}</span>
         </li>
         <li>
           <span className="title">매물 가격 상승률 (연)</span> <span>5 %</span>
         </li>
         <li>
-          <span className="title">구매 가능한 시기:</span> 약 {timeToReachGoal(dealAmount, currentCash, monthlySavings, monthlyInvestment, investmentAssets, investmentAssetsGrowthRate)}
+          <span className="title">구매 가능한 시기:</span> 약 {timeToReachGoal(dealAmount, cash, monthlySavings, monthlyInvestment, investmentAssets, investmentAssetsGrowthRate)}
         </li>
       </ul>
     </S.Container>

@@ -79,9 +79,9 @@ const processResponseData = (data: IBuilding | undefined, regionName: string): I
       }
     }
 
-    // dealAmount 값을 점을 빼고 숫자로 변환
+    // dealAmount 값을 점을 빼기
     if (typeof filteredItem.dealAmount === "string") {
-      filteredItem.dealAmount = Number(filteredItem.dealAmount.replace(/,/g, ""));
+      filteredItem.dealAmount = filteredItem.dealAmount.replace(/,/g, "");
     }
 
     return filteredItem;
