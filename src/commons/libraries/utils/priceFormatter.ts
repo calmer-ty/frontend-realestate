@@ -20,6 +20,9 @@ export const formatPrice = (price: number): string => {
 export const formatRent = (price: number): string => {
   return `${isBillion(price)} ${price % 10000 === 0 ? "" : price % 10000}`;
 };
+export const cleanCurrency = (value: string): string => {
+  return value.replace(/[^\d]/g, ""); // 숫자 외의 문자를 제거
+};
 
 // 거래 방식에 따른 가격 표시법
 export const getTransactionText = (transactionType: string, price: number, rent: number | undefined): string => {

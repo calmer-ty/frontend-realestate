@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAlert } from "@/src/hooks/useAlert";
+// import { cleanCurrency } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { Button, Tooltip, useMediaQuery } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
@@ -23,7 +24,7 @@ interface IMapMode {
 }
 
 export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMode): JSX.Element {
-  const { register, handleSubmit } = useForm<IAssetForm>();
+  const { register, handleSubmit } = useForm<IAssetForm>({});
   const { alertOpen, alertText, alertSeverity, alertClose, setAlertOpen, setAlertSeverity, setAlertText } = useAlert();
   const isSmallScreen = useMediaQuery("(max-width: 1024px)");
 
@@ -94,12 +95,16 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
               <UnderlineTitle label="현금 자산" />
               <InputUnit label="원화 / 달러 / 금" type="number" register={register("cash", { valueAsNumber: true })} unitLabel="만원" />
               <InputUnit label="월 저축 금액" type="number" register={register("monthlySavings", { valueAsNumber: true })} unitLabel="만원" />
+              {/* <FormattedInputs label="원화 / 달러 / 금" setValue={setValue} register={register("cash")} />
+              <FormattedInputs label="월 저축 금액" setValue={setValue} register={register("monthlySavings")} /> */}
             </section>
             <section>
               <UnderlineTitle label="투자 자산" />
-              <InputUnit label="주식 / ETF / 채권" type="number" register={register("investmentAssets", { valueAsNumber: true })} unitLabel="만원" />
-              <InputUnit label="예상 연간 상승률" type="number" register={register("investmentAssetsGrowthRate", { valueAsNumber: true })} unitLabel="%" />
-              <InputUnit label="월 투자 금액" type="number" register={register("monthlyInvestment", { valueAsNumber: true })} unitLabel="만원" />
+              <InputUnit label="주식 / ETF / 채권" type="number" register={register("investmentAssets")} unitLabel="만원" />
+              <InputUnit label="월 투자 금액" type="number" register={register("monthlyInvestment")} unitLabel="만원" />
+              <InputUnit label="예상 연간 상승률" type="number" register={register("investmentAssetsGrowthRate")} unitLabel="%" />
+              {/* <FormattedInputs label="주식 / ETF / 채권" register={register("investmentAssets")} />
+              <FormattedInputs label="월 투자 금액" register={register("monthlyInvestment")} /> */}
             </section>
 
             <section>
