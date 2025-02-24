@@ -134,16 +134,6 @@ export interface IBuildingDataParams {
   regionName: string;
   buildingType: string;
 }
-export interface IBuildingDataParamsOptional {
-  regionCode?: string;
-  regionName?: string;
-  buildingType?: string;
-}
-export interface IGeocodeDataParams {
-  regionCode: string;
-  regionName: string;
-  buildingType: string;
-}
 
 // firestore
 export interface IFirestore {

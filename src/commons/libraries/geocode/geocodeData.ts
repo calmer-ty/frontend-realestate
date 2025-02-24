@@ -4,7 +4,7 @@ import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
 import { getBuildingData } from "../building/buildingData";
 import { getCachedBuildingData } from "../building/buildingCache";
 
-import type { IBuildingItem, IGeocode, IGeocodeDataParams } from "@/src/commons/types";
+import type { IBuildingItem, IGeocode, IBuildingDataParams } from "@/src/commons/types";
 
 import pLimit from "p-limit";
 const limit = pLimit(10);
@@ -18,7 +18,7 @@ interface IGetAllGeocodeDataReturn {
 // const FIELDS_TO_EXCLUDE = ["estateAgentSggNm", "jibun", "umdNm"]; // 제외할 필드들
 
 // 캐시가 있을 경우 해당 데이터를 반환하고, 없으면 API 요청 후 결과를 캐싱합니다.
-const fetchGeocodeData = async (address: string): Promise<IGeocode | undefined> => {
+const getGeocodeData = async (address: string): Promise<IGeocode | undefined> => {
   const cacheKey = `geocode_${address}`;
   const cachedData = getCachedGeocodeData(cacheKey);
 
@@ -37,14 +37,14 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | undefined> 
     setGeocodeCache(cacheKey, response);
     return response;
   } catch (error) {
-    handleError(error, `fetchGeocodeData - ${address}`); // 에러 처리
+    handleError(error, `getGeocodeData - ${address}`); // 에러 처리
     return undefined;
   }
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
 
-export const getAllGeocodeData = async ({ regionCode, regionName, buildingType }: IGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+export const getAllGeocodeData = async ({ regionCode, regionName, buildingType }: IBuildingDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
   const buildingData = await getBuildingData({ regionCode, regionName, buildingType });
   const buildingCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
 
@@ -64,7 +64,7 @@ export const getAllGeocodeData = async ({ regionCode, regionName, buildingType }
       limit(async () => {
         try {
           const address = `${data.regionName} ${data.umdNm} ${data.jibun}`;
-          const geocode = await fetchGeocodeData(address);
+          const geocode = await getGeocodeData(address);
 
           return { data, geocode }; // 정상적으로 처리된 데이터 리턴
         } catch (error) {
