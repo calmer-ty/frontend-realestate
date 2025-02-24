@@ -37,7 +37,6 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
       setAlertText("당신의 자산 상태가 등록 되었습니다.");
       setAlertSeverity("success");
 
-      // setRouting("/");
       setAsset(formData);
       setModalOpen(false); // 모달 열기
     } catch (error) {
@@ -46,26 +45,38 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
   };
 
   const [modalOpen, setModalOpen] = useState(false);
+  // 모달 오픈
   const onClickModalOpen = (): void => {
     setModalOpen(true); // 모달 열기
   };
   const onModalToggle = (): void => {
     setModalOpen((prev) => !prev);
   };
+
+  // 맵 모드 변경
+  const onClickMapModeFirst = (): void => {
+    setMapMode(true);
+  };
   const onClickMapModeToggle = (): void => {
     setMapMode((prev) => !prev);
   };
+
+  console.log("mapMode : ", mapMode);
 
   return (
     <>
       <S.MapMode>
         <div className="buttonWrap">
-          <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
-            <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
-              {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
-              {isSmallScreen && <CreateIcon />}
-            </Button>
-          </Tooltip>
+          {/* 자산정보 입력 */}
+          {mapMode && (
+            <Tooltip title={asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기"}>
+              <Button variant="contained" onClick={onClickModalOpen} color={asset !== undefined ? "success" : "primary"}>
+                {!isSmallScreen && (asset !== undefined ? "자산정보 수정하기" : " 자산정보 등록하기")}
+                {isSmallScreen && <CreateIcon />}
+              </Button>
+            </Tooltip>
+          )}
+          {/* 자산정보 모드 & 일반 매물 모드 토글 */}
           {asset !== undefined && (
             <Tooltip title={mapMode ? "등록된 매물 보기" : " 매입 가능한 건물 보기"}>
               <Button variant="contained" onClick={onClickMapModeToggle} color={mapMode ? "secondary" : "primary"}>
@@ -90,14 +101,9 @@ export default function MapMode({ mapMode, setMapMode, asset, setAsset }: IMapMo
               <InputUnit label="예상 연간 상승률" type="number" register={register("FAGrowth", { valueAsNumber: true })} unitLabel="%" />
               <InputUnit label="월 투자 금액" type="number" register={register("IA", { valueAsNumber: true })} unitLabel="만원" />
             </section>
-            {/* <section>
-            <UnderlineTitle label="연봉" />
-            <InputUnit label="연봉" type="number" register={register("AS", { valueAsNumber: true })} unitLabel="만원" />
-            <InputUnit label="연봉 상승률" type="number" register={register("ASGrowth", { valueAsNumber: true })} unitLabel="%" />
-          </section> */}
 
             <section>
-              <Button role="submit-button" type="submit" variant="contained">
+              <Button role="submit-button" type="submit" variant="contained" onClick={onClickMapModeFirst}>
                 적용하기
               </Button>
             </section>
