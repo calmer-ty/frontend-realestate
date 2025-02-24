@@ -11,7 +11,6 @@ export const Container = styled.section`
   flex-direction: column;
   row-gap: 1.25rem;
   padding: 0.875rem;
-  flex: 1;
 
   h2 {
     margin-right: 1.25rem;
