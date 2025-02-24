@@ -141,6 +141,7 @@ export interface IBuildingDataParamsOptional {
 }
 export interface IGeocodeDataParams {
   regionCode: string;
+  regionName: string;
   buildingType: string;
 }
 

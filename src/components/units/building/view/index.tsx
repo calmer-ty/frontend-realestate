@@ -101,7 +101,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       setAllGeocodeDataError(null); // 이전 에러 상태 초기화
       try {
         const response = await axios.get<IGeocodeData[]>("/api/fetchAllGeocode", {
-          params: { regionCode, buildingType },
+          params: { regionCode, regionName, buildingType },
         });
         if (response.status === 200) {
           setAllGeocodeData(response.data);

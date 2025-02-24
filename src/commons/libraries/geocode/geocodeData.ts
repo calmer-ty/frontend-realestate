@@ -1,9 +1,7 @@
 import { handleError } from "@/src/commons/libraries/utils/handleError";
 import { geocodeApi } from "./geocodeApi";
 import { getCachedGeocodeData, setGeocodeCache } from "./geocodeCache";
-// import { getApartmentData } from "../apartment/apartmentData";
 import { getBuildingData } from "../building/buildingData";
-// import { getCachedApartmentData } from "../apartment/apartmentCache"; // 캐시 데이터 조회 함수 임포트
 import { getCachedBuildingData } from "../building/buildingCache";
 
 import type { IBuildingItem, IGeocode, IGeocodeDataParams } from "@/src/commons/types";
@@ -45,11 +43,9 @@ const fetchGeocodeData = async (address: string): Promise<IGeocode | undefined> 
 };
 
 // 전체 지오코딩 데이터를 가져오는 메인 함수
-export const getAllGeocodeData = async ({ regionCode, buildingType }: IGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
-  // const apartmentData = await getApartmentData(regionCode);
-  // const apartmentCache = getCachedApartmentData(`apartment_${regionCode}`);
 
-  const buildingData = await getBuildingData({ regionCode, regionName: "경기도 성남시 분당구", buildingType });
+export const getAllGeocodeData = async ({ regionCode, regionName, buildingType }: IGeocodeDataParams): Promise<IGetAllGeocodeDataReturn[]> => {
+  const buildingData = await getBuildingData({ regionCode, regionName, buildingType });
   const buildingCache = getCachedBuildingData(`${buildingType}_${regionCode}`);
 
   let selectedData: IBuildingItem[] = [];
