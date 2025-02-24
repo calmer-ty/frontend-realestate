@@ -10,10 +10,11 @@ export const Container = styled.section`
   flex: 1;
 
   ul {
+    width: 18rem;
     padding: 1rem;
     border-radius: 1rem;
     li {
-      padding: 0.75rem 0;
+      padding: 1.25rem 0;
       border-top: 0.0625rem solid ${colors.normal};
       .title {
         display: inline-block;
