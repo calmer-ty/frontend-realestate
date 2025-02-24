@@ -10,7 +10,7 @@ export const Container = styled.section`
   flex: 1;
 
   ul {
-    width: 18rem;
+    width: 19rem;
     padding: 1rem;
     border-radius: 1rem;
     li {
@@ -18,7 +18,7 @@ export const Container = styled.section`
       border-top: 0.0625rem solid ${colors.normal};
       .title {
         display: inline-block;
-        width: 8rem;
+        width: 9rem;
         font-weight: bold;
       }
     }
