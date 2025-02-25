@@ -30,7 +30,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   // 맵 모드
   const [mapMode, setMapMode] = useState(false);
   const [asset, setAsset] = useState<IAssetForm>();
-  console.log("mapMode: ", mapMode);
 
   useEffect(() => {
     const readBuilding = async (): Promise<void> => {

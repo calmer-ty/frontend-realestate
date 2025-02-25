@@ -57,7 +57,7 @@ const markerIconContent = ({ geocodeData, matchingData, mapMode, totalAsset }: I
       <div class="top">${peng}평</div>
       <div class="bottom"> 
       <span>매</span> <strong>${(amount / 10000).toFixed(2)}억</strong></div>
-      <div class="progress" style="width: ${mapMode ? affordRate : "0"}%; background-color: ${affordRate < 30 ? "red" : affordRate < 70 ? "orange" : "green"};"></div>
+      <div class="progress" style="width: ${mapMode ? affordRate : "0"}%; background-color: ${affordRate < 30 ? "#D32F2F" : affordRate < 70 ? "#FF9800" : "#388E3C"};"></div>
     </div>`;
 };
 const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICreateMarkerParams): any => {
@@ -73,9 +73,27 @@ const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICr
   const marker = new window.naver.maps.Marker(markerOptions);
   marker.set("data", geocodeData);
 
-  window.naver.maps.Event.addListener(marker, "click", () => {
+  console.log("marker: ", marker);
+
+  window.naver.maps.Event.addListener(marker, "click", (e: any) => {
     if (geocodeData.data !== undefined) {
       setSelectedMarkerData(geocodeData);
+    }
+
+    // 선택된 마커 클래스 부여
+    if (e.overlay != null) {
+      const markerElement = e.overlay.getElement(); // 마커의 DOM 요소 가져오기
+      const markerBox = markerElement.querySelector(".markerBox"); // 내부에서 markerBox 클래스 찾기
+
+      // 모든 markerBox에서 'selected' 클래스 제거
+      const allMarkerBoxes = document.querySelectorAll(".markerBox");
+      allMarkerBoxes.forEach((box) => {
+        box.classList.remove("selected");
+      });
+
+      if (markerBox != null) {
+        markerBox.classList.add("selected");
+      }
     }
   });
 
