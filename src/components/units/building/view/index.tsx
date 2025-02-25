@@ -115,7 +115,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
         setAllGeocodeDataLoading(false); // 데이터 요청이 끝났으므로 로딩 상태 false로 설정
       }
     },
-    [regionCode, buildingType] // buildingType이 변경될 때만 함수가 재정의됨
+    [regionCode, regionName, buildingType] // buildingType이 변경될 때만 함수가 재정의됨
   );
 
   // 매칭/비매칭 데이터 판별
