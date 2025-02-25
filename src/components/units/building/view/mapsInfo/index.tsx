@@ -17,7 +17,7 @@ interface IMapsInfoProps {
   asset: IAssetForm | undefined;
 }
 
-export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, mapMode, asset, ...restProps }: IMapsInfoProps): JSX.Element {
+export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, visibleMarkerData, asset, ...restProps }: IMapsInfoProps): JSX.Element {
   const [scroll, setScroll] = useState(false);
   const [selectedData, setSelectedData] = useState<IGeocodeData | undefined>(undefined);
 
@@ -44,8 +44,8 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== undefined ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} mapMode={mapMode} asset={asset} {...restProps} />
-        ) : mapMode ? (
+          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} asset={asset} {...restProps} />
+        ) : restProps.mapMode ? (
           <NoDataMessage text="원하는 건물 선택하세요." />
         ) : (
           <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />

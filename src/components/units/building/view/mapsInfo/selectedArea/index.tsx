@@ -12,11 +12,11 @@ interface ISelectedAreaProps {
   asset: IAssetForm | undefined;
 }
 
-export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, mapMode, asset, ...restProps }: ISelectedAreaProps): JSX.Element {
+export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, asset, ...restProps }: ISelectedAreaProps): JSX.Element {
   return (
     <>
-      <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} mapMode={mapMode} {...restProps} />
-      {mapMode && <BuyCheck selectedData={selectedMarkerData} asset={asset} />}
+      <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} {...restProps} />
+      {restProps.mapMode && <BuyCheck selectedData={selectedMarkerData} asset={asset} />}
     </>
   );
 }
