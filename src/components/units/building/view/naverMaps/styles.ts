@@ -22,7 +22,7 @@ export const Container = styled.div`
     justify-content: space-between;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     height: 3rem;
   }
   .loadingSpinner {
