@@ -1,8 +1,15 @@
 import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
 
+interface IBuildingTypeListProps {
+  hoveredTarget: string | null;
+}
+interface IBuildingTypeProps {
+  isDisabled: boolean;
+}
+
 // 지도 선택 버튼
-export const Container = styled.section`
+export const Container = styled.section<IBuildingTypeListProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,35 +30,30 @@ export const Container = styled.section`
     width: 100%;
     height: 100%;
     position: absolute;
-    background: #fff url("/images/main.jpg") no-repeat center/cover;
+    background: #000 no-repeat center/cover;
+    background-image: url("/images/apartment.jpg");
     opacity: 0.2;
     pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.2" : "0.6")};
   }
 `;
-
-// ListItem 컴포넌트
-interface IBuildingTypeProps {
-  isDisabled: boolean;
-}
 
 export const ListItem = styled.div<IBuildingTypeProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 15rem;
   height: 9rem;
-  margin: 0 auto;
-  border-radius: 0.625rem;
-  background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};
-  pointer-events: ${(props) => (props.isDisabled ? "none" : "auto")};
-
-  > a {
+  margin: 3rem 1.25rem;
+  a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+    border-radius: 0.625rem;
+    background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};
 
     .descWrap {
       display: flex;
@@ -63,6 +65,9 @@ export const ListItem = styled.div<IBuildingTypeProps>`
         word-break: keep-all;
         color: ${colors.blur};
       }
+    }
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
     }
   }
   .textBox {
@@ -76,9 +81,5 @@ export const ListItem = styled.div<IBuildingTypeProps>`
     position: absolute;
     right: 0.75rem;
     bottom: 0.5rem;
-  }
-
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
   }
 `;

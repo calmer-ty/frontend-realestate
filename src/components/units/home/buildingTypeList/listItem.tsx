@@ -9,11 +9,13 @@ interface IBuildingTypeListItemProps {
   icon: ReactNode;
   title: string;
   isDisabled: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
-export default function ListItem({ href, desc, icon, title, isDisabled }: IBuildingTypeListItemProps): JSX.Element {
+export default function ListItem({ href, desc, icon, title, isDisabled, onMouseEnter, onMouseLeave }: IBuildingTypeListItemProps): JSX.Element {
   return (
-    <S.ListItem isDisabled={isDisabled}>
+    <S.ListItem isDisabled={isDisabled} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <Link href={href ?? ""}>
         <div className="textBox">
           <h2>{title}</h2>

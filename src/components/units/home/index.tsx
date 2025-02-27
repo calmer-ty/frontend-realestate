@@ -11,6 +11,7 @@ import type { IFirestore } from "@/src/commons/types";
 
 export default function Home(): JSX.Element {
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
+
   const { readFirestores } = useFirestore();
 
   // firestoreDatas;
