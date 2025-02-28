@@ -12,10 +12,10 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
 
   .sliderWrap {
     position: absolute;
-    left: 3rem;
+    left: 0;
     top: 18rem;
 
-    width: 22.5rem;
+    width: 100%;
 
     .slick-dots {
       bottom: -1.875rem;
@@ -54,51 +54,41 @@ export const TextSlide = styled.div<{ active: boolean }>`
   transform: ${(props) => (props.active ? "translateX(0)" : "translateX(-200%)")};
   transition: opacity 0.5s ease, transform 0.5s ease;
   position: absolute;
-  /* width: 200px; */
 `;
 
 // ListItem
-export const ListItem = styled.div<{ isDisabled: boolean }>`
+export const ListItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  height: 9rem;
-  margin: 3rem 1.25rem;
+  height: 5rem;
+  margin: 1rem;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    border-radius: 0.625rem;
-    background-color: ${(props) => (props.isDisabled ? colors.normal : colors.background)};
+    border-radius: 3rem;
+    background-color: ${colors.background};
 
-    .descWrap {
+    h2 {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        word-break: keep-all;
-        color: ${colors.blur};
-      }
+      row-gap: 0.625rem;
+      width: 9rem;
     }
+
+    .iconWrap {
+      position: absolute;
+      right: 0.75rem;
+      bottom: 0.5rem;
+    }
+
     &:hover {
+      background-color: ${colors.activeHover};
       box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
     }
-  }
-  .textBox {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.625rem;
-    width: 9rem;
-  }
-
-  .iconWrap {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.5rem;
   }
 `;

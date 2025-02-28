@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
-// import { css } from "@emotion/react";
 
 export const Container = styled.section`
   display: flex;
