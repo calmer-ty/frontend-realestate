@@ -4,11 +4,7 @@ import styled from "@emotion/styled";
 
 import Button from "@mui/material/Button";
 
-interface IScroll {
-  scroll: boolean;
-}
-
-export const Container = styled.aside<IScroll>`
+export const Container = styled.aside<{ scroll: boolean }>`
   overflow-y: auto;
   display: flex;
   /* justify-content: center; */
