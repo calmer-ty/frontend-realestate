@@ -18,9 +18,6 @@ export default function ListItem({ href, icon, title, isDisabled, onMouseEnter, 
       <Link href={href ?? ""}>
         <div className="textBox">
           <h2>{title}</h2>
-          {/* <div className="descWrap">
-            <p>{desc}</p>
-          </div> */}
         </div>
         <div className="iconWrap">{icon}</div>
       </Link>

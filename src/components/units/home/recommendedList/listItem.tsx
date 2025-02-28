@@ -23,7 +23,7 @@ export default function ListItem({ el }: IRecommendedListItemProps): JSX.Element
             <BasicUnImage width="100%" height="100%" fontSize="2.25rem" />
           )}
         </figure>
-        <p className="buildingDesc">
+        <figcaption>
           <span>
             {el.buildingType}・{el.addressDetail}
           </span>
@@ -31,7 +31,7 @@ export default function ListItem({ el }: IRecommendedListItemProps): JSX.Element
           <span>
             {el.floor}층・{el.area}m²・관리비 {formatPrice(el.manageCost)}
           </span>
-        </p>
+        </figcaption>
       </Link>
     </S.ListItem>
   );

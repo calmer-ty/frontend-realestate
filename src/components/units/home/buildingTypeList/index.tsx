@@ -16,14 +16,8 @@ const buildingTypes = [
   { title: "아파트", icon: <ApartmentIcon fontSize="large" color="primary" />, isDisabled: false, href: "/apartment" },
   { title: "오피스텔", icon: <HomeWorkIcon fontSize="large" color="primary" />, isDisabled: false, href: "/officetel" },
   { title: "빌라", icon: <OtherHousesIcon fontSize="large" color="primary" />, isDisabled: false, href: "/familyHousing" },
-  // { title: "주택", desc: "나만의 공간, 때로는 함께하는 따뜻한 보금자리", icon: <HouseIcon fontSize="large" color="primary" />, isDisabled: true, href: "/house" },
 ];
-const buildingInfos = [
-  { desc: "도시의 편리함 속, 나만의 아늑한 안식처" },
-  { desc: "도심 속 나만의 공간, 더 가까운 하루" },
-  { desc: "소박하지만 따뜻한, 이웃과 함께하는 삶" },
-  // { title: "주택", desc: "나만의 공간, 때로는 함께하는 따뜻한 보금자리", icon: <HouseIcon fontSize="large" color="primary" />, isDisabled: true, href: "/house" },
-];
+const buildingInfos = [{ desc: "도시의 편리함 속, 나만의 아늑한 안식처" }, { desc: "도심 속 나만의 공간, 더 가까운 하루" }, { desc: "소박하지만 따뜻한, 이웃과 함께하는 삶" }];
 
 export default function BuildingTypeList(): JSX.Element {
   const [hoveredTarget, setHoveredTarget] = useState<string | null>(null);

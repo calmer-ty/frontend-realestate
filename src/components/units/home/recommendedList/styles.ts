@@ -1,36 +1,24 @@
 import styled from "@emotion/styled";
-import { mediaQueries, colors } from "@/src/commons/styles";
-import { css } from "@emotion/react";
+import { colors } from "@/src/commons/styles";
+// import { css } from "@emotion/react";
 
-export const Container = styled.section`
-  /* position: absolute; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1.5;
-  .inner {
-    display: flex;
-    flex-direction: column;
-    min-width: 22.5rem;
-    h3 {
-      margin-left: 4.75rem;
-      margin-bottom: 0.75rem;
-      text-align: left;
-
-      ${mediaQueries.mobile(css`
-        margin-left: 0;
-        text-align: center;
-      `)}
-    }
-    .slick-dots {
-      bottom: -1.25rem;
-    }
-  }
+export const Container = styled.div`
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  max-width: 24rem;
+  padding: 1rem;
+  background-color: rgba(172, 204, 231, 0.9);
+  border-radius: 1.5rem;
 `;
 
 export const ListItem = styled.div`
-  width: max-content;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
+  background-color: ${colors.background};
+  border-radius: 1.5rem;
 
   a {
     display: flex;
@@ -38,12 +26,11 @@ export const ListItem = styled.div`
     row-gap: 0.5rem;
     position: relative;
     transition: background-color 100ms ease-in-out;
-    padding: 0.5rem;
+    padding: 2rem;
 
     figure {
       position: relative;
-      width: 15rem;
-      height: 9rem;
+      height: 10rem;
 
       /* 이미지 랩 */
       &::after {
@@ -58,7 +45,7 @@ export const ListItem = styled.div`
     }
 
     /* buildingDesc */
-    > p.buildingDesc {
+    figcaption {
       display: flex;
       flex-direction: column;
       > strong {

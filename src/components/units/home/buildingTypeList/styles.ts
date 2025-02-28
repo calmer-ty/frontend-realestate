@@ -22,8 +22,8 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
 
   .textWrap {
     position: absolute;
-    top: 100px;
-    left: 100px;
+    top: 5rem;
+    left: 5rem;
     color: #fff;
 
     width: 28rem;
@@ -43,7 +43,7 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     bottom: 0;
     background: #000;
     transition: opacity 0.5s ease-in-out;
-    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.6" : "0.2")};
+    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.7" : "0.4")};
   }
 `;
 

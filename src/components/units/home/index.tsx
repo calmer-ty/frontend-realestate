@@ -8,6 +8,7 @@ import RecommendedList from "./recommendedList";
 
 import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
+import PieChart from "./pieChart";
 
 export default function Home(): JSX.Element {
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
@@ -28,6 +29,7 @@ export default function Home(): JSX.Element {
     <S.Container>
       <BuildingTypeList />
       <RecommendedList firestoreData={firestoreData} />
+      <PieChart />
     </S.Container>
   );
 }
