@@ -3,6 +3,7 @@ import { mediaQueries, colors } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 export const Container = styled.section`
+  /* position: absolute; */
   display: flex;
   justify-content: center;
   align-items: center;

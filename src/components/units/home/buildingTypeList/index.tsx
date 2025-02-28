@@ -13,14 +13,21 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "./styles";
 
 const buildingTypes = [
-  { title: "아파트", desc: "편리한 생활을 위한 공간", icon: <ApartmentIcon fontSize="large" color="primary" />, isDisabled: false, href: "/apartment" },
-  { title: "오피스텔", desc: "다목적 공간, 직장과 집을 한 번에", icon: <HomeWorkIcon fontSize="large" color="primary" />, isDisabled: false, href: "/officetel" },
-  { title: "빌라", desc: "이웃과 함께하는 아늑한 일상", icon: <OtherHousesIcon fontSize="large" color="primary" />, isDisabled: false, href: "/familyHousing" },
+  { title: "아파트", icon: <ApartmentIcon fontSize="large" color="primary" />, isDisabled: false, href: "/apartment" },
+  { title: "오피스텔", icon: <HomeWorkIcon fontSize="large" color="primary" />, isDisabled: false, href: "/officetel" },
+  { title: "빌라", icon: <OtherHousesIcon fontSize="large" color="primary" />, isDisabled: false, href: "/familyHousing" },
+  // { title: "주택", desc: "나만의 공간, 때로는 함께하는 따뜻한 보금자리", icon: <HouseIcon fontSize="large" color="primary" />, isDisabled: true, href: "/house" },
+];
+const buildingInfos = [
+  { desc: "도시의 편리함 속, 나만의 아늑한 안식처" },
+  { desc: "도심 속 나만의 공간, 더 가까운 하루" },
+  { desc: "소박하지만 따뜻한, 이웃과 함께하는 삶" },
   // { title: "주택", desc: "나만의 공간, 때로는 함께하는 따뜻한 보금자리", icon: <HouseIcon fontSize="large" color="primary" />, isDisabled: true, href: "/house" },
 ];
 
 export default function BuildingTypeList(): JSX.Element {
   const [hoveredTarget, setHoveredTarget] = useState<string | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
   console.log("hoveredTarget: ", hoveredTarget);
 
   const handleMouseEnter = (title: string): void => {
@@ -30,16 +37,20 @@ export default function BuildingTypeList(): JSX.Element {
     setHoveredTarget(null); // 호버 아웃 시 상태를 null로 설정
   };
 
+  console.log("activeSlide: ", activeSlide);
   const settings = {
-    slidesToShow: 3,
+    // slidesToShow: 3,
     autoplaySpeed: 4000,
-    arrows: false,
+    // arrows: false,
+    beforeChange: (_: any, next: number) => {
+      setActiveSlide(next);
+    },
 
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          // slidesToShow: 2,
           dots: true,
           autoplay: true,
         },
@@ -47,7 +58,7 @@ export default function BuildingTypeList(): JSX.Element {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          // slidesToShow: 1,
           dots: true,
           autoplay: true,
         },
@@ -57,7 +68,14 @@ export default function BuildingTypeList(): JSX.Element {
 
   return (
     <S.Container hoveredTarget={hoveredTarget}>
-      <div className="inner">
+      <div className="textWrap">
+        {buildingInfos.map((building, index) => (
+          <S.TextSlide key={index} active={activeSlide === index}>
+            {building.desc}
+          </S.TextSlide>
+        ))}
+      </div>
+      <div className="sliderWrap">
         <Slider {...settings}>
           {buildingTypes.map((building, index) => (
             <ListItem

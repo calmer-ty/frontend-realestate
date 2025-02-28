@@ -1,45 +1,62 @@
 import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
 
-interface IBuildingTypeListProps {
-  hoveredTarget: string | null;
-}
-interface IBuildingTypeProps {
-  isDisabled: boolean;
-}
-
 // 지도 선택 버튼
-export const Container = styled.section<IBuildingTypeListProps>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const Container = styled.section<{ hoveredTarget: string | null }>`
   position: relative;
+  background: #000 no-repeat center/cover;
+  background-image: url("/images/apartment.jpg");
   flex: 1;
-  .inner {
-    min-width: 22.5rem;
+
+  .sliderWrap {
+    position: absolute;
+    left: 3rem;
+    top: 18rem;
+
+    width: 22.5rem;
 
     .slick-dots {
       bottom: -1.875rem;
     }
   }
 
+  .textWrap {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    color: #fff;
+
+    width: 28rem;
+    font-size: 3rem;
+    word-break: keep-all;
+    white-space: normal;
+  }
+
   /* 가상요소 */
   ::before {
     content: "";
     display: block;
-    width: 100%;
-    height: 100%;
     position: absolute;
-    background: #000 no-repeat center/cover;
-    background-image: url("/images/apartment.jpg");
-    opacity: 0.2;
-    pointer-events: none;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
     transition: opacity 0.5s ease-in-out;
-    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.2" : "0.6")};
+    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.6" : "0.2")};
   }
 `;
 
-export const ListItem = styled.div<IBuildingTypeProps>`
+export const TextSlide = styled.div<{ active: boolean }>`
+  opacity: ${(props) => (props.active ? 1 : 0)};
+  transform: ${(props) => (props.active ? "translateX(0)" : "translateX(-200%)")};
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  position: absolute;
+  /* width: 200px; */
+`;
+
+// ListItem
+export const ListItem = styled.div<{ isDisabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
