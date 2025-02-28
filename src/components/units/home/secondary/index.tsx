@@ -1,9 +1,10 @@
 import { useMemo } from "react";
+import dynamic from "next/dynamic";
 
 import ListItem from "./listItem";
-// import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 // import PieChart from "../pieChart";
 import NoDataMessage from "@/src/components/commons/noDataMessage";
+// import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -53,6 +54,8 @@ const settings = {
   // ],
 };
 
+const PieChartComponent = dynamic(() => import("../pieChart"), { ssr: false });
+
 export default function HomeSecondary({ firestoreData }: IRecommendedListProps): JSX.Element {
   const randomFirestores = useMemo(() => {
     return firestoreData.sort(() => 0.5 - Math.random()).slice(0, 5);
@@ -70,7 +73,7 @@ export default function HomeSecondary({ firestoreData }: IRecommendedListProps):
         <NoDataMessage text="추천드릴 매물이 없습니다." />
       )}
 
-      {/* <PieChart /> */}
+      <PieChartComponent />
     </S.Container>
   );
 }

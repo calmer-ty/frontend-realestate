@@ -6,9 +6,13 @@ export const Container = styled.section`
   /* position: absolute;
   right: 50px;
   bottom: 50px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: center; */
   max-width: 20rem;
   padding: 1rem;
-  background-color: rgba(172, 204, 231, 0.9);
+  background-color: #accce7;
   border-radius: 1.5rem;
 `;
 
@@ -30,7 +34,7 @@ export const ListItem = styled.div`
 
     figure {
       position: relative;
-      height: 10rem;
+      height: 13rem;
 
       /* 이미지 랩 */
       &::after {
