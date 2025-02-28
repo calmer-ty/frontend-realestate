@@ -3,14 +3,9 @@ import { colors } from "@/src/commons/styles";
 // import { css } from "@emotion/react";
 
 export const Container = styled.section`
-  /* position: absolute;
-  right: 50px;
-  bottom: 50px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* align-items: center; */
-  max-width: 20rem;
   padding: 1rem;
   background-color: #accce7;
   border-radius: 1.5rem;
@@ -34,7 +29,7 @@ export const ListItem = styled.div`
 
     figure {
       position: relative;
-      height: 13rem;
+      height: 12rem;
 
       /* 이미지 랩 */
       &::after {
