@@ -1,9 +1,11 @@
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
 
+import { Box } from "@mui/material";
 import ListItem from "./listItem";
+import ImgSkeleton from "@/src/components/commons/skeleton/figure";
 // import PieChart from "../pieChart";
-import NoDataMessage from "@/src/components/commons/noDataMessage";
+// import NoDataMessage from "@/src/components/commons/noDataMessage";
 // import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import Slider from "react-slick";
@@ -61,17 +63,21 @@ export default function HomeSecondary({ firestoreData }: IRecommendedListProps):
     return firestoreData.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreData]);
 
+  console.log("randomFirestores: ", randomFirestores);
+
   return (
     <S.Container>
-      {randomFirestores.length !== 0 ? (
-        <Slider {...settings}>
-          {randomFirestores.map((el, index) => (
-            <ListItem key={`${el._id}_${index}`} el={el} />
-          ))}
-        </Slider>
-      ) : (
-        <NoDataMessage text="추천드릴 매물이 없습니다." />
-      )}
+      <Box sx={{ width: "18rem", height: "21rem" }}>
+        {randomFirestores.length !== 0 ? (
+          <Slider {...settings}>
+            {randomFirestores.map((el, index) => (
+              <ListItem key={`${el._id}_${index}`} el={el} />
+            ))}
+          </Slider>
+        ) : (
+          <ImgSkeleton height="16.5rem" />
+        )}
+      </Box>
 
       <PieChartComponent />
     </S.Container>
