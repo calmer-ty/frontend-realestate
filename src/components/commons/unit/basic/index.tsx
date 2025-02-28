@@ -1,9 +1,5 @@
-import * as S from "./styles";
+import { Box } from "@mui/material";
 
-interface IBasicUnitProps {
-  label: string;
-}
-
-export default function BasicUnit({ label }: IBasicUnitProps): JSX.Element {
-  return <S.Unit>{label}</S.Unit>;
+export default function BasicUnit({ label }: { label: string }): JSX.Element {
+  return <Box sx={{ flexShrink: "0" }}>{label}</Box>;
 }

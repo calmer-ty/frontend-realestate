@@ -1,15 +1,10 @@
 import CloseIcon from "@mui/icons-material/Close";
+import { Button } from "@mui/material";
 
-import * as S from "./styles";
-
-interface ICloseButtonProps {
-  onClickClose: () => void;
-}
-
-export default function CloseButton({ onClickClose }: ICloseButtonProps): JSX.Element {
+export default function CloseButton({ onClickClose }: { onClickClose: () => void }): JSX.Element {
   return (
-    <S.CloseButton onClick={onClickClose}>
+    <Button sx={{ position: "absolute", top: "0.625rem", right: "0.625rem", padding: "0", minWidth: "1.875rem", cursor: "pointer" }} onClick={onClickClose}>
       <CloseIcon />
-    </S.CloseButton>
+    </Button>
   );
 }

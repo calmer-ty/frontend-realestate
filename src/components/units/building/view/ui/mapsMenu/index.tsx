@@ -7,17 +7,13 @@ import OtherHousesIcon from "@mui/icons-material/OtherHouses";
 
 import * as S from "./styles";
 
-interface MapsMenuProps {
-  buildingType: string;
-}
-
 const mapsMenus = [
   { type: "apartment", title: "아파트", icon: <ApartmentIcon fontSize="medium" color="primary" /> },
   { type: "officetel", title: "오피스텔", icon: <HomeWorkIcon fontSize="medium" color="primary" /> },
   { type: "familyHousing", title: "빌라", icon: <OtherHousesIcon fontSize="medium" color="primary" /> },
 ];
 
-function MapsMenu({ buildingType }: MapsMenuProps): JSX.Element {
+function MapsMenu({ buildingType }: { buildingType: string }): JSX.Element {
   return (
     <S.MapsMenu>
       {mapsMenus.map((menu, index) => (

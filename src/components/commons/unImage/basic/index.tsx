@@ -1,17 +1,12 @@
+import { Box } from "@mui/material";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 
-import * as S from "./styles";
+import { colors } from "@/src/commons/styles";
 
-interface IBasicUnImageProps {
-  width: string;
-  height: string;
-  fontSize: string;
-}
-
-export default function BasicUnImage(props: IBasicUnImageProps): JSX.Element {
+export default function BasicUnImage({ width, fontSize, height }: { width: string; height: string; fontSize: string }): JSX.Element {
   return (
-    <S.UnImage {...props}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: `${colors.normal}`, width, height, fontSize }}>
       <ImageNotSupportedIcon fontSize="inherit" />
-    </S.UnImage>
+    </Box>
   );
 }
