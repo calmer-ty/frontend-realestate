@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 
-import BuildingTypeList from "./buildingTypeList";
-import RecommendedList from "./recommendedList";
+import HomePrimary from "./primary";
+import HomeSecondary from "./secondary";
 
 import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
-import PieChart from "./pieChart";
 
 export default function Home(): JSX.Element {
   const [firestoreData, setFirestoreData] = useState<IFirestore[]>([]);
@@ -27,9 +26,8 @@ export default function Home(): JSX.Element {
 
   return (
     <S.Container>
-      <BuildingTypeList />
-      <RecommendedList firestoreData={firestoreData} />
-      <PieChart />
+      <HomePrimary />
+      <HomeSecondary firestoreData={firestoreData} />
     </S.Container>
   );
 }

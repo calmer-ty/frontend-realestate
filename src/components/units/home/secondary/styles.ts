@@ -2,11 +2,11 @@ import styled from "@emotion/styled";
 import { colors } from "@/src/commons/styles";
 // import { css } from "@emotion/react";
 
-export const Container = styled.div`
-  position: absolute;
+export const Container = styled.section`
+  /* position: absolute;
   right: 50px;
-  bottom: 50px;
-  max-width: 24rem;
+  bottom: 50px; */
+  max-width: 20rem;
   padding: 1rem;
   background-color: rgba(172, 204, 231, 0.9);
   border-radius: 1.5rem;

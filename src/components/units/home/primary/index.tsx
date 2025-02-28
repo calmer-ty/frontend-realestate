@@ -19,7 +19,7 @@ const buildingTypes = [
 ];
 const buildingInfos = [{ desc: "도시의 편리함 속, 나만의 아늑한 안식처" }, { desc: "도심 속 나만의 공간, 더 가까운 하루" }, { desc: "소박하지만 따뜻한, 이웃과 함께하는 삶" }];
 
-export default function BuildingTypeList(): JSX.Element {
+export default function HomePrimary(): JSX.Element {
   const [hoveredTarget, setHoveredTarget] = useState<string | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   console.log("hoveredTarget: ", hoveredTarget);

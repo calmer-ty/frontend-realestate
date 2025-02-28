@@ -4,8 +4,10 @@ import { colors } from "@/src/commons/styles";
 // 지도 선택 버튼
 export const Container = styled.section<{ hoveredTarget: string | null }>`
   position: relative;
+  overflow: hidden;
   background: #000 no-repeat center/cover;
   background-image: url("/images/apartment.jpg");
+  border-radius: 1.5rem;
   flex: 1;
 
   .sliderWrap {

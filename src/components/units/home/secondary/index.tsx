@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import ListItem from "./listItem";
 // import LoadingSpinner from "@/src/components/commons/loadingSpinner";
+// import PieChart from "../pieChart";
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import Slider from "react-slick";
@@ -19,8 +20,8 @@ const settings = {
   slidesToShow: 1,
   // slidesToScroll: 5,
   // initialSlide: 0,
-  // autoplay: true,
-  // autoplaySpeed: 4000,
+  autoplay: true,
+  autoplaySpeed: 4000,
   // responsive: [
   //   {
   //     breakpoint: 1690,
@@ -52,7 +53,7 @@ const settings = {
   // ],
 };
 
-export default function RecommendedList({ firestoreData }: IRecommendedListProps): JSX.Element {
+export default function HomeSecondary({ firestoreData }: IRecommendedListProps): JSX.Element {
   const randomFirestores = useMemo(() => {
     return firestoreData.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreData]);
@@ -68,6 +69,8 @@ export default function RecommendedList({ firestoreData }: IRecommendedListProps
       ) : (
         <NoDataMessage text="추천드릴 매물이 없습니다." />
       )}
+
+      {/* <PieChart /> */}
     </S.Container>
   );
 }
