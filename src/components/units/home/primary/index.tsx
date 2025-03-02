@@ -28,7 +28,6 @@ export default function HomePrimary(): JSX.Element {
   const [hoveredTarget, setHoveredTarget] = useState<string | null>(null);
 
   const [activeSlide, setActiveSlide] = useState(0);
-  console.log("activeSlide: ", activeSlide);
 
   const handleMouseEnter = (title: string): void => {
     setHoveredTarget(title); // 호버된 아이템의 인덱스를 상태로 저장

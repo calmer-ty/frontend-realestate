@@ -73,8 +73,6 @@ const createMarker = ({ geocodeData, setSelectedMarkerData, ...restParams }: ICr
   const marker = new window.naver.maps.Marker(markerOptions);
   marker.set("data", geocodeData);
 
-  console.log("marker: ", marker);
-
   window.naver.maps.Event.addListener(marker, "click", (e: any) => {
     if (geocodeData.data !== undefined) {
       setSelectedMarkerData(geocodeData);

@@ -31,6 +31,10 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     white-space: normal;
     color: #fff;
 
+    ${mediaQueries.desktop(css`
+      max-width: 21rem;
+      font-size: 2rem;
+    `)}
     ${mediaQueries.mobile(css`
       display: none;
     `)}
@@ -49,6 +53,9 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
       bottom: -1.875rem;
     }
 
+    ${mediaQueries.desktop(css`
+      top: 16rem;
+    `)}
     ${mediaQueries.mobile(css`
       position: static;
     `)}
