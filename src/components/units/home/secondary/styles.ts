@@ -5,20 +5,17 @@ import { css } from "@emotion/react";
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
+  width: 18rem;
   padding: 0.5rem;
-  background-color: #accce7;
+  background-color: #c9e2f5;
   border-radius: 0.5rem;
   gap: 0.5rem;
 
-  width: 25%;
-  ${mediaQueries.largeDesktop(css`
-    width: 30%;
-  `)}
-  ${mediaQueries.desktop(css`
-    width: 40%;
-  `)}
   ${mediaQueries.tablet(css`
+    width: 100%;
+  `)}
+  ${mediaQueries.mobile(css`
     width: 100%;
   `)}
 `;

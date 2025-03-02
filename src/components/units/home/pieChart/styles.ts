@@ -14,6 +14,5 @@ export const Container = styled.div`
 
   ${mediaQueries.tablet(css`
     display: none;
-    flex-direction: column;
   `)}
 `;

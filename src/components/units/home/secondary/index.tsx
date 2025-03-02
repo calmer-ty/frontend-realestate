@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 
 import ListItem from "./listItem";
 import ImgSkeleton from "@/src/components/commons/skeleton/figure";
+// import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -17,36 +18,19 @@ interface IHomeSecondaryProps {
 const settings = {
   arrows: false,
   slidesToShow: 1,
-  // slidesToScroll: 5,
-  // initialSlide: 0,
-  // autoplay: true,
-  // autoplaySpeed: 4000,
+  autoplay: true,
+  autoplaySpeed: 4000,
   // responsive: [
   //   {
-  //     breakpoint: 1690,
+  //     breakpoint: 768,
   //     settings: {
-  //       autoplay: true,
-  //       dots: true,
-  //       slidesToShow: 3,
-  //       slidesToScroll: 3,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 1024,
-  //     settings: {
-  //       autoplay: true,
-  //       dots: true,
   //       slidesToShow: 2,
-  //       slidesToScroll: 2,
   //     },
   //   },
   //   {
   //     breakpoint: 480,
   //     settings: {
   //       slidesToShow: 1,
-  //       slidesToScroll: 1,
-  //       autoplay: true,
-  //       dots: true,
   //     },
   //   },
   // ],
@@ -72,6 +56,7 @@ export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): J
       )}
 
       <PieChartComponent />
+      {/* <NoDataMessage text="개발중입니다" /> */}
     </S.Container>
   );
 }
