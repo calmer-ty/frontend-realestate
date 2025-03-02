@@ -7,8 +7,20 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   overflow: hidden;
   background: #000 no-repeat center/cover;
   background-image: url("/images/apartment.jpg");
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   flex: 1;
+
+  .textWrap {
+    position: absolute;
+    top: 5rem;
+    left: 3rem;
+    color: #fff;
+
+    width: 28rem;
+    font-size: 3rem;
+    word-break: keep-all;
+    white-space: normal;
+  }
 
   .sliderWrap {
     position: absolute;
@@ -16,22 +28,12 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     top: 18rem;
 
     width: 100%;
-
+    .slick-center {
+      transform: scale(1.1);
+    }
     .slick-dots {
       bottom: -1.875rem;
     }
-  }
-
-  .textWrap {
-    position: absolute;
-    top: 5rem;
-    left: 5rem;
-    color: #fff;
-
-    width: 28rem;
-    font-size: 3rem;
-    word-break: keep-all;
-    white-space: normal;
   }
 
   /* 가상요소 */
@@ -63,14 +65,14 @@ export const ListItem = styled.div`
   align-items: center;
   position: relative;
   height: 5rem;
-  margin: 1rem;
+  margin: 2rem;
   a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    border-radius: 3rem;
+    border-radius: 1rem;
     background-color: ${colors.background};
 
     h2 {

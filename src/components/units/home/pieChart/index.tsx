@@ -1,5 +1,6 @@
-import { Box } from "@mui/material";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+
+import * as S from "./styles";
 
 const data = [
   { name: "아파트", value: 10 },
@@ -11,7 +12,7 @@ const COLORS = ["#ff6b6b", "#4ecdc4", "#1a535c"];
 
 export default function PieChartComponent(): JSX.Element {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <S.Container>
       <h2>최근 한달간 거래량</h2>
       <PieChart width={320} height={300}>
         <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" label>
@@ -22,6 +23,6 @@ export default function PieChartComponent(): JSX.Element {
         <Tooltip />
         <Legend />
       </PieChart>
-    </Box>
+    </S.Container>
   );
 }

@@ -1,6 +1,9 @@
 import { css } from "@emotion/react";
 import type { SerializedStyles } from "@emotion/react";
 
+// ${mediaQueries.tablet`
+//   flex-direction: column;
+// `}
 // 미디어 쿼리 믹스인 정의
 export const mediaQueries = {
   mobile: (styles: SerializedStyles) => css`
