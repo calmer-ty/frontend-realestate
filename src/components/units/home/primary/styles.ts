@@ -42,8 +42,8 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     top: 18rem;
 
     width: 100%;
-    .slick-center {
-      transform: scale(1.1);
+    .slick-center div div {
+      opacity: 1;
     }
     .slick-dots {
       bottom: -1.875rem;
@@ -89,20 +89,23 @@ export const TextSlide = styled.div<{ active: boolean }>`
 
 // ListItem
 export const ListItem = styled.div`
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   height: 5rem;
-  margin: 2rem;
+  margin: 0 2rem;
+  opacity: 0.8;
+  border-radius: 0.5rem;
+  background-color: ${colors.background};
+
   a {
     display: flex;
-    justify-content: center;
     align-items: center;
+    text-indent: 2.5rem;
     width: 100%;
     height: 100%;
-    border-radius: 0.5rem;
-    background-color: ${colors.background};
 
     h2 {
       display: flex;

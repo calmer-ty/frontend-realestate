@@ -43,8 +43,8 @@ export default function HomePrimary(): JSX.Element {
     centerPadding: "20px", // 중앙 아이템 양옆에 여백 주기
     initialSlide: 2, // 두 번째 아이템을 처음에 중앙에 배치
 
-    autoplay: true,
-    autoplaySpeed: 4000,
+    // autoplay: true,
+    // autoplaySpeed: 4000,
     dots: true,
     arrows: false,
     beforeChange: (_: any, next: number) => {
@@ -53,7 +53,7 @@ export default function HomePrimary(): JSX.Element {
 
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1280,
         settings: {
           slidesToShow: 1,
         },

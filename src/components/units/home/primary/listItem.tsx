@@ -15,7 +15,7 @@ interface IBuildingTypeListItemProps {
 export default function ListItem({ href, icon, title, target, onMouseEnter, onMouseLeave }: IBuildingTypeListItemProps): JSX.Element {
   return (
     <S.ListItem onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <Link href={href ?? ""} target={target}>
+      <Link href={href ?? ""} target={target} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         <h2>{title}</h2>
         <div className="iconWrap">{icon}</div>
       </Link>
