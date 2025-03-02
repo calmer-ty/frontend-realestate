@@ -8,8 +8,9 @@ export const UserMenu = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  .infoText {
-    ${mediaQueries.mobile(css`
+
+  ${mediaQueries.mobile(css`
+    .infoText {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,13 +18,11 @@ export const UserMenu = styled.div`
       height: 2.25rem;
       background-color: ${colors.normal};
       border-radius: 50%;
-    `)}
-    em {
-      ${mediaQueries.mobile(css`
+      em {
         display: none;
-      `)}
+      }
     }
-  }
+  `)}
 `;
 export const ArrowButton = styled(Button)`
   padding: 0;

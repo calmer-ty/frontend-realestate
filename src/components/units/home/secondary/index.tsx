@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
 
-import { Box, useMediaQuery } from "@mui/material";
 import ListItem from "./listItem";
 import ImgSkeleton from "@/src/components/commons/skeleton/figure";
 // import PieChart from "../pieChart";
@@ -59,27 +58,23 @@ const settings = {
 const PieChartComponent = dynamic(() => import("../pieChart"), { ssr: false });
 
 export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): JSX.Element {
-  const isSmallScreen = useMediaQuery("(max-width: 768px)");
-
   const randomFirestores = useMemo(() => {
     return firestoreData.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [firestoreData]);
 
   return (
     <S.Container>
-      <Box>
-        {randomFirestores.length !== 0 ? (
-          <Slider {...settings}>
-            {randomFirestores.map((el, index) => (
-              <ListItem key={`${el._id}_${index}`} el={el} />
-            ))}
-          </Slider>
-        ) : (
-          <ImgSkeleton height="16.5rem" />
-        )}
-      </Box>
+      {randomFirestores.length !== 0 ? (
+        <Slider {...settings}>
+          {randomFirestores.map((el, index) => (
+            <ListItem key={`${el._id}_${index}`} el={el} />
+          ))}
+        </Slider>
+      ) : (
+        <ImgSkeleton height="16.5rem" />
+      )}
 
-      {!isSmallScreen && <PieChartComponent />}
+      <PieChartComponent />
     </S.Container>
   );
 }

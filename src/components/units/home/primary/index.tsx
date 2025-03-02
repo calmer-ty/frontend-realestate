@@ -58,12 +58,6 @@ export default function HomePrimary(): JSX.Element {
           slidesToShow: 1,
         },
       },
-      // {
-      //   breakpoint: 480,
-      //   settings: {
-      //     centerMode: false,
-      //   },
-      // },
     ],
   };
 

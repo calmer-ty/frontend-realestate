@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { colors } from "@/src/commons/styles";
+import { colors, mediaQueries } from "@/src/commons/styles";
+import { css } from "@emotion/react";
 
 // 지도 선택 버튼
 export const Container = styled.section<{ hoveredTarget: string | null }>`
@@ -7,19 +8,32 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   overflow: hidden;
   background: #000 no-repeat center/cover;
   background-image: url("/images/apartment.jpg");
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   flex: 1;
+
+  ${mediaQueries.mobile(css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  `)}
 
   .textWrap {
     position: absolute;
     top: 5rem;
     left: 3rem;
-    color: #fff;
 
-    width: 28rem;
+    width: 100%;
+    height: 8.75rem;
+
+    max-width: 28rem;
     font-size: 3rem;
     word-break: keep-all;
     white-space: normal;
+    color: #fff;
+
+    ${mediaQueries.mobile(css`
+      display: none;
+    `)}
   }
 
   .sliderWrap {
@@ -34,6 +48,10 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     .slick-dots {
       bottom: -1.875rem;
     }
+
+    ${mediaQueries.mobile(css`
+      position: static;
+    `)}
   }
 
   /* 가상요소 */
@@ -52,10 +70,21 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
 `;
 
 export const TextSlide = styled.div<{ active: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
   opacity: ${(props) => (props.active ? 1 : 0)};
   transform: ${(props) => (props.active ? "translateX(0)" : "translateX(-200%)")};
   transition: opacity 0.5s ease, transform 0.5s ease;
-  position: absolute;
+
+  ${mediaQueries.mobile(css`
+    font-size: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 40px;
+  `)}
 `;
 
 // ListItem
@@ -72,7 +101,7 @@ export const ListItem = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     background-color: ${colors.background};
 
     h2 {

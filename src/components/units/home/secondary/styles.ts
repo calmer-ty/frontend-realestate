@@ -19,6 +19,7 @@ export const Container = styled.section`
   `)}
   ${mediaQueries.tablet(css`
     width: 100%;
+    /* flex: 1; */
   `)}
 `;
 
@@ -38,6 +39,7 @@ export const ListItem = styled.div`
     position: relative;
     transition: background-color 100ms ease-in-out;
     padding: 2rem;
+    height: 100%;
 
     figure {
       position: relative;
