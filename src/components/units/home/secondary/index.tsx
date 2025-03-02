@@ -3,9 +3,6 @@ import dynamic from "next/dynamic";
 
 import ListItem from "./listItem";
 import ImgSkeleton from "@/src/components/commons/skeleton/figure";
-// import PieChart from "../pieChart";
-// import NoDataMessage from "@/src/components/commons/noDataMessage";
-// import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -55,7 +52,7 @@ const settings = {
   // ],
 };
 
-const PieChartComponent = dynamic(() => import("../pieChart"), { ssr: false });
+const PieChartComponent = dynamic(() => import("../pieChart"), { ssr: false, loading: () => <ImgSkeleton height="16rem" /> });
 
 export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): JSX.Element {
   const randomFirestores = useMemo(() => {
@@ -71,7 +68,7 @@ export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): J
           ))}
         </Slider>
       ) : (
-        <ImgSkeleton height="16.5rem" />
+        <ImgSkeleton height="14rem" />
       )}
 
       <PieChartComponent />

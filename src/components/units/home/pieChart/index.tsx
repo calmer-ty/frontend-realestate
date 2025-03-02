@@ -13,8 +13,8 @@ const COLORS = ["#ff6b6b", "#4ecdc4", "#1a535c"];
 export default function PieChartComponent(): JSX.Element {
   return (
     <S.Container>
-      <h2>최근 한달간 거래량</h2>
-      <PieChart width={320} height={300}>
+      <h4>최근 한달간 거래량</h4>
+      <PieChart width={280} height={340}>
         <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" label>
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index]} />

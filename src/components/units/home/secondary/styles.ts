@@ -8,7 +8,8 @@ export const Container = styled.section`
   justify-content: space-between;
   padding: 0.5rem;
   background-color: #accce7;
-  border-radius: 1.5rem;
+  border-radius: 0.5rem;
+  gap: 0.5rem;
 
   width: 25%;
   ${mediaQueries.largeDesktop(css`
@@ -19,7 +20,6 @@ export const Container = styled.section`
   `)}
   ${mediaQueries.tablet(css`
     width: 100%;
-    /* flex: 1; */
   `)}
 `;
 
@@ -30,7 +30,7 @@ export const ListItem = styled.div`
   height: 100%;
   margin: 0 auto;
   background-color: ${colors.background};
-  border-radius: 1.5rem;
+  border-radius: 0.5rem;
 
   a {
     display: flex;
@@ -38,7 +38,7 @@ export const ListItem = styled.div`
     row-gap: 0.5rem;
     position: relative;
     transition: background-color 100ms ease-in-out;
-    padding: 2rem;
+    padding: 1.5rem;
     height: 100%;
 
     figure {
