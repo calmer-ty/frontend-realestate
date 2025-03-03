@@ -4,11 +4,13 @@ import { css } from "@emotion/react";
 
 export const Container = styled.div`
   /*tab 컴포넌트를 감싸는 상위 요소 */
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 42rem;
   height: 100%;
   padding: 1.25rem 0;
+  min-height: 700px;
 
   ${mediaQueries.mobile(css`
     min-width: initial;

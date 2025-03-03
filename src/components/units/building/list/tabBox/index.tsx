@@ -57,10 +57,12 @@ export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen,
   return (
     <S.Container>
       <TabContext value={tabValue}>
-        <TabList onChange={onChangeTabs} aria-label="lab API tabs example">
-          <Tab label="광고중" value="1" />
-          <Tab label="광고종료" value="2" />
-        </TabList>
+        {!loading && (
+          <TabList onChange={onChangeTabs} aria-label="lab API tabs example">
+            <Tab label="광고중" value="1" />
+            <Tab label="광고종료" value="2" />
+          </TabList>
+        )}
 
         {tabValue === "1" && (
           <TabPanel value="1">
