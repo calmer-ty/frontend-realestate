@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 export const Container = styled.section<{ hoveredTarget: string | null }>`
   position: relative;
   overflow: hidden;
-  background: #000 no-repeat center/cover;
+  background: #dedede no-repeat center/cover;
   background-image: url("/images/apartment.jpg");
   border-radius: 0.5rem;
   flex: 1;
@@ -125,11 +125,6 @@ export const ListItem = styled.div`
       position: absolute;
       right: 0.75rem;
       bottom: 0.5rem;
-    }
-
-    &:hover {
-      background-color: ${colors.primaryHover};
-      box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
     }
   }
 `;

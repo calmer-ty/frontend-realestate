@@ -132,7 +132,7 @@ export const buildingApi = async ({ regionCode, regionName, buildingType }: IBui
     const initialResponse = await axios.get<IBuilding | undefined>(initialUrl);
     const totalCount = initialResponse.data?.response?.body?.totalCount ?? 0;
     if (totalCount === 0) {
-      console.warn("officetelApi - 총 데이터 개수가 없습니다.");
+      console.warn("buildingApi - 총 데이터 개수가 없습니다.");
       return [];
     }
 

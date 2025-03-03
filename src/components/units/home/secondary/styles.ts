@@ -7,10 +7,10 @@ export const Container = styled.section`
   flex-direction: column;
 
   width: 18rem;
-  padding: 0.5rem;
+  padding: 1rem;
   background-color: #c9e2f5;
   border-radius: 0.5rem;
-  gap: 0.5rem;
+  gap: 1rem;
 
   ${mediaQueries.tablet(css`
     width: 100%;
@@ -58,8 +58,14 @@ export const ListItem = styled.div`
     figcaption {
       display: flex;
       flex-direction: column;
-      > strong {
+
+      strong {
         margin-bottom: 0.25rem;
+      }
+      span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
 
