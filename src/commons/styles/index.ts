@@ -32,9 +32,7 @@ export const mediaQueries = {
 
 // colors
 export const colors = {
-  active: "#1976d2",
-  activeHover: "#f6fafd",
-
+  primary: "#1976d2",
   hover: "#efefef",
   cover: "rgba(0, 0, 0, 0.2)",
   normal: "#e0e0e0",

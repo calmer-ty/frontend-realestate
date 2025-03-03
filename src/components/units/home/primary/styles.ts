@@ -128,7 +128,7 @@ export const ListItem = styled.div`
     }
 
     &:hover {
-      background-color: ${colors.activeHover};
+      background-color: ${colors.primaryHover};
       box-shadow: rgba(0, 0, 0, 0.1) 0 0.625rem 1.25rem;
     }
   }

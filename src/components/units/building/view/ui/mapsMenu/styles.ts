@@ -25,12 +25,12 @@ export const MapsMenu = styled.article`
 
     &.active,
     &:hover {
-      background-color: ${colors.activeHover};
-      outline: 0.0625rem solid ${colors.active};
+      background-color: ${colors.primaryHover};
+      outline: 0.0625rem solid ${colors.primary};
       font-weight: bold;
     }
     &.active {
-      color: ${colors.active};
+      color: ${colors.primary};
     }
   }
 

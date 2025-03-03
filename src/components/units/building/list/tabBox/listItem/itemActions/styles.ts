@@ -7,7 +7,8 @@ export const Container = styled.div`
   column-gap: 0.625rem;
   height: 3rem;
   padding: 0 1.25rem;
-  background-color: #fafafa;
+  background-color: rgb(240, 240, 240);
+
   .buttonWrap {
     display: flex;
     column-gap: 0.625rem;
