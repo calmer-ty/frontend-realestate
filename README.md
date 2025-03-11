@@ -4,19 +4,21 @@
 ## 프로젝트 개요
 
 - **목적:**
-  - 사용자의 현재 자산으로 구매할 수 있는 건물들을 체크해보고, 또한 사용자의 자산 상승률, 매물 가격 상승률을 반영하여 **구매시기를 유추**할 수 있도록 기능을 추가했습니다.
+  - 매물 관리(CRUD) 기능을 구현하고, 자산 상승률과 매물 가격 변동을 반영하여 사용자의 자산으로 구매 가능한 매물의 시기를 예측할 수 있도록 개발했습니다.
+
+- **작업 기간:**  2024.06.14~2025.01.21
+
+- **개발 인원:** 1명
+    - 기획,개발,배포까지 독립적으로 수행했습니다.
 
 - **주요 기능:**
-    - 로그인 & 회원가입: Firebase Authentication을 이용한 OAuth 로그인 (Google, Email)![로그인](https://github.com/user-attachments/assets/7eb790d9-0f40-4366-b7dc-7ce1f758b1da)
+    - 로그인: Firebase Authentication을 이용한 OAuth 로그인 (Google, Email)![로그인](https://github.com/user-attachments/assets/7eb790d9-0f40-4366-b7dc-7ce1f758b1da)
     - 구매력 분석: 사용자의 자산 상태를 입력받아 구매 가능 시기를 파악할 수 있는 정보 제공![구매력 모드](https://github.com/user-attachments/assets/e134aa0a-2ded-4157-a605-99bbfb0fed76)
     - 거래 유형 필터링: 월세, 전세, 매매 형식으로 데이터 렌더링![거래유형 필터링](https://github.com/user-attachments/assets/1b9916f2-9f3f-4aed-a504-82cca2833dba)
-    - 매물 등록/수정/조회/삭제: 사용자가 직접 부동산 정보를 입력하여 매물을 등록하고, 등록된 매물을 수정, 조회, 삭제할 수 있는 기능 제공
+    - 매물 관리(CRUD): 사용자가 직접 부동산 정보를 입력하여 매물을 등록하고, 등록된 매물을 수정, 조회, 삭제할 수 있는 기능 제공
     - 지도 기능: 사용자가 보고 있는 지도 영역에 따라 해당 매물 정보 표시
     - 반응형 UI: 모바일에서도 최적화된 UI 제공![웹- 모바일](https://github.com/user-attachments/assets/b912bae3-960d-403d-9e21-e3144a6d1eb0)
 
-
- - **개발 인원:** 1명
-    - 사용자 인증, 매물 등록/수정/삭제 기능, 지도 API 연동, 반응형 UI 구현 등의 프론트엔드 작업과, 배포까지 독립적으로 수행했습니다.
 
 
 ## 기술 스택
@@ -36,14 +38,14 @@
  
 ## 기술적 어려움
 
-1.  **로그인 기능 구현**:
-    - 기존에 next auth로 로그인을 구현하는데 구글 계정을 인증할 수 없는 문제가 발생했습니다.
-    - 해결 방법: Firebase의 Authentication 기능을 사용하는 방식으로 수정했습니다.
+- **REST API 데이터 패칭:** 처음에는 불완전한 데이터를 가져와 필터링 작업이 어려웠습니다. 이를 해결하기 위해 TypeScript를 적용하여 데이터를 정확하게 필터링 했습니다.
 
-2. **지도에 들어가는 API 데이터 최적화**:
-    - 처음에는 건물 정보 API를 모두 불러와 지도에 렌더링하는 방식으로 진행하였습니다. 그 결과, 로딩 속도가 1분 이상 지연되고, 또한 한꺼번에 생긴 마커로 인해 페이지에 렉이 발생했었습니다.
-    - 해결 방법: 행정 구마다 가지고 있는 고유 값을 url에 변수로 추가해 api 요청을 하여, 사용자가 선택한 구에 해당 하는 데이터만 불러오도록 처리하여, 빠르게 마커를 렌더링 하고, 렉을 줄일 수 있었습니다.
-  
+- **지도 시각화:** 모든 데이터를 한 번에 불러와 지도에 시각화했더니, 많은 마커가 생성되어 성능 문제가 발생했습니다. 이를 해결하기 위해 사용자가 선택한 지역에 맞춰 데이터를 패칭하고 시각화를 최적화한 결과, 이전에 1분 이상 걸리던 처리 시간이 3초로 단축되었습니다.
+
+- **Firebase 배포:** Firebase의 배포 방식을 이해하지 못해 배포가 되지 않았습니다. 관련 문서와 커뮤니티를 통하여 배포 과정을 이해하고 문제를 해결했습니다. 
+
+- **인증 기능:** 처음에는 NextAuth로 인증 기능을 구현했지만, 배포 시 로그인이 되지 않는 문제가 발생했습니다. 이 문제를 해결하기 위해 Firebase 인증 기능을 적용하여 해결했습니다.
+
 
 ## 프로젝트 폴더 구조
 - `/src`  
@@ -57,9 +59,6 @@
   - 매물 리스트 기능: [https://youtu.be/Eic1vmnDDPs](https://youtu.be/Jwc6LpftWF0)
 
 
-## 블로그 기록
-https://velog.io/@ty_calmer96/posts
-
 ## 설치 및 실행 방법
 
 ```bash
@@ -72,22 +71,29 @@ yarn install
 # 로컬 실행
 yarn dev
 ```
-"프로젝트 실행 전에, Firebase 환경 변수 설정을 /.env에 추가해야 합니다."
 
-NEXT_PUBLIC_NCP_CLIENT_ID: 네이버 맵 API ID
-NCP_CLIENT_SECRET: 네이버 맵 API 비밀번호
+## env 설정
 
-GOVERNMENT_PUBLIC_DATA: 공공데이터 API 키
+**NEXT_PUBLIC_NCP_CLIENT_ID:** 네이버 맵 API ID
 
-GOOGLE_CLIENT_ID: 구글 클라이언트 ID
-GOOGLE_CLIENT_SECRET: 구글 클라이언트 비밀번호
+**NCP_CLIENT_SECRET:** 네이버 맵 API 비밀번호
 
-FIREBASE_API_KEY: 파이어베이스 API 키
-FIREBASE_AUTH_DOMAIN: 파이어베이스 인증 도메인
-FIREBASE_PROJECT_ID: 파이어베이스 프로젝트 ID
-FIREBASE_STORAGE_BUCKET: 파이어베이스 스토리지 버킷
-FIREBASE_MESSAGING_SENDER_ID: 파이어베이스 메세징 송신자 ID
-FIREBASE_APP_ID: 파이어베이스 APP ID
-FIREBASE_MEASUREMENT_ID: 파이어베이스 Analytics ID
+**GOVERNMENT_PUBLIC_DATA:** 공공데이터 API 키
 
+**GOOGLE_CLIENT_ID:** 구글 클라이언트 ID
 
+**GOOGLE_CLIENT_SECRET:** 구글 클라이언트 비밀번호
+
+**FIREBASE_API_KEY**: 파이어베이스 API 키
+
+**FIREBASE_AUTH_DOMAIN:** 파이어베이스 인증 도메인
+
+**FIREBASE_PROJECT_ID:** 파이어베이스 프로젝트 ID
+
+**FIREBASE_STORAGE_BUCKET:** 파이어베이스 스토리지 버킷
+
+**FIREBASE_MESSAGING_SENDER_ID:** 파이어베이스 메세징 송신자 ID
+
+**FIREBASE_APP_ID:** 파이어베이스 APP ID
+
+**FIREBASE_MEASUREMENT_ID:** 파이어베이스 Analytics ID
