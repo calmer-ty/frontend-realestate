@@ -45,8 +45,12 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
 
   .sliderWrap {
     width: 100%;
+    /* 중앙에 올 경우 */
     .slick-center div div {
       opacity: 1;
+    }
+    .slick-center div div a {
+      pointer-events: all;
     }
     .slick-dots {
       bottom: -1.875rem;
@@ -105,6 +109,7 @@ export const ListItem = styled.div`
   opacity: 0.8;
   border-radius: 0.5rem;
   background-color: ${colors.background};
+  cursor: pointer;
 
   a {
     display: flex;
@@ -112,6 +117,7 @@ export const ListItem = styled.div`
     text-indent: 2.5rem;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 
     h2 {
       display: flex;

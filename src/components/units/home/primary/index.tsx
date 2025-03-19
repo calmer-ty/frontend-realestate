@@ -41,6 +41,7 @@ export default function HomePrimary(): JSX.Element {
     slidesToShow: 3, // 3개만 보여주기
     centerPadding: "20px", // 중앙 아이템 양옆에 여백 주기
     initialSlide: 2, // 두 번째 아이템을 처음에 중앙에 배치
+    focusOnSelect: true,
 
     autoplay: true,
     autoplaySpeed: 4000,
