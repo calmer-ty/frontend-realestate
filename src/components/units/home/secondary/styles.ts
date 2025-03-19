@@ -15,9 +15,6 @@ export const Container = styled.section`
   ${mediaQueries.tablet(css`
     width: 100%;
   `)}
-  ${mediaQueries.mobile(css`
-    width: 100%;
-  `)}
 `;
 
 // ListItem

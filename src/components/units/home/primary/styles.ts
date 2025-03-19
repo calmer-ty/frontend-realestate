@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 export const Container = styled.section<{ hoveredTarget: string | null }>`
   position: relative;
   overflow: hidden;
-  background: #dedede no-repeat center/cover;
+  background: ${colors.normal} no-repeat center/cover;
   background-image: url("/images/apartment.jpg");
   border-radius: 0.5rem;
   flex: 1;
@@ -18,12 +18,14 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   `)}
 
   .textWrap {
-    position: absolute;
+    /* position: absolute;
     top: 5rem;
-    left: 3rem;
+    left: 3rem; */
+    position: relative;
 
     width: 100%;
     height: 8.75rem;
+    margin: 5.25rem 0 3.5rem 3.5rem;
 
     max-width: 28rem;
     font-size: 3rem;
@@ -33,7 +35,11 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
 
     ${mediaQueries.desktop(css`
       max-width: 21rem;
+      height: 5.75rem;
       font-size: 2rem;
+    `)}
+    ${mediaQueries.tablet(css`
+      margin: 3.25rem 0 3.5rem 3.5rem;
     `)}
     ${mediaQueries.mobile(css`
       display: none;
@@ -41,9 +47,9 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   }
 
   .sliderWrap {
-    position: absolute;
+    /* position: absolute;
     left: 0;
-    top: 18rem;
+    top: 18rem; */
 
     width: 100%;
     .slick-center div div {
