@@ -58,7 +58,7 @@ export const Container = styled.div<{ cover: string }>`
     }
   }
 
-  ${mediaQueries.tablet(css`
+  /* ${mediaQueries.tablet(css`
     display: none;
-  `)}
+  `)} */
 `;

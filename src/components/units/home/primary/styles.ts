@@ -18,9 +18,6 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   `)}
 
   .textWrap {
-    /* position: absolute;
-    top: 5rem;
-    left: 3rem; */
     position: relative;
 
     width: 100%;
@@ -47,10 +44,6 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
   }
 
   .sliderWrap {
-    /* position: absolute;
-    left: 0;
-    top: 18rem; */
-
     width: 100%;
     .slick-center div div {
       opacity: 1;

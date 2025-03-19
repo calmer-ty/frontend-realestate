@@ -2,6 +2,10 @@ import styled from "@emotion/styled";
 import { colors, mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -13,6 +17,31 @@ export const Container = styled.section`
   gap: 1rem;
 
   ${mediaQueries.tablet(css`
+    width: 100%;
+    flex-direction: row;
+  `)}
+
+  .infoWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+
+    ${mediaQueries.mobile(css`
+      display: none;
+    `)}
+  }
+`;
+export const SliderStyle = styled(Slider)`
+  /* width: 300px; */
+  .slick-dots {
+    bottom: 0.5rem;
+  }
+
+  ${mediaQueries.tablet(css`
+    width: 50%;
+  `)}
+  ${mediaQueries.mobile(css`
     width: 100%;
   `)}
 `;
@@ -32,12 +61,12 @@ export const ListItem = styled.div`
     row-gap: 0.5rem;
     position: relative;
     transition: background-color 100ms ease-in-out;
-    padding: 1.5rem;
+    padding: 1rem 1.5rem 2rem;
     height: 100%;
 
     figure {
       position: relative;
-      height: 12rem;
+      height: 10rem;
 
       /* 이미지 랩 */
       &::after {
