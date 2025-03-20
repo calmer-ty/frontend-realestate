@@ -28,6 +28,11 @@ export const mediaQueries = {
       ${styles}
     }
   `,
+  h960: (styles: SerializedStyles) => css`
+    @media screen and (max-height: 960px) {
+      ${styles}
+    }
+  `,
 };
 
 // colors

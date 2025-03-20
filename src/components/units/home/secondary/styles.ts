@@ -22,27 +22,16 @@ export const Container = styled.section`
   `)}
 
   .infoWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     height: 100%;
-    .type1 {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      height: 100%;
-    }
-    .type2 {
-      display: none;
-    }
-    @media screen and (max-height: 960px) {
-      .type1 {
-        display: none;
-      }
-      .type2 {
-        display: flex;
-      }
-    }
 
     ${mediaQueries.mobile(css`
       display: none;
+    `)}
+    ${mediaQueries.h960(css`
+      flex-direction: row;
     `)}
   }
 `;
@@ -81,6 +70,10 @@ export const ListItem = styled.div`
     figure {
       position: relative;
       height: 20rem;
+
+      ${mediaQueries.h960(css`
+        height: 10rem;
+      `)}
 
       /* 이미지 랩 */
       &::after {
