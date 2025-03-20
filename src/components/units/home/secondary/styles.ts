@@ -10,7 +10,7 @@ export const Container = styled.section`
   display: flex;
   flex-direction: column;
 
-  width: 18rem;
+  width: 24rem;
   padding: 1rem;
   background-color: #c9e2f5;
   border-radius: 0.5rem;
@@ -22,10 +22,24 @@ export const Container = styled.section`
   `)}
 
   .infoWrap {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
     height: 100%;
+    .type1 {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+    }
+    .type2 {
+      display: none;
+    }
+    @media screen and (max-height: 960px) {
+      .type1 {
+        display: none;
+      }
+      .type2 {
+        display: flex;
+      }
+    }
 
     ${mediaQueries.mobile(css`
       display: none;
@@ -66,7 +80,7 @@ export const ListItem = styled.div`
 
     figure {
       position: relative;
-      height: 10rem;
+      height: 20rem;
 
       /* 이미지 랩 */
       &::after {
@@ -78,6 +92,10 @@ export const ListItem = styled.div`
         height: 100%;
         transition: background-color 100ms ease-in-out;
       }
+
+      ${mediaQueries.mobile(css`
+        height: 10rem;
+      `)}
     }
 
     /* buildingDesc */
