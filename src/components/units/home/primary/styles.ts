@@ -30,6 +30,9 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     }
     .slick-dots {
       bottom: -1.875rem;
+      li button:before {
+        color: #fff;
+      }
     }
   }
 
