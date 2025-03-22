@@ -28,8 +28,8 @@ export const mediaQueries = {
       ${styles}
     }
   `,
-  h960: (styles: SerializedStyles) => css`
-    @media screen and (max-height: 960px) {
+  h800: (styles: SerializedStyles) => css`
+    @media screen and (max-height: 800px) {
       ${styles}
     }
   `,

@@ -3,7 +3,7 @@ import { korToEng } from "@/src/commons/libraries/utils/convertCollection";
 
 import Link from "next/link";
 import Image from "next/image";
-import BasicUnImage from "../../../commons/unImage/basic";
+import BasicUnImage from "@/src/components/commons/unImage/basic";
 
 import * as S from "./styles";
 
