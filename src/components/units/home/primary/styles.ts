@@ -55,7 +55,7 @@ export const TextSlide = styled.div<{ active: boolean }>`
   white-space: normal;
   color: #fff;
   position: relative;
-  max-width: 25rem;
+  max-width: 27rem;
 
   ${mediaQueries.desktop(css`
     font-size: 2rem;
