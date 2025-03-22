@@ -9,7 +9,7 @@ export const ListItem = styled.div`
   align-items: center;
   position: relative;
   height: 5rem;
-  margin: 0 2rem;
+  margin: 0 1.25rem;
   opacity: 0.8;
   border-radius: 0.5rem;
   background-color: ${colors.background};

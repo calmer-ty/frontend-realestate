@@ -16,7 +16,7 @@ const settings = {
   arrows: false,
   dots: true,
   slidesToShow: 1,
-  // autoplay: true,
+  autoplay: true,
   autoplaySpeed: 4000,
 };
 

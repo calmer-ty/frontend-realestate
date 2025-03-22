@@ -63,13 +63,15 @@ export default function HomePrimary(): JSX.Element {
 
   return (
     <S.Container hoveredTarget={hoveredTarget}>
-      <div className="textWrap">
-        {buildingInfos.map((building, index) => (
+      {/* <div className="textWrap"> */}
+      {buildingInfos
+        .filter((_, index) => index === activeSlide)
+        .map((building, index) => (
           <S.TextSlide key={index} active={activeSlide === index}>
             {building.desc}
           </S.TextSlide>
         ))}
-      </div>
+      {/* </div> */}
       <div className="sliderWrap">
         <Slider {...settings}>
           {buildingTypes.map((building, index) => (
