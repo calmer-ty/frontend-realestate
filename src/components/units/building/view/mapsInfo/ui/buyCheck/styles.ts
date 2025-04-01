@@ -21,6 +21,10 @@ export const Container = styled.section`
         width: 9rem;
         font-weight: bold;
       }
+      &.long {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 `;
