@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useFirestore } from "@/src/commons/hooks/firebase/useFirestore";
 import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";

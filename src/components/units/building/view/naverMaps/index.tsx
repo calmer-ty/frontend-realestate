@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
+import { useMapsLoader } from "@/src/commons/hooks/maps/useMapsLoader";
 import { loadScript } from "@/src/commons/libraries/utils/maps/init";
 
 import RegionSelect from "./ui/regionSelect";

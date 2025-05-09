@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAlert } from "@/src/hooks/useAlert";
+import { useAlert } from "@/src/commons/hooks/useAlert";
 // import { cleanCurrency } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { Button, Tooltip, useMediaQuery } from "@mui/material";

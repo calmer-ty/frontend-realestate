@@ -1,6 +1,6 @@
 import { signInWithPopup } from "firebase/auth";
-import { useAlert } from "@/src/hooks/useAlert";
-import { useAuth } from "@/src/hooks/useAuth";
+import { useAlert } from "@/src/commons/hooks/useAlert";
+import { useAuth } from "@/src/commons/hooks/useAuth";
 import { auth, googleProvider } from "@/src/commons/libraries/firebase/firebaseApp";
 
 import BasicAlert from "@/src/components/commons/alert/basic";

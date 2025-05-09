@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useFirestore } from "@/src/commons/hooks/firebase/useFirestore";
 
 import HomePrimary from "./primary";
 import HomeSecondary from "./secondary";

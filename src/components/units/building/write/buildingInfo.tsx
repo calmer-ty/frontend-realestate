@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMapsLoader } from "@/src/hooks/maps/useMapsLoader";
+import { useMapsLoader } from "@/src/commons/hooks/maps/useMapsLoader";
 import { DaumPostcodeEmbed } from "react-daum-postcode";
 
 import { Button } from "@mui/material";

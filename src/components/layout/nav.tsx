@@ -1,4 +1,4 @@
-import { useAuth } from "@/src/hooks/useAuth";
+import { useAuth } from "@/src/commons/hooks/useAuth";
 
 import Link from "next/link";
 import { Button } from "@mui/material";

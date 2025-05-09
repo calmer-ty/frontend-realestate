@@ -8,7 +8,7 @@ import BasicAlert from "../../alert/basic";
 import type { Dispatch, SetStateAction, ChangeEvent, RefObject } from "react";
 import type { IFiles } from "./types";
 import { checkValidationImg } from "@/src/commons/libraries/validation";
-import { useAlert } from "@/src/hooks/useAlert";
+import { useAlert } from "@/src/commons/hooks/useAlert";
 interface IBasicUploadProps {
   imageUrls: string[] | undefined;
   setSelectedFiles: Dispatch<SetStateAction<File[]>>;

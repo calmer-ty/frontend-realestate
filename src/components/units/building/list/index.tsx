@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "@/src/hooks/useAuth";
-import { useFirestore } from "@/src/hooks/firebase/useFirestore";
+import { useAuth } from "@/src/commons/hooks/useAuth";
+import { useFirestore } from "@/src/commons/hooks/firebase/useFirestore";
 
 import DeleteModal from "./deleteModal";
 import TabBox from "./tabBox";
