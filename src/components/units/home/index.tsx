@@ -6,7 +6,6 @@ import { useFirestore } from "@/src/hooks/firebase/useFirestore";
 import HomePrimary from "./primary";
 import HomeSecondary from "./secondary";
 
-import * as S from "./styles";
 import type { IFirestore } from "@/src/commons/types";
 
 export default function Home(): JSX.Element {
@@ -25,9 +24,9 @@ export default function Home(): JSX.Element {
   }, [readFirestores]);
 
   return (
-    <S.Container>
+    <article className="flex flex-col gap-2 h-[calc(100vh_-_3.75rem)] bg-gray-100">
       <HomePrimary />
       <HomeSecondary firestoreData={firestoreData} />
-    </S.Container>
+    </article>
   );
 }
