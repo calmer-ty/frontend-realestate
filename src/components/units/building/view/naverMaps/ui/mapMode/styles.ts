@@ -28,13 +28,3 @@ export const Form = styled.form`
     }
   }
 `;
-
-// export const MapModeToggleButton = styled(Button)``;
-
-export const InputUnit = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 0.625rem;
-  width: 100%;
-`;

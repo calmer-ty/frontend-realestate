@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAlert } from "@/src/commons/hooks/useAlert";
-// import { cleanCurrency } from "@/src/commons/libraries/utils/priceFormatter";
 
 import { Button, Tooltip, useMediaQuery } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
@@ -12,7 +11,6 @@ import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "./inputUnit";
 import UnderlineTitle from "@/src/components/commons/title/underline";
 import BasicAlert from "@/src/components/commons/alert/basic";
-// import FormattedInputs from "@/src/components/commons/input/textField/fomatted";
 
 import * as S from "./styles";
 import type { IAssetForm } from "@/src/commons/types";

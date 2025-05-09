@@ -24,6 +24,7 @@ export const Container = styled.div`
     width: 100%;
     padding: 0.5rem 1rem;
     height: 3rem;
+    border-bottom: 0.125rem solid #bcbcbc;
   }
   .loadingSpinner {
     position: absolute;

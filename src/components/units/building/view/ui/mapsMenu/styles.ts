@@ -9,6 +9,7 @@ export const MapsMenu = styled.article`
   height: 100%;
   padding: 0.375rem;
   border-right: 0.0625rem solid ${colors.outline};
+
   > a {
     display: flex;
     flex-direction: column;
@@ -37,6 +38,8 @@ export const MapsMenu = styled.article`
   ${mediaQueries.tablet(css`
     flex-direction: row;
     height: initial;
+    border-right: 0;
+    border-bottom: 0.0625rem solid ${colors.outline};
 
     > a {
       height: 2rem;
