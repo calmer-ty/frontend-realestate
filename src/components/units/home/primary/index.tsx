@@ -1,91 +1,34 @@
-// import { useState } from "react";
-
-// import ListItem from "./listItem";
-
-// import ApartmentIcon from "@mui/icons-material/Apartment";
-// import HomeWorkIcon from "@mui/icons-material/HomeWork";
-// import OtherHousesIcon from "@mui/icons-material/OtherHouses";
-
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 import * as S from "./styles";
 
-// const buildingTypes = [
-//   { title: "아파트", desc: "어쩌구저쩌구", icon: <ApartmentIcon fontSize="large" color="primary" />, target: "", href: "/apartment" },
-//   { title: "오피스텔", desc: "어쩌구저쩌구", icon: <HomeWorkIcon fontSize="large" color="primary" />, target: "", href: "/officetel" },
-//   { title: "빌라", desc: "어쩌구저쩌구", icon: <OtherHousesIcon fontSize="large" color="primary" />, target: "", href: "/familyHousing" },
-//   { title: "청약", desc: "어쩌구저쩌구", icon: <OtherHousesIcon fontSize="large" color="primary" />, target: "_blank", href: "https://apply.lh.or.kr/lhapply/main.do#gnrlPop" },
-// ];
-// const buildingInfos = [
-//   { desc: "도시의 편리함 속, 나만의 아늑한 안식처" },
-//   { desc: "도심 속 나만의 공간, 더 가까운 하루" },
-//   { desc: "소박하지만 따뜻한, 이웃과 함께하는 삶" },
-//   { desc: "내 집 마련의 첫 걸음, 꿈을 현실로" },
-// ];
-
 export default function HomePrimary(): JSX.Element {
-  // const [hoveredTarget, setHoveredTarget] = useState<string | null>(null);
-
-  // const [activeSlide, setActiveSlide] = useState(0);
-
-  // const handleMouseEnter = (title: string): void => {
-  //   setHoveredTarget(title); // 호버된 아이템의 인덱스를 상태로 저장
-  // };
-  // const handleMouseLeave = (): void => {
-  //   setHoveredTarget(null); // 호버 아웃 시 상태를 null로 설정
-  // };
-
-  // const settings = {
-  //   centerMode: true, // centerMode 활성화
-  //   slidesToShow: 3, // 3개만 보여주기
-  //   centerPadding: "20px", // 중앙 아이템 양옆에 여백 주기
-  //   initialSlide: 2, // 두 번째 아이템을 처음에 중앙에 배치
-  //   focusOnSelect: true,
-
-  //   autoplay: true,
-  //   autoplaySpeed: 4000,
-  //   dots: true,
-  //   arrows: false,
-  //   // beforeChange: (_: any, next: number) => {
-  //   //   setActiveSlide(next);
-  //   // },
-
-  //   responsive: [
-  //     {
-  //       breakpoint: 1280,
-  //       settings: {
-  //         slidesToShow: 1,
-  //       },
-  //     },
-  //   ],
-  // };
-
   return (
-    // <S.Container hoveredTarget={hoveredTarget}>
     <S.Container>
-      {/* <div className="textWrap"> */}
-      {/* {buildingInfos
-        .filter((_, index) => index === activeSlide)
-        .map((building, index) => (
-          <S.TextSlide key={index} active={activeSlide === index}>
-            {building.desc}
-          </S.TextSlide>
-        ))} */}
-      {/* </div> */}
-      <div className="flex items-center">
-        {/* <Slider {...settings}>
-          {buildingTypes.map((building, index) => (
-            <ListItem
-              key={index}
-              {...building}
-              onMouseEnter={() => {
-                handleMouseEnter(building.title);
-              }}
-              onMouseLeave={handleMouseLeave}
-            />
-          ))}
-        </Slider> */}
+      <div className="flex flex-col justify-between gap-4 w-250 h-100">
+        <div className="flex justify-between gap-4 h-full">
+          <Link href="/apartment" className="link-1" aria-label="juicy_fish">
+            <h2>아파트</h2>
+            <p>매물을 실거래가 정보와 함께 지도에서 확인해보세요!</p>
+          </Link>
+          <Link href="/officetel" className="link-2" aria-label="juicy_fish">
+            <h2>오피스텔</h2>
+            <p>편리한 교통과 다양한 오피스텔 매물을 실거래가로 알아보세요.</p>
+          </Link>
+          <Link href="/familyHousing" className="link-3" aria-label="juicy_fish">
+            <h2>빌라</h2>
+            <p>저렴한 가격대의 빌라 매물을 위치와 실거래가로 비교해보세요.</p>
+          </Link>
+        </div>
+        <div className="flex justify-between gap-4 h-full">
+          <Link href="https://apply.lh.or.kr/lhapply/main.do#gnrlPop" className="link-4" target="_blank" aria-label="juicy_fish">
+            <h2>청약</h2>
+            <p>최신 아파트 청약 일정과 조건을 빠르게 확인하세요!</p>
+          </Link>
+          <Link href="https://www.reby24.com/" className="link-5" target="_blank" aria-label="juicy_fish">
+            <h2>분양</h2>
+            <p>신규 아파트 및 오피스텔 분양 정보를 한눈에 찾아보세요.</p>
+          </Link>
+        </div>
       </div>
     </S.Container>
   );

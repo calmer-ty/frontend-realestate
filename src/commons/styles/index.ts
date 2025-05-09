@@ -41,7 +41,7 @@ export const colors = {
   primaryHover: "#f6fafd",
 
   hover: "#efefef",
-  cover: "rgba(0, 0, 0, 0.2)",
+  cover: "rgba(0, 0, 0, 0.1)",
   normal: "#e0e0e0",
   blur: "#656565",
   outline: "#dedede",

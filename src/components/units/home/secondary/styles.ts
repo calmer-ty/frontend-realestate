@@ -15,7 +15,7 @@ export const Container = styled.section`
   background-color: #c9e2f5;
   border-radius: 0.5rem;
   gap: 1rem;
-
+  flex: 1;
   /* ${mediaQueries.tablet(css`
     width: 100%;
     flex-direction: row;
