@@ -10,17 +10,17 @@ export const Container = styled.section`
   display: flex;
   flex-direction: column;
 
-  width: 24rem;
+  /* width: 24rem; */
   padding: 1rem;
   background-color: #c9e2f5;
   border-radius: 0.5rem;
   gap: 1rem;
 
-  ${mediaQueries.tablet(css`
+  /* ${mediaQueries.tablet(css`
     width: 100%;
     flex-direction: row;
     flex: 1;
-  `)}
+  `)} */
 
   .sliderWrap {
     width: 100%;
@@ -40,7 +40,7 @@ export const Container = styled.section`
     height: 100%;
     flex: 1;
 
-    ${mediaQueries.mobile(css`
+    /* ${mediaQueries.mobile(css`
       display: none;
     `)}
     ${mediaQueries.h800(css`
@@ -48,7 +48,7 @@ export const Container = styled.section`
     `)}
     ${mediaQueries.tablet(css`
       flex-direction: column;
-    `)}
+    `)} */
   }
 `;
 

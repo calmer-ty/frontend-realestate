@@ -3,7 +3,8 @@ import { colors, mediaQueries } from "@/src/commons/styles";
 import { css } from "@emotion/react";
 
 // 지도 선택 버튼
-export const Container = styled.section<{ hoveredTarget: string | null }>`
+// export const Container = styled.section<{ hoveredTarget: string | null }>`
+export const Container = styled.section`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -45,9 +46,7 @@ export const Container = styled.section<{ hoveredTarget: string | null }>`
     top: 0;
     right: 0;
     bottom: 0;
-    background: #000;
     transition: opacity 0.5s ease-in-out;
-    opacity: ${(props) => (typeof props.hoveredTarget === "string" ? "0.7" : "0.4")};
   }
 `;
 

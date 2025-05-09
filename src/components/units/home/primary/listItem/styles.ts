@@ -5,6 +5,7 @@ import { colors } from "@/src/commons/styles";
 export const ListItem = styled.div`
   overflow: hidden;
   display: flex;
+
   justify-content: center;
   align-items: center;
   position: relative;
@@ -17,7 +18,9 @@ export const ListItem = styled.div`
 
   a {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
     text-indent: 2.5rem;
     width: 100%;
     height: 100%;
