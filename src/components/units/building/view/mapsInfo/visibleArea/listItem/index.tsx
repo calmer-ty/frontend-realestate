@@ -4,19 +4,19 @@ import * as S from "./styles";
 
 import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
-interface IMarkerListProps {
+interface IListItemProps {
   matchingMarkerData: IGeocodeData[];
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
 }
 
-export default function MarkerList({ matchingMarkerData, setSelectedData }: IMarkerListProps): JSX.Element {
+export default function ListItem({ matchingMarkerData, setSelectedData }: IListItemProps): JSX.Element {
   const onClickInfo = (el: IGeocodeData): void => {
     setSelectedData(el); // 선택된 el을 상태에 저장
   };
 
   return (
     <>
-      <S.MarkerList>
+      <S.ListItem>
         {matchingMarkerData.map((visData, index) => {
           return (
             <li
@@ -34,7 +34,7 @@ export default function MarkerList({ matchingMarkerData, setSelectedData }: IMar
             </li>
           );
         })}
-      </S.MarkerList>
+      </S.ListItem>
     </>
   );
 }

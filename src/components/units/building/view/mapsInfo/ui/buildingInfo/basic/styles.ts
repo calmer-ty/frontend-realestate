@@ -13,6 +13,8 @@ export const Container = styled.section`
   padding: 0.875rem;
 
   h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
     margin-right: 1.25rem;
   }
 `;
@@ -20,11 +22,16 @@ export const InfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 0.625rem;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 `;
 export const TextWrap = styled.div`
   display: flex;
   column-gap: 0.25rem;
-  color: ${colors.blur};
+  color: ${colors.normal};
 `;
 
 export const SelectedContent = styled.div`
@@ -34,7 +41,7 @@ export const SelectedContent = styled.div`
   background-color: #fafafa;
 
   > p {
-    color: ${colors.blur};
+    color: ${colors.normal};
   }
 `;
 

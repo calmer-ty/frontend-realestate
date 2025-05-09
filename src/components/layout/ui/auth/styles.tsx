@@ -16,7 +16,7 @@ export const UserMenu = styled.div`
       align-items: center;
       width: 2.25rem;
       height: 2.25rem;
-      background-color: ${colors.normal};
+      background-color: ${colors.blur};
       border-radius: 50%;
       em {
         display: none;

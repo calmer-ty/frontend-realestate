@@ -5,7 +5,7 @@ import { colors } from "@/src/commons/styles";
 
 export default function BasicUnImage({ width, fontSize, height }: { width: string; height: string; fontSize: string }): JSX.Element {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: `${colors.normal}`, width, height, fontSize }}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: `${colors.blur}`, width, height, fontSize }}>
       <ImageNotSupportedIcon fontSize="inherit" />
     </Box>
   );

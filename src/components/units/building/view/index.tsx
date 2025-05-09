@@ -49,6 +49,8 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
   //     console.error("Error fetching data:", err);
   //   }
   // }, []);
+
+  // 건물 데이터 API 호출
   const [buildingData, setBuildingData] = useState<IBuildingItem[]>([]);
   const fetchBuildingData = useCallback(async (): Promise<void> => {
     if (regionCode === undefined || regionName === undefined || buildingType === undefined) {
@@ -71,6 +73,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     }
   }, [regionCode, regionName, buildingType]);
 
+  // 선택한 위치 API 호출
   const [geocode, setGeocode] = useState<IGeocode | undefined>(undefined);
   const fetchGeocode = useCallback(
     async (): Promise<void> => {
@@ -118,30 +121,6 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     [regionCode, regionName, buildingType] // buildingType이 변경될 때만 함수가 재정의됨
   );
 
-  // 매칭/비매칭 데이터 판별
-  const { matchingData } = useMemo(() => {
-    const matched: IFirestore[] = [];
-    const notMatched: IFirestore[] = [];
-
-    // buildingType이 일치하는 데이터만 필터링
-    const filteredData = firestoreData.filter((data) => data.buildingType === engToKor(buildingType ?? DEFAULT_STRING_VALUE));
-
-    filteredData.forEach((data) => {
-      // firestoreData와 allGeocodeData의 주소가 일치하는지 확인
-      const isMatching = allGeocodeData.some((geoData) => {
-        // jibunAddress 또는 rodeAddress가 firestoreData의 address에 포함되는지 확인
-        return geoData.geocode.jibunAddress.includes(data.address) || geoData.geocode.roadAddress.includes(data.address);
-      });
-
-      if (isMatching) {
-        matched.push(data);
-      } else {
-        notMatched.push(data);
-      }
-    });
-    return { matchingData: matched, unMatchedData: notMatched };
-  }, [allGeocodeData, firestoreData, buildingType]);
-
   // 맵 마커 로직
 
   // params를 비동기적으로 처리하려면 await로 기다려야 함
@@ -169,6 +148,38 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
     void fetchAllGeocodeData();
   }, [buildingData, fetchAllGeocodeData]);
 
+  // 매칭/비매칭 데이터 판별
+  const { matchingData } = useMemo(() => {
+    const matched: IFirestore[] = [];
+    const notMatched: IFirestore[] = [];
+
+    // buildingType이 일치하는 데이터만 필터링
+    const filteredData = firestoreData.filter((data) => data.buildingType === engToKor(buildingType ?? DEFAULT_STRING_VALUE));
+
+    filteredData.forEach((data) => {
+      // firestoreData와 allGeocodeData의 주소가 일치하는지 확인
+      const isMatching = allGeocodeData.some((geoData) => {
+        // jibunAddress 또는 rodeAddress가 firestoreData의 address에 포함되는지 확인
+        return geoData.geocode.jibunAddress.includes(data.address) || geoData.geocode.roadAddress.includes(data.address);
+      });
+
+      if (isMatching) {
+        matched.push(data);
+      } else {
+        notMatched.push(data);
+      }
+    });
+    return { matchingData: matched, unMatchedData: notMatched };
+  }, [allGeocodeData, firestoreData, buildingType]);
+
+  // 공통된 mapProps
+  const mapProps = {
+    setSelectedMarkerData,
+    matchingData,
+    mapMode,
+    asset,
+  };
+
   // buildingType이 null일 때 로딩 상태 표시
   if (buildingType === undefined) {
     return <LoadingSpinner />;
@@ -181,27 +192,16 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
       <MapsMenu buildingType={buildingType} />
 
       <S.MapsWrap>
-        <MapsInfo
-          selectedMarkerData={selectedMarkerData}
-          visibleMarkerData={visibleMarkerData}
-          setSelectedMarkerData={setSelectedMarkerData}
-          matchingData={matchingData}
-          buildingType={buildingType}
-          mapMode={mapMode}
-          asset={asset}
-        />
+        <MapsInfo {...mapProps} selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} buildingType={buildingType} />
         <NaverMaps
+          {...mapProps}
           geocode={geocode}
           allGeocodeData={allGeocodeData}
           allGeocodeDataLoading={allGeocodeDataLoading}
-          matchingData={matchingData}
-          setSelectedMarkerData={setSelectedMarkerData}
           setVisibleMarkerData={setVisibleMarkerData}
           setRegionName={setRegionName}
           setRegionCode={setRegionCode}
-          mapMode={mapMode}
           setMapMode={setMapMode}
-          asset={asset}
           setAsset={setAsset}
         />
       </S.MapsWrap>

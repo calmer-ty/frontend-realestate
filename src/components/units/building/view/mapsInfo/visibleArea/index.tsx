@@ -1,8 +1,6 @@
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 import BuildingInfo from "../ui/buildingInfo";
-import MarkerList from "./markerList";
-
-import * as S from "./styles";
+import MarkerList from "./listItem";
 
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
@@ -22,7 +20,7 @@ export default function VisibleArea({ visibleMarkerData, matchingData, selectedD
   });
 
   return (
-    <S.Container>
+    <article className="flex flex-col justify-center h-full">
       {matchingMarkerData.length !== 0 ? (
         <>
           {/* 지도에 보이는 마커 정보 리스트 */}
@@ -36,6 +34,6 @@ export default function VisibleArea({ visibleMarkerData, matchingData, selectedD
       ) : (
         <NoDataMessage text="조건에 맞는 방이 없습니다. 위치를 조정해보세요." />
       )}
-    </S.Container>
+    </article>
   );
 }

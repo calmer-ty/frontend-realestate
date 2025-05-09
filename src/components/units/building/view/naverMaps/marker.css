@@ -11,7 +11,7 @@
   user-select: none;
 }
 .markerBox.selected {
-  outline: 0.125rem solid #1976d2;
+  outline: 0.15rem solid #1976d2;
 }
 .markerBox .progress {
   position: absolute;
