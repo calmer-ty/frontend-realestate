@@ -73,7 +73,7 @@ export default function HomePrimary(): JSX.Element {
           </S.TextSlide>
         ))} */}
       {/* </div> */}
-      <div className="sliderWrap">
+      <div className="flex items-center">
         {/* <Slider {...settings}>
           {buildingTypes.map((building, index) => (
             <ListItem

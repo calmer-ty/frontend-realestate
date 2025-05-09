@@ -10,7 +10,7 @@ export const Container = styled.section`
   position: relative;
   overflow: hidden;
   background: ${colors.normal} no-repeat center/cover;
-  background-image: url("/images/apartment.jpg");
+  /* background-image: url("/images/apartment.jpg"); */
   border-radius: 0.5rem;
   flex: 1;
 
@@ -38,7 +38,7 @@ export const Container = styled.section`
   }
 
   /* 가상요소 */
-  ::before {
+  /* ::before {
     content: "";
     display: block;
     position: absolute;
@@ -47,7 +47,7 @@ export const Container = styled.section`
     right: 0;
     bottom: 0;
     transition: opacity 0.5s ease-in-out;
-  }
+  } */
 `;
 
 export const TextSlide = styled.div<{ active: boolean }>`
