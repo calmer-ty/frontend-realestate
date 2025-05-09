@@ -1,8 +1,6 @@
 import { useMemo } from "react";
-// import dynamic from "next/dynamic";
 
 import ImgSkeleton from "@/src/components/commons/skeleton/figure";
-// import HomeInfo from "../info";
 import ListItem from "./listItem";
 
 import * as S from "./styles";
@@ -15,12 +13,30 @@ interface IHomeSecondaryProps {
 const settings = {
   arrows: false,
   dots: true,
-  slidesToShow: 1,
+  slidesToShow: 4,
   autoplay: true,
   autoplaySpeed: 4000,
+  responsive: [
+    {
+      breakpoint: 1280, // 1280px 이하일 때
+      settings: {
+        slidesToShow: 3, // 예를 들어 2개만 보이게 변경
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+      },
+    },
+  ],
 };
-
-// const PieChartComponent = dynamic(() => import("../pieChart"), { ssr: false, loading: () => <ImgSkeleton height="16rem" /> });
 
 export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): JSX.Element {
   const randomFirestores = useMemo(() => {
@@ -29,22 +45,16 @@ export default function HomeSecondary({ firestoreData }: IHomeSecondaryProps): J
 
   return (
     <S.Container>
-      <div className="sliderWrap">
-        {randomFirestores.length !== 0 ? (
-          <S.SliderStyle {...settings}>
-            {randomFirestores.map((el, index) => (
-              <ListItem key={`${el._id}_${index}`} el={el} />
-            ))}
-          </S.SliderStyle>
-        ) : (
-          <ImgSkeleton />
-        )}
-      </div>
-
-      {/* <div className="infoWrap">
-        <HomeInfo title="부동산 뉴스" desc="최신 부동산 시장 동향과 주요 정책을 신속하게 확인하세요." href="https://www.karnews.or.kr" cover="/images/news.jpg" />
-        <HomeInfo title="부동산 거래 신고" desc="부동산 거래 신고 절차와 관련 정보를 확인하세요." href="https://rtms.molit.go.kr" cover="/images/write.jpg" />
-      </div> */}
+      <h2>추천하는 매물</h2>
+      {randomFirestores.length !== 0 ? (
+        <S.SliderStyle {...settings}>
+          {randomFirestores.map((el, index) => (
+            <ListItem key={`${el._id}_${index}`} el={el} />
+          ))}
+        </S.SliderStyle>
+      ) : (
+        <ImgSkeleton />
+      )}
     </S.Container>
   );
 }

@@ -1,54 +1,22 @@
 import styled from "@emotion/styled";
-import { mediaQueries } from "@/src/commons/styles";
-import { css } from "@emotion/react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { colors } from "@/src/commons/styles";
 
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-
-  /* width: 24rem; */
-  padding: 1rem;
-  background-color: #c9e2f5;
-  border-radius: 0.5rem;
+  padding: 1rem 1rem 3rem;
   gap: 1rem;
   flex: 1;
-  /* ${mediaQueries.tablet(css`
-    width: 100%;
-    flex-direction: row;
-    flex: 1;
-  `)} */
+  background-color: ${colors.background};
 
-  .sliderWrap {
-    width: 100%;
-    height: 100%;
-
-    ${mediaQueries.tablet(css`
-      width: 50%;
-    `)}
-    ${mediaQueries.mobile(css`
-      width: 100%;
-    `)}
-  }
-  .infoWrap {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 100%;
-    flex: 1;
-
-    /* ${mediaQueries.mobile(css`
-      display: none;
-    `)}
-    ${mediaQueries.h800(css`
-      flex-direction: row;
-    `)}
-    ${mediaQueries.tablet(css`
-      flex-direction: column;
-    `)} */
+  h2 {
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 `;
 
@@ -61,11 +29,14 @@ export const SliderStyle = styled(Slider)`
     .slick-track {
       height: 100%;
     }
-    .slick-slide div {
-      height: 100%;
+    .slick-slide {
+      padding: 0 1rem;
+      div {
+        height: 100%;
+      }
     }
   }
   .slick-dots {
-    bottom: 0.5rem;
+    bottom: -2rem;
   }
 `;
