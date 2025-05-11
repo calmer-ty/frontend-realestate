@@ -4,7 +4,7 @@ import * as S from "./styles";
 export default function HomePrimary(): JSX.Element {
   return (
     <S.Container>
-      <div className="flex flex-col justify-between gap-4 h-100 m-10">
+      <div className="flex flex-col justify-between gap-4 h-70 mx-[6rem]">
         <div className="row-item">
           <Link href="/apartment" className="link-1" aria-label="juicy_fish">
             <h2>아파트</h2>

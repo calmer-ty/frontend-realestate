@@ -16,7 +16,7 @@ export default function Header(): JSX.Element {
         </h1>
         <Nav />
       </S.Header>
-      <S.FakeHeader />
+      <div className="min-h-[3.75rem]" />
     </>
   );
 }

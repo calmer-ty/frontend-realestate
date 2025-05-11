@@ -15,14 +15,3 @@ export const Header = styled.header`
   flex-shrink: 0;
   background-color: #fff;
 `;
-
-export const FakeHeader = styled.div`
-  min-height: 3.75rem;
-`;
-
-// Nav
-export const Nav = styled.nav`
-  display: flex;
-  align-items: center;
-  column-gap: 1rem;
-`;

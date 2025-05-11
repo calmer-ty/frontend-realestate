@@ -18,10 +18,10 @@ export const Container = styled.section`
     a {
       width: 100%;
       height: 100%;
-      padding: 1rem 1.5rem;
+      padding: 1rem 3rem 1rem 1.5rem;
       border-radius: 0.75rem;
       border: 0.125rem solid ${colors.outline};
-      background: ${colors.background} no-repeat right 20px bottom 20px/3rem;
+      background: white no-repeat right 20px bottom 20px/2rem;
       transition: background-color 0.3s ease-in-out;
       /* 이미지 */
       &.link-1 {
@@ -45,9 +45,10 @@ export const Container = styled.section`
       h2 {
         margin-bottom: 0.5rem;
         font-weight: bold;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
       }
       p {
+        word-break: keep-all;
         color: gray;
       }
     }

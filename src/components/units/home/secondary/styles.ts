@@ -3,19 +3,18 @@ import styled from "@emotion/styled";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { colors } from "@/src/commons/styles";
 
 export const Container = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 3rem;
+  padding: 1rem 1rem 2rem;
   gap: 1rem;
   flex: 1;
-  background-color: ${colors.background};
+  background-color: white;
 
   h2 {
     padding: 0 1rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
   }
 `;
@@ -37,6 +36,6 @@ export const SliderStyle = styled(Slider)`
     }
   }
   .slick-dots {
-    bottom: -2rem;
+    bottom: -1.5rem;
   }
 `;

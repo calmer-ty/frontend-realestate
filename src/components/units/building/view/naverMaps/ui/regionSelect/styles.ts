@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
-import { colors } from "@/src/commons/styles";
 
 export const Container = styled.div`
   display: flex;
   outline: 0.125rem solid #1976d2;
   border-radius: 0.25rem;
-  background-color: ${colors.background};
+  background-color: white;
   .MuiFormControl-root {
     justify-content: center;
     .MuiInputBase-root {
