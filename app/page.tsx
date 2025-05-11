@@ -9,8 +9,8 @@ export const generateMetadata = async (): Promise<IMetadata> => {
     openGraph: {
       title: "부동산 거래 서비스",
       description: "거래된 매물을 조회하고, 직접 매물을 등록해보세요.",
-      images: ["https://www.calmer96.store/images/main.jpg"],
-      url: "/images/main.jpg",
+      images: ["https://www.calmer96.store/images/apt.jpg"],
+      url: "/images/apt.jpg",
     },
   };
 };

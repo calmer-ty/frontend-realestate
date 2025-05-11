@@ -20,6 +20,7 @@ export const Container = styled.section`
       height: 100%;
       padding: 1rem 1.5rem;
       border-radius: 0.75rem;
+      border: 0.125rem solid ${colors.outline};
       background: ${colors.background} no-repeat right 20px bottom 20px/3rem;
       transition: background-color 0.3s ease-in-out;
       /* 이미지 */
