@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { colors } from "@/src/commons/styles";
+import { colors, mediaQueries } from "@/src/commons/styles";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { css } from "@emotion/react";
 
 // 지도 선택 버튼
 export const Primary = styled.section`
@@ -55,6 +56,10 @@ export const Primary = styled.section`
         }
       }
     }
+
+    ${mediaQueries.tablet(css`
+      margin: 0 2rem;
+    `)}
   }
 `;
 
