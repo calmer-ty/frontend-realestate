@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useFirestore } from "@/src/commons/hooks/firebase/useFirestore";
 
-import HomePrimary from "./primary";
-import HomeSecondary from "./secondary";
+import Primary from "./primary";
+import Secondary from "./secondary";
 
 import type { IFirestore } from "@/src/commons/types";
 
@@ -25,8 +25,8 @@ export default function Home(): JSX.Element {
 
   return (
     <article className="flex flex-col gap-2 h-[calc(100vh_-_3.75rem)] bg-blue-50">
-      <HomePrimary />
-      <HomeSecondary firestoreData={firestoreData} />
+      <Primary />
+      <Secondary firestoreData={firestoreData} />
     </article>
   );
 }
