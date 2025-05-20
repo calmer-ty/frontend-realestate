@@ -131,6 +131,7 @@ export const RecommendedLink = styled.div`
     figcaption {
       display: flex;
       flex-direction: column;
+      padding: 0 0.5rem 0.5rem;
 
       strong {
         margin-bottom: 0.25rem;

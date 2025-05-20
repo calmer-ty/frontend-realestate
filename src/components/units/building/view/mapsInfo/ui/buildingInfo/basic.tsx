@@ -8,13 +8,13 @@ import type { IGeocodeData } from "@/src/commons/types";
 import type { Dispatch, SetStateAction } from "react";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
 import CloseButton from "@/src/components/commons/button/close";
-interface IBuildingInfoBasicProps {
+interface IBasicProps {
   selectedData: IGeocodeData;
   setSelectedData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   buildingType: string;
 }
 
-export default function BuildingInfoBasic({ selectedData, setSelectedData, buildingType }: IBuildingInfoBasicProps): JSX.Element {
+export default function Basic({ selectedData, setSelectedData, buildingType }: IBasicProps): JSX.Element {
   const onClickClose = (): void => {
     setSelectedData(undefined);
   };
@@ -29,7 +29,7 @@ export default function BuildingInfoBasic({ selectedData, setSelectedData, build
       : DEFAULT_STRING_VALUE;
 
   return (
-    <S.Container>
+    <S.Basic>
       <CloseButton onClickClose={onClickClose} />
       <S.InfoWrap>
         <h2>{buildingName}</h2>
@@ -53,6 +53,6 @@ export default function BuildingInfoBasic({ selectedData, setSelectedData, build
           </p>
         </S.SelectedContent>
       </S.InfoWrap>
-    </S.Container>
+    </S.Basic>
   );
 }

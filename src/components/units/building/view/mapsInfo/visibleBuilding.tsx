@@ -56,6 +56,8 @@ function ListItem({ matchingMarkerData, setSelectedData }: IListItemProps): JSX.
   return (
     <S.ListItem>
       {matchingMarkerData.map((visData, index) => {
+        const name =
+          visData.data?.aptNm?.trim() !== "" ? visData.data.aptNm : visData.data?.offiNm?.trim() !== "" ? visData.data.offiNm : visData.data?.mhouseNm?.trim() !== "" ? visData.data.mhouseNm : "";
         return (
           <li
             key={`${visData.data?.aptNm}_${index}`}
@@ -65,7 +67,7 @@ function ListItem({ matchingMarkerData, setSelectedData }: IListItemProps): JSX.
           >
             <h3>매매 {formatPrice(Number(visData.data?.dealAmount))}</h3>
             <p>
-              {visData.data?.aptNm}
+              {name}
               <br />
               {visData.data?.excluUseAr}m² {visData.data?.floor}층
             </p>

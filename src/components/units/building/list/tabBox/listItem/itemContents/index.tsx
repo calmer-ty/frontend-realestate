@@ -27,7 +27,7 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
       <figure>
         {el.imageUrls?.[0] !== undefined 
         ? (<Image src={el.imageUrls?.[0] ?? ""} alt={el.address} fill style={{ objectFit: "cover"}} />) 
-        : (<BasicUnImage className="w-full h-hull text-[1.75rem]"/>)}
+        : (<BasicUnImage className="w-full h-full text-[1.75rem]"/>)}
       </figure>
       {/* prettier-ignore */}
       <div className="itemInfo">

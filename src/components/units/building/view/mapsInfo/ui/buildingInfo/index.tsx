@@ -1,5 +1,5 @@
-import BuildingInfoBasic from "./basic";
-import BuildingInfoListing from "./listing";
+import Basic from "./basic";
+import Listing from "./listing";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IFirestore, IGeocodeData } from "@/src/commons/types";
@@ -16,8 +16,8 @@ export default function BuildingInfo({ selectedData, setSelectedData, matchingDa
     <>
       {selectedData != null && (
         <>
-          <BuildingInfoBasic selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
-          {!mapMode && <BuildingInfoListing selectedData={selectedData} matchingData={matchingData} />}
+          <Basic selectedData={selectedData} setSelectedData={setSelectedData} buildingType={buildingType} />
+          {!mapMode && <Listing selectedData={selectedData} matchingData={matchingData} />}
         </>
       )}
     </>

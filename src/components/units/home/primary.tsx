@@ -7,6 +7,7 @@ interface IMotionLinkProps {
   className?: string;
   title: string;
   description: string;
+  target?: string;
 }
 
 export default function Primary(): JSX.Element {
@@ -19,21 +20,22 @@ export default function Primary(): JSX.Element {
           <MotionLink href="/familyHousing/" className="link-3" title="빌라" description="저렴한 가격대의 빌라 매물을 위치와 실거래가로 비교해보세요." />
         </div>
         <div className="row-item">
-          <MotionLink href="https://apply.lh.or.kr/lhapply/main.do#gnrlPop/" className="link-4" title="청약" description="최신 아파트 청약 일정과 조건을 빠르게 확인하세요!" />
-          <MotionLink href="https://www.reby24.com/" className="link-5" title="분양" description="신규 아파트 및 오피스텔 분양 정보를 한눈에 찾아보세요." />
+          <MotionLink href="https://apply.lh.or.kr/lhapply/main.do#gnrlPop/" className="link-4" title="청약" description="최신 아파트 청약 일정과 조건을 빠르게 확인하세요!" target="_blank" />
+          <MotionLink href="https://www.reby24.com/" className="link-5" title="분양" description="신규 아파트 및 오피스텔 분양 정보를 한눈에 찾아보세요." target="_blank" />
         </div>
       </div>
     </S.Primary>
   );
 }
 
-function MotionLink({ href, className, title, description }: IMotionLinkProps): JSX.Element {
+function MotionLink({ href, className, title, description, target }: IMotionLinkProps): JSX.Element {
   const MLink = motion(Link);
   return (
     <MLink
       href={href}
       className={`p-6 bg-white rounded-xl shadow-md ${className}`}
       aria-label="juicy_fish"
+      target={target}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.05, y: -5 }}
