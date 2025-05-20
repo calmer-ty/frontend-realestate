@@ -76,7 +76,11 @@ export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen,
               </ul>
             ) : (
               <div className="noDataInner">
-                <NoDataMessage text="등록한 매물이 없습니다. 매물을 등록해 보세요." />
+                <NoDataMessage>
+                  등록한 매물이 없습니다.
+                  <br />
+                  매물을 등록해 보세요.
+                </NoDataMessage>
               </div>
             )}
           </TabPanel>
@@ -93,7 +97,9 @@ export default function TabBox({ buildings, deletedBuildings, onDeleteModalOpen,
               </ul>
             ) : (
               <div className="noDataInner">
-                <NoDataMessage text="삭제된 매물이 없습니다." />
+                <NoDataMessage>
+                  <p>삭제된 매물이 없습니다.</p>
+                </NoDataMessage>
               </div>
             )}
           </TabPanel>

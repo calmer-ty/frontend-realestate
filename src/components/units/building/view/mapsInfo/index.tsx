@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-import SelectedArea from "./selectedArea";
-import VisibleArea from "./visibleArea";
+import VisibleBuilding from "./visibleBuilding";
+import SelectedBuilding from "./selectedBuilding";
 import NoDataMessage from "@/src/components/commons/noDataMessage";
 
 import * as S from "./styles";
 import type { Dispatch, SetStateAction } from "react";
 import type { IAssetForm, IFirestore, IGeocodeData } from "@/src/commons/types";
+
 interface IMapsInfoProps {
   selectedMarkerData: IGeocodeData | undefined;
   visibleMarkerData: IGeocodeData[];
@@ -44,11 +45,13 @@ export default function MapsInfo({ selectedMarkerData, setSelectedMarkerData, vi
     <>
       <S.Container scroll={scroll}>
         {selectedMarkerData !== undefined ? (
-          <SelectedArea selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} asset={asset} {...restProps} />
+          <SelectedBuilding selectedMarkerData={selectedMarkerData} setSelectedMarkerData={setSelectedMarkerData} asset={asset} {...restProps} />
         ) : restProps.mapMode ? (
-          <NoDataMessage text="원하는 건물 선택하세요." />
+          <NoDataMessage>
+            <p>원하는 건물 선택하세요.</p>
+          </NoDataMessage>
         ) : (
-          <VisibleArea selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />
+          <VisibleBuilding selectedData={selectedData} setSelectedData={setSelectedData} visibleMarkerData={visibleMarkerData} {...restProps} />
         )}
       </S.Container>
 

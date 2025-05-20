@@ -4,6 +4,7 @@ import Link from "next/link";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import OtherHousesIcon from "@mui/icons-material/OtherHouses";
+import { motion } from "framer-motion";
 
 import * as S from "./styles";
 
@@ -13,17 +14,19 @@ const mapsMenus = [
   { type: "familyHousing", title: "빌라", icon: <OtherHousesIcon fontSize="medium" color="primary" /> },
 ];
 
-function MapsMenu({ buildingType }: { buildingType: string }): JSX.Element {
+function MapSelector({ buildingType }: { buildingType: string }): JSX.Element {
   return (
-    <S.MapsMenu>
+    <S.MapSelector>
       {mapsMenus.map((menu, index) => (
-        <Link key={index} href={`/${menu.type}`} className={menu.type === buildingType ? "active" : ""}>
-          <>{menu.icon}</>
-          <span>{menu.title}</span>
-        </Link>
+        <motion.div key={index} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link key={index} href={`/${menu.type}`} className={menu.type === buildingType ? "active" : ""}>
+            <>{menu.icon}</>
+            <span>{menu.title}</span>
+          </Link>
+        </motion.div>
       ))}
-    </S.MapsMenu>
+    </S.MapSelector>
   );
 }
 
-export default memo(MapsMenu);
+export default memo(MapSelector);

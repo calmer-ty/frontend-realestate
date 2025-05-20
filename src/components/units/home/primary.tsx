@@ -12,7 +12,7 @@ interface IMotionLinkProps {
 export default function Primary(): JSX.Element {
   return (
     <S.Primary>
-      <div className="flex flex-col justify-between gap-4 h-70 mx-20">
+      <div className="inner">
         <div className="row-item">
           <MotionLink href="/apartment/" className="link-1" title="아파트" description="매물을 실거래가 정보와 함께 지도에서 확인해보세요!" />
           <MotionLink href="/officetel/" className="link-2" title="오피스텔" description="편리한 교통과 다양한 오피스텔 매물을 실거래가로 알아보세요." />

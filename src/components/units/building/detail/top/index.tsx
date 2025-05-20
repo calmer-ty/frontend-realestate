@@ -29,7 +29,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
             ))
           ) : (
             <figure>
-              <BasicUnImage width="100%" height="100%" fontSize="2.25rem" />
+              <BasicUnImage className="w-full h-hull text-[2.25rem]" />
             </figure>
           )}
         </S.MobileView>
@@ -39,7 +39,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
             {buildingData.imageUrls?.[0] !== undefined ? (
               <Image src={buildingData.imageUrls?.[0]} alt="buildImg" fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
             ) : (
-              <BasicUnImage width="100%" height="100%" fontSize="2rem" />
+              <BasicUnImage className="w-full h-hull text-[2rem]" />
             )}
           </figure>
           <div className="subImgWrap">
@@ -50,7 +50,7 @@ export default function BuildingDetailTop({ buildingData }: IBuildingDetailProps
                   {el !== undefined ? (
                     <Image src={el} alt="buildImg" fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
                   ) : (
-                    <BasicUnImage key={`placeholder_${index}`} width="100%" height="100%" fontSize="2rem" />
+                    <BasicUnImage key={`placeholder_${index}`} className="w-full h-hull text-[2rem]" />
                   )}
                 </figure>
               );

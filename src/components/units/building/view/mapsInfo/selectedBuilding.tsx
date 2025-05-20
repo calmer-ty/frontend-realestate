@@ -1,9 +1,9 @@
-import BuildingInfo from "../ui/buildingInfo";
+import BuildingInfo from "./ui/buildingInfo";
+import BuyCheck from "./ui/buyCheck";
 
 import type { Dispatch, SetStateAction } from "react";
 import type { IAssetForm, IFirestore, IGeocodeData } from "@/src/commons/types";
-import BuyCheck from "../ui/buyCheck";
-interface ISelectedAreaProps {
+interface ISelectedBuildingProps {
   selectedMarkerData: IGeocodeData;
   setSelectedMarkerData: Dispatch<SetStateAction<IGeocodeData | undefined>>;
   matchingData: IFirestore[];
@@ -12,7 +12,7 @@ interface ISelectedAreaProps {
   asset: IAssetForm | undefined;
 }
 
-export default function SelectedArea({ selectedMarkerData, setSelectedMarkerData, asset, ...restProps }: ISelectedAreaProps): JSX.Element {
+export default function SelectedBuilding({ selectedMarkerData, setSelectedMarkerData, asset, ...restProps }: ISelectedBuildingProps): JSX.Element {
   return (
     <>
       <BuildingInfo selectedData={selectedMarkerData} setSelectedData={setSelectedMarkerData} {...restProps} />

@@ -8,7 +8,7 @@ import { engToKor } from "@/src/commons/libraries/utils/convertCollection";
 import LoadingSpinner from "@/src/components/commons/loadingSpinner";
 import NaverMaps from "./naverMaps";
 import MapsInfo from "./mapsInfo";
-import MapsMenu from "./ui/mapsMenu";
+import MapSelector from "./mapSelector";
 
 import * as S from "./styles";
 import { DEFAULT_STRING_VALUE } from "@/src/commons/constants";
@@ -189,7 +189,7 @@ export default function BuildingView({ params }: IBuildingParamsPromiseProps): J
 
   return (
     <S.Container>
-      <MapsMenu buildingType={buildingType} />
+      <MapSelector buildingType={buildingType} />
 
       <S.MapsWrap>
         <MapsInfo {...mapProps} selectedMarkerData={selectedMarkerData} visibleMarkerData={visibleMarkerData} buildingType={buildingType} />

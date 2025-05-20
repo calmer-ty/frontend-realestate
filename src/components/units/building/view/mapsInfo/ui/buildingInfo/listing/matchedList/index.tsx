@@ -29,7 +29,7 @@ export default function MatchedList({ matchingData, alignment }: IMatchedListPro
                   {el.imageUrls?.[0] !== undefined ? (
                     <Image src={el.imageUrls?.[0]} alt={el._id} fill sizes="100%" style={{ objectFit: "cover" }} unoptimized />
                   ) : (
-                    <BasicUnImage width="100%" height="100%" fontSize="2rem" />
+                    <BasicUnImage className="w-full h-hull text-[2rem]" />
                   )}
                 </figure>
                 <div className="buildingInfo">
@@ -46,7 +46,10 @@ export default function MatchedList({ matchingData, alignment }: IMatchedListPro
           ))}
         </S.List>
       ) : (
-        <NoDataMessage text="거래 가능한 매물이 없습니다. 조건을 다시 설정해주세요." />
+        <NoDataMessage>
+          <p>거래 가능한 매물이 없습니다.</p>
+          <p>조건을 다시 설정해주세요.</p>
+        </NoDataMessage>
       )}
     </>
   );

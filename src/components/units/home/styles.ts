@@ -14,37 +14,45 @@ export const Primary = styled.section`
   position: relative;
   flex: 1.2;
 
-  .row-item {
+  .inner {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    height: 17rem;
     gap: 1rem;
-    height: 100%;
-    a {
-      width: 100%;
+    margin: 0 8rem;
+    .row-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
       height: 100%;
-      padding: 1rem 3rem 1rem 1.5rem;
-      border-radius: 0.75rem;
-      border: 0.125rem solid ${colors.outline};
-      background: white no-repeat right 20px bottom 20px/2rem;
-      transition: background-color 0.3s ease-in-out;
-      /* 이미지 */
-      &.link-1 {
-        background-image: url("/images/icon_apt.png");
-      }
-      &.link-2 {
-        background-image: url("/images/icon_office.png");
-      }
-      &.link-3 {
-        background-image: url("/images/icon_house.png");
-      }
-      &.link-4 {
-        background-image: url("/images/icon_houseContract.png");
-      }
-      &.link-5 {
-        background-image: url("/images/icon_houseSale.png");
-      }
-      &:hover {
-        background-color: ${colors.cover};
+      a {
+        width: 100%;
+        height: 100%;
+        padding: 1rem 3rem 1rem 1.5rem;
+        border-radius: 0.75rem;
+        border: 0.125rem solid ${colors.outline};
+        background: white no-repeat right 20px bottom 20px/2rem;
+        transition: background-color 0.3s ease-in-out;
+        /* 이미지 */
+        &.link-1 {
+          background-image: url("/images/icon_apt.png");
+        }
+        &.link-2 {
+          background-image: url("/images/icon_office.png");
+        }
+        &.link-3 {
+          background-image: url("/images/icon_house.png");
+        }
+        &.link-4 {
+          background-image: url("/images/icon_houseContract.png");
+        }
+        &.link-5 {
+          background-image: url("/images/icon_houseSale.png");
+        }
+        &:hover {
+          background-color: ${colors.cover};
+        }
       }
     }
   }
@@ -68,6 +76,21 @@ export const SliderStyle = styled(Slider)`
   }
   .slick-dots {
     bottom: -1.5rem;
+  }
+`;
+
+export const Secondary = styled.section`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 2rem;
+  gap: 1rem;
+  flex: 1;
+  background-color: white;
+
+  h3 {
+    padding: 0 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
   }
 `;
 
@@ -101,6 +124,21 @@ export const RecommendedLink = styled.div`
         width: 100%;
         height: 100%;
         transition: background-color 100ms ease-in-out;
+      }
+    }
+
+    /* figcaption */
+    figcaption {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        margin-bottom: 0.25rem;
+      }
+      span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

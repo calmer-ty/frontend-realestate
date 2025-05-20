@@ -35,7 +35,10 @@ export default function BuildingInfoListing({ selectedData, matchingData }: IBui
         {filteredMatchingData.length !== 0 ? (
           <MatchedList matchingData={filteredMatchingData} alignment={alignment} />
         ) : (
-          <NoDataMessage text="거래 가능한 매물이 없습니다. 다른 건물을 선택해 주세요." />
+          <NoDataMessage>
+            <p>거래 가능한 매물이 없습니다.</p>
+            <p>다른 건물을 선택해 주세요.</p>
+          </NoDataMessage>
         )}
       </div>
     </S.Container>

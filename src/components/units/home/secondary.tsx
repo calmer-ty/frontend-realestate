@@ -48,8 +48,8 @@ export default function Secondary({ firestoreData }: ISecondaryProps): JSX.Eleme
   }, [firestoreData]);
 
   return (
-    <section className="flex flex-col p-4 pb-8 gap-2 flex-1 bg-white">
-      <h3 className="px-4 text-xl font-bold">추천하는 매물</h3>
+    <S.Secondary>
+      <h3>추천하는 매물</h3>
       {randomFirestores.length !== 0 ? (
         <S.SliderStyle {...settings}>
           {randomFirestores.map((el, index) => (
@@ -59,7 +59,7 @@ export default function Secondary({ firestoreData }: ISecondaryProps): JSX.Eleme
       ) : (
         <ImgSkeleton />
       )}
-    </section>
+    </S.Secondary>
   );
 }
 
@@ -75,12 +75,12 @@ function ListItem({ el }: IRecommendedListItemProps): JSX.Element {
             <BasicUnImage className="text-3xl" />
           )}
         </figure>
-        <figcaption className="flex flex-col p-1">
+        <figcaption>
           <span>
             {el.buildingType}・{el.addressDetail}
           </span>
-          <strong className="mb-1">{getTransactionText(el.transactionType, el.price, el.rent)}</strong>
-          <span className="overflow-hidden whitespace-nowrap overflow-ellipsis">
+          <strong>{getTransactionText(el.transactionType, el.price, el.rent)}</strong>
+          <span>
             {el.floor}층・{el.area}m²・관리비 {formatPrice(el.manageCost)}
           </span>
         </figcaption>
