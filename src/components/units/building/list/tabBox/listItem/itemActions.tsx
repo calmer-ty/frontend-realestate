@@ -15,7 +15,7 @@ interface IItemActionsProps {
 
 export default function ItemActions({ el, index, isDeleted, onDeleteModalOpen }: IItemActionsProps): JSX.Element {
   return (
-    <S.Container>
+    <S.ItemActions>
       {!isDeleted && (
         <>
           <span>No. {index}</span>
@@ -35,6 +35,6 @@ export default function ItemActions({ el, index, isDeleted, onDeleteModalOpen }:
           </div>
         </>
       )}
-    </S.Container>
+    </S.ItemActions>
   );
 }

@@ -22,7 +22,7 @@ const formatDate = (timestamp: number): string => {
 
 export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Element {
   return (
-    <S.Container>
+    <S.ItemContents>
       {/* prettier-ignore */}
       <figure>
         {el.imageUrls?.[0] !== undefined 
@@ -55,6 +55,6 @@ export default function ItemContents({ el, isDeleted }: IItemInfoProps): JSX.Ele
           {formatDate(el.createdAt?.seconds)}
         </p>
       </div>
-    </S.Container>
+    </S.ItemContents>
   );
 }
