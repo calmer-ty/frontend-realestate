@@ -196,7 +196,15 @@ export default function BuildingWrite({ isEdit, docData }: IEditFormData): JSX.E
           <BasicUpload imageUrls={docData?.imageUrls} setSelectedFiles={setSelectedFiles} setUploadedImageUrls={setUploadedImageUrls} />
         </section>
         <section>
-          <Button role="submit-button" type="submit" variant="contained">
+          <Button
+            role="submit-button"
+            type="submit"
+            variant="contained"
+            sx={{
+              width: "16rem", // 혹은 '100%', 'fit-content', 'auto' 등
+              alignSelf: "center", // 섹션 안에서 가운데 정렬할 경우
+            }}
+          >
             {isEdit ? "수정" : "등록"}하기
           </Button>
         </section>

@@ -1,8 +1,8 @@
 export default function UnderlineTitle({ label, desc }: { label: string; desc?: string }): JSX.Element {
   return (
-    <div className="flex items-center justify-between border-b-[0.1875rem] border-black pb-[0.625rem]">
+    <div className="flex items-center justify-between border-b-3 border-black pb-2">
       <h2 className="font-bold text-2xl">{label}</h2>
-      <p>{desc}</p>
+      {typeof desc === "string" && <p>{desc}</p>}
     </div>
   );
 }

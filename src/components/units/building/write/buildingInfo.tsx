@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useMapsLoader } from "@/src/commons/hooks/maps/useMapsLoader";
 import { DaumPostcodeEmbed } from "react-daum-postcode";
@@ -10,13 +11,14 @@ import BasicModal from "@/src/components/commons/modal/basic";
 import InputUnit from "./ui/inputUnit";
 import WriteRadio from "./ui/writeRadio";
 
+import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
+
 import * as S from "./styles";
 
 import type { Address } from "react-daum-postcode";
 import type { Control, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import type { IGeocode, IWriteForm } from "@/src/commons/types";
-import axios from "axios";
-import { getFullCityName } from "@/src/commons/libraries/utils/convertCityName";
+
 interface IBuildingInfoProps {
   register: UseFormRegister<IWriteForm>;
   setValue: UseFormSetValue<IWriteForm>;
@@ -115,7 +117,7 @@ export default function BuildingInfo({ setValue, getValues, register, control }:
 
       {/* 주소찾기 모달 */}
       <BasicModal open={modalOpen} onClose={onModalToggle}>
-        <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} style={{ height: "466px" }} />
+        <DaumPostcodeEmbed onComplete={onCompleteAddressSearch} />
       </BasicModal>
     </>
   );
