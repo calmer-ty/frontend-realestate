@@ -4,17 +4,19 @@ import Link from "next/link";
 import AuthButton from "@/src/components/layout/ui/auth";
 import { Button } from "@mui/material";
 
+import * as S from "./styles";
+
 export default function Nav(): JSX.Element {
   const { user } = useAuth();
 
   return (
-    <nav className="flex items-center gap-2">
+    <S.Nav>
       {user !== null && (
         <Link href="/new">
           <Button variant="contained">방 내놓기</Button>
         </Link>
       )}
       <AuthButton />
-    </nav>
+    </S.Nav>
   );
 }
