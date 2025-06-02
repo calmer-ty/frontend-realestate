@@ -15,3 +15,8 @@ export const Header = styled.header`
   flex-shrink: 0;
   background-color: #fff;
 `;
+export const Nav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;

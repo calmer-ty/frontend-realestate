@@ -19,7 +19,7 @@ export const Primary = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 17rem;
+    height: 24rem;
     gap: 1rem;
     margin: 0 8rem;
     .row-item {

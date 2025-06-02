@@ -6,6 +6,9 @@ import { useFirestore } from "@/src/commons/hooks/firebase/useFirestore";
 import Primary from "./primary";
 import Secondary from "./secondary";
 
+import { useMediaQuery } from "@mui/material";
+import { useRouter } from "next/navigation";
+
 import type { IFirestore } from "@/src/commons/types";
 
 export default function Home(): JSX.Element {
@@ -22,6 +25,16 @@ export default function Home(): JSX.Element {
     };
     void readBuildings();
   }, [readFirestores]);
+
+  // 모바일 해상도일 경우 주소 이동
+  const router = useRouter();
+  const isSmall = useMediaQuery("(max-width:480px)");
+
+  useEffect(() => {
+    if (isSmall) {
+      router.push("/apartment");
+    }
+  }, [router, isSmall]);
 
   return (
     <article className="flex flex-col gap-2 h-[calc(100vh_-_3.75rem)] bg-blue-50">
