@@ -58,7 +58,7 @@ export const useMapsLoader = ({ onMapLoaded }: IUseMapsLoaderParams): IUseMapsLo
       return;
     }
 
-    const NAVER_MAP_SCRIPT_URL = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${ncpClientId}`;
+    const NAVER_MAP_SCRIPT_URL = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${ncpClientId}`;
 
     try {
       // 스크립트 로드가 완료될 때까지 기다림
